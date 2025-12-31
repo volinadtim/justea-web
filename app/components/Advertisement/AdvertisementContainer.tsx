@@ -9,7 +9,7 @@ type Props = {
 
 export default function AdvertisementContainer({ children }: Props) {
   return (
-    <div className="grid lg:grid-cols-3">
+    <div className="grid lg:grid-cols-3 h-full">
       <div>
         <ColumnAdvertisement />
       </div>

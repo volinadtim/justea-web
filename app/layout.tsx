@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Comfortaa } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import AdvertisementContainer from "./components/Advertisement/AdvertisementContainer";
+import Search from "./components/Search";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,11 +58,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased h-full selection:bg-main-300`}
       >
-        <AdvertisementContainer>{children}</AdvertisementContainer>
+        <AdvertisementContainer>
+          <div className="py-[48px] flex flex-col gap-[50px]">
+            <Search />
+            <div>{children}</div>
+          </div>
+        </AdvertisementContainer>
       </body>
     </html>
   );

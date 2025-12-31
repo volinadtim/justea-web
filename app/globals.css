@@ -8,6 +8,13 @@
   --color-main: #9cd37a;
 }
 
+@theme {
+  --text-base: 19px; /* Changes default text size */
+  --text-sm: 14px;
+  --text-lg: 24px;
+  /* --text-base--line-height: 1.5; Example custom line-height */
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -61,4 +68,14 @@ body {
   @apply font-bainsley;
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Custom base style to remove outline on all elements by default */
+*:focus {
+  outline: none !important;
+}
+
+/* Custom base style to remove outline on all elements by default */
+* {
+  outline: none !important;
 }

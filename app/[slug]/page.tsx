@@ -4,14 +4,17 @@
 // import BrewingMethodNav from "@/components/BrewingMethodNav";
 // import BrewingMethodSection from "@/components/BrewingMethodSection";
 
-import { Leaf } from "lucide-react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import TeaDescription from "../components/TeaDescription";
+import TeaTypeLink from "../components/TeaTypeLink";
+import SteepsTable from "../components/SteepsTable";
+import BrewInfo from "../components/BrewInfo";
+import RowAdvertisement from "../components/Advertisement/RowAdvertisement";
 
 // Mock tea data - in real app, this would come from API/database
 const mockTeaData = {
   slug: "dragon-well",
-  name: "Dragon Well Longjing",
+  name: "Да Хун Пао", // "Dragon Well Longjing",
   category: "Green Tea",
   origin: "Hangzhou, China",
   description:
@@ -20,6 +23,14 @@ const mockTeaData = {
   flavorProfile: ["Chestnut", "Vegetal", "Sweet"],
   rating: 4.8,
   harvestYear: 2024,
+  aroma: ["Дым", "влажный камень", "пепел", "орхидея", "сладкие фрукты"],
+  taste: [
+    "Плотный",
+    "маслянистый",
+    "с нотами жженого сахара",
+    "сухофруктов",
+    "земли",
+  ],
 
   brewingMethods: {
     gongfu: {
@@ -109,11 +120,34 @@ export default async function TeaPage({ params }: PageProps) {
   const brewingMethods = Object.values(tea.brewingMethods);
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <main>
-        <Link href="/puers">
-          <Leaf /> Пуэр
-        </Link>
+        <div className="mb-1">
+          <TeaTypeLink />
+        </div>
+
+        <h1 className="text-[50px] mb-[45px]">{tea.name}</h1>
+        <TeaDescription
+          className="mb-[40px]"
+          aroma={tea.aroma}
+          taste={tea.taste}
+        />
+
+        <h2 className="text-[37px] mb-[33px]">Как заваривать проливами</h2>
+
+        <div className="flex gap-[14px]">
+          <BrewInfo
+            temperature={tea.brewingMethods.gongfu.waterTemperature}
+            ratio={5}
+          />
+          <SteepsTable
+            steeps={tea.brewingMethods.gongfu.steepTimes.map((v) =>
+              parseInt(v.time.slice(0, -1))
+            )}
+          />
+        </div>
+
+        <RowAdvertisement />
       </main>
     </div>
   );

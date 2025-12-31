@@ -7,10 +7,10 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function ColumnAdvertisement({ children }: Props) {
+export default function RowAdvertisement({ children }: Props) {
   return (
-    <div className="flex items-center justify-center p-4 h-full">
-      <div className="h-full w-[300px]">
+    <div className="flex items-center justify-center">
+      <div className="h-[115px] w-full">
         <BlockAdvertisement />
       </div>
     </div>
