@@ -1,4 +1,6 @@
-"use client";
+import { ChangeEvent } from "react";
+
+("use client");
 
 type Props = {
   volume: number;
@@ -6,7 +8,7 @@ type Props = {
 };
 
 export default function VolumeSelect({ volume, onVolumeChange }: Props) {
-  const handleChange = (event: InputEvent) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onVolumeChange(parseInt((event!.target! as any).value));
   };
 

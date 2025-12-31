@@ -21,7 +21,7 @@ const ArrowHintBottom = () => (
   </svg>
 );
 
-const ArrowHintRight = (
+const ArrowHintRight = () => (
   <svg
     width="44"
     height="42"
@@ -37,7 +37,7 @@ const ArrowHintRight = (
   </svg>
 );
 
-const ArrowHintTop = (
+const ArrowHintTop = () => (
   <svg
     width="29"
     height="21"

@@ -73,6 +73,9 @@ export default function VolumeInput({
 
   const handleBlur = () => {
     // If empty, set to 0
+    if (onBlur) {
+      onBlur();
+    }
     if (displayValue === "") {
       setDisplayValue("0");
       onChange(0);
@@ -105,7 +108,6 @@ export default function VolumeInput({
         placeholder={placeholder}
         className="min-w-0 font-comfortaa font-bold text-center border-b text-[19px] transition-all duration-400"
         style={{ minWidth: `${minWidth}px` }}
-        onBlur={() => onBlur && onBlur()}
         onFocus={() => onFocus && onFocus()}
       />
     </div>

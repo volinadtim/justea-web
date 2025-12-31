@@ -10,7 +10,8 @@ interface Props {
 
 export default function TeaTypeLink({ type }: Props) {
   return (
-    <div className="flex gap-1 items-center" href="/puers">
+    <div className="flex gap-1 items-center"> 
+     {/* href="/puers"> */}
       <Leaf /> <span className="text-[22px]">Пуэр</span>
     </div>
   );

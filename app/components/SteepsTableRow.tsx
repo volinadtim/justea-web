@@ -12,8 +12,8 @@ function DefaultValueComponent({ value }: { value: any }) {
 
 type Props<T = string | number> = {
   values: T[];
-  icon: React.ReactNode;
-  valueComponent?: React.ReactNode;
+  icon: React.ComponentType<any>;
+  valueComponent?: React.ComponentType<any>;
 };
 
 function SteepsTableRow<T>({ values, icon, valueComponent }: Props<T>) {

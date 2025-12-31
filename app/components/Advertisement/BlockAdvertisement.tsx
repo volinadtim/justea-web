@@ -1,7 +1,7 @@
 "use client";
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function BlockAdvertisement({ children }: Props) {
