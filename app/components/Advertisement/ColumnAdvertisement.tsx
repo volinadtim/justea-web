@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import BlockAdvertisement from "./BlockAdvertisement";
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function ColumnAdvertisement({ children }: Props) {
