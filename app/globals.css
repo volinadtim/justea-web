@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #9cd37a;
+  --foreground: #000000;
+  --color-main: #9cd37a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-main: var(--color-main); /* Add to theme */
+
+  /* Fonts */
+  --font-sans: var(--font-bainsley), sans-serif;
+  --font-bainsley: var(--font-bainsley), sans-serif;
+  --font-comfortaa: var(--font-comfortaa-sans), sans-serif;
+  --font-geist: var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
+/* You can define custom utility classes */
+@utility bg-main {
+  background-color: var(--color-main);
+}
+
+@utility text-main {
+  color: var(--color-main);
+}
+
+@utility border-main {
+  border-color: var(--color-main);
+}
+
+/* Or define multiple color shades */
+@theme inline {
+  --color-main-50: #f7fdf2;
+  --color-main-100: #eefbe6;
+  --color-main-200: #d9f6c9;
+  --color-main-300: #bdef9c;
+  --color-main-400: #9cd37a; /* Your main color */
+  --color-main-500: #7db95c;
+  --color-main-600: #5f9c40;
+  --color-main-700: #48752f;
+  --color-main-800: #375c25;
+  --color-main-900: #2e4d1f;
+}
+
+/* @media (prefers-color-scheme: dark) { */
+.dark {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --color-main: #7db95c;
   }
 }
 
 body {
+  @apply font-bainsley;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

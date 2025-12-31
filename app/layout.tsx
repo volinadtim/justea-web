@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Comfortaa } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import AdvertisementContainer from "./components/Advertisement/AdvertisementContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -10,6 +12,38 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const comfortaaSans = Comfortaa({
+  variable: "--font-comfortaa-sans",
+  subsets: ["latin", "cyrillic"],
+});
+
+// Import local Bainsley font
+const bainsley = localFont({
+  src: [
+    {
+      path: "./fonts/Bainsley/Bainsley_Roman.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Bainsley/Bainsley_Italic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "./fonts/Bainsley/Bainsley_Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Bainsley/Bainsley_Bold_Italic.woff2",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-bainsley",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +59,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased`}
       >
-        {children}
+        <AdvertisementContainer>{children}</AdvertisementContainer>
       </body>
     </html>
   );

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "1",
+    "name": "Dragon Well Longjing",
+    "photo": "/teas/longjing.jpg",
+    "description": "Premium green tea from Hangzhou, China, known for its chestnut-like flavor and flat, smooth leaves.",
+    "type": "green",
+    "primaryBrewMethod": "gongfu",
+    "brewMethods": [
+      {
+        "id": "gongfu-1",
+        "name": "Gongfu Style",
+        "type": "gongfu",
+        "description": "Traditional Chinese method with multiple short infusions",
+        "ratio": 3.5,
+        "temperature": {
+          "from": 75,
+          "to": 80
+        },
+        "infusions": [
+          {
+            "number": 1,
+            "time": 20,
+            "notes": "Light, refreshing, slight chestnut"
+          },
+          {
+            "number": 2,
+            "time": 15,
+            "notes": "Full flavor development"
+          },
+          {
+            "number": 3,
+            "time": 20,
+            "notes": "Sweet aftertaste emerges"
+          }
+        ],
+        "notes": [
+          "Use gaiwan or small teapot",
+          "Rinse leaves with warm water first"
+        ]
+      }
+    ],
+    "characteristics": {
+      "aroma": ["Chestnut", "Fresh Grass", "Seaweed"],
+      "flavor": ["Nutty", "Sweet", "Umami", "Slight Vegetal"],
+      "aftertaste": ["Sweet", "Lingering", "Clean"],
+      "appearance": [
+        "Flat sword-shaped leaves",
+        "Yellow-green color",
+        "Smooth texture"
+      ],
+      "liquorColor": "#E6D7A8"
+    },
+    "meta": {
+      "origin": "Hangzhou, China",
+      "altitude": 500,
+      "harvestDate": "2024-04-15",
+      "rating": 4.7,
+      "favorite": true,
+      "addedDate": "2024-01-15"
+    }
+  },
+  {
+    "id": "2",
+    "name": "Assam Black Tea",
+    "description": "Full-bodied black tea from Assam, India with malty flavor and robust character.",
+    "type": "black",
+    "primaryBrewMethod": "western",
+    "brewMethods": [
+      {
+        "id": "western-2",
+        "name": "Western Style",
+        "type": "western",
+        "description": "Standard western brewing with single long infusion",
+        "ratio": 2.5,
+        "temperature": {
+          "from": 95,
+          "to": 100
+        },
+        "infusions": [
+          {
+            "number": 1,
+            "time": 240,
+            "notes": "Strong, malty, perfect for breakfast"
+          }
+        ]
+      }
+    ],
+    "characteristics": {
+      "aroma": ["Malty", "Honey", "Dark Chocolate"],
+      "flavor": ["Robust", "Malty", "Slight Astringency", "Sweet Finish"],
+      "aftertaste": ["Long-lasting", "Malty"],
+      "liquorColor": "#8B4513"
+    },
+    "meta": {
+      "origin": "Assam, India",
+      "rating": 4.3,
+      "favorite": false,
+      "addedDate": "2024-01-20"
+    }
+  }
+]
