@@ -1,17 +1,18 @@
 [
   {
     "id": "1",
-    "name": "Dragon Well Longjing",
+    "slug": "longjing",
+    "name": "Лунцзин",
     "photo": "/teas/longjing.jpg",
-    "description": "Premium green tea from Hangzhou, China, known for its chestnut-like flavor and flat, smooth leaves.",
+    "description": "Премиальный зелёный чай из Ханчжоу, Китай, известный вкусом, напоминающим каштан, и плоскими гладкими листьями.",
     "type": "green",
     "primaryBrewMethod": "gongfu",
     "brewMethods": [
       {
         "id": "gongfu-1",
-        "name": "Gongfu Style",
+        "name": "Гунфу-ча",
         "type": "gongfu",
-        "description": "Traditional Chinese method with multiple short infusions",
+        "description": "Традиционный китайский метод с несколькими короткими проливами",
         "ratio": 3.5,
         "temperature": {
           "from": 75,
@@ -21,38 +22,38 @@
           {
             "number": 1,
             "time": 20,
-            "notes": "Light, refreshing, slight chestnut"
+            "notes": "Лёгкий, освежающий, лёгкий каштановый оттенок"
           },
           {
             "number": 2,
             "time": 15,
-            "notes": "Full flavor development"
+            "notes": "Полное раскрытие вкуса"
           },
           {
             "number": 3,
             "time": 20,
-            "notes": "Sweet aftertaste emerges"
+            "notes": "Проявляется сладкое послевкусие"
           }
         ],
         "notes": [
-          "Use gaiwan or small teapot",
-          "Rinse leaves with warm water first"
+          "Используйте гайвань или маленький чайник",
+          "Сначала ополосните листья тёплой водой"
         ]
       }
     ],
     "characteristics": {
-      "aroma": ["Chestnut", "Fresh Grass", "Seaweed"],
-      "flavor": ["Nutty", "Sweet", "Umami", "Slight Vegetal"],
-      "aftertaste": ["Sweet", "Lingering", "Clean"],
+      "aroma": ["Каштан", "Свежая трава", "Морские водоросли"],
+      "flavor": ["Ореховый", "Сладкий", "Умами", "Лёгкая овощность"],
+      "aftertaste": ["Сладкое", "Длительное", "Чистое"],
       "appearance": [
-        "Flat sword-shaped leaves",
-        "Yellow-green color",
-        "Smooth texture"
+        "Плоские мечевидные листья",
+        "Жёлто-зелёный цвет",
+        "Гладкая текстура"
       ],
       "liquorColor": "#E6D7A8"
     },
     "meta": {
-      "origin": "Hangzhou, China",
+      "origin": "Ханчжоу, Китай",
       "altitude": 500,
       "harvestDate": "2024-04-15",
       "rating": 4.7,
@@ -62,16 +63,17 @@
   },
   {
     "id": "2",
-    "name": "Assam Black Tea",
-    "description": "Full-bodied black tea from Assam, India with malty flavor and robust character.",
+    "slug": "assam",
+    "name": "Ассам",
+    "description": "Плотный чёрный чай из Ассама, Индия, с солодовым вкусом и насыщенным характером.",
     "type": "black",
     "primaryBrewMethod": "western",
     "brewMethods": [
       {
         "id": "western-2",
-        "name": "Western Style",
+        "name": "Западный стиль",
         "type": "western",
-        "description": "Standard western brewing with single long infusion",
+        "description": "Классическое заваривание одним длинным настоем",
         "ratio": 2.5,
         "temperature": {
           "from": 95,
@@ -81,19 +83,19 @@
           {
             "number": 1,
             "time": 240,
-            "notes": "Strong, malty, perfect for breakfast"
+            "notes": "Крепкий, солодовый, идеален для завтрака"
           }
         ]
       }
     ],
     "characteristics": {
-      "aroma": ["Malty", "Honey", "Dark Chocolate"],
-      "flavor": ["Robust", "Malty", "Slight Astringency", "Sweet Finish"],
-      "aftertaste": ["Long-lasting", "Malty"],
+      "aroma": ["Солод", "Мёд", "Тёмный шоколад"],
+      "flavor": ["Насыщенный", "Солодовый", "Лёгкая терпкость", "Сладкое послевкусие"],
+      "aftertaste": ["Длительное", "Солодовое"],
       "liquorColor": "#8B4513"
     },
     "meta": {
-      "origin": "Assam, India",
+      "origin": "Ассам, Индия",
       "rating": 4.3,
       "favorite": false,
       "addedDate": "2024-01-20"

@@ -36,6 +36,7 @@ export interface BrewMethod {
 
 export interface Tea {
     id: string;
+    slug: string;
     name: string;
     photo?: string;
     description?: string;
