@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TeaDescription from "../components/TeaDescription";
 import TeaTypeLink from "../components/TeaTypeLink";
-import SteepsTable from "../components/SteepsTable";
-import BrewInfo from "../components/BrewInfo";
+import TeaPhoto from "../components/TeaPhoto";
+import TeaBrewSection from "../components/TeaBrewSection";
 import RowAdvertisement from "../components/Advertisement/RowAdvertisement";
 import Breadcrumbs from "../components/Breadcrumbs";
 import {
@@ -43,16 +43,11 @@ export default async function TeaPage({ params }: PageProps) {
         notFound();
     }
 
-    const brewMethod = getPrimaryBrewMethod(tea);
+    const primaryBrewMethod = getPrimaryBrewMethod(tea);
 
-    if (!brewMethod) {
+    if (!primaryBrewMethod) {
         notFound();
     }
-
-    const temperature = Math.round(
-        (brewMethod.temperature.from + brewMethod.temperature.to) / 2
-    );
-    const steeps = brewMethod.infusions.map((infusion) => infusion.time);
 
     return (
         <div className="">
@@ -72,19 +67,31 @@ export default async function TeaPage({ params }: PageProps) {
                     <TeaTypeLink type={tea.type} />
                 </div>
 
-                <h1 className="text-[50px] mb-[45px]">{tea.name}</h1>
+                <TeaPhoto tea={tea} />
+
+                <h1 className="mb-[16px] text-[50px] leading-none">{tea.name}</h1>
+
+                {tea.meta.origin && (
+                    <p className="mb-[20px] text-[19px] text-black/70 dark:text-white/70">
+                        {tea.meta.origin}
+                    </p>
+                )}
+
+                {tea.description && (
+                    <p className="mb-[40px] text-[19px] leading-[1.4]">{tea.description}</p>
+                )}
+
                 <TeaDescription
                     className="mb-[40px]"
                     aroma={tea.characteristics.aroma}
                     taste={tea.characteristics.flavor}
+                    aftertaste={tea.characteristics.aftertaste}
                 />
 
-                <h2 className="text-[37px] mb-[33px]">Как заваривать проливами</h2>
-
-                <div className="flex gap-[14px]">
-                    <BrewInfo temperature={temperature} ratio={brewMethod.ratio} />
-                    <SteepsTable steeps={steeps} />
-                </div>
+                <TeaBrewSection
+                    brewMethods={tea.brewMethods}
+                    defaultMethodId={primaryBrewMethod.id}
+                />
 
                 <RowAdvertisement />
             </main>
