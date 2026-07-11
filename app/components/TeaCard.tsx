@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Leaf } from "lucide-react";
+import FavoriteButton from "./FavoriteButton";
 import { TEA_TYPE_LABELS } from "@/lib/teas";
 import { Tea } from "@/types/tea";
 
@@ -13,8 +16,13 @@ export default function TeaCard({ tea }: Props) {
     return (
         <Link
             href={`/${tea.slug}`}
-            className="group flex flex-col gap-[12px] border-2 border-black/10 p-[16px] transition-colors hover:border-black/30 dark:border-white/10 dark:hover:border-white/30"
+            className="group relative flex flex-col gap-[12px] border-2 border-black/10 p-[16px] transition-colors hover:border-black/30 dark:border-white/10 dark:hover:border-white/30"
         >
+            <FavoriteButton
+                slug={tea.slug}
+                className="absolute top-[12px] right-[12px] z-10"
+            />
+
             <div
                 className="flex aspect-[4/3] items-center justify-center bg-main-200"
                 style={liquorColor ? { backgroundColor: liquorColor } : undefined}

@@ -6,6 +6,8 @@ import TeaPhoto from "../components/TeaPhoto";
 import TeaBrewSection from "../components/TeaBrewSection";
 import RowAdvertisement from "../components/Advertisement/RowAdvertisement";
 import Breadcrumbs from "../components/Breadcrumbs";
+import FavoriteButton from "../components/FavoriteButton";
+import RecentTeaTracker from "../components/RecentTeaTracker";
 import {
     getAllTeas,
     getPrimaryBrewMethod,
@@ -51,6 +53,7 @@ export default async function TeaPage({ params }: PageProps) {
 
     return (
         <div className="">
+            <RecentTeaTracker slug={tea.slug} />
             <main>
                 <Breadcrumbs
                     items={[
@@ -63,8 +66,9 @@ export default async function TeaPage({ params }: PageProps) {
                     ]}
                 />
 
-                <div className="mb-1">
+                <div className="mb-1 flex items-center justify-between gap-4">
                     <TeaTypeLink type={tea.type} />
+                    <FavoriteButton slug={tea.slug} />
                 </div>
 
                 <TeaPhoto tea={tea} />

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BrewMethodSwitcher from "./BrewMethodSwitcher";
 import BrewInfo from "./BrewInfo";
 import SteepsTable from "./SteepsTable";
+import SteepTimer from "./SteepTimer";
 import { BrewMethod } from "@/types/tea";
 
 type Props = {
@@ -11,9 +12,7 @@ type Props = {
     defaultMethodId: string;
 };
 
-function getTemperature(
-    method: BrewMethod
-): number | [number, number] {
+function getTemperature(method: BrewMethod): number | [number, number] {
     const { from, to } = method.temperature;
 
     if (from === to) {
@@ -23,16 +22,31 @@ function getTemperature(
     return [from, to];
 }
 
+function getSteepsFromMethod(method: BrewMethod): number[] {
+    return method.infusions.map((infusion) => infusion.time);
+}
+
 export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) {
     const [activeId, setActiveId] = useState(defaultMethodId);
     const activeMethod =
         brewMethods.find((method) => method.id === activeId) ?? brewMethods[0];
+    const [steeps, setSteeps] = useState<number[]>(() =>
+        activeMethod ? getSteepsFromMethod(activeMethod) : []
+    );
+    const [activeSteepIndex, setActiveSteepIndex] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (!activeMethod) {
+            return;
+        }
+
+        setSteeps(getSteepsFromMethod(activeMethod));
+        setActiveSteepIndex(null);
+    }, [activeMethod]);
 
     if (!activeMethod) {
         return null;
     }
-
-    const steeps = activeMethod.infusions.map((infusion) => infusion.time);
 
     return (
         <section>
@@ -50,7 +64,17 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                     temperature={getTemperature(activeMethod)}
                     ratio={activeMethod.ratio}
                 />
-                <SteepsTable steeps={steeps} />
+                <div className="flex flex-1 flex-col">
+                    <SteepsTable
+                        steeps={steeps}
+                        onSteepsChange={setSteeps}
+                        activeIndex={activeSteepIndex}
+                    />
+                    <SteepTimer
+                        steeps={steeps}
+                        onActiveIndexChange={setActiveSteepIndex}
+                    />
+                </div>
             </div>
 
             {activeMethod.notes && activeMethod.notes.length > 0 && (

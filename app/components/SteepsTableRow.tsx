@@ -2,39 +2,43 @@
 
 import React from "react";
 
-function DefaultValueComponent({ value }: { value: any }) {
-  return (
-    <div className="text-center leading-none font-comfortaa font-[14px] font-bold">
-      {value}
-    </div>
-  );
-}
-
-type Props<T = string | number> = {
-  values: T[];
-  icon: React.ComponentType<any>;
-  valueComponent?: React.ComponentType<any>;
+type ValueComponentProps = {
+    value: string | number;
+    index: number;
 };
 
-function SteepsTableRow<T>({ values, icon, valueComponent }: Props<T>) {
-  const Icon = icon;
-  const ValueComponent = valueComponent ?? DefaultValueComponent; // ?? <></>;
+function DefaultValueComponent({ value }: ValueComponentProps) {
+    return (
+        <div className="text-center font-comfortaa text-[14px] font-bold leading-none">
+            {value}
+        </div>
+    );
+}
 
-  return (
-    <div className="flex gap-[33px] items-center">
-      <div className="">
-        <Icon />
-      </div>
-      <div className="flex gap-[16px]">
-        {values.map((i, index) => (
-          <div className="shrink w-[29px] basis-[29px]" key={index}>
-            <ValueComponent value={values[index]} />
-            {/* {values[index]} */}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+type Props = {
+    values: (string | number)[];
+    icon: React.ComponentType<{ className?: string }>;
+    valueComponent?: React.ComponentType<ValueComponentProps>;
+};
+
+function SteepsTableRow({ values, icon, valueComponent }: Props) {
+    const Icon = icon;
+    const ValueComponent = valueComponent ?? DefaultValueComponent;
+
+    return (
+        <div className="flex items-center gap-[33px]">
+            <div>
+                <Icon />
+            </div>
+            <div className="flex gap-[16px]">
+                {values.map((value, index) => (
+                    <div className="w-[29px] shrink basis-[29px]" key={index}>
+                        <ValueComponent value={value} index={index} />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default SteepsTableRow;
