@@ -67,10 +67,10 @@
 
     - name: Install production nginx config with SSL
       copy:
-        src: "{{ playbook_dir }}/../nginx/host.conf"
+        src: "{{ playbook_dir }}/../nginx/{{ 'host.conf' if videohub_ssl_ready.stat.exists else 'host-justea-ssl.conf' }}"
         dest: /etc/nginx/sites-available/host-proxy.conf
         mode: "0644"
-      when: justea_ssl_ready.stat.exists or videohub_ssl_ready.stat.exists
+      when: justea_ssl_ready.stat.exists
       notify: reload nginx
 
   handlers:

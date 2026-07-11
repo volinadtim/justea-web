@@ -53,7 +53,7 @@
 
     - name: Install nginx config
       copy:
-        src: "{{ playbook_dir }}/../nginx/{{ 'host.conf' if (justea_ssl_ready.stat.exists or videohub_ssl_ready.stat.exists) else 'host-http.conf' }}"
+        src: "{{ playbook_dir }}/../nginx/{{ 'host.conf' if (justea_ssl_ready.stat.exists and videohub_ssl_ready.stat.exists) else ('host-justea-ssl.conf' if justea_ssl_ready.stat.exists else 'host-http.conf') }}"
         dest: /etc/nginx/sites-available/host-proxy.conf
         mode: "0644"
       notify: reload nginx
