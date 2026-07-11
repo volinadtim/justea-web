@@ -92,7 +92,7 @@ export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
                       : "Таймер проливов"}
             </div>
 
-            <div className="mb-[16px] font-comfortaa text-[48px] font-bold leading-none">
+            <div className="mb-3 font-comfortaa text-[40px] font-bold leading-none sm:mb-4 sm:text-[48px]">
                 {formatSteepTime(displaySeconds)}
                 <span className="ml-[4px] text-[19px] font-normal">сек</span>
             </div>

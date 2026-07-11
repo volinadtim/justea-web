@@ -114,7 +114,7 @@ export const steepTimerMachine = setup({
                     actions: assign({ remainingSeconds: 0 }),
                 },
                 {
-                    target: "running",
+                    target: "paused",
                     actions: assign({
                         currentIndex: ({ context }) => context.currentIndex + 1,
                         remainingSeconds: ({ context }) =>

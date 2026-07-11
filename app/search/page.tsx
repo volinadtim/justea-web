@@ -33,7 +33,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
     return (
         <main>
-            <h1 className="mb-[20px] text-[50px] leading-none">Поиск</h1>
+            <h1 className="mb-5 text-[36px] leading-none sm:text-[44px] lg:text-[50px]">
+                Поиск
+            </h1>
 
             {!query && (
                 <p className="text-[19px]">Введите запрос в строке поиска выше.</p>

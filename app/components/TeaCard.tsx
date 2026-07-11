@@ -34,7 +34,7 @@ export default function TeaCard({ tea }: Props) {
                 <span className="text-[14px] text-black/60 dark:text-white/60">
                     {TEA_TYPE_LABELS[tea.type]}
                 </span>
-                <h2 className="text-[28px] leading-none group-hover:underline">
+                <h2 className="text-[22px] leading-none group-hover:underline sm:text-[26px] lg:text-[28px]">
                     {tea.name}
                 </h2>
                 {tea.description && (

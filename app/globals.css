@@ -64,7 +64,7 @@ html.dark,
 }
 
 body {
-  @apply font-bainsley;
+  @apply font-bainsley overflow-x-hidden;
   background: var(--background);
   color: var(--foreground);
 }

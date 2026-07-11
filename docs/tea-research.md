@@ -463,6 +463,11 @@ gongfu | western | grandpa | cold-brew | iced
 
 Исходные файлы по регионам: `green-yellow-tea-catalog-candidates.json`, `chinese-tea-candidates.json`, `puerh-dark-tea-research.md`, `east-asia-tea-candidates.json`, `tea-research-world.md`.
 
+### Наука заваривания (углублённо)
+
+- [`tea-brewing-science-ru.md`](./tea-brewing-science-ru.md) — **основной справочник**: химия экстракции, идеальные параметры для чаёв каталога и приоритета 2
+- [`tea-brewing-science.md`](./tea-brewing-science.md) — техническая версия (EN): улуны, чёрные, белые, пуэры с таймлайнами проливов
+
 ---
 
 ## 8. Полезные hex-цвета настоя

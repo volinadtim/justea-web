@@ -28,8 +28,8 @@ export default function FavoriteTeasSection() {
     }
 
     return (
-        <section className="mb-[40px]">
-            <h2 className="mb-[20px] text-[28px] leading-none">Избранное</h2>
+        <section className="mb-8 sm:mb-10">
+            <h2 className="mb-4 text-[24px] leading-none sm:mb-5 sm:text-[28px]">Избранное</h2>
             <div className="grid grid-cols-1 gap-[20px] sm:grid-cols-2">
                 {teas.map((tea) => (
                     <TeaCard key={tea.id} tea={tea} />

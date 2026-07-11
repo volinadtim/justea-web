@@ -13,7 +13,7 @@ export default function BrewTemperature({ temperature }: Props) {
       : `${temperature[0]}–${temperature[1]}`;
 
   return (
-    <div className="flex gap-[12px] text-[19px]">
+    <div className="flex items-center gap-3 text-[17px] sm:gap-[12px] sm:text-[19px]">
       <ThermometerIcon />
       <span>
         <span className="font-comfortaa font-bold">{temperatureLine}</span> <span>°C</span>

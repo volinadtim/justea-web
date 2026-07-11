@@ -68,12 +68,14 @@ export default async function TeaPage({ params }: PageProps) {
                     ]}
                 />
 
-                <div className="mb-1 flex items-center justify-between gap-4">
+                <div className="mb-1 flex min-w-0 items-center justify-between gap-3">
                     <TeaTypeLink type={tea.type} />
                     <FavoriteButton slug={tea.slug} />
                 </div>
 
-                <h1 className="mb-[16px] text-[50px] leading-none">{tea.name}</h1>
+                <h1 className="mb-3 text-[36px] leading-none sm:mb-4 sm:text-[44px] lg:text-[50px]">
+                    {tea.name}
+                </h1>
 
                 {tea.meta.origin && (
                     <p className="mb-[20px] text-[19px] text-black/70 dark:text-white/70">

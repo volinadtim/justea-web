@@ -49,10 +49,12 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                 onChange={setActiveId}
             />
 
-            <h2 className="mb-[12px] text-[37px] leading-none">{activeMethod.name}</h2>
-            <p className="mb-[33px] text-[19px]">{activeMethod.description}</p>
+            <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
+                {activeMethod.name}
+            </h2>
+            <p className="mb-6 text-[17px] sm:mb-8 sm:text-[19px]">{activeMethod.description}</p>
 
-            <div className="flex flex-col gap-[14px] md:flex-row">
+            <div className="flex min-w-0 flex-col gap-4 md:flex-row md:gap-[14px]">
                 <BrewInfo
                     temperature={getTemperature(activeMethod)}
                     ratio={activeMethod.ratio}

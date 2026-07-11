@@ -83,9 +83,9 @@ export const metadata: Metadata = {
 
 function SearchFallback() {
     return (
-        <div className="flex flex-1 gap-2 border-b-2 py-3 opacity-60">
-            <span className="size-5" />
-            <span className="flex-1 text-base">Поиск…</span>
+        <div className="flex min-w-0 flex-1 gap-2 border-b-2 py-3 opacity-60">
+            <span className="size-5 shrink-0" />
+            <span className="min-w-0 flex-1 text-base">Поиск…</span>
         </div>
     );
 }
@@ -102,8 +102,8 @@ export default function RootLayout({
             >
                 <ThemeProvider>
                     <AdvertisementContainer>
-                        <div className="flex flex-col gap-[50px] py-[48px]">
-                            <div className="flex items-start gap-3">
+                        <div className="flex flex-col gap-8 px-4 py-6 sm:gap-10 sm:px-6 sm:py-8 lg:gap-[50px] lg:px-0 lg:py-[48px]">
+                            <div className="flex min-w-0 items-start gap-3">
                                 <Suspense fallback={<SearchFallback />}>
                                     <Search />
                                 </Suspense>

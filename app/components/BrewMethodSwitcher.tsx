@@ -10,7 +10,7 @@ type Props = {
 
 function buttonClass(isActive: boolean) {
     return [
-        "rounded-full border-2 px-[14px] py-[6px] text-[16px] transition-colors",
+        "shrink-0 rounded-full border-2 px-3 py-1.5 text-[14px] transition-colors sm:px-[14px] sm:py-[6px] sm:text-[16px]",
         isActive
             ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
             : "border-black/20 hover:border-black/40 dark:border-white/20 dark:hover:border-white/40",
@@ -26,7 +26,7 @@ export default function BrewMethodSwitcher({ methods, activeId, onChange }: Prop
         <div
             role="tablist"
             aria-label="Способ заваривания"
-            className="mb-[24px] flex flex-wrap gap-[8px]"
+            className="mb-6 flex flex-wrap gap-2 sm:mb-[24px] sm:gap-[8px]"
         >
             {methods.map((method) => (
                 <button

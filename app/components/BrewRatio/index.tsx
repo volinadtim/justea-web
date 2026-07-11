@@ -19,7 +19,7 @@ export default function BrewRatio({ ratio, options }: BrewRatioProps) {
   const grams = (volume * ratio) / 100;
 
   return (
-    <div className="flex items-center gap-[12px]">
+    <div className="flex flex-wrap items-center gap-3 text-[17px] sm:gap-[12px] sm:text-[19px]">
       <ScaleIcon className="h-6 w-6 shrink-0" />
 
       <div className="flex items-center gap-[4px] text-[19px]">
