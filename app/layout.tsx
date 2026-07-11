@@ -5,82 +5,115 @@ import { Suspense } from "react";
 import "./globals.css";
 import AdvertisementContainer from "./components/Advertisement/AdvertisementContainer";
 import Search from "./components/Search";
+import ThemeProvider from "./components/ThemeProvider";
+import ThemeToggle from "./components/ThemeToggle";
+import { siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+    variable: "--font-geist-sans",
+    subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
 const comfortaaSans = Comfortaa({
-  variable: "--font-comfortaa-sans",
-  subsets: ["latin", "cyrillic"],
+    variable: "--font-comfortaa-sans",
+    subsets: ["latin", "cyrillic"],
 });
 
-// Import local Bainsley font
 const bainsley = localFont({
-  src: [
-    {
-      path: "./fonts/Bainsley/Bainsley_Roman.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Bainsley/Bainsley_Italic.woff2",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "./fonts/Bainsley/Bainsley_Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Bainsley/Bainsley_Bold_Italic.woff2",
-      weight: "700",
-      style: "italic",
-    },
-  ],
-  variable: "--font-bainsley",
+    src: [
+        {
+            path: "./fonts/Bainsley/Bainsley_Roman.woff2",
+            weight: "400",
+            style: "normal",
+        },
+        {
+            path: "./fonts/Bainsley/Bainsley_Italic.woff2",
+            weight: "400",
+            style: "italic",
+        },
+        {
+            path: "./fonts/Bainsley/Bainsley_Bold.woff2",
+            weight: "700",
+            style: "normal",
+        },
+        {
+            path: "./fonts/Bainsley/Bainsley_Bold_Italic.woff2",
+            weight: "700",
+            style: "italic",
+        },
+    ],
+    variable: "--font-bainsley",
 });
 
 export const metadata: Metadata = {
-  title: "Justea",
-  description: "Справочник по завариванию чая",
+    metadataBase: new URL(siteConfig.url),
+    title: {
+        default: siteConfig.name,
+        template: `%s — ${siteConfig.name}`,
+    },
+    description: siteConfig.description,
+    openGraph: {
+        type: "website",
+        locale: siteConfig.locale,
+        url: siteConfig.url,
+        siteName: siteConfig.name,
+        title: siteConfig.name,
+        description: siteConfig.description,
+        images: [
+            {
+                url: siteConfig.ogImage,
+                width: 1200,
+                height: 630,
+                alt: siteConfig.name,
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: siteConfig.name,
+        description: siteConfig.description,
+        images: [siteConfig.ogImage],
+    },
 };
 
 function SearchFallback() {
-  return (
-    <div className="flex gap-2 border-b-2 py-3 opacity-60">
-      <span className="size-5" />
-      <span className="flex-1 text-base">Поиск…</span>
-    </div>
-  );
+    return (
+        <div className="flex flex-1 gap-2 border-b-2 py-3 opacity-60">
+            <span className="size-5" />
+            <span className="flex-1 text-base">Поиск…</span>
+        </div>
+    );
 }
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ru" className="h-full">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased h-full selection:bg-main-300`}
-      >
-        <AdvertisementContainer>
-          <div className="py-[48px] flex flex-col gap-[50px]">
-            <Suspense fallback={<SearchFallback />}>
-              <Search />
-            </Suspense>
-            <div>{children}</div>
-          </div>
-        </AdvertisementContainer>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="ru" className="h-full" suppressHydrationWarning>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased h-full selection:bg-main-300`}
+            >
+                <ThemeProvider>
+                    <AdvertisementContainer>
+                        <div className="flex flex-col gap-[50px] py-[48px]">
+                            <div className="flex items-start gap-3">
+                                <Suspense fallback={<SearchFallback />}>
+                                    <Search />
+                                </Suspense>
+                                <ThemeToggle />
+                            </div>
+                            <div>{children}</div>
+                        </div>
+                    </AdvertisementContainer>
+                </ThemeProvider>
+            </body>
+        </html>
+    );
 }

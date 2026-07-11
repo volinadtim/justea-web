@@ -70,7 +70,7 @@ export default function Search() {
     }
 
     return (
-        <div ref={containerRef} className="relative">
+        <div ref={containerRef} className="relative flex-1">
             <form
                 onSubmit={handleSubmit}
                 className="flex gap-2 border-b-2 py-3"

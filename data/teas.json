@@ -65,6 +65,7 @@
     "id": "2",
     "slug": "assam",
     "name": "Ассам",
+    "photo": "/teas/assam.jpg",
     "description": "Плотный чёрный чай из Ассама, Индия, с солодовым вкусом и насыщенным характером.",
     "type": "black",
     "primaryBrewMethod": "western",

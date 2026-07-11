@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import TeaCard from "../components/TeaCard";
+import { createPageMetadata } from "@/lib/metadata";
 import { searchTeas } from "@/lib/search";
 
 interface SearchPageProps {
@@ -13,12 +14,16 @@ export async function generateMetadata({
     const query = q?.trim();
 
     if (!query) {
-        return { title: "Поиск — Justea" };
+        return createPageMetadata({
+            title: "Поиск",
+            path: "/search",
+        });
     }
 
-    return {
-        title: `Поиск: ${query} — Justea`,
-    };
+    return createPageMetadata({
+        title: `Поиск: ${query}`,
+        path: `/search?q=${encodeURIComponent(query)}`,
+    });
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {

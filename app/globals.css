@@ -56,12 +56,11 @@
 }
 
 /* @media (prefers-color-scheme: dark) { */
+html.dark,
 .dark {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --color-main: #7db95c;
-  }
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --color-main: #7db95c;
 }
 
 body {

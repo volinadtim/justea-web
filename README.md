@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Justea
 
-## Getting Started
+Справочник по завариванию чая: проливы, температура, пропорции, поиск и избранное.
 
-First, run the development server:
+## Стек
+
+- [Next.js 16](https://nextjs.org/) (App Router)
+- [React 19](https://react.dev/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [XState 5](https://xstate.js.org/) — таймер проливов
+
+## Локальный запуск
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Переменные окружения
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Скопируйте `.env.example` в `.env.local` и при необходимости укажите публичный URL сайта:
 
-## Learn More
+```bash
+cp .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+| Переменная | Описание |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Базовый URL для OG-тегов, sitemap и robots (например `https://justea-web.vercel.app`) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Скрипты
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev     # режим разработки
+npm run build   # production-сборка
+npm run start   # запуск собранного приложения
+npm run lint    # ESLint
+```
 
-## Deploy on Vercel
+## Структура
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/           — страницы и компоненты Next.js
+data/teas.json — каталог чаёв
+lib/           — поиск, избранное, XState-машины
+public/teas/   — фотографии чаёв
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Деплой на Vercel
+
+### Через GitHub (рекомендуется)
+
+1. Запушьте репозиторий на GitHub.
+2. Откройте [vercel.com/new](https://vercel.com/new) и импортируйте репозиторий.
+3. Framework Preset: **Next.js** (определяется автоматически).
+4. Добавьте переменную окружения `NEXT_PUBLIC_SITE_URL` со значением production-URL (например `https://your-project.vercel.app`).
+5. Нажмите **Deploy**.
+
+### Через CLI
+
+```bash
+npm i -g vercel
+vercel login
+vercel --prod
+```
+
+При первом деплое CLI предложит связать проект с аккаунтом Vercel.
+
+## Маршруты
+
+| URL | Описание |
+|---|---|
+| `/` | Главная, каталог чаёв |
+| `/[slug]` | Страница чая |
+| `/search?q=…` | Поиск |
+| `/sitemap.xml` | Sitemap |
+| `/robots.txt` | Robots |
+
+## Данные
+
+Чаи хранятся в `data/teas.json`. Для добавления нового чая укажите уникальный `slug`, тип, методы заваривания и положите фото в `public/teas/`.

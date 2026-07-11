@@ -14,6 +14,7 @@ import {
     getTeaBySlug,
     TEA_TYPE_LABELS,
 } from "@/lib/teas";
+import { createPageMetadata } from "@/lib/metadata";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -31,10 +32,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         return {};
     }
 
-    return {
-        title: `${tea.name} — Justea`,
+    return createPageMetadata({
+        title: tea.name,
         description: tea.description,
-    };
+        path: `/${tea.slug}`,
+        image: tea.photo ?? undefined,
+    });
 }
 
 export default async function TeaPage({ params }: PageProps) {
