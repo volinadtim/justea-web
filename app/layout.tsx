@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Comfortaa } from "next/font/google";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 import "./globals.css";
 import AdvertisementContainer from "./components/Advertisement/AdvertisementContainer";
 import Search from "./components/Search";
@@ -52,6 +53,15 @@ export const metadata: Metadata = {
   description: "Справочник по завариванию чая",
 };
 
+function SearchFallback() {
+  return (
+    <div className="flex gap-2 border-b-2 py-3 opacity-60">
+      <span className="size-5" />
+      <span className="flex-1 text-base">Поиск…</span>
+    </div>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -64,7 +74,9 @@ export default function RootLayout({
       >
         <AdvertisementContainer>
           <div className="py-[48px] flex flex-col gap-[50px]">
-            <Search />
+            <Suspense fallback={<SearchFallback />}>
+              <Search />
+            </Suspense>
             <div>{children}</div>
           </div>
         </AdvertisementContainer>
