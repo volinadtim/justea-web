@@ -5,7 +5,13 @@ import TeaTypeLink from "../components/TeaTypeLink";
 import SteepsTable from "../components/SteepsTable";
 import BrewInfo from "../components/BrewInfo";
 import RowAdvertisement from "../components/Advertisement/RowAdvertisement";
-import { getAllTeas, getPrimaryBrewMethod, getTeaBySlug } from "@/lib/teas";
+import Breadcrumbs from "../components/Breadcrumbs";
+import {
+    getAllTeas,
+    getPrimaryBrewMethod,
+    getTeaBySlug,
+    TEA_TYPE_LABELS,
+} from "@/lib/teas";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -51,6 +57,17 @@ export default async function TeaPage({ params }: PageProps) {
     return (
         <div className="">
             <main>
+                <Breadcrumbs
+                    items={[
+                        { label: "Главная", href: "/" },
+                        {
+                            label: TEA_TYPE_LABELS[tea.type],
+                            href: `/?type=${tea.type}`,
+                        },
+                        { label: tea.name },
+                    ]}
+                />
+
                 <div className="mb-1">
                     <TeaTypeLink type={tea.type} />
                 </div>

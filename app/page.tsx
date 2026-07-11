@@ -1,11 +1,33 @@
-import Image from "next/image";
-import ThemeToggle from "./components/ThemeToggle";
+import Hero from "./components/Hero";
+import TeaCard from "./components/TeaCard";
+import TeaTypeFilter from "./components/TeaTypeFilter";
+import { filterTeasByType, isTeaType } from "@/lib/teas";
+import { TeaType } from "@/types/tea";
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-main font-sans dark:bg-main">
-      <ThemeToggle />
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start"></main>
-    </div>
-  );
+interface HomeProps {
+    searchParams: Promise<{ type?: string }>;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+    const { type: typeParam } = await searchParams;
+    const activeType: TeaType | undefined =
+        typeParam && isTeaType(typeParam) ? typeParam : undefined;
+    const teas = filterTeasByType(activeType);
+
+    return (
+        <main>
+            <Hero />
+            <TeaTypeFilter activeType={activeType} />
+
+            {teas.length > 0 ? (
+                <div className="grid grid-cols-1 gap-[20px] sm:grid-cols-2">
+                    {teas.map((tea) => (
+                        <TeaCard key={tea.id} tea={tea} />
+                    ))}
+                </div>
+            ) : (
+                <p className="text-[19px]">Чаи этого типа пока нет в справочнике.</p>
+            )}
+        </main>
+    );
 }
