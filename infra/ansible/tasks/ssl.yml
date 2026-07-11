@@ -1,0 +1,74 @@
+---
+- name: Create certbot webroot
+  file:
+    path: /var/www/certbot
+    state: directory
+    mode: "0755"
+
+- name: Check if justea certificate exists
+  stat:
+    path: "/etc/letsencrypt/live/{{ justea_domain }}/fullchain.pem"
+  register: justea_cert_stat
+
+- name: Check DNS for justea.ru
+  command: getent hosts {{ justea_domain }}
+  register: justea_dns_check
+  changed_when: false
+  failed_when: false
+  when: not justea_cert_stat.stat.exists
+
+- name: Obtain SSL certificate for justea.ru
+  command: >
+    certbot certonly --webroot
+    -w /var/www/certbot
+    --non-interactive --agree-tos
+    --email {{ justea_ssl_email }}
+    {% for domain in justea_domains %}-d {{ domain }} {% endfor %}
+  when:
+    - not justea_cert_stat.stat.exists
+    - justea_dns_check is defined
+    - justea_dns_check.rc == 0
+  register: justea_cert_obtained
+  failed_when: justea_cert_obtained.rc not in [0, 1]
+  changed_when: justea_cert_obtained.rc == 0
+
+- name: Check if videohub certificate exists
+  stat:
+    path: "/etc/letsencrypt/live/{{ videohub_cert_primary }}/fullchain.pem"
+  register: videohub_cert_stat
+
+- name: Check DNS for videohub primary domain
+  command: getent hosts {{ videohub_cert_primary }}
+  register: videohub_dns_check
+  changed_when: false
+  failed_when: false
+  when: not videohub_cert_stat.stat.exists
+
+- name: Obtain SSL certificate for videohub
+  command: >
+    certbot certonly --webroot
+    -w /var/www/certbot
+    --non-interactive --agree-tos
+    --email {{ videohub_ssl_email }}
+    {% for domain in videohub_domains %}-d {{ domain }} {% endfor %}
+  when:
+    - not videohub_cert_stat.stat.exists
+    - videohub_dns_check is defined
+    - videohub_dns_check.rc == 0
+  register: videohub_cert_obtained
+  failed_when: videohub_cert_obtained.rc not in [0, 1]
+  changed_when: videohub_cert_obtained.rc == 0
+
+- name: Create certbot deploy hook directory
+  file:
+    path: /etc/letsencrypt/renewal-hooks/deploy
+    state: directory
+    mode: "0755"
+
+- name: Install host nginx reload hook for certificate renewal
+  copy:
+    dest: /etc/letsencrypt/renewal-hooks/deploy/reload-host-nginx.sh
+    content: |
+      #!/bin/bash
+      systemctl reload nginx
+    mode: "0755"

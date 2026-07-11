@@ -48,6 +48,41 @@ lib/           — поиск, избранное, XState-машины
 public/teas/   — фотографии чаёв
 ```
 
+## Деплой на VPS (justea.ru)
+
+Автодеплой через GitHub Actions → Ansible → Docker на `89.104.68.81`.
+Хостовый nginx маршрутизирует трафик по доменам на портах 80/443.
+
+### Первичная настройка (один раз)
+
+1. В reg.ru направьте A-записи `justea.ru` и `www.justea.ru` на `89.104.68.81`.
+2. На сервере уже должен работать videohub (хостовый nginx проксирует оба домена).
+3. Локально:
+
+```bash
+pip install -r infra/ansible/requirements.txt
+ansible-galaxy collection install community.docker ansible.posix
+ansible-playbook -i infra/ansible/inventory.ini infra/ansible/setup.yml
+```
+
+4. Добавьте секрет `VPS_SSH_PRIVATE_KEY` в GitHub → Settings → Secrets.
+
+### Обычный деплой
+
+Пуш в `master` запускает `.github/workflows/deploy.yml`, или вручную:
+
+```bash
+ansible-playbook -i infra/ansible/inventory.ini infra/ansible/deploy-fast.yml
+```
+
+### Структура infra
+
+```
+infra/docker/          — Dockerfile и docker-compose (порт 3001)
+infra/nginx/           — конфиг хостового nginx (justea.ru + videohub)
+infra/ansible/         — playbooks деплоя и SSL
+```
+
 ## Деплой на Vercel
 
 ### Через GitHub (рекомендуется)

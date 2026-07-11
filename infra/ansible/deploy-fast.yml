@@ -1,0 +1,84 @@
+---
+- name: Fast Deploy Justea
+  hosts: vps
+  vars:
+    app_dir: /opt/justea-web
+    site_url: https://justea.ru
+
+  tasks:
+    - name: Ensure application directory exists
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Sync repository from CI workspace
+      ansible.posix.synchronize:
+        src: "{{ playbook_dir }}/../../"
+        dest: "{{ app_dir }}/"
+        delete: yes
+        recursive: yes
+        rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=.github"
+          - "--exclude=node_modules"
+          - "--exclude=.next"
+
+    - name: Create env file
+      copy:
+        dest: "{{ app_dir }}/.env"
+        content: |
+          NEXT_PUBLIC_SITE_URL={{ site_url }}
+        mode: "0600"
+
+    - name: Build and start containers
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_dir }}/infra/docker"
+        project_name: justea-web
+        build: always
+        state: present
+      environment:
+        DOCKER_BUILDKIT: "1"
+        NEXT_PUBLIC_SITE_URL: "{{ site_url }}"
+
+    - name: Check if justea SSL certificate exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ justea_domain }}/fullchain.pem"
+      register: justea_ssl_ready
+
+    - name: Check if videohub SSL certificate exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ videohub_cert_primary }}/fullchain.pem"
+      register: videohub_ssl_ready
+
+    - name: Install nginx config
+      copy:
+        src: "{{ playbook_dir }}/../nginx/{{ 'host.conf' if (justea_ssl_ready.stat.exists or videohub_ssl_ready.stat.exists) else 'host-http.conf' }}"
+        dest: /etc/nginx/sites-available/host-proxy.conf
+        mode: "0644"
+      notify: reload nginx
+
+    - name: Enable host nginx config
+      file:
+        src: /etc/nginx/sites-available/host-proxy.conf
+        dest: /etc/nginx/sites-enabled/host-proxy.conf
+        state: link
+      notify: reload nginx
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: reload nginx
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded

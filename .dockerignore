@@ -1,0 +1,12 @@
+.git
+.github
+.next
+node_modules
+npm-debug.log*
+README.md
+docs
+.vscode
+.env*
+.vercel
+*.md
+infra/ansible

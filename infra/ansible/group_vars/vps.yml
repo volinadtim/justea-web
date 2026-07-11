@@ -1,0 +1,13 @@
+justea_domain: justea.ru
+justea_domains:
+  - justea.ru
+  - www.justea.ru
+justea_ssl_email: admin@justea.ru
+
+videohub_cert_primary: myvideohub.ru
+videohub_domains:
+  - myvideohub.ru
+  - www.myvideohub.ru
+  - myvideohub.online
+  - www.myvideohub.online
+videohub_ssl_email: admin@myvideohub.ru

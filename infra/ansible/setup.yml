@@ -1,0 +1,80 @@
+---
+- name: Первичная настройка VPS для Justea + host nginx
+  hosts: vps
+  vars:
+    app_dir: /opt/justea-web
+    videohub_dir: /opt/videohub
+
+  tasks:
+    - name: Install nginx and certbot
+      apt:
+        name:
+          - nginx
+          - certbot
+          - python3-certbot-nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure application directory exists
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Install bootstrap nginx config (HTTP only)
+      copy:
+        src: "{{ playbook_dir }}/../nginx/host-http.conf"
+        dest: /etc/nginx/sites-available/host-proxy.conf
+        mode: "0644"
+      notify: reload nginx
+
+    - name: Enable host nginx config
+      file:
+        src: /etc/nginx/sites-available/host-proxy.conf
+        dest: /etc/nginx/sites-enabled/host-proxy.conf
+        state: link
+      notify: reload nginx
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: reload nginx
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Restart nginx to reclaim port 80 from docker
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Configure SSL certificates
+      import_tasks: tasks/ssl.yml
+
+    - name: Check if justea SSL certificate exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ justea_domain }}/fullchain.pem"
+      register: justea_ssl_ready
+
+    - name: Check if videohub SSL certificate exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ videohub_cert_primary }}/fullchain.pem"
+      register: videohub_ssl_ready
+
+    - name: Install production nginx config with SSL
+      copy:
+        src: "{{ playbook_dir }}/../nginx/host.conf"
+        dest: /etc/nginx/sites-available/host-proxy.conf
+        mode: "0644"
+      when: justea_ssl_ready.stat.exists or videohub_ssl_ready.stat.exists
+      notify: reload nginx
+
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
