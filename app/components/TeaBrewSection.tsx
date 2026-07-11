@@ -30,19 +30,12 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
     const [activeId, setActiveId] = useState(defaultMethodId);
     const activeMethod =
         brewMethods.find((method) => method.id === activeId) ?? brewMethods[0];
-    const [steeps, setSteeps] = useState<number[]>(() =>
-        activeMethod ? getSteepsFromMethod(activeMethod) : []
-    );
     const [activeSteepIndex, setActiveSteepIndex] = useState<number | null>(null);
+    const steeps = getSteepsFromMethod(activeMethod);
 
     useEffect(() => {
-        if (!activeMethod) {
-            return;
-        }
-
-        setSteeps(getSteepsFromMethod(activeMethod));
         setActiveSteepIndex(null);
-    }, [activeMethod]);
+    }, [activeMethod.id]);
 
     if (!activeMethod) {
         return null;
@@ -65,11 +58,7 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                     ratio={activeMethod.ratio}
                 />
                 <div className="flex flex-1 flex-col">
-                    <SteepsTable
-                        steeps={steeps}
-                        onSteepsChange={setSteeps}
-                        activeIndex={activeSteepIndex}
-                    />
+                    <SteepsTable steeps={steeps} activeIndex={activeSteepIndex} />
                     <SteepTimer
                         steeps={steeps}
                         onActiveIndexChange={setActiveSteepIndex}

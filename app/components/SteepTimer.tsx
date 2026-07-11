@@ -11,8 +11,26 @@ type Props = {
     onActiveIndexChange?: (index: number | null) => void;
 };
 
-function timerButtonClass() {
-    return "rounded-full border-2 border-black/20 px-[14px] py-[6px] text-[14px] transition-colors hover:border-black/40 dark:border-white/20 dark:hover:border-white/40";
+function TimerIconButton({
+    label,
+    onClick,
+    children,
+}: {
+    label: string;
+    onClick: () => void;
+    children: React.ReactNode;
+}) {
+    return (
+        <button
+            type="button"
+            aria-label={label}
+            title={label}
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-black/20 transition-colors hover:border-black/40 dark:border-white/20 dark:hover:border-white/40"
+            onClick={onClick}
+        >
+            {children}
+        </button>
+    );
 }
 
 export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
@@ -79,82 +97,40 @@ export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
                 <span className="ml-[4px] text-[19px] font-normal">сек</span>
             </div>
 
-            <div className="flex flex-wrap gap-[8px]">
+            <div className="flex flex-nowrap items-center gap-[8px]">
                 {isIdle || isFinished ? (
-                    <button
-                        type="button"
-                        className={timerButtonClass()}
-                        onClick={() => send({ type: "START" })}
-                    >
-                        <span className="inline-flex items-center gap-1">
-                            <PlayIcon className="size-4" />
-                            Старт
-                        </span>
-                    </button>
+                    <TimerIconButton label="Старт" onClick={() => send({ type: "START" })}>
+                        <PlayIcon className="size-4" strokeWidth={2} />
+                    </TimerIconButton>
                 ) : null}
 
                 {isRunning ? (
-                    <button
-                        type="button"
-                        className={timerButtonClass()}
-                        onClick={() => send({ type: "PAUSE" })}
-                    >
-                        <span className="inline-flex items-center gap-1">
-                            <PauseIcon className="size-4" />
-                            Пауза
-                        </span>
-                    </button>
+                    <TimerIconButton label="Пауза" onClick={() => send({ type: "PAUSE" })}>
+                        <PauseIcon className="size-4" strokeWidth={2} />
+                    </TimerIconButton>
                 ) : null}
 
                 {isPaused ? (
-                    <button
-                        type="button"
-                        className={timerButtonClass()}
-                        onClick={() => send({ type: "RESUME" })}
-                    >
-                        <span className="inline-flex items-center gap-1">
-                            <PlayIcon className="size-4" />
-                            Продолжить
-                        </span>
-                    </button>
+                    <TimerIconButton label="Продолжить" onClick={() => send({ type: "RESUME" })}>
+                        <PlayIcon className="size-4" strokeWidth={2} />
+                    </TimerIconButton>
                 ) : null}
 
                 {isActive ? (
                     <>
-                        <button
-                            type="button"
-                            className={timerButtonClass()}
-                            onClick={() => send({ type: "SKIP" })}
-                        >
-                            <span className="inline-flex items-center gap-1">
-                                <SkipForwardIcon className="size-4" />
-                                Пропустить
-                            </span>
-                        </button>
-                        <button
-                            type="button"
-                            className={timerButtonClass()}
-                            onClick={() => send({ type: "RESET" })}
-                        >
-                            <span className="inline-flex items-center gap-1">
-                                <RotateCcwIcon className="size-4" />
-                                Сброс
-                            </span>
-                        </button>
+                        <TimerIconButton label="Пропустить" onClick={() => send({ type: "SKIP" })}>
+                            <SkipForwardIcon className="size-4" strokeWidth={2} />
+                        </TimerIconButton>
+                        <TimerIconButton label="Сброс" onClick={() => send({ type: "RESET" })}>
+                            <RotateCcwIcon className="size-4" strokeWidth={2} />
+                        </TimerIconButton>
                     </>
                 ) : null}
 
                 {isFinished ? (
-                    <button
-                        type="button"
-                        className={timerButtonClass()}
-                        onClick={() => send({ type: "RESET" })}
-                    >
-                        <span className="inline-flex items-center gap-1">
-                            <RotateCcwIcon className="size-4" />
-                            Сброс
-                        </span>
-                    </button>
+                    <TimerIconButton label="Сброс" onClick={() => send({ type: "RESET" })}>
+                        <RotateCcwIcon className="size-4" strokeWidth={2} />
+                    </TimerIconButton>
                 ) : null}
             </div>
         </div>

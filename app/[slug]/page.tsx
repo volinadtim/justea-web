@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TeaDescription from "../components/TeaDescription";
 import TeaTypeLink from "../components/TeaTypeLink";
-import TeaPhoto from "../components/TeaPhoto";
 import TeaBrewSection from "../components/TeaBrewSection";
 import RowAdvertisement from "../components/Advertisement/RowAdvertisement";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -73,8 +72,6 @@ export default async function TeaPage({ params }: PageProps) {
                     <TeaTypeLink type={tea.type} />
                     <FavoriteButton slug={tea.slug} />
                 </div>
-
-                <TeaPhoto tea={tea} />
 
                 <h1 className="mb-[16px] text-[50px] leading-none">{tea.name}</h1>
 
