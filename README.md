@@ -11,9 +11,12 @@
 
 ## Локальный запуск
 
+Пакетный менеджер — **pnpm** (версия закреплена в `packageManager`, включается через Corepack):
+
 ```bash
-npm install
-npm run dev
+corepack enable
+pnpm install
+pnpm dev
 ```
 
 Откройте [http://localhost:3000](http://localhost:3000).
@@ -33,10 +36,10 @@ cp .env.example .env.local
 ## Скрипты
 
 ```bash
-npm run dev     # режим разработки
-npm run build   # production-сборка
-npm run start   # запуск собранного приложения
-npm run lint    # ESLint
+pnpm dev     # режим разработки
+pnpm build   # production-сборка
+pnpm start   # запуск собранного приложения
+pnpm lint    # ESLint
 ```
 
 ## Структура
@@ -96,7 +99,7 @@ infra/ansible/         — playbooks деплоя и SSL
 ### Через CLI
 
 ```bash
-npm i -g vercel
+pnpm add -g vercel
 vercel login
 vercel --prod
 ```
