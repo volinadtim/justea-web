@@ -11,6 +11,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Scrollable from "./Scrollable";
 import SearchTeaCard from "./SearchTeaCard";
 import { addRecentSearch, getRecentSearches } from "@/lib/recent-searches";
 import { searchTeas } from "@/lib/search";
@@ -174,7 +175,7 @@ export default function Search() {
             return;
         }
 
-        document.body.style.overflow = "hidden";
+        document.documentElement.classList.add("scroll-locked");
 
         function handleKeyDown(event: KeyboardEvent) {
             if (event.key === "Escape") {
@@ -184,7 +185,7 @@ export default function Search() {
 
         document.addEventListener("keydown", handleKeyDown);
         return () => {
-            document.body.style.overflow = "";
+            document.documentElement.classList.remove("scroll-locked");
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [isOpen, closeSearch]);
@@ -264,32 +265,40 @@ export default function Search() {
                         </button>
                     </form>
 
-                    <nav
-                        aria-label="Фильтр по типу чая"
-                        className="mb-[12px] flex shrink-0 gap-[8px] overflow-x-auto pb-[4px] sm:mb-[16px]"
+                    <Scrollable
+                        className="mb-[12px] shrink-0 sm:mb-[16px]"
+                        options={{ overflow: { y: "hidden" } }}
                     >
-                        <button
-                            type="button"
-                            className={filterPillClass(!activeType)}
-                            onClick={() => setActiveType(undefined)}
+                        <nav
+                            aria-label="Фильтр по типу чая"
+                            className="flex gap-[8px]"
                         >
-                            Все
-                        </button>
-                        {availableTypes.map((type) => (
                             <button
-                                key={type}
                                 type="button"
-                                className={filterPillClass(activeType === type)}
-                                onClick={() =>
-                                    setActiveType(activeType === type ? undefined : type)
-                                }
+                                className={filterPillClass(!activeType)}
+                                onClick={() => setActiveType(undefined)}
                             >
-                                {TEA_TYPE_LABELS[type]}
+                                Все
                             </button>
-                        ))}
-                    </nav>
+                            {availableTypes.map((type) => (
+                                <button
+                                    key={type}
+                                    type="button"
+                                    className={filterPillClass(activeType === type)}
+                                    onClick={() =>
+                                        setActiveType(activeType === type ? undefined : type)
+                                    }
+                                >
+                                    {TEA_TYPE_LABELS[type]}
+                                </button>
+                            ))}
+                        </nav>
+                    </Scrollable>
 
-                    <div className="min-h-0 flex-1 overflow-y-auto">
+                    <Scrollable
+                        className="min-h-0 flex-1"
+                        options={{ overflow: { x: "hidden" } }}
+                    >
                         {!trimmedQuery && recentSearches.length > 0 && (
                             <section className="mb-[16px]">
                                 <h2 className="mb-[8px] text-[13px] uppercase tracking-wide text-black/50 dark:text-white/50">
@@ -358,7 +367,7 @@ export default function Search() {
                                 </button>
                             )}
                         </section>
-                    </div>
+                    </Scrollable>
                 </div>
             </div>
         </>

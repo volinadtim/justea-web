@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Scrollable from "./Scrollable";
 
 type ValueComponentProps = {
     value: string | number;
@@ -30,16 +31,21 @@ function SteepsTableRow({ values, icon, valueComponent }: Props) {
             <div className="shrink-0">
                 <Icon />
             </div>
-            <div className="-mx-1 flex min-w-0 flex-1 gap-3 overflow-x-auto px-1 pb-1 sm:mx-0 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0">
-                {values.map((value, index) => (
-                    <div
-                        className="w-[26px] shrink-0 basis-[26px] sm:w-[29px] sm:basis-[29px]"
-                        key={index}
-                    >
-                        <ValueComponent value={value} index={index} />
-                    </div>
-                ))}
-            </div>
+            <Scrollable
+                className="-mx-1 min-w-0 flex-1 px-1 sm:mx-0 sm:px-0"
+                options={{ overflow: { y: "hidden" } }}
+            >
+                <div className="flex gap-3 sm:gap-4">
+                    {values.map((value, index) => (
+                        <div
+                            className="w-[26px] shrink-0 basis-[26px] sm:w-[29px] sm:basis-[29px]"
+                            key={index}
+                        >
+                            <ValueComponent value={value} index={index} />
+                        </div>
+                    ))}
+                </div>
+            </Scrollable>
         </div>
     );
 }

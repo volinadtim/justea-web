@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { Suspense } from "react";
 import "./globals.css";
 import AdvertisementContainer from "./components/Advertisement/AdvertisementContainer";
+import BodyScrollbars from "./components/BodyScrollbars";
 import Search from "./components/Search";
 import ThemeProvider from "./components/ThemeProvider";
 import ThemeToggle from "./components/ThemeToggle";
@@ -96,10 +97,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="ru" className="h-full" suppressHydrationWarning>
+        <html lang="ru" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased h-full selection:bg-main-300`}
+                className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased selection:bg-main-300`}
             >
+                <BodyScrollbars />
                 <ThemeProvider>
                     <AdvertisementContainer>
                         <div className="flex flex-col gap-8 px-4 py-6 sm:gap-10 sm:px-6 sm:py-8 lg:gap-[50px] lg:px-0 lg:py-[48px]">

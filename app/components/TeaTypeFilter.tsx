@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Scrollable from "./Scrollable";
 import { getAvailableTeaTypes, TEA_TYPE_LABELS } from "@/lib/teas";
 import { TeaType } from "@/types/tea";
 
@@ -19,22 +20,27 @@ export default function TeaTypeFilter({ activeType }: Props) {
     const availableTypes = getAvailableTeaTypes();
 
     return (
-        <nav
-            aria-label="Фильтр по типу чая"
-            className="mb-6 flex gap-2 overflow-x-auto pb-1 sm:mb-8 sm:flex-wrap sm:gap-[8px] sm:overflow-visible sm:pb-0"
+        <Scrollable
+            className="mb-6 sm:mb-8"
+            options={{ overflow: { y: "hidden" } }}
         >
-            <Link href="/" className={filterLinkClass(!activeType) + " shrink-0"}>
-                Все
-            </Link>
-            {availableTypes.map((type) => (
-                <Link
-                    key={type}
-                    href={`/?type=${type}`}
-                    className={filterLinkClass(activeType === type) + " shrink-0"}
-                >
-                    {TEA_TYPE_LABELS[type]}
+            <nav
+                aria-label="Фильтр по типу чая"
+                className="flex gap-2 sm:flex-wrap sm:gap-[8px]"
+            >
+                <Link href="/" className={filterLinkClass(!activeType) + " shrink-0"}>
+                    Все
                 </Link>
-            ))}
-        </nav>
+                {availableTypes.map((type) => (
+                    <Link
+                        key={type}
+                        href={`/?type=${type}`}
+                        className={filterLinkClass(activeType === type) + " shrink-0"}
+                    >
+                        {TEA_TYPE_LABELS[type]}
+                    </Link>
+                ))}
+            </nav>
+        </Scrollable>
     );
 }

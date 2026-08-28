@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import Scrollable from "../Scrollable";
 import VolumeInput from "./VolumeInput";
 
 interface VolumeSelectProps {
@@ -73,7 +74,10 @@ export default function VolumeSelect({
 
       {/* Dropdown menu */}
       {isOpen && (
-        <div className="absolute top-full left-[50%] translate-x-[-50%] mt-1 max-h-60 overflow-y-auto bg-main-200 rounded-md shadow-lg z-50">
+        <Scrollable
+          className="absolute top-full left-[50%] translate-x-[-50%] mt-1 max-h-60 bg-main-200 rounded-md shadow-lg z-50"
+          options={{ overflow: { x: "hidden" } }}
+        >
           <div className="py-1">
             {options.map((option) => (
               <button
@@ -89,7 +93,7 @@ export default function VolumeSelect({
               </button>
             ))}
           </div>
-        </div>
+        </Scrollable>
       )}
     </div>
   );
