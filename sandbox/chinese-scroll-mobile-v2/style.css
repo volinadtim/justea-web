@@ -1,0 +1,473 @@
+/* =========================================================================
+   chinese scroll mobile — v2
+   Три панели вместо четырёх: средней («о чае» + способ) нет.
+   Описание переехало на главную, «Гунфу-ча» — к проливам.
+   Горизонтальный свиток: читается справа налево, вертикального скролла нет.
+   Всё рассчитано на портретный телефон, десктоп/альбом не поддерживаются.
+   ========================================================================= */
+
+:root {
+  --rule: color-mix(in oklab, var(--foreground) 11%, transparent);
+  --muted: color-mix(in oklab, var(--foreground) 58%, transparent);
+  --faint: color-mix(in oklab, var(--foreground) 42%, transparent);
+
+  /* Шкала с ровным шагом (~1.2), без провала между подписью и текстом.
+     Привязана и к ширине, и к высоте экрана: на коротком телефоне
+     ужимается сама, поэтому вертикальный скролл не появляется. */
+  --step-micro: 12px; /* кикер панели */
+  --step-label: 14px; /* подписи внутри блоков */
+  --step-small: 15px; /* заметки, второстепенное */
+  --step-body: 17px; /* тип чая */
+  --step-lead: clamp(17px, min(4.8vw, 2.4vh), 20px);
+  --step-trait: clamp(19px, min(5.6vw, 2.8vh), 24px);
+  --step-spec: clamp(18px, min(5.2vw, 2.6vh), 22px);
+  --step-steep: clamp(20px, min(6vw, 3vh), 26px);
+  --step-h2: clamp(26px, min(7.6vw, 3.8vh), 32px);
+  --step-timer: clamp(32px, min(10vw, 5vh), 42px);
+
+  /* Единый набор отступов вместо произвольных значений в каждом блоке. */
+  /* Ширина полосы, которую занимает колонка названия у правого края
+     панели: отступ панели + кнопки + отступ колонки + её линейка.
+     На панели поиска ровно на столько же уменьшена ширина, чтобы
+     колонка «Лунцзин» была видна целиком. */
+  --spine-strip: 64px;
+
+  --gap-xs: 6px;
+  --gap-s: 12px;
+  --gap-m: clamp(16px, 2.4vh, 24px);
+  --gap-l: clamp(24px, 3.6vh, 38px);
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden; /* вертикального скролла нет вообще */
+  overscroll-behavior: none;
+}
+
+/* --- скролл-рельса ------------------------------------------------------
+   direction: rtl даёт нужное поведение без JS: контент выкладывается
+   справа налево и стартовая позиция скролла — у правого края. */
+
+.scroll {
+  direction: rtl;
+  height: 100dvh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.rail {
+  direction: rtl;
+  display: flex;
+  width: max-content;
+  height: 100%;
+}
+
+.panel {
+  direction: ltr; /* внутри панели текст обычный, слева направо */
+  flex: 0 0 auto;
+  width: 86vw;
+  max-width: 420px;
+  height: 100%;
+  padding: 26px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start; /* в rtl start == правый край */
+}
+
+/* Шов между соседними панелями. В rtl-раскладке следующая панель стоит
+   слева от предыдущей, поэтому шов рисуем по её правому краю. */
+.panel + .panel {
+  border-right: 1px solid var(--rule);
+}
+
+/* Кроме стыка с поиском: там колонка названия должна читаться как
+   продолжение экрана, а не быть отрезанной линией. */
+.panel--search + .panel--title {
+  border-right: 0;
+}
+
+/* Контент идёт сверху вниз обычным потоком. Воздух копится внизу — это
+   поле свитка, оно читается спокойно. Растягивать блоки по всей высоте
+   нельзя: дыры в середине выглядят как поломка. */
+.panel__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--gap-l);
+}
+
+/* --- общие мелочи -------------------------------------------------------- */
+
+/* Единственное место с капсом — ярлык панели. Всё остальное обычным
+   регистром, иначе выделенным оказывается всё сразу. */
+.kicker {
+  font-size: var(--step-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: var(--gap-s);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.num {
+  font-family: var(--font-comfortaa-sans), sans-serif;
+  font-weight: 700;
+}
+
+.round-btn {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid color-mix(in oklab, var(--foreground) 18%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+.hint {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--step-small);
+  color: var(--faint);
+}
+
+/* --- панель 1: название, тип, характер ----------------------------------- */
+
+.panel--title {
+  width: 94vw;
+  max-width: 440px;
+  padding-right: 10px; /* название прижато к правому краю экрана */
+}
+
+.title-layout {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+  min-height: 0;
+}
+
+.title-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--gap-l);
+}
+
+.tea-type {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--step-body);
+  margin-bottom: var(--gap-xs);
+}
+
+.tea-origin {
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+
+/* Название и кнопки — одна вертикальная ось вдоль правого края. */
+
+.title-spine {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* название и кнопки — по правому краю */
+  padding-top: 2px;
+  padding-left: 16px;
+  border-left: 1px solid var(--rule); /* отделяет колонку от контента */
+}
+
+/* Самый крупный элемент панели — название, а не характеристики. */
+.tea-title {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-transform: uppercase;
+  font-size: clamp(22px, 7.3vw, 34px);
+  line-height: 1;
+  letter-spacing: -0.11em; /* в vertical-rl это вертикальный зазор между букв */
+  margin: 0;
+}
+
+/* поиск / избранное / тема — правый нижний угол этой панели.
+   margin-top: auto прижимает к низу, padding-top держит зазор
+   от названия даже на коротком экране. */
+.spine-actions {
+  margin-top: auto;
+  padding-top: clamp(60px, 14vh, 180px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- характер: аромат / вкус / послевкусие ------------------------------- */
+
+.traits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-m);
+  padding-top: var(--gap-m);
+  border-top: 1px solid var(--rule);
+}
+
+.trait__label {
+  font-size: var(--step-label);
+  color: var(--faint);
+  margin-bottom: 2px;
+}
+
+/* текст характеристики крупнее своей подписи, но не крупнее названия */
+.trait__value {
+  font-size: var(--step-trait);
+  line-height: 1.3;
+}
+
+/* Описание чая — на главной, под типом и происхождением. */
+.lead {
+  font-size: var(--step-lead);
+  line-height: 1.45;
+  margin-top: var(--gap-m);
+}
+
+/* Название способа возглавляет панель проливов. Отступ снизу больше
+   прежнего: описания метода под ним уже нет, дальше сразу параметры. */
+.brew__name {
+  font-size: var(--step-h2);
+  line-height: 1.05;
+  margin-bottom: var(--gap-m);
+}
+
+/* --- панель 3: параметры, проливы, таймер -------------------------------- */
+
+/* В одну строку два параметра не влезают на 375px и вылезают за панель,
+   поэтому колонкой. */
+.specs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-s);
+}
+
+.spec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spec__label {
+  font-size: var(--step-label);
+  color: var(--faint);
+}
+
+.spec__value {
+  font-size: var(--step-spec);
+  line-height: 1.2;
+}
+
+.steeps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Разделитель только между строками: рамки сверху и снизу у всего списка
+   добавляли лишние линии. */
+.steep {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: var(--gap-s) 0;
+}
+
+.steep + .steep {
+  border-top: 1px solid var(--rule);
+}
+
+.steep__no {
+  flex: 0 0 auto;
+  width: 22px;
+  font-family: var(--font-comfortaa-sans), sans-serif;
+  font-weight: 700;
+  font-size: var(--step-small);
+  line-height: 1;
+  color: var(--faint);
+}
+
+.steep__time {
+  flex: 0 0 auto;
+  width: 74px;
+  font-family: var(--font-comfortaa-sans), sans-serif;
+  font-weight: 700;
+  font-size: var(--step-steep);
+  line-height: 1;
+}
+
+.steep__time i {
+  font-family: var(--font-bainsley), sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--step-label);
+  margin-left: 4px;
+}
+
+.steep__note {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--step-small);
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* Таймер — не карточка в рамке, а последний блок за линейкой:
+   границ на панели и так хватало. */
+.timer {
+  margin-top: auto;
+  padding-top: var(--gap-m);
+  border-top: 1px solid var(--rule);
+}
+
+.timer__label {
+  font-size: var(--step-label);
+  color: var(--faint);
+  margin-bottom: var(--gap-xs);
+}
+
+.timer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.timer__value {
+  font-family: var(--font-comfortaa-sans), sans-serif;
+  font-weight: 700;
+  font-size: var(--step-timer);
+  line-height: 1;
+}
+
+.timer__value span {
+  font-family: var(--font-bainsley), sans-serif;
+  font-weight: 400;
+  font-size: var(--step-small);
+  margin-left: 5px;
+}
+
+.timer__btn {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid color-mix(in oklab, var(--foreground) 18%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+}
+
+/* --- панель поиска: пустая заготовка ------------------------------------- */
+
+.panel--search {
+  width: calc(100vw - var(--spine-strip));
+  max-width: 440px;
+  justify-content: space-between;
+  gap: var(--gap-l);
+}
+
+.ghosts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-s);
+}
+
+.ghost {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ghost__line {
+  display: block;
+  height: 11px;
+  width: 100%;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 7%, transparent);
+}
+
+.ghost__line--title {
+  height: 17px;
+  background: color-mix(in oklab, var(--foreground) 11%, transparent);
+}
+
+.ghost__line--w40 {
+  width: 40%;
+}
+.ghost__line--w50 {
+  width: 50%;
+}
+.ghost__line--w60 {
+  width: 60%;
+}
+.ghost__line--w65 {
+  width: 65%;
+}
+.ghost__line--w70 {
+  width: 70%;
+}
+.ghost__line--w80 {
+  width: 80%;
+}
+.ghost__line--w90 {
+  width: 90%;
+}
+
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid color-mix(in oklab, var(--foreground) 18%, transparent);
+  border-radius: 999px;
+  padding: 13px 18px;
+}
+
+.searchbar input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 16px;
+  color: inherit;
+}
+
+.searchbar input::placeholder {
+  color: var(--muted);
+}
