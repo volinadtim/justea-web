@@ -1,0 +1,1106 @@
+{
+ "meta": {
+  "title": "Приоритетные чаи по спросу: пуэры, матча, молочный улун",
+  "version": 1,
+  "compiled": "2026-11-06",
+  "compiled_by": "агент justea-sources",
+  "task": "задание оркестратора 2026-11-06 (inbox #2) по спросу из PR #6",
+  "human_readable": "priority-teas.md",
+  "sources_registry": "catalog.json → sources",
+  "confidence_levels": {
+   "high": "прямая выписка из первоисточника, который удалось получить",
+   "medium": "первоисточник назван и проверен, но нужный фрагмент получен через вторичный источник, либо привязка к конкретному чаю не нормативна",
+   "low": "отраслевая практика без нормативного подтверждения",
+   "none": "источник факта не зафиксирован — значение взято из существующих файлов проекта и не проверяемо"
+  },
+  "extra_markers": {
+   "is_derived": "значение выведено из подтверждённых источников, но само в источнике не названо — публиковать только с пометкой",
+   "practice": "отраслевая практика без источника; confidence: none"
+  },
+  "key_finding": "По GB/T 22111 категории «рассыпной шэн-пуэр» не существует: рассыпным бывает только шу, шэн становится пуэром лишь после прессования (п. 5.1 и 6.5.2). Рассыпное сырьё — это 晒青茶, маоча.",
+  "gongfu_warning": "Нормативного источника на потребительское многопроливное заваривание пуэра не существует ни в GB/T, ни в ISO, ни в JAS. Во вторичных источниках упоминается провинциальный стандарт Юньнани DB53/103 — не найден и не проверен."
+ },
+ "common_puer_facts": {
+  "type_iso": "dark tea; шу — подтип ripen pu-erh tea",
+  "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura",
+  "raw_material": "晒青茶 — юньнаньский крупнолистовой чай солнечной сушки",
+  "protection_zone": "11 округов Юньнани, 75 уездов, 639 волостей",
+  "coordinates": "21°10′–26°22′ с. ш., 97°31′–105°38′ в. д.",
+  "altitude_m": {
+   "from": 1000,
+   "to": 2100
+  },
+  "slope_max_deg": 25,
+  "soil_pH": {
+   "from": 4.5,
+   "to": 6.0
+  },
+  "organic_matter_pct_min": 1,
+  "additives": "запрещены полностью (不得加入任何添加剂)",
+  "pressed_forms": [
+   "圆饼形 блин",
+   "碗臼形 точа",
+   "方形 кирпич",
+   "柱形 колонна"
+  ],
+  "sources": [
+   "cn-gb-22111-puer-fulltext"
+  ],
+  "sheng_vs_shu_polyphenols": {
+   "sheng_pct_min": 28,
+   "shu_pct_max": 15,
+   "note": "стандарт задаёт их с противоположных сторон — постферментация обязана снизить полифенолы минимум вдвое",
+   "independent_measurement": {
+    "source": "lit-pedan-2018-brewing",
+    "aged_sheng_mg_GAE_per_g": 210.2,
+    "young_shu_mg_GAE_per_g": 104.6,
+    "EGCG_mg_per_g": {
+     "aged_sheng": 35.1,
+     "young_shu": 0.7
+    },
+    "ECG_mg_per_g": {
+     "aged_sheng": 40.1,
+     "young_shu": 1.8
+    },
+    "theogallin_mg_per_g": {
+     "aged_sheng": 16.1,
+     "young_shu": 0.9
+    },
+    "gallic_acid_mg_per_g": {
+     "aged_sheng": 2.2,
+     "young_shu": 5.5
+    },
+    "note": "соотношение по полифенолам ровно 2:1, как и в стандарте; галловая кислота у шу наоборот выше"
+   }
+  }
+ },
+ "teas": [
+  {
+   "slug": "lao-banzhang",
+   "name_ru": "Лао Баньчжан",
+   "name_zh": "老班章",
+   "type": {
+    "value": "dark",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "confidence": "high",
+    "note": "по ISO 20715:2023 тип — dark tea; в схеме сайта сейчас pu-erh, решение пользователя 2026-11-06: URL /tea/pu-erh остаётся, корректность выражается подтипом"
+   },
+   "subtype": "sheng",
+   "origin": {
+    "value_ru": "волость Буланшань (布朗山布朗族乡), уезд Мэнхай (勐海县), округ Сишуанбаньна, Юньнань",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, приложение A, таблица A.1",
+    "confidence": "high"
+   },
+   "altitude_m": {
+    "value": {
+     "from": 1000,
+     "to": 2100
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.1.1",
+    "confidence": "high",
+    "note": "норма зоны защиты, не измерение конкретного сада"
+   },
+   "cultivar": {
+    "value": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.2",
+    "confidence": "high"
+   },
+   "sensory": {
+    "value": {
+     "appearance_colour": "墨绿 тёмно-зелёный",
+     "aroma": "清纯 чистый",
+     "flavor": "浓厚 густой",
+     "liquor": "明亮 яркий",
+     "infused_leaf": "肥厚黄绿 плотный жёлто-зелёный"
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.6.1.2.3.1 (прессованный шэн)",
+    "confidence": "high",
+    "scope": "профиль типа, не конкретной горы"
+   },
+   "chemistry": {
+    "value": {
+     "polyphenols_pct_min": 28,
+     "water_extract_pct_min": 35,
+     "moisture_pct_max": 13.0,
+     "total_ash_pct_max": 7.5
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, таблица 5",
+    "confidence": "high"
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/dark-compressed"
+    ],
+    "derived": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": {
+      "from": 4.5,
+      "to": 6
+     },
+     "temperature_c": {
+      "from": 85,
+      "to": 95
+     },
+     "confidence": "low",
+     "is_derived": true,
+     "reasoning": "GB/T 23776 допускает ~80 °C для нежных зелёных чаёв; молодой шэн по технологии ближе к зелёному (фиксация + сушка на солнце, без постферментации). Навеска — от метода гайвани GB/T 23776 (4,5 г/100 мл)"
+    },
+    "practice": {
+     "rinse": "1 пролив 5–10 с",
+     "first_infusion_s": {
+      "from": 10,
+      "to": 15
+     },
+     "increment_s": {
+      "from": 5,
+      "to": 10
+     },
+     "infusion_count": {
+      "from": 8,
+      "to": 12
+     },
+     "confidence": "none",
+     "warning": "отраслевая практика, источника нет"
+    }
+   },
+   "reputation": {
+    "value": "мощный горьковатый профиль с быстрой возвращающейся сладостью",
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "профиль конкретной горы стандартом не описан — уровень C"
+   },
+   "caution": {
+    "text": null,
+    "reason": "не прессован в кирпич; иного обоснования нет"
+   }
+  },
+  {
+   "slug": "yiwu",
+   "name_ru": "Иу",
+   "name_zh": "易武",
+   "type": {
+    "value": "dark",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "confidence": "high",
+    "note": "по ISO 20715:2023 тип — dark tea; в схеме сайта сейчас pu-erh, решение пользователя 2026-11-06: URL /tea/pu-erh остаётся, корректность выражается подтипом"
+   },
+   "subtype": "sheng",
+   "origin": {
+    "value_ru": "волость Иу (易武乡), уезд Мэнла (勐腊县), округ Сишуанбаньна, Юньнань",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, приложение A, таблица A.1",
+    "confidence": "high"
+   },
+   "altitude_m": {
+    "value": {
+     "from": 1000,
+     "to": 2100
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.1.1",
+    "confidence": "high",
+    "note": "норма зоны защиты, не измерение конкретного сада"
+   },
+   "cultivar": {
+    "value": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.2",
+    "confidence": "high"
+   },
+   "sensory": {
+    "value": {
+     "appearance_colour": "墨绿 тёмно-зелёный",
+     "aroma": "清纯 чистый",
+     "flavor": "浓厚 густой",
+     "liquor": "明亮 яркий",
+     "infused_leaf": "肥厚黄绿 плотный жёлто-зелёный"
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.6.1.2.3.1 (прессованный шэн)",
+    "confidence": "high",
+    "scope": "профиль типа, не конкретной горы"
+   },
+   "chemistry": {
+    "value": {
+     "polyphenols_pct_min": 28,
+     "water_extract_pct_min": 35,
+     "moisture_pct_max": 13.0,
+     "total_ash_pct_max": 7.5
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, таблица 5",
+    "confidence": "high"
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/dark-compressed"
+    ],
+    "derived": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": {
+      "from": 4.5,
+      "to": 6
+     },
+     "temperature_c": {
+      "from": 85,
+      "to": 95
+     },
+     "confidence": "low",
+     "is_derived": true,
+     "reasoning": "GB/T 23776 допускает ~80 °C для нежных зелёных чаёв; молодой шэн по технологии ближе к зелёному (фиксация + сушка на солнце, без постферментации). Навеска — от метода гайвани GB/T 23776 (4,5 г/100 мл)"
+    },
+    "practice": {
+     "rinse": "1 пролив 5–10 с",
+     "first_infusion_s": {
+      "from": 10,
+      "to": 15
+     },
+     "increment_s": {
+      "from": 5,
+      "to": 10
+     },
+     "infusion_count": {
+      "from": 8,
+      "to": 12
+     },
+     "confidence": "none",
+     "warning": "отраслевая практика, источника нет"
+    }
+   },
+   "reputation": {
+    "value": "мягкий медовый профиль; одна из «Шести знаменитых чайных гор»",
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "историческая и вкусовая атрибуция стандартом не закреплена"
+   },
+   "caution": {
+    "text": null,
+    "reason": "то же"
+   }
+  },
+  {
+   "slug": "bingdao",
+   "name_ru": "Бин Дао",
+   "name_zh": "冰岛",
+   "type": {
+    "value": "dark",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "confidence": "high",
+    "note": "по ISO 20715:2023 тип — dark tea; в схеме сайта сейчас pu-erh, решение пользователя 2026-11-06: URL /tea/pu-erh остаётся, корректность выражается подтипом"
+   },
+   "subtype": "sheng",
+   "origin": {
+    "value_ru": "посёлок Мэнку (勐库镇), уезд Шуанцзян (双江县), округ Линьцан (临沧市), Юньнань",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, приложение A, таблица A.1",
+    "confidence": "high"
+   },
+   "altitude_m": {
+    "value": {
+     "from": 1000,
+     "to": 2100
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.1.1",
+    "confidence": "high",
+    "note": "норма зоны защиты, не измерение конкретного сада"
+   },
+   "cultivar": {
+    "value": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.2",
+    "confidence": "high"
+   },
+   "sensory": {
+    "value": {
+     "appearance_colour": "墨绿 тёмно-зелёный",
+     "aroma": "清纯 чистый",
+     "flavor": "浓厚 густой",
+     "liquor": "明亮 яркий",
+     "infused_leaf": "肥厚黄绿 плотный жёлто-зелёный"
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.6.1.2.3.1 (прессованный шэн)",
+    "confidence": "high",
+    "scope": "профиль типа, не конкретной горы"
+   },
+   "chemistry": {
+    "value": {
+     "polyphenols_pct_min": 28,
+     "water_extract_pct_min": 35,
+     "moisture_pct_max": 13.0,
+     "total_ash_pct_max": 7.5
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, таблица 5",
+    "confidence": "high"
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/dark-compressed"
+    ],
+    "derived": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": {
+      "from": 4.5,
+      "to": 6
+     },
+     "temperature_c": {
+      "from": 85,
+      "to": 95
+     },
+     "confidence": "low",
+     "is_derived": true,
+     "reasoning": "GB/T 23776 допускает ~80 °C для нежных зелёных чаёв; молодой шэн по технологии ближе к зелёному (фиксация + сушка на солнце, без постферментации). Навеска — от метода гайвани GB/T 23776 (4,5 г/100 мл)"
+    },
+    "practice": {
+     "rinse": "1 пролив 5–10 с",
+     "first_infusion_s": {
+      "from": 10,
+      "to": 15
+     },
+     "increment_s": {
+      "from": 5,
+      "to": 10
+     },
+     "infusion_count": {
+      "from": 8,
+      "to": 12
+     },
+     "confidence": "none",
+     "warning": "отраслевая практика, источника нет"
+    }
+   },
+   "common_error": "часто ошибочно относят к Сишуанбаньне; Мэнку входит в Линьцан — прямо указано в таблице A.1",
+   "caution": {
+    "text": null,
+    "reason": "то же"
+   }
+  },
+  {
+   "slug": "gongting-puer",
+   "name_ru": "Гунтин",
+   "name_zh": "宫廷普洱",
+   "type": {
+    "value": "dark",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "confidence": "high",
+    "note": "по ISO 20715:2023 тип — dark tea; в схеме сайта сейчас pu-erh, решение пользователя 2026-11-06: URL /tea/pu-erh остаётся, корректность выражается подтипом"
+   },
+   "subtype": "shu",
+   "origin": {
+    "value_ru": "зона географической защиты пуэра, Юньнань (11 округов, 75 уездов, 639 волостей)",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 3 и приложение A",
+    "confidence": "high"
+   },
+   "altitude_m": {
+    "value": {
+     "from": 1000,
+     "to": 2100
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.1.1",
+    "confidence": "high",
+    "note": "норма зоны защиты, не измерение конкретного сада"
+   },
+   "cultivar": {
+    "value": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.2",
+    "confidence": "high"
+   },
+   "grade": {
+    "value": "特级 — высший из 11 грейдов рассыпного шу (特级 + 一级…十级)",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 5.2.1",
+    "confidence": "high",
+    "note": "слово 宫廷 («дворцовый») в стандарте НЕ встречается — это торговое название, соответствующее грейду 特级"
+   },
+   "sensory": {
+    "value": {
+     "aroma": "陈香浓郁 выдержанный, насыщенный",
+     "flavor": "浓醇甘爽 густой, мягкий, сладко-освежающий",
+     "liquor": "红艳明亮 ярко-красный, яркий",
+     "infused_leaf": "红褐柔嫩 красно-бурый, нежный"
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, таблица 3, грейд 特级",
+    "confidence": "high"
+   },
+   "chemistry": {
+    "value": {
+     "polyphenols_pct_max": 15,
+     "water_extract_pct_min": 28,
+     "moisture_pct_max": {
+      "loose": 12.0,
+      "compressed": 12.5
+     },
+     "total_ash_pct_max": {
+      "loose": 8.0,
+      "compressed": 8.5
+     },
+     "crude_fibre_pct_max": {
+      "loose": 14.0,
+      "compressed": 15.0
+     }
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, таблица 6",
+    "confidence": "high"
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/dark-compressed"
+    ],
+    "research_optimum": {
+     "temperature_c": 90,
+     "time_s": 300,
+     "optimized_for": "максимум общих полифенолов",
+     "sources": [
+      "lit-pedan-2018-brewing"
+     ],
+     "confidence": "high",
+     "note": "19 коммерческих образцов из блинов; один длинный пролив, не гунфу"
+    },
+    "derived": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": {
+      "from": 5,
+      "to": 7
+     },
+     "temperature_c": {
+      "from": 95,
+      "to": 100
+     },
+     "confidence": "low",
+     "is_derived": true,
+     "reasoning": "GB/T 23776 ведёт оценку тёмного чая кипятком"
+    },
+    "practice": {
+     "rinse": "1–2 пролива по 5–10 с",
+     "first_infusion_s": {
+      "from": 10,
+      "to": 20
+     },
+     "increment_s": {
+      "from": 5,
+      "to": 10
+     },
+     "infusion_count": {
+      "from": 10,
+      "to": 15
+     },
+     "confidence": "none",
+     "warning": "отраслевая практика, источника нет"
+    }
+   },
+   "caution": {
+    "text": "Если чай прессованный в кирпич, обратите внимание на фтор: в Китае его содержание в кирпичном чае ограничено обязательным стандартом — не более 300 мг/кг.",
+    "sources": [
+     "cn-gb-19965-fluoride"
+    ],
+    "level": "A",
+    "basis": "GB 19965-2005 — обязательный стандарт Минздрава КНР, введён для профилактики эндемического флюороза «чайного типа»",
+    "applies_to": "только прессованные формы из грубого сырья (кирпич, фу чжуань); рассыпной гунтин высшего грейда делают из почек, к нему не относится",
+    "note": "эту сноску правильнее привязывать к форме прессовки, а не к сорту — см. предложение pressedForm в schema-proposal.md"
+   }
+  },
+  {
+   "slug": "menghai-shu",
+   "name_ru": "Мэнхай шу",
+   "name_zh": "勐海熟茶",
+   "type": {
+    "value": "dark",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "confidence": "high",
+    "note": "по ISO 20715:2023 тип — dark tea; в схеме сайта сейчас pu-erh, решение пользователя 2026-11-06: URL /tea/pu-erh остаётся, корректность выражается подтипом"
+   },
+   "subtype": "shu",
+   "origin": {
+    "value_ru": "уезд Мэнхай (勐海县), округ Сишуанбаньна, Юньнань",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, приложение A, таблица A.1",
+    "confidence": "high"
+   },
+   "altitude_m": {
+    "value": {
+     "from": 1000,
+     "to": 2100
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.1.1",
+    "confidence": "high",
+    "note": "норма зоны защиты, не измерение конкретного сада"
+   },
+   "cultivar": {
+    "value": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.2",
+    "confidence": "high"
+   },
+   "sensory": {
+    "value": {
+     "appearance_colour": "红褐 красно-бурый",
+     "aroma": "独特陈香 особый выдержанный",
+     "flavor": "醇厚回甘 мягко-густой с возвращающейся сладостью",
+     "liquor": "红浓明亮 густо-красный яркий",
+     "infused_leaf": "红褐 красно-бурый"
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.6.1.2.3.2 (прессованный шу)",
+    "confidence": "high"
+   },
+   "chemistry": {
+    "value": {
+     "polyphenols_pct_max": 15,
+     "water_extract_pct_min": 28,
+     "moisture_pct_max": {
+      "loose": 12.0,
+      "compressed": 12.5
+     },
+     "total_ash_pct_max": {
+      "loose": 8.0,
+      "compressed": 8.5
+     },
+     "crude_fibre_pct_max": {
+      "loose": 14.0,
+      "compressed": 15.0
+     }
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, таблица 6",
+    "confidence": "high"
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/dark-compressed"
+    ],
+    "research_optimum": {
+     "temperature_c": 90,
+     "time_s": 300,
+     "optimized_for": "максимум общих полифенолов",
+     "sources": [
+      "lit-pedan-2018-brewing"
+     ],
+     "confidence": "high",
+     "note": "19 коммерческих образцов из блинов; один длинный пролив, не гунфу"
+    },
+    "derived": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": {
+      "from": 5,
+      "to": 7
+     },
+     "temperature_c": {
+      "from": 95,
+      "to": 100
+     },
+     "confidence": "low",
+     "is_derived": true,
+     "reasoning": "GB/T 23776 ведёт оценку тёмного чая кипятком"
+    },
+    "practice": {
+     "rinse": "1–2 пролива по 5–10 с",
+     "first_infusion_s": {
+      "from": 10,
+      "to": 20
+     },
+     "increment_s": {
+      "from": 5,
+      "to": 10
+     },
+     "infusion_count": {
+      "from": 10,
+      "to": 15
+     },
+     "confidence": "none",
+     "warning": "отраслевая практика, источника нет"
+    }
+   },
+   "process": {
+    "value": "后发酵 постферментация: микроорганизмы, ферменты, влажное тепло и окисление преобразуют вещества листа",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 4.3 и 6.5.3",
+    "confidence": "high"
+   },
+   "reputation": {
+    "value": "«мэнхайская школа ферментации», рецептуры фабрик",
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "в стандарте отсутствует"
+   },
+   "caution": {
+    "text": "Если чай прессованный в кирпич, обратите внимание на фтор: в Китае его содержание в кирпичном чае ограничено обязательным стандартом — не более 300 мг/кг.",
+    "sources": [
+     "cn-gb-19965-fluoride"
+    ],
+    "level": "A",
+    "basis": "то же"
+   }
+  },
+  {
+   "slug": "lao-cha-tou",
+   "name_ru": "Лао Ча Тоу",
+   "name_zh": "老茶头",
+   "type": {
+    "value": "dark",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "confidence": "high",
+    "note": "по ISO 20715:2023 тип — dark tea; в схеме сайта сейчас pu-erh, решение пользователя 2026-11-06: URL /tea/pu-erh остаётся, корректность выражается подтипом"
+   },
+   "subtype": "shu",
+   "origin": {
+    "value_ru": "зона географической защиты пуэра, Юньнань",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 3",
+    "confidence": "high"
+   },
+   "altitude_m": {
+    "value": {
+     "from": 1000,
+     "to": 2100
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.1.1",
+    "confidence": "high",
+    "note": "норма зоны защиты, не измерение конкретного сада"
+   },
+   "cultivar": {
+    "value": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.2",
+    "confidence": "high"
+   },
+   "standard_gap": {
+    "value": "В GB/T 22111 категории нет вообще: стандарт делит шу на рассыпной и прессованный, а спёкшиеся при ферментации комочки не подходят ни под одно",
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "вывод из п. 5.1",
+    "confidence": "high"
+   },
+   "sensory": {
+    "value": {
+     "appearance_colour": "红褐 красно-бурый",
+     "aroma": "独特陈香 особый выдержанный",
+     "flavor": "醇厚回甘 мягко-густой с возвращающейся сладостью",
+     "liquor": "红浓明亮 густо-красный яркий",
+     "infused_leaf": "红褐 красно-бурый"
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008 п. 6.6.1.2.3.2 (прессованный шу)",
+    "confidence": "high"
+   },
+   "chemistry": {
+    "value": {
+     "polyphenols_pct_max": 15,
+     "water_extract_pct_min": 28,
+     "moisture_pct_max": {
+      "loose": 12.0,
+      "compressed": 12.5
+     },
+     "total_ash_pct_max": {
+      "loose": 8.0,
+      "compressed": 8.5
+     },
+     "crude_fibre_pct_max": {
+      "loose": 14.0,
+      "compressed": 15.0
+     }
+    },
+    "sources": [
+     "cn-gb-22111-puer-fulltext"
+    ],
+    "ref": "GB/T 22111-2008, таблица 6",
+    "confidence": "high"
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/dark-compressed"
+    ],
+    "research_optimum": {
+     "temperature_c": 90,
+     "time_s": 300,
+     "optimized_for": "максимум общих полифенолов",
+     "sources": [
+      "lit-pedan-2018-brewing"
+     ],
+     "confidence": "high",
+     "note": "19 коммерческих образцов из блинов; один длинный пролив, не гунфу"
+    },
+    "derived": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": {
+      "from": 5,
+      "to": 7
+     },
+     "temperature_c": {
+      "from": 95,
+      "to": 100
+     },
+     "confidence": "low",
+     "is_derived": true,
+     "reasoning": "GB/T 23776 ведёт оценку тёмного чая кипятком"
+    },
+    "practice": {
+     "rinse": "1–2 пролива по 5–10 с",
+     "first_infusion_s": {
+      "from": 10,
+      "to": 20
+     },
+     "increment_s": {
+      "from": 5,
+      "to": 10
+     },
+     "infusion_count": {
+      "from": 10,
+      "to": 15
+     },
+     "confidence": "none",
+     "warning": "отраслевая практика, источника нет"
+    }
+   },
+   "alternative_suggested": "если нужна третья позиция шу с нормативной опорой — точа (沱茶, 碗臼形): форма названа в п. 5.2.2, есть отдельный GB/T 9833.5-2013, а Сягуань (下关镇, Дали) подтверждён в таблице A.1 как входящий в зону",
+   "caution": {
+    "text": "Если чай прессованный в кирпич, обратите внимание на фтор: в Китае его содержание в кирпичном чае ограничено обязательным стандартом — не более 300 мг/кг.",
+    "sources": [
+     "cn-gb-19965-fluoride"
+    ],
+    "level": "A",
+    "basis": "то же"
+   }
+  },
+  {
+   "slug": "matcha",
+   "name_ru": "Матча",
+   "name_ja": "抹茶",
+   "type": {
+    "value": "green",
+    "sources": [
+     "iso-20715-2023"
+    ],
+    "ref": "ISO 20715:2023 п. 3.18, 5.3.6",
+    "confidence": "high"
+   },
+   "subtype": "matcha",
+   "cultivar": {
+    "value": "Camellia sinensis (L.) O. Kuntze var. sinensis",
+    "sources": [
+     "iso-tr-21380-2022-prep"
+    ],
+    "ref": "ISO/TR 21380:2022 п. 3.1",
+    "confidence": "high"
+   },
+   "cultivation": {
+    "value": "выращивание в тени",
+    "sources": [
+     "iso-tr-21380-2022-prep"
+    ],
+    "ref": "ISO/TR 21380:2022 п. 3.1, 4.3",
+    "confidence": "high",
+    "shading": {
+     "roof_two_step": "70–80 % экранирования с фазы одного листа; через ~10 дней 95–98 %; сбор через 20–30 дней",
+     "direct": "85 % экранирования; сбор через 20 дней (второй сбор — 14 дней)"
+    }
+   },
+   "processing": {
+    "value": "фиксация паром → сушка БЕЗ скручивания → тонкий размол в порошок",
+    "sources": [
+     "iso-tr-21380-2022-prep",
+     "iso-20715-2023"
+    ],
+    "ref": "ISO/TR 21380:2022 п. 3.1",
+    "confidence": "high"
+   },
+   "composition_effect": {
+    "value": "затенение повышает хлорофилл и L-теанин и снижает катехины",
+    "sources": [
+     "iso-tr-21380-2022-prep",
+     "iso-11287-2011"
+    ],
+    "ref": "ISO/TR 21380:2022 п. 4.3.1; ISO 11287:2011 Table 1, прим.",
+    "confidence": "high",
+    "iso_thresholds": "для тэнчи/матчи и гёкуро полифенолы ≥ 8 %, катехины ≥ 5 % вместо обычных 11 % и 7 %",
+    "note": "единственный случай в каталоге, где отличие по составу закреплено источником уровня A"
+   },
+   "origin": {
+    "value_ru": "Япония; затенение применяется с начала XVI в. в районе Удзи (Киото)",
+    "sources": [
+     "iso-tr-21380-2022-prep"
+    ],
+    "ref": "ISO/TR 21380:2022 п. 4.1",
+    "confidence": "high"
+   },
+   "preparation": {
+    "principle": {
+     "value": "порошок взбивают в свежекипячёной воде; он остаётся во взвеси без комков и осадка",
+     "sources": [
+      "iso-tr-21380-2022-prep"
+     ],
+     "ref": "ISO/TR 21380:2022 п. 4.2",
+     "confidence": "high"
+    },
+    "styles": [
+     {
+      "style": "usucha",
+      "name_ja": "薄茶",
+      "powder_g": {
+       "from": 1.7,
+       "to": 2
+      },
+      "water_ml": {
+       "from": 60,
+       "to": 80
+      },
+      "temperature_c": {
+       "from": 75,
+       "to": 85
+      },
+      "ratio_g_per_100ml": {
+       "from": 2.4,
+       "to": 3.3
+      },
+      "motion": "whisk",
+      "motion_ja": "点てる",
+      "duration_s": null,
+      "target": "мелкопузырчатая пена, «как крем»",
+      "sift": true,
+      "tool": "chasen",
+      "sources": [
+       "jp-ujicha-platform",
+       "jp-ippodo"
+      ],
+      "confidence": "medium",
+      "caveat": "температура 80 °C — уровень B; ISO задаёт только «freshly boiled water»"
+     },
+     {
+      "style": "koicha",
+      "name_ja": "濃茶",
+      "powder_g": 4,
+      "water_ml": 30,
+      "temperature_c": {
+       "from": 75,
+       "to": 85
+      },
+      "ratio_g_per_100ml": 13.3,
+      "motion": "knead",
+      "motion_ja": "練る",
+      "duration_s": 15,
+      "target": "густая однородная масса, без пены",
+      "sift": true,
+      "tool": "chasen",
+      "sources": [
+       "jp-ippodo"
+      ],
+      "confidence": "medium"
+     }
+    ],
+    "schema_proposal": "schema-proposal-matcha.md"
+   },
+   "standards": {
+    "cn": "GB/T 34778-2017 抹茶 (полный текст недоступен)",
+    "sources": [
+     "cn-gb-34778-matcha"
+    ]
+   },
+   "unsourced_claims_to_avoid": [
+    "«в матче больше кофеина, потому что пьют весь лист» — источника нет",
+    "градации «церемониальная / кулинарная» — торговые категории, не нормативные"
+   ],
+   "caution": {
+    "text": "Матчу пьют вместе с листом — порошок остаётся во взвеси, поэтому в чашку попадает всё, что в нём есть. ЕФСА считает безопасными до 400 мг кофеина в сутки для взрослых и до 200 мг для беременных.",
+    "sources": [
+     "efsa-caffeine-2015-ref",
+     "iso-tr-21380-2022-prep"
+    ],
+    "level": "A",
+    "basis": "ISO/TR 21380 п. 4.2: порошок остаётся во взвеси без осадка — лист потребляется целиком; EFSA 2015 — пороги. ВНИМАНИЕ: утверждение «в матче больше кофеина, чем в листовом чае» источника НЕ имеет и в текст не идёт"
+   }
+  },
+  {
+   "slug": "jin-xuan",
+   "name_ru": "Цзинь Сюань (молочный улун)",
+   "name_zh": "金萱 / 台茶12號",
+   "type": {
+    "value": "oolong",
+    "sources": [
+     "iso-20716-2022"
+    ],
+    "ref": "ISO 20716:2022 п. 3.1",
+    "confidence": "high"
+   },
+   "cultivar": {
+    "value": "台茶12號 / Taiwan Tea No. 12, разг. 金萱 Цзинь Сюань",
+    "sources": [
+     "tw-moa-jinxuan"
+    ],
+    "confidence": "high"
+   },
+   "origin": {
+    "value_ru": "Тайвань; сорт выведен Станцией улучшения чая и напитковых культур",
+    "sources": [
+     "tw-moa-jinxuan"
+    ],
+    "confidence": "high"
+   },
+   "cultivar_description": {
+    "value": "лист светло-зелёный, овальный; плотность почек высокая и ровная; урожайность высокая, качество хорошее; аромат и вкус несут ЛЁГКИЙ молочный и цветочный оттенок; пригоден для улуна и баочжуна",
+    "quote_zh": "葉色淡綠、葉片呈橢圓，茶芽密度高而整齊，產量高、品質佳，因香氣及滋味帶有淡淡奶香及花香，風味獨特而廣受消費者歡迎，適製烏龍茶及包種茶。",
+    "sources": [
+     "tw-moa-jinxuan"
+    ],
+    "confidence": "high"
+   },
+   "milk_note": {
+    "natural": {
+     "value": "молочный оттенок — природное свойство сорта куста",
+     "sources": [
+      "tw-moa-jinxuan"
+     ],
+     "confidence": "high"
+    },
+    "caveat": "стандарт говорит «淡淡» — ЛЁГКИЙ, едва заметный. Выраженный сливочно-карамельный аромат этим описанием не подтверждается и, как правило, получен ароматизацией",
+    "normative_basis_for_split": "ISO 20716:2022 п. 1 — стандарт НЕ распространяется на ароматизированные чаи; ISO 11287 п. 4.1.3 требует отсутствия ароматизаторов; GB/T 22111 п. 6.6.1.1 — никаких добавок",
+    "catalog_implication": "природный Цзинь Сюань и ароматизированный молочный улун — две разные записи, а не одна",
+    "forbidden": [
+     "«молочный улун — это сорт чая»",
+     "«молочный аромат от вымачивания в молоке»",
+     "«ароматизированный молочный улун — подделка»"
+    ]
+   },
+   "sensory_type_level": {
+    "value": {
+     "aroma": "сильный цветочный и/или фруктовый",
+     "flavor": "мягкий, округлый",
+     "aftertaste": "явное сладкое послевкусие",
+     "liquor": "прозрачный, яркий"
+    },
+    "sources": [
+     "iso-20716-2022"
+    ],
+    "ref": "ISO 20716:2022 п. 4.3",
+    "confidence": "high"
+   },
+   "oxidation_class": {
+    "value": null,
+    "sources": [
+     "iso-20716-2022"
+    ],
+    "confidence": "low",
+    "note": "ISO даёт light/medium/high, но к сортам не привязывает; привязка Цзинь Сюаня к слабой аэрации — отраслевая практика"
+   },
+   "unverified": {
+    "year_named": 1981,
+    "parents": "硬枝紅心 × 臺農8號",
+    "confidence": "none",
+    "warning": "в государственном тексте отсутствует; сайт Станции (tbrs.gov.tw) недоступен с обоих сетевых выходов на 2026-11-06. Не публиковать как факт"
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/gaiwan-oolong"
+    ],
+    "iso_3103": "для улуна параметров не даёт",
+    "practice": {
+     "warning": "гунфу-режим — отраслевая практика, источника нет",
+     "confidence": "none"
+    }
+   },
+   "caution": {
+    "text": null,
+    "reason": "то же"
+   }
+  }
+ ]
+}

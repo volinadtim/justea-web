@@ -525,6 +525,171 @@
    "storage": "metadata-only",
    "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
    "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-22111-puer-fulltext": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 22111-2008 地理标志产品 普洱茶 / Product of geographical indication — Puer tea",
+   "publisher": "AQSIQ + SAC (КНР)",
+   "developed_by": "中华全国供销合作总社",
+   "status": "现行",
+   "published": "2008-06-17",
+   "effective": "2008-12-01",
+   "ics": "67.140.10",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=CAF792AAE4A96101F217C44250C8C8E4",
+   "full_text_url": "https://www.cfsn.cn/zcwk/detail/2163/14662.html",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "полный текст защищён копирайтом; PDF в репозиторий не коммитится",
+   "raw": "raw/cn-gb-22111-puer.md",
+   "note": "скан без текстового слоя; страницы извлечены как изображения и прочитаны постранично — числа и формулировки сверены построчно"
+  },
+  "cn-gb-19965-fluoride": {
+   "level": "A",
+   "kind": "national-standard-mandatory",
+   "title": "GB 19965-2005 砖茶含氟量 / Fluoride content of brick tea",
+   "publisher": "卫生部 + 国家标准化管理委员会 (Минздрав КНР + SAC)",
+   "status": "现行",
+   "published": "2005-10-18",
+   "effective": "2006-05-01",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "limit": "фтор ≤ 300 мг/кг в прессованном (кирпичном) чае",
+   "purpose": "профилактика эндемического флюороза «чайного типа» (饮茶型地氟病)",
+   "note": "ОБЯЗАТЕЛЬНЫЙ стандарт (GB, не GB/T). Метод определения — GB/T 21728-2008. Предел подтверждён по вторичным источникам; карточка стандарта в реестре подтверждает статус и даты",
+   "confidence_of_limit": "medium — само число 300 мг/кг взято из вторичных источников"
+  },
+  "iso-tr-21380-2022-prep": {
+   "level": "A",
+   "kind": "international-technical-report",
+   "title": "ISO/TR 21380:2022 Matcha tea — Definition and characteristics",
+   "publisher": "ISO",
+   "url": "https://www.iso.org/standard/80777.html",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/jp-matcha-preparation.md",
+   "gives": "определение матчи, принцип приготовления взбиванием, режимы затенения"
+  },
+  "jp-ujicha-platform": {
+   "level": "B",
+   "kind": "public-promotion-body",
+   "title": "お茶のおいしい淹れ方",
+   "publisher": "宇治茶世界文化遺産登録推進プラットフォーム事務局 (Киото)",
+   "url": "https://ujicha.kyoto/japage/howto/",
+   "language": "ja",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/jp-matcha-preparation.md"
+  },
+  "jp-ippodo": {
+   "level": "B",
+   "kind": "established-tea-house",
+   "title": "基本の薄茶（抹茶）/ 基本の濃茶（抹茶）",
+   "publisher": "一保堂茶舗 (Ippodo, Киото, основан в 1717 г.)",
+   "url": "https://www.ippodo-tea.co.jp/blogs/tea-recipe/",
+   "language": "ja",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/jp-matcha-preparation.md"
+  },
+  "tw-moa-jinxuan": {
+   "level": "A",
+   "kind": "government",
+   "title": "台茶12號(別名：金萱)",
+   "publisher": "農業部 農業知識入口網 (Минсельхоз Тайваня); текст подготовлен 茶及飲料作物改良場 (государственная Станция улучшения чая и напитковых культур)",
+   "url": "https://kmweb.moa.gov.tw/subject/subject.php?id=7146",
+   "published": "2009-03-30",
+   "updated": "2026-09-01",
+   "language": "zh-TW",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/tw-jinxuan-cultivar.md",
+   "note": "сайт самой станции (tbrs.gov.tw) на 2026-11-06 не отвечает с обоих сетевых выходов"
+  },
+  "lit-pedan-2018-brewing": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Bioactive Compound Fingerprint Analysis of Aged Raw Pu'er Tea and Young Ripened Pu'er Tea",
+   "authors": "Pedan V, и 4 соавтора",
+   "year": 2018,
+   "journal": "Molecules 23(8):1931",
+   "doi": "10.3390/molecules23081931",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref + PubMed, 2026-11-06",
+   "gives": "состав выдержанного шэна и молодого шу; оптимум заваривания шу 90 °C / 5 мин"
+  },
+  "cn-gb-9833-5-tuo": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 9833.5-2013 紧压茶 第5部分：沱茶 / Compressed tea - Part 5: Tuo tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "status": "现行",
+   "published": "2013-07-19",
+   "effective": "2013-12-06",
+   "ics": "67.140.10",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=6E4499D26B7F66A325007FB2EF764AD6",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-34778-matcha": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 34778-2017 抹茶 / Matcha",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "status": "现行",
+   "published": "2017-11-01",
+   "effective": "2018-05-01",
+   "ics": "67.140.10",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=06FB42343C25BC93F57EFA88F3459C49",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-39563-taiwan-oolong": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 39563-2020 台式乌龙茶 / Taiwan style Oolong tea",
+   "publisher": "国家市场监督管理总局、中国国家标准化管理委员会",
+   "status": "现行",
+   "published": "2020-11-19",
+   "effective": "2021-06-01",
+   "ics": "67.140.10",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=A60DC75862947B51B76CF9C5630FBD6D",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "efsa-caffeine-2015-ref": {
+   "level": "A",
+   "kind": "government-scientific-opinion",
+   "title": "EFSA NDA Panel (2015). Scientific Opinion on the safety of caffeine",
+   "journal": "EFSA Journal 13(5):4102",
+   "doi": "10.2903/j.efsa.2015.4102",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "see": "effects.json → efsa-caffeine-2015"
+  },
+  "ayakdas-2025-ref": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Determination of L-Theanine and Caffeine Contents in Tea Infusions with Different Fermentation Degrees and Brewing Conditions",
+   "authors": "Ayakdaş G, Ağagündüz D",
+   "year": 2025,
+   "journal": "Foods 14(13):2313",
+   "doi": "10.3390/foods14132313",
+   "license": "CC BY 4.0",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "see": "effects.json → ayakdas-2025"
   }
  },
  "not_tea": {
@@ -1189,7 +1354,11 @@
     "confidence": "none",
     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": null,
+    "reason": "обоснования уровня A/B нет"
+   }
   },
   {
    "slug": "bi-lo-chun",
@@ -1257,7 +1426,11 @@
     "value": null,
     "note": "в data/teas.json не заполнено"
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": null,
+    "reason": "обоснования уровня A/B нет"
+   }
   },
   {
    "slug": "tie-guan-yin",
@@ -1362,7 +1535,11 @@
     "confidence": "none",
     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": null,
+    "reason": "по Ayakdaş 2025 у улуна кофеина в настое меньше всех измеренных типов — повода нет"
+   }
   },
   {
    "slug": "da-hong-pao",
@@ -1445,7 +1622,11 @@
     "confidence": "none",
     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": null,
+    "reason": "то же"
+   }
   },
   {
    "slug": "bai-hao-yin-zhen",
@@ -1535,7 +1716,11 @@
    "altitude_m": {
     "value": null
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": null,
+    "reason": "по Ayakdaş 2025 у белого чая кофеина в настое мало — повода нет"
+   }
   },
   {
    "slug": "sencha",
@@ -1654,7 +1839,11 @@
    "altitude_m": {
     "value": null
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": null,
+    "reason": "обоснования уровня A/B нет"
+   }
   },
   {
    "slug": "assam",
@@ -1725,7 +1914,16 @@
    "altitude_m": {
     "value": null
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": "Чёрный чай — среди самых насыщенных кофеином: ЕФСА считает безопасными до 400 мг кофеина в сутки для взрослых и до 200 мг для беременных.",
+    "sources": [
+     "efsa-caffeine-2015-ref",
+     "ayakdas-2025-ref"
+    ],
+    "level": "A",
+    "basis": "Ayakdaş & Ağagündüz 2025: в настое чёрного чая кофеина больше, чем у зелёного, белого и улуна (p<0,001); EFSA 2015 — пороги"
+   }
   },
   {
    "slug": "darjeeling",
@@ -1822,7 +2020,21 @@
     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно",
     "standard_position": "Tea Board использует не высоту числом, а юридический критерий «горные районы»: негорные участки Курсеонга исключены из ГУ прямо потому, что «not capable of producing tea of the requisite standard»"
    },
-   "in_site_catalog": true
+   "in_site_catalog": true,
+   "caution": {
+    "text": "Чёрный чай — среди самых насыщенных кофеином: ЕФСА считает безопасными до 400 мг кофеина в сутки для взрослых и до 200 мг для беременных.",
+    "sources": [
+     "efsa-caffeine-2015-ref",
+     "ayakdas-2025-ref"
+    ],
+    "level": "A",
+    "basis": "то же"
+   }
   }
- ]
+ ],
+ "caution_legend": {
+  "purpose": "Короткая статичная сноска-предосторожность у карточки чая. Решение пользователя 2026-11-06: предостережений по здоровью в текстах не пишем, вместо этого — одна фраза у тех чаёв, где она обоснована источником уровня A или B.",
+  "rule": "Пусто там, где обоснования нет. Выдумывать повод нельзя.",
+  "format": "{text, sources[], level, basis}"
+ }
 }
