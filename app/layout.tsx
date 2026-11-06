@@ -6,9 +6,10 @@ import "./globals.css";
 import AdvertisementContainer from "./components/Advertisement/AdvertisementContainer";
 import BodyScrollbars from "./components/BodyScrollbars";
 import Search from "./components/Search";
+import SiteJsonLd from "./components/seo/SiteJsonLd";
 import ThemeProvider from "./components/ThemeProvider";
 import ThemeToggle from "./components/ThemeToggle";
-import { siteConfig } from "@/lib/site";
+import { absoluteUrl, siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -58,18 +59,29 @@ export const metadata: Metadata = {
         template: `%s — ${siteConfig.name}`,
     },
     description: siteConfig.description,
+    applicationName: siteConfig.name,
+    // Подтверждение прав в панелях вебмастеров. Значения приходят из env,
+    // пустые не выводятся — см. `siteConfig.verification`.
+    verification: {
+        ...(siteConfig.verification.google
+            ? { google: siteConfig.verification.google }
+            : {}),
+        ...(siteConfig.verification.yandex
+            ? { yandex: siteConfig.verification.yandex }
+            : {}),
+    },
     openGraph: {
         type: "website",
         locale: siteConfig.locale,
-        url: siteConfig.url,
+        url: absoluteUrl("/"),
         siteName: siteConfig.name,
         title: siteConfig.name,
         description: siteConfig.description,
         images: [
             {
                 url: siteConfig.ogImage,
-                width: 1200,
-                height: 630,
+                width: siteConfig.ogImageWidth,
+                height: siteConfig.ogImageHeight,
                 alt: siteConfig.name,
             },
         ],
@@ -97,7 +109,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="ru" suppressHydrationWarning>
+        <html lang={siteConfig.defaultLocale.code} suppressHydrationWarning>
+            <head>
+                <SiteJsonLd />
+            </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased selection:bg-main-300`}
             >

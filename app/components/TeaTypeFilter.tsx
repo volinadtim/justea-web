@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Scrollable from "./Scrollable";
 import { getAvailableTeaTypes, TEA_TYPE_LABELS } from "@/lib/teas";
+import { teaTypePath } from "@/lib/tea-type-pages";
 import { TeaType } from "@/types/tea";
 
 type Props = {
@@ -34,7 +35,7 @@ export default function TeaTypeFilter({ activeType }: Props) {
                 {availableTypes.map((type) => (
                     <Link
                         key={type}
-                        href={`/?type=${type}`}
+                        href={teaTypePath(type)}
                         className={filterLinkClass(activeType === type) + " shrink-0"}
                     >
                         {TEA_TYPE_LABELS[type]}

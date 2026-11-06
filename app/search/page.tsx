@@ -13,16 +13,24 @@ export async function generateMetadata({
     const { q } = await searchParams;
     const query = q?.trim();
 
+    // Страницы поиска закрыты от индексации: `?q=` — бесконечное
+    // пространство обхода и чистый thin content. `follow` оставляем, чтобы
+    // краулер шёл по ссылкам на карточки чая.
+    // Canonical у всех вариантов один — `/search` без параметров.
     if (!query) {
         return createPageMetadata({
-            title: "Поиск",
+            title: "Поиск по справочнику чая",
+            description:
+                "Поиск чая по названию, типу и вкусовым характеристикам в справочнике Justea.",
             path: "/search",
+            noindex: true,
         });
     }
 
     return createPageMetadata({
         title: `Поиск: ${query}`,
-        path: `/search?q=${encodeURIComponent(query)}`,
+        path: "/search",
+        noindex: true,
     });
 }
 

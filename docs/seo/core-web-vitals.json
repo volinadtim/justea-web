@@ -1,0 +1,232 @@
+{
+  "$comment": "Базовые замеры Core Web Vitals для justea.ru. Лабораторные (Lighthouse), не поле (CrUX). Повторить на проде после деплоя и после правок по находкам 3.1-3.3 из audit-findings.json.",
+  "meta": {
+    "date": "2026-11-06",
+    "time_source": "HTTP Date заголовок сервера justea.ru; локальные часы спешат на ~20 мин",
+    "tool": "Lighthouse 13.6.0",
+    "chromium": "ms-playwright chromium-1247",
+    "target": "локальная production-сборка ветки agent/seo на http://127.0.0.1:4012",
+    "form_factor": "mobile",
+    "throttling": "Lighthouse default mobile (4x CPU, имитация медленного 4G)",
+    "caveat": "Замеры на localhost: сетевая задержка не моделирует прод, CPU-throttling применялся на загруженной машине. Абсолютные цифры пессимистичны; сравнивать страницы между собой, а не с порогами Google.",
+    "thresholds_google": {
+      "LCP_good_s": 2.5,
+      "CLS_good": 0.1,
+      "INP_good_ms": 200,
+      "TBT_proxy_good_ms": 200
+    }
+  },
+  "pages": [
+    {
+      "page": "home",
+      "url": "/",
+      "categories": {
+        "performance": 68,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": "0.8 s",
+          "numeric": 772.3657000000001,
+          "score": 1
+        },
+        "largest-contentful-paint": {
+          "value": "0.8 s",
+          "numeric": 772.3657000000001,
+          "score": 1
+        },
+        "cumulative-layout-shift": {
+          "value": "0.028",
+          "numeric": 0.028127752862267236,
+          "score": 1
+        },
+        "total-blocking-time": {
+          "value": "6,420 ms",
+          "numeric": 6415.317149999998,
+          "score": 0
+        },
+        "speed-index": {
+          "value": "4.1 s",
+          "numeric": 4142.57534893147,
+          "score": 0.78
+        },
+        "interactive": {
+          "value": "12.0 s",
+          "numeric": 11996.7971,
+          "score": 0.16
+        },
+        "server-response-time": {
+          "value": "Root document took 80 ms",
+          "numeric": 76,
+          "score": 1
+        }
+      },
+      "diagnostics": {
+        "mainthread_work_ms": {
+          "Script Evaluation": 7164,
+          "Other": 897,
+          "Style & Layout": 227,
+          "Script Parsing & Compilation": 151,
+          "Parse HTML & CSS": 101,
+          "Garbage Collection": 41,
+          "Rendering": 31
+        },
+        "bootup_top_scripts": [
+          {
+            "url": "/_next/static/chunks/4937d69254c1eedb.js",
+            "total_ms": 6686
+          },
+          {
+            "url": "Unattributable",
+            "total_ms": 717
+          },
+          {
+            "url": "/_next/static/chunks/20556fd069e2409b.js",
+            "total_ms": 388
+          },
+          {
+            "url": "/",
+            "total_ms": 334
+          }
+        ],
+        "long_tasks": [
+          {
+            "url": "/_next/static/chunks/4937d69254c1eedb.js",
+            "duration_ms": 3467
+          },
+          {
+            "url": "/_next/static/chunks/4937d69254c1eedb.js",
+            "duration_ms": 2851
+          },
+          {
+            "url": "/_next/static/chunks/20556fd069e2409b.js",
+            "duration_ms": 149
+          },
+          {
+            "url": "/_next/static/chunks/8671e72e360c7266.css",
+            "duration_ms": 138
+          }
+        ],
+        "layout_shifts": [
+          {
+            "score": 0.0237,
+            "selector": "div.flex > div > main > div.mb-6"
+          },
+          {
+            "score": 0.0044,
+            "selector": "div.grid > div.min-w-0 > div.flex > div"
+          }
+        ]
+      }
+    },
+    {
+      "page": "tea",
+      "url": "/longjing",
+      "categories": {
+        "performance": 73,
+        "accessibility": 87,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": "0.8 s",
+          "numeric": 778.0123000000001,
+          "score": 1
+        },
+        "largest-contentful-paint": {
+          "value": "0.8 s",
+          "numeric": 778.0123000000001,
+          "score": 1
+        },
+        "cumulative-layout-shift": {
+          "value": "0.188",
+          "numeric": 0.1884459728287097,
+          "score": 0.65
+        },
+        "total-blocking-time": {
+          "value": "730 ms",
+          "numeric": 730.9938500000001,
+          "score": 0.4
+        },
+        "speed-index": {
+          "value": "1.5 s",
+          "numeric": 1539.234386035501,
+          "score": 1
+        },
+        "interactive": {
+          "value": "7.3 s",
+          "numeric": 7264.561500000002,
+          "score": 0.5
+        },
+        "server-response-time": {
+          "value": "Root document took 20 ms",
+          "numeric": 22,
+          "score": 1
+        }
+      },
+      "diagnostics": {
+        "mainthread_work_ms": {
+          "Script Evaluation": 1060,
+          "Other": 697,
+          "Style & Layout": 490,
+          "Script Parsing & Compilation": 128,
+          "Parse HTML & CSS": 119,
+          "Garbage Collection": 100,
+          "Rendering": 46
+        },
+        "bootup_top_scripts": [
+          {
+            "url": "/_next/static/chunks/4937d69254c1eedb.js",
+            "total_ms": 763
+          },
+          {
+            "url": "/longjing",
+            "total_ms": 654
+          },
+          {
+            "url": "Unattributable",
+            "total_ms": 578
+          },
+          {
+            "url": "/_next/static/chunks/20556fd069e2409b.js",
+            "total_ms": 351
+          }
+        ],
+        "long_tasks": [
+          {
+            "url": "/_next/static/chunks/4937d69254c1eedb.js",
+            "duration_ms": 344
+          },
+          {
+            "url": "Unattributable",
+            "duration_ms": 190
+          },
+          {
+            "url": "/longjing",
+            "duration_ms": 177
+          },
+          {
+            "url": "/_next/static/chunks/20556fd069e2409b.js",
+            "duration_ms": 150
+          }
+        ],
+        "layout_shifts": [
+          {
+            "score": 0.1884,
+            "selector": "div.grid > div.min-w-0 > div.flex > div"
+          }
+        ]
+      }
+    }
+  ],
+  "interpretation": {
+    "good": "LCP 0.8 с и server-response-time 20 мс на обеих страницах — отдача статики работает отлично. SEO 100/100.",
+    "problems": [
+      "CLS 0.188 на странице чая против порога 0.1 — находка 3.2 (Suspense-фallback поиска, зона justea-design)",
+      "TBT 6420 мс на главной против 730 мс на странице чая — находка 3.3 (монтирование клиентских компонентов, зона justea-design)",
+      "~390 КБ неиспользуемых предзагружаемых шрифтов — находка 3.1, самая дешёвая в починке (зона justea-design)"
+    ],
+    "field_data": "CrUX-данных пока нет: появятся через 28 дней после того, как на сайт пойдёт трафик. Следить в Google Search Console → Основные интернет-показатели."
+  }
+}

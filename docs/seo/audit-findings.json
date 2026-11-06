@@ -1,0 +1,264 @@
+{
+  "$comment": "Машиночитаемая версия docs/seo/technical-audit.md. Источник каждой находки — собственная проверка прода и локальной сборки, метод указан в поле evidence.",
+  "meta": {
+    "site": "https://justea.ru",
+    "audit_date": "2026-11-06",
+    "audit_time_source": "HTTP Date заголовок сервера justea.ru (18:48-19:32 GMT 06.11.2026); локальные часы машины спешат на ~20 мин",
+    "auditor": "justea-seo",
+    "stage": 1,
+    "prod_commit": "edbd683",
+    "fix_branch": "agent/seo",
+    "language": "ru",
+    "languages_decision": "Только русский. Подтверждено пользователем через оркестратора 06.11.2026. hreflang не выводится; lib/site.ts подготовлен к добавлению локали одной строкой."
+  },
+  "severity_scale": ["critical", "high", "medium", "low"],
+  "status_scale": {
+    "fixed": "исправлено в ветке agent/seo",
+    "handoff": "вне зоны justea-seo, передано владельцу",
+    "user": "требует действия пользователя",
+    "later": "этап 2"
+  },
+  "findings": [
+    {
+      "id": "2.1",
+      "severity": "critical",
+      "status": "fixed",
+      "title": "Нет canonical ни на одной странице",
+      "evidence": "curl -s https://justea.ru/ | grep -c canonical → 0",
+      "cause": "В lib/metadata.ts и app/layout.tsx отсутствовал alternates.canonical; metadataBase сам canonical не выводит",
+      "impact": "Каждая страница доступна минимум по двум адресам (см. 2.2), выбор основного URL отдан краулеру",
+      "fix": "createPageMetadata() всегда выставляет alternates.canonical. Корень — без завершающего слэша, одинаково в canonical, sitemap и @id структурированных данных.",
+      "files": ["lib/metadata.ts", "lib/site.ts"]
+    },
+    {
+      "id": "2.2",
+      "severity": "critical",
+      "status": "handoff",
+      "owner": "оркестратор / инфраструктура",
+      "title": "www.justea.ru отдаёт 200 вместо 301",
+      "evidence": "curl -s -o /dev/null -w '%{http_code}' https://www.justea.ru/ → 200",
+      "cause": "infra/nginx/host-justea-ssl.conf обслуживает оба домена одним server_name без разделения",
+      "impact": "Полный дубль сайта на поддомене www",
+      "fix": "Отдельный server-блок для www.justea.ru с return 301 https://justea.ru$request_uri. Canonical из 2.1 компенсирует частично.",
+      "files": ["infra/nginx/host-justea-ssl.conf"],
+      "blocked_reason": "infra/ вне зоны justea-seo"
+    },
+    {
+      "id": "2.3",
+      "severity": "critical",
+      "status": "fixed",
+      "title": "Нет структурированных данных (JSON-LD)",
+      "evidence": "curl -s https://justea.ru/longjing | grep -c 'application/ld+json' → 0",
+      "impact": "Справочник с рецептами заваривания конкурирует в выдаче без разметки HowTo и BreadcrumbList",
+      "fix": "Новая зона app/components/seo/: SiteJsonLd (WebSite + SearchAction + Organization) в layout; teaPageSchema (WebPage + BreadcrumbList + Article + Product + HowTo на каждый способ) на странице чая; teaTypeListSchema (CollectionPage + ItemList) на главной и страницах типов.",
+      "deliberate_omissions": [
+        "aggregateRating и review не выводятся: meta.rating — личная оценка автора, не отзывы пользователей; разметка отзывов без отзывов = основание для ручных санкций",
+        "offers не выводятся: чай не продаётся",
+        "meta.origin не идёт в countryOfOrigin (поле ждёт объект Country, в данных регион) — положен в additionalProperty с именем «Регион»",
+        "заметки по приготовлению не идут в HowToTool (это советы, а не инвентарь) — добавлены в description способа"
+      ],
+      "files": ["app/components/seo/JsonLd.tsx", "app/components/seo/schema.ts", "app/components/seo/SiteJsonLd.tsx", "app/components/seo/BreadcrumbsJsonLd.tsx"]
+    },
+    {
+      "id": "2.4",
+      "severity": "critical",
+      "status": "fixed",
+      "title": "Главная отдавалась динамически, cache-control: no-store",
+      "evidence": "curl -sI https://justea.ru/ → cache-control: private, no-cache, no-store, max-age=0, must-revalidate",
+      "cause": "app/page.tsx читал searchParams.type, Next.js переводил маршрут в динамический",
+      "impact": "Каждый обход краулера — рендер на сервере вместо отдачи готового файла",
+      "fix": "searchParams убран, фильтр переехал на /tea/<type>; маршрут снова статический (○ Static в выводе сборки)",
+      "files": ["app/page.tsx"]
+    },
+    {
+      "id": "2.5",
+      "severity": "critical",
+      "status": "fixed",
+      "title": "/search?q=… открыт для индексации",
+      "evidence": "curl -s 'https://justea.ru/search?q=пуэр' | grep -c 'name=\"robots\"' → 0",
+      "impact": "Бесконечное пространство обхода по ?q=; generateMetadata ставил сам поисковый URL в canonical, легитимизируя каждый адрес",
+      "fix": "robots: index=false, follow=true; единый canonical https://justea.ru/search; Disallow: /search в robots.txt; /search убран из sitemap",
+      "files": ["app/search/page.tsx", "app/robots.ts", "app/sitemap.ts", "lib/metadata.ts"]
+    },
+    {
+      "id": "2.6",
+      "severity": "critical",
+      "status": "fixed",
+      "title": "Кластеры запросов жили в query-параметре /?type=green",
+      "impact": "Невозможно оптимизировать под «как заваривать зелёный чай»: у всех значений один title, description и h1",
+      "fix": "Статические страницы /tea/<type> со своими title, description, h1 и вводным текстом; CollectionPage + ItemList в разметке; 301 со старых URL через middleware.ts",
+      "generated_pages": ["/tea/green", "/tea/black", "/tea/oolong", "/tea/white"],
+      "not_generated": {
+        "pages": ["/tea/pu-erh", "/tea/yellow"],
+        "http_status": 404,
+        "reason": "В data/teas.json нет ни одного чая этих типов. Пустая страница типа — thin content. Появятся автоматически на следующей сборке, когда justea-sources добавит чаи."
+      },
+      "redirect_note": "Реализовано middleware, а не redirects() в next.config.ts: Next.js дописывает исходный query к destination, получалось /tea/green?type=green — второй URL с тем же содержимым. Неизвестное значение ведёт на /, а не на 404.",
+      "files": ["app/tea/[type]/page.tsx", "lib/tea-type-pages.ts", "middleware.ts", "app/components/TeaTypeFilter.tsx", "app/components/TeaTypeLink.tsx"]
+    },
+    {
+      "id": "3.1",
+      "severity": "high",
+      "status": "handoff",
+      "owner": "justea-design",
+      "title": "390 КБ из 750 КБ шрифтов не используются и при этом предзагружаются",
+      "evidence": "grep -rn 'font-geist|font-mono|italic' app/ --include=*.tsx (кроме layout.tsx) → пусто; все 8 woff2 идут с rel=preload в заголовке link: ответа прода",
+      "unused": [
+        {"file": "Bainsley_Italic.woff2", "size_kb": 168},
+        {"file": "Bainsley_Bold_Italic.woff2", "size_kb": 165},
+        {"file": "Geist Sans", "size_kb": 31, "note": "--font-geist объявлен в globals.css:28, класс font-geist не используется"},
+        {"file": "Geist Mono", "size_kb": 23, "note": "--font-mono объявлен в globals.css:29, класс font-mono не используется"}
+      ],
+      "used": ["Bainsley_Roman.woff2 (191 КБ)", "Bainsley_Bold.woff2 (192 КБ)", "Comfortaa (~55 КБ, 6 компонентов)"],
+      "impact": "Крупнейшая проблема Core Web Vitals; ~390 КБ лишней предзагрузки на каждой странице",
+      "fix": "Удалить неиспользуемые начертания из app/layout.tsx и переменные из app/globals.css. Визуальных изменений нет — эти шрифты не применяются ни к одному элементу.",
+      "estimated_diff_lines": 15,
+      "blocked_reason": "Шрифты — зона justea-design"
+    },
+    {
+      "id": "3.2",
+      "severity": "high",
+      "status": "handoff",
+      "owner": "justea-design",
+      "title": "CLS 0.188 на странице чая (порог Google 0.1)",
+      "evidence": "Lighthouse layout-shifts: единственный сдвиг, селектор div.grid > div.min-w-0 > div.flex > div, score 0.1884",
+      "cause": "Suspense-фallback поиска (SearchFallback, py-3 border-b-2 в app/layout.tsx) имеет другую высоту, чем реальный Search — контент уезжает вниз при замене",
+      "fix": "Зафиксировать высоту SearchFallback равной высоте реальной строки поиска",
+      "note": "На главной той же комбинации нет, CLS 0.028"
+    },
+    {
+      "id": "3.3",
+      "severity": "high",
+      "status": "handoff",
+      "owner": "justea-design",
+      "title": "TBT 6420 мс на главной",
+      "evidence": "Lighthouse long-tasks: 9 задач, две по 3467 мс и 2851 мс в клиентском чанке приложения; тот же чанк на странице чая — 763 мс",
+      "cause": "Монтирование клиентских компонентов главной: 8 × TeaCard (каждая с FavoriteButton, читающим localStorage), RecentTeasSection, FavoriteTeasSection, Scrollable/BodyScrollbars на overlayscrollbars",
+      "note": "Замеры под 4× CPU-throttling Lighthouse на загруженной машине — абсолютные цифры пессимистичны, но разрыв 763 мс против 6420 мс между страницами на одном чанке реален"
+    },
+    {
+      "id": "3.4",
+      "severity": "high",
+      "status": "fixed",
+      "title": "lastmod в sitemap равнялся времени сборки",
+      "evidence": "curl -s https://justea.ru/sitemap.xml → <lastmod>2026-08-30T11:23:00.325Z</lastmod> одинаковая у всех URL",
+      "cause": "new Date() в app/sitemap.ts",
+      "impact": "Каждая сборка меняла lastmod у всех URL — краулер перестаёт доверять сигналу",
+      "fix": "Дата из данных чая (max от meta.addedDate и meta.harvestDate); для главной и страниц типов — максимум по входящим чаям; где даты нет, lastmod не выводится вовсе",
+      "files": ["app/sitemap.ts"]
+    },
+    {
+      "id": "3.5",
+      "severity": "high",
+      "status": "fixed",
+      "partial": true,
+      "title": "OG-картинки заявляли неверный размер",
+      "cause": "lib/metadata.ts жёстко писал width: 1200, height: 630 для любой картинки",
+      "actual_sizes": {
+        "public/og.jpg": "1200x800",
+        "public/teas/longjing.jpg": "1200x800",
+        "public/teas/assam.jpg": "1200x1500"
+      },
+      "fix": "Для og.jpg выводится реальный размер из siteConfig; для фото сорта размеры не выводятся вовсе — честнее не сообщать размер, чем сообщить неверный",
+      "remaining": {
+        "owner": "justea-design",
+        "task": "Нарисовать og.jpg в 1200x630 — пропорция, которую ожидают Telegram, VK и Twitter",
+        "marker": "TODO(design) в lib/site.ts"
+      }
+    },
+    {
+      "id": "3.6",
+      "severity": "high",
+      "status": "handoff",
+      "owner": "justea-voice (через оркестратора)",
+      "title": "h1 главной — «Justea»",
+      "impact": "Брендовый h1 не работает ни на один небрендовый запрос",
+      "fix": "Временный вариант «Как заваривать чай: проливы, температура, пропорции» в app/page.tsx (HOME_HEADING), помечен TODO(voice). Три варианта на утверждение — docs/seo/h1-variants.md",
+      "note": "h1 в Hero.tsx не менялся (зона justea-design) — видимый h1 и title сейчас расходятся, закрыть вместе с утверждением текста"
+    },
+    {
+      "id": "4.1",
+      "severity": "medium",
+      "status": "fixed",
+      "title": "Title и description неинформативны",
+      "before": "<title>Лунцзин — Justea</title>, description — общее описание сорта",
+      "after": {
+        "/": "Justea — как заваривать чай: проливы, температура, пропорции",
+        "/tea/green": "Как заваривать зелёный чай: температура, время, пропорции — Justea",
+        "/longjing": "Лунцзин — как заваривать: проливы, температура, пропорции — Justea",
+        "/longjing description": "Лунцзин: 3.5 г на 100 мл, вода 75–80 °C, 3 пролива. Премиальный зелёный чай из Ханчжоу… (обрезка по 160 символам)"
+      },
+      "note": "Description страницы чая собирается из данных: сначала граммовка, температура и число проливов, затем описание сорта. Тексты страниц типов — заготовки с TODO(voice), переписать после docs/market/semantic-core.csv.",
+      "files": ["app/page.tsx", "app/[slug]/page.tsx", "lib/tea-type-pages.ts"]
+    },
+    {
+      "id": "4.2",
+      "severity": "medium",
+      "status": "fixed",
+      "title": "robots.txt не ограничивал ничего",
+      "fix": "Добавлен Disallow: /search",
+      "deliberate_omissions": [
+        "/_next/ НЕ закрыт: Googlebot рендерит страницу и ему нужны оттуда CSS и JS; закрыть — получить заблокированные ресурсы в GSC и проблемы с mobile-friendly",
+        "Clean-param для Яндекса не добавлен: индексируемых URL с параметрами больше нет (?type= отдаёт 301), а robots.ts в Next.js эту директиву не умеет. Понадобится при входящих ссылках с UTM — помечено TODO(seo) в app/robots.ts"
+      ],
+      "files": ["app/robots.ts"]
+    },
+    {
+      "id": "4.3",
+      "severity": "medium",
+      "status": "fixed",
+      "also": "user",
+      "title": "Не было подготовки к подтверждению прав в панелях вебмастеров",
+      "fix": "app/layout.tsx выводит мета-теги подтверждения из env NEXT_PUBLIC_YANDEX_VERIFICATION и NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION; пустые значения не выводятся, коды в репозиторий не коммитятся",
+      "user_action": "docs/seo/webmaster-setup.md — регистрация и подтверждение прав только за пользователем. Рекомендован способ через TXT-запись в DNS: не требует пересборки.",
+      "files": ["app/layout.tsx", "lib/site.ts", ".env.example"]
+    },
+    {
+      "id": "4.4",
+      "severity": "medium",
+      "status": "handoff",
+      "owner": "justea-design",
+      "title": "Нарушен порядок заголовков на странице чая",
+      "evidence": "h1 → h3 (Аромат/Вкус/Послевкусие) → h2 (название способа заваривания)",
+      "impact": "Пропуск уровня мешает краулеру разбирать структуру и скринридерам",
+      "note": "justea-design подтвердил 06.11.2026, что чинит в рамках редизайна"
+    },
+    {
+      "id": "5.1",
+      "severity": "low",
+      "status": "handoff",
+      "owner": "justea-design",
+      "title": "console.log в проде",
+      "evidence": "app/components/BrewRatio/VolumeInput.tsx:22 — console.log(value); виден в логе сборки (строки «100») и в консоли браузера"
+    },
+    {
+      "id": "5.2",
+      "severity": "low",
+      "status": "handoff",
+      "owner": "justea-design",
+      "title": "Нет manifest и иконок кроме favicon.ico",
+      "detail": "Нет apple-touch-icon, manifest.webmanifest, theme-color. На ранжирование не влияет, на вид иконки при добавлении на домашний экран — влияет."
+    }
+  ],
+  "verified_ok": [
+    {"check": "HTTP → HTTPS", "result": "301 на https://justea.ru/"},
+    {"check": "trailing slash", "result": "/longjing/ → 308 на /longjing"},
+    {"check": "404", "result": "/notexist-abc отдаёт 404, не 200 и не редирект"},
+    {"check": "SSG страниц чая", "result": "x-nextjs-prerender: 1, x-nextjs-cache: HIT"},
+    {"check": "lang", "result": "<html lang=\"ru\">"},
+    {"check": "Lighthouse SEO", "result": "100/100 на главной и на странице чая"},
+    {"check": "Lighthouse Best Practices", "result": "100/100"},
+    {"check": "hreflang", "result": "не нужен — сайт только на русском; lib/site.ts подготовлен к добавлению локали одной строкой"},
+    {"check": "изображения", "result": "next/image не используется, но картинок в разметке страниц и нет — фото сорта идёт только в OG. Когда justea-design выведет фото на страницу, понадобится next/image с width/height и alt."}
+  ],
+  "next_steps": {
+    "user": [
+      "Подключить Яндекс.Вебмастер, Google Search Console и Яндекс.Метрику — docs/seo/webmaster-setup.md",
+      "Выбрать вариант h1 главной — docs/seo/h1-variants.md"
+    ],
+    "justea-design": ["3.1", "3.2", "3.3", "3.5 (og.jpg 1200x630)", "4.4", "5.1", "5.2"],
+    "orchestrator_infra": ["2.2 (301 с www в nginx)"],
+    "justea-voice": ["3.6 (h1 главной)", "4.1 (тексты страниц типов)"],
+    "stage_2": "После docs/market/semantic-core.csv от justea-market: структура страниц под кластеры («как заваривать X», гайды, лендинг церемоний в СПб), внутренняя перелинковка, Event/LocalBusiness для церемоний (адрес клуба «Мойчай»/Special Tea не подтверждён — размечать только с TODO)"
+  }
+}

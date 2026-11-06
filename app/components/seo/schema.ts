@@ -1,0 +1,301 @@
+import { absoluteUrl, siteConfig } from "@/lib/site";
+import { TEA_TYPE_LABELS } from "@/lib/teas";
+import type { BrewMethod, Tea } from "@/types/tea";
+
+/**
+ * Общие узлы графа schema.org. Ссылаемся на них по `@id`, чтобы Organization и
+ * WebSite описывались один раз (в корневом layout), а страницы только ссылались.
+ */
+export const ORGANIZATION_ID = absoluteUrl("/#organization");
+export const WEBSITE_ID = absoluteUrl("/#website");
+
+export function organizationSchema() {
+    return {
+        "@type": "Organization",
+        "@id": ORGANIZATION_ID,
+        name: siteConfig.name,
+        url: absoluteUrl("/"),
+        description: siteConfig.description,
+        logo: {
+            "@type": "ImageObject",
+            url: absoluteUrl(siteConfig.ogImage),
+            width: siteConfig.ogImageWidth,
+            height: siteConfig.ogImageHeight,
+        },
+        // TODO(orchestrator): добавить sameAs — соцсети и каналы проекта,
+        // когда они появятся.
+    };
+}
+
+export function webSiteSchema() {
+    return {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        name: siteConfig.name,
+        url: absoluteUrl("/"),
+        description: siteConfig.description,
+        inLanguage: siteConfig.defaultLocale.code,
+        publisher: { "@id": ORGANIZATION_ID },
+        potentialAction: {
+            "@type": "SearchAction",
+            target: {
+                "@type": "EntryPoint",
+                urlTemplate: absoluteUrl("/search?q={search_term_string}"),
+            },
+            "query-input": "required name=search_term_string",
+        },
+    };
+}
+
+export type Crumb = { label: string; href?: string };
+
+export function breadcrumbListSchema(items: Crumb[], pageUrl: string) {
+    return {
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumbs`,
+        itemListElement: items.map((item, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.label,
+            // У последней крошки `href` нет — для неё item опускаем,
+            // как требует спецификация Google.
+            ...(item.href ? { item: absoluteUrl(item.href) } : {}),
+        })),
+    };
+}
+
+export function webPageSchema({
+    pageUrl,
+    name,
+    description,
+    hasBreadcrumbs = false,
+    dateModified,
+}: {
+    pageUrl: string;
+    name: string;
+    description: string;
+    hasBreadcrumbs?: boolean;
+    dateModified?: string;
+}) {
+    return {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name,
+        description,
+        inLanguage: siteConfig.defaultLocale.code,
+        isPartOf: { "@id": WEBSITE_ID },
+        ...(dateModified ? { dateModified } : {}),
+        ...(hasBreadcrumbs
+            ? { breadcrumb: { "@id": `${pageUrl}#breadcrumbs` } }
+            : {}),
+    };
+}
+
+/** «1 пролив», «2 пролива», «5 проливов». */
+function plural(n: number, one: string, few: string, many: string): string {
+    const mod100 = n % 100;
+    const mod10 = n % 10;
+
+    if (mod100 >= 11 && mod100 <= 14) return many;
+    if (mod10 === 1) return one;
+    if (mod10 >= 2 && mod10 <= 4) return few;
+
+    return many;
+}
+
+/** Склеивает фразы в текст: добивает точку там, где её нет. */
+function sentences(parts: (string | undefined)[]): string {
+    return parts
+        .filter((part): part is string => Boolean(part?.trim()))
+        .map((part) => {
+            const text = part.trim();
+
+            return /[.!?…]$/.test(text) ? text : `${text}.`;
+        })
+        .join(" ");
+}
+
+/** «75–80 °C», но «75 °C» когда границы совпадают. */
+function formatTemperature({ from, to }: BrewMethod["temperature"]): string {
+    return from === to ? `${from} °C` : `${from}–${to} °C`;
+}
+
+/** ISO 8601 duration: 95 секунд → `PT1M35S`. */
+function isoDuration(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const rest = seconds % 60;
+
+    return `PT${minutes ? `${minutes}M` : ""}${rest || !minutes ? `${rest}S` : ""}`;
+}
+
+function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
+    const totalSeconds = method.infusions.reduce(
+        (sum, infusion) => sum + infusion.time,
+        0,
+    );
+
+    const temperature = formatTemperature(method.temperature);
+
+    return {
+        "@type": "HowTo",
+        "@id": `${pageUrl}#howto-${method.id}`,
+        name: `${tea.name}: как заваривать (${method.name})`,
+        // Заметки по приготовлению складываем в description. Раньше они шли
+        // в `tool`, но «не заливайте кипятком» — это совет, а не инвентарь:
+        // HowToTool описывает посуду и инструменты.
+        description: sentences([method.description, ...(method.notes ?? [])]),
+        inLanguage: siteConfig.defaultLocale.code,
+        totalTime: isoDuration(totalSeconds),
+        yield: `${method.infusions.length} ${plural(
+            method.infusions.length,
+            "пролив",
+            "пролива",
+            "проливов",
+        )}`,
+        supply: [
+            {
+                "@type": "HowToSupply",
+                name: `${tea.name} — ${method.ratio} г на 100 мл воды`,
+            },
+            {
+                "@type": "HowToSupply",
+                name: `Вода ${temperature}`,
+            },
+        ],
+        step: method.infusions.map((infusion) => ({
+            "@type": "HowToStep",
+            position: infusion.number,
+            name: `Пролив ${infusion.number}`,
+            text: sentences([
+                `Залить водой ${temperature} и настаивать ${infusion.time} с.`,
+                infusion.notes,
+            ]),
+            ...(infusion.time
+                ? { performTime: isoDuration(infusion.time) }
+                : {}),
+        })),
+    };
+}
+
+/**
+ * Граф страницы чая: WebPage + Article (сама статья) + Product-подобный
+ * узел самого чая + по одному HowTo на способ заваривания + BreadcrumbList.
+ */
+export function teaPageSchema(tea: Tea, crumbs: Crumb[]) {
+    const pageUrl = absoluteUrl(`/${tea.slug}`);
+    const image = tea.photo ? absoluteUrl(tea.photo) : absoluteUrl(siteConfig.ogImage);
+    const characteristics = [
+        ...tea.characteristics.aroma.map((value) => ["Аромат", value] as const),
+        ...tea.characteristics.flavor.map((value) => ["Вкус", value] as const),
+        ...tea.characteristics.aftertaste.map((value) => ["Послевкусие", value] as const),
+    ];
+
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            webPageSchema({
+                pageUrl,
+                name: tea.name,
+                description: tea.description ?? siteConfig.description,
+                hasBreadcrumbs: true,
+                dateModified: tea.meta.addedDate,
+            }),
+            breadcrumbListSchema(crumbs, pageUrl),
+            {
+                "@type": "Article",
+                "@id": `${pageUrl}#article`,
+                headline: `${tea.name} — как заваривать: проливы, температура, пропорции`,
+                description: tea.description ?? siteConfig.description,
+                image,
+                inLanguage: siteConfig.defaultLocale.code,
+                mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
+                datePublished: tea.meta.addedDate,
+                dateModified: tea.meta.addedDate,
+                author: { "@id": ORGANIZATION_ID },
+                publisher: { "@id": ORGANIZATION_ID },
+                about: { "@id": `${pageUrl}#tea` },
+                articleSection: TEA_TYPE_LABELS[tea.type],
+            },
+            {
+                "@type": "Product",
+                "@id": `${pageUrl}#tea`,
+                name: tea.name,
+                description: tea.description ?? siteConfig.description,
+                image,
+                category: TEA_TYPE_LABELS[tea.type],
+                // `countryOfOrigin` ждёт объект Country, а в данных строка
+                // вида «Ханчжоу, Китай» — регион, а не страна. Поэтому
+                // кладём его в additionalProperty, а не врём типом.
+                additionalProperty: [
+                    ...(tea.meta.origin
+                        ? [
+                              {
+                                  "@type": "PropertyValue",
+                                  name: "Регион",
+                                  value: tea.meta.origin,
+                              },
+                          ]
+                        : []),
+                    ...characteristics.map(([name, value]) => ({
+                        "@type": "PropertyValue",
+                        name,
+                        value,
+                    })),
+                ],
+                // `offers` и `aggregateRating` сознательно не выводим:
+                // чай не продаётся, а `meta.rating` — личная оценка автора,
+                // а не отзывы пользователей. Разметка отзывов без реальных
+                // отзывов — повод для ручных санкций.
+            },
+            ...tea.brewMethods.map((method) => brewMethodHowTo(tea, method, pageUrl)),
+        ],
+    };
+}
+
+/** Граф страницы типа чая: WebPage + BreadcrumbList + ItemList с чаями. */
+export function teaTypeListSchema({
+    pageUrl,
+    name,
+    description,
+    crumbs,
+    teas,
+}: {
+    pageUrl: string;
+    name: string;
+    description: string;
+    /**
+     * Крошки. Для главной не передаём: список из одного элемента без ссылки
+     * — не навигационная цепочка, Google такую разметку игнорирует.
+     */
+    crumbs?: Crumb[];
+    teas: Tea[];
+}) {
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                ...webPageSchema({
+                    pageUrl,
+                    name,
+                    description,
+                    hasBreadcrumbs: Boolean(crumbs?.length),
+                }),
+                "@type": "CollectionPage",
+            },
+            ...(crumbs?.length ? [breadcrumbListSchema(crumbs, pageUrl)] : []),
+            {
+                "@type": "ItemList",
+                "@id": `${pageUrl}#list`,
+                name,
+                numberOfItems: teas.length,
+                itemListElement: teas.map((tea, index) => ({
+                    "@type": "ListItem",
+                    position: index + 1,
+                    name: tea.name,
+                    url: absoluteUrl(`/${tea.slug}`),
+                })),
+            },
+        ],
+    };
+}
