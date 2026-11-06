@@ -1,0 +1,1828 @@
+{
+ "meta": {
+  "title": "Justea — каталог источников по чаю",
+  "version": 1,
+  "compiled": "2026-11-06",
+  "compiled_by": "агент justea-sources",
+  "task": "задача №4 — достоверная база знаний о чае",
+  "scope": "Слой типов покрывает все чаи каталога и 340 кандидатов. Слой отдельных чаёв проработан для 8 записей, уже находящихся в data/teas.json.",
+  "source_levels": {
+   "A": "научные статьи, стандарты (ISO, GB/T, JAS), госорганы, университеты, исследовательские институты",
+   "B": "книги признанных авторов, крупные профильные издания, отраслевые ассоциации",
+   "C": "магазины и блоги — только как подтверждение, не как первоисточник"
+  },
+  "confidence_levels": {
+   "high": "прямая выписка из первоисточника, который удалось получить",
+   "medium": "первоисточник назван и проверен, но нужный фрагмент получен через вторичный источник, либо привязка к конкретному чаю не нормативна",
+   "low": "отраслевая практика без нормативного подтверждения",
+   "none": "источник факта не зафиксирован — значение взято из существующих файлов проекта и не проверяемо"
+  },
+  "how_to_read": "Поле со значением из data/teas.json приводится как current_site_value. Если у него confidence: none — значение не подтверждено ни одним источником. Поле disagreement фиксирует расхождения между источниками и предлагает решение, а не выбирает молча.",
+  "related": [
+   "README.md",
+   "gap-analysis.md",
+   "citation-audit.md",
+   "schema-proposal.md"
+  ]
+ },
+ "sources": {
+  "iso-3103-2019": {
+   "level": "A",
+   "kind": "international-standard",
+   "title": "ISO 3103:2019 Tea — Preparation of liquor for use in sensory tests",
+   "publisher": "ISO",
+   "committee": "ISO/TC 34/SC 8",
+   "edition": "2019-12 (2nd ed., заменяет ISO 3103:1980)",
+   "url": "https://www.iso.org/standard/73224.html",
+   "url_fetched": "https://cdn.standards.iteh.ai/samples/73224/79469b30ce154460b38ebb10af5565cf/ISO-3103-2019.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "© ISO 2019, copyright protected — полный текст не хранится",
+   "raw": "raw/iso-3103-2019.md",
+   "purpose": "метод приготовления настоя для органолептических испытаний, не рекомендация потребителю"
+  },
+  "iso-20715-2023": {
+   "level": "A",
+   "kind": "international-standard",
+   "title": "ISO 20715:2023 Tea — Classification of tea types",
+   "publisher": "ISO",
+   "committee": "ISO/TC 34/SC 8",
+   "edition": "2023-03 (1st ed.)",
+   "url": "https://www.iso.org/standard/75419.html",
+   "url_fetched": "https://cdn.standards.iteh.ai/samples/75419/b937ca9e8b964f538549fe9a8cae15b5/ISO-20715-2023.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "© ISO 2023, copyright protected",
+   "raw": "raw/iso-20715-2023.md",
+   "coverage_note": "preview раскрывает п. 1–4 и 5.2.1; п. 5.2.2–5.7 недоступны"
+  },
+  "iso-3720-2011": {
+   "level": "A",
+   "kind": "international-standard",
+   "title": "ISO 3720:2011 Black tea — Definition and basic requirements",
+   "publisher": "ISO",
+   "committee": "ISO/TC 34/SC 8",
+   "edition": "2011-04-15 (4th ed.)",
+   "url": "https://www.iso.org/standard/51541.html",
+   "url_fetched": "https://cdn.standards.iteh.ai/samples/51541/b956593025ba44539b133668d43d242c/ISO-3720-2011.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "© ISO 2011, copyright protected",
+   "raw": "raw/iso-type-definitions.md"
+  },
+  "iso-11287-2011": {
+   "level": "A",
+   "kind": "international-standard",
+   "title": "ISO 11287:2011 Green tea — Definition and basic requirements",
+   "publisher": "ISO",
+   "committee": "ISO/TC 34/SC 8",
+   "edition": "2011-05-01 (1st ed.)",
+   "url": "https://www.iso.org/standard/51540.html",
+   "url_fetched": "https://cdn.standards.iteh.ai/samples/51540/ec08d81675654faca72efacac34b6716/ISO-11287-2011.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "© ISO 2011, copyright protected",
+   "raw": "raw/iso-type-definitions.md"
+  },
+  "iso-20716-2022": {
+   "level": "A",
+   "kind": "international-standard",
+   "title": "ISO 20716:2022 Oolong tea — Definition and basic requirements",
+   "publisher": "ISO",
+   "committee": "ISO/TC 34/SC 8",
+   "edition": "2022-09 (1st ed.)",
+   "url": "https://www.iso.org/standard/75418.html",
+   "url_fetched": "https://cdn.standards.iteh.ai/samples/75418/51986e316f3b4fd587965c60e9dc74db/ISO-20716-2022.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "© ISO 2022, copyright protected",
+   "raw": "raw/iso-type-definitions.md"
+  },
+  "iso-tr-12591-2013": {
+   "level": "A",
+   "kind": "international-technical-report",
+   "title": "ISO/TR 12591:2013 White tea — Definition",
+   "publisher": "ISO",
+   "committee": "ISO/TC 34/SC 8",
+   "edition": "2013-12-15 (1st ed.)",
+   "url": "https://www.iso.org/standard/51542.html",
+   "url_fetched": "https://cdn.standards.iteh.ai/samples/51542/ae9ef73158234f37929c9d607ba0cdd7/ISO-TR-12591-2013.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "© ISO 2013, copyright protected",
+   "raw": "raw/iso-type-definitions.md",
+   "coverage_note": "Technical Report, не полноценный стандарт; preview раскрывает п. 1–4.1"
+  },
+  "iso-tr-21380-2022": {
+   "level": "A",
+   "kind": "international-technical-report",
+   "title": "ISO/TR 21380:2022 Matcha tea — Definition and characteristics",
+   "publisher": "ISO",
+   "committee": "ISO/TC 34/SC 8",
+   "edition": "2022-04 (1st ed.)",
+   "url": "https://www.iso.org/standard/80777.html",
+   "url_fetched": "https://cdn.standards.iteh.ai/samples/80777/5b221bc418434034893600f0f748bc43/ISO-TR-21380-2022.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "license": "© ISO 2022, copyright protected",
+   "raw": "raw/iso-type-definitions.md"
+  },
+  "jp-pref-shizuoka-brewing": {
+   "level": "A",
+   "kind": "government",
+   "title": "おいしいお茶の入れ方 (Как вкусно заварить чай)",
+   "publisher": "静岡県 経済産業部 農業局 お茶振興課 (префектура Сидзуока, отдел продвижения чая)",
+   "updated": "2023-01-11",
+   "url": "https://www.pref.shizuoka.jp/kensei/introduction/soshiki/1002123/1041029/chanomiyako/1040637/1027281.html",
+   "language": "ja",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/jp-shizuoka-brewing.md",
+   "purpose": "официальные потребительские параметры заваривания японских зелёных чаёв"
+  },
+  "jp-wgta-serving": {
+   "level": "B",
+   "kind": "industry-association",
+   "title": "For Serving — General Japanese Green Tea Serving Method",
+   "publisher": "World Green Tea Association / 世界緑茶協会 (公益社団法人, Сидзуока)",
+   "url": "https://www.o-cha.net/english/health/serving.html",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/jp-shizuoka-brewing.md",
+   "note": "полностью согласуется с jp-pref-shizuoka-brewing; дополнительно даёт объём воды"
+  },
+  "cn-gb-23776-2018": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 23776-2018 茶叶感官审评方法 / Methodology for sensory evaluation of tea",
+   "publisher": "SAC / SAMR (КНР)",
+   "status": "现行 (действующий)",
+   "replaces": "GB/T 23776-2009",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=DE887190872380558CCAF17BE9D850E8",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "raw": "raw/cn-gb-23776-sensory.md",
+   "warning": "полный текст недоступен; числовые параметры взяты из вторичного источника cn-sensory-theory-pdf, ссылающегося на редакцию 2009 г."
+  },
+  "cn-sensory-theory-pdf": {
+   "level": "B",
+   "kind": "industry-training-material",
+   "title": "茶叶感官审评基础理论与标准 (Базовая теория и стандарты органолептической оценки чая)",
+   "url": "http://www.zpzlzljs.com/uploads/images/20220214/95cdfe85e03334f8bf147eecb6e242a4.pdf",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/cn-gb-23776-sensory.md",
+   "cites": "GB/T 23776-2009"
+  },
+  "cn-gb-registry": {
+   "level": "A",
+   "kind": "standards-registry",
+   "title": "国家标准全文公开系统 (Система публичного доступа к национальным стандартам КНР)",
+   "publisher": "SAMR / SAC",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "raw": "raw/cn-gb-standards.md",
+   "data": "raw/cn-gb-tea-standards.json"
+  },
+  "in-teaboard-darjeeling-gi": {
+   "level": "A",
+   "kind": "government",
+   "title": "Protection and administration of Darjeeling in India (Regulations + Schedules I–VI)",
+   "publisher": "Tea Board of India (statutory body, Tea Act 1953)",
+   "url": "https://www.teaboard.gov.in/pdf/policy/india.pdf",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "storage": "excerpt",
+   "raw": "raw/in-teaboard-darjeeling.md"
+  },
+  "justea-existing-docs": {
+   "level": "C",
+   "kind": "internal-unsourced",
+   "title": "Существующие файлы проекта: data/teas.json и docs/*.md, составленные до этого этапа",
+   "language": "ru",
+   "accessed": "2026-11-06",
+   "storage": "in-repo",
+   "warning": "источник каждого отдельного факта не зафиксирован; 340 кандидатов в docs/*.json не содержат ни одного поля источника. См. gap-analysis.md и citation-audit.md"
+  },
+  "lit-cao-2022": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Optimization of brewing conditions for Tieguanyin oolong tea by quadratic orthogonal regression design",
+   "authors": "Cao Q-Q, и 8 соавторов",
+   "year": 2022,
+   "journal": "npj Science of Food 6(1):25",
+   "doi": "10.1038/s41538-022-00141-7",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref, 2026-11-06"
+  },
+  "lit-jin-2019": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Comprehensive Investigation of the Effects of Brewing Conditions in Sample Preparation of Green Tea Infusions",
+   "authors": "Jin Y, Zhao J, Kim EM",
+   "year": 2019,
+   "journal": "Molecules 24(9):1735",
+   "doi": "10.3390/molecules24091735",
+   "pmc": "PMC6539062",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref + NCBI, 2026-11-06"
+  },
+  "lit-perva-2006": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Extraction of active ingredients from green tea (Camellia sinensis): Extraction efficiency of major catechins and caffeine",
+   "authors": "Perva-Uzunalić A, Škerget M, Knez Ž, и др.",
+   "year": 2006,
+   "journal": "Food Chemistry 96(4):597–605",
+   "doi": "10.1016/j.foodchem.2005.03.015",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref, 2026-11-06",
+   "note": "в docs/tea-brewing-science-ru.md эта работа была указана как «2015, Int. J. Food Prop.» — неверно"
+  },
+  "lit-cabrera-2021": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Effect of Water Hardness on Catechin and Caffeine Content in Green Tea Infusions",
+   "authors": "Cabrera M, Taher F, Llantada A, Do Q, Sapp T, Sommerhalter M",
+   "year": 2021,
+   "journal": "Molecules 26(12):3485",
+   "doi": "10.3390/molecules26123485",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref, 2026-11-06"
+  },
+  "lit-fernando-2015": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Extraction Kinetics of phytochemicals and antioxidant activity during black tea (Camellia sinensis L.) brewing",
+   "authors": "Fernando CD, Soysa P",
+   "year": 2015,
+   "journal": "Nutrition Journal 14(1):74",
+   "doi": "10.1186/s12937-015-0060-x",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref, 2026-11-06"
+  },
+  "lit-zhang-2017": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Effect of water quality on the main components in Fuding white tea infusions",
+   "authors": "Zhang H, Jiang Y, Lv Y",
+   "year": 2017,
+   "journal": "Journal of Food Science and Technology 54(5):1206–1211",
+   "doi": "10.1007/s13197-017-2571-2",
+   "pmc": "PMC5380641",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref + NCBI, 2026-11-06"
+  },
+  "lit-liu-2021": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Chemical characterization of Wuyi rock tea with different roasting degrees and their discrimination based on volatile profiles",
+   "authors": "Liu X, и 9 соавторов",
+   "year": 2021,
+   "journal": "RSC Advances 11(20):12074–12085",
+   "doi": "10.1039/D0RA09703A",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref, 2026-11-06"
+  },
+  "lit-pedan-2018": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Bioactive Compound Fingerprint Analysis of Aged Raw Pu'er Tea and Young Ripened Pu'er Tea",
+   "authors": "Pedan V, и 4 соавтора",
+   "year": 2018,
+   "journal": "Molecules 23(8):1931",
+   "doi": "10.3390/molecules23081931",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref, 2026-11-06"
+  },
+  "lit-zhao-2025": {
+   "level": "A",
+   "kind": "journal-article",
+   "title": "Establishing a keemun black tea brewing control chart based on consumer acceptance via survival analysis and degree of satisfaction",
+   "authors": "Zhao X, и др.",
+   "year": 2025,
+   "journal": "LWT 224:117829",
+   "doi": "10.1016/j.lwt.2025.117829",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref, 2026-11-06"
+  },
+  "cn-gb-18650-longjing": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 18650-2008 地理标志产品 龙井茶 / Product of geographical indication - Longjing tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "国家知识产权局",
+   "status": "现行",
+   "published": "2008-07-15",
+   "effective": "2008-10-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=96D0A5A54BBC305315CDCB3B1E0D90E6",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-18957-biluochun": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 18957-2008 地理标志产品 洞庭（山）碧螺春茶 / Product of geographical indication - Dongting (mountain) biluochun tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "国家知识产权局",
+   "status": "现行",
+   "published": "2008-07-31",
+   "effective": "2008-11-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=AF9AC4AB905C93C6F7CB42A7AB4EBF88",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-18745-wuyi": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 18745-2006 地理标志产品 武夷岩茶 / Product of geographical indication―Wuyi rock-essence tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "国家知识产权局",
+   "status": "现行",
+   "published": "2006-07-18",
+   "effective": "2006-12-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=C5934A7695C7A0E1ED8B6803F814C6B0",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md",
+   "superseded_by": "GB/T 18745-2026 (即将实施, вступает в силу 2027-10-01)"
+  },
+  "cn-gb-19598-tieguanyin": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 19598-2025 地理标志产品质量要求 安溪铁观音 / Quality requirements for product of geographical indication—Anxi tieguanyin",
+   "publisher": "国家市场监督管理总局、国家标准化管理委员会",
+   "developed_by": "国家知识产权局",
+   "status": "现行",
+   "published": "2025-02-28",
+   "effective": "2025-09-01",
+   "ics": "67.140.10",
+   "ccs": "X 55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=7B5F15D64E84BFFD59AFF1EC1E0C4AFE",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-30357-2-tieguanyin": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 30357.2-2013 乌龙茶 第2部分：铁观音 / Oolong tea—Part 2: Tieguanyin",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "中华全国供销合作总社",
+   "status": "现行",
+   "published": "2013-12-31",
+   "effective": "2014-06-22",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=9EE7AF384DEAA63007FF82EAD6E5A73C",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-22291-baicha": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 22291-2017 白茶 / White tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "中华全国供销合作总社",
+   "status": "现行",
+   "published": "2017-11-01",
+   "effective": "2018-05-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=A87456F46DAA499E87883069D484F365",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-22111-puer": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 22111-2008 地理标志产品 普洱茶 / Product of geographical indication - Puer tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "国家知识产权局",
+   "status": "现行",
+   "published": "2008-06-17",
+   "effective": "2008-12-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=CAF792AAE4A96101F217C44250C8C8E4",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-30766-classification": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 30766-2014 茶叶分类 / Classification of tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "中华全国供销合作总社",
+   "status": "现行",
+   "published": "2014-03-27",
+   "effective": "2014-10-27",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=1FF5A0EB54D6C8ADF201F54F53BA32DC",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-14456-6-steamed": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 14456.6-2016 绿茶 第6部分：蒸青茶 / Green tea—Part 6: Steamed green tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "中华全国供销合作总社",
+   "status": "现行",
+   "published": "2016-06-14",
+   "effective": "2017-01-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=A6E0827ED215179508E920A84F5FB0AC",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-13738-2-congou": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 13738.2-2017 红茶 第2部分：工夫红茶 / Black tea—Part 2: Congou black tea",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "中华全国供销合作总社",
+   "status": "现行",
+   "published": "2017-11-01",
+   "effective": "2018-05-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=F2CDFECF142B0D72646601C746F5B84B",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  },
+  "cn-gb-32719-1-darktea": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 32719.1-2016 黑茶 第1部分：基本要求 / Dark tea—Part 1: Basic requirements",
+   "publisher": "中华人民共和国国家质量监督检验检疫总局、中国国家标准化管理委员会",
+   "developed_by": "中华全国供销合作总社",
+   "status": "现行",
+   "published": "2016-06-14",
+   "effective": "2017-01-01",
+   "ics": "67.140.10",
+   "ccs": "X55",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=92C6C147AEC7B6F8E5377AF787EAFEF8",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "license": "полный текст GB/T защищён копирайтом; система отдаёт только карточку",
+   "raw": "raw/cn-gb-standards.md"
+  }
+ },
+ "not_tea": {
+  "rule": "Настои из трав или плодов, кроме Camellia sinensis (L.) O. Kuntze, именуемые «чаем», под классификацию ISO не попадают.",
+  "source": "iso-20715-2023",
+  "ref": "ISO 20715:2023, п. 1 Scope",
+  "examples": [
+   "каркаде",
+   "ройбуш",
+   "травяные сборы",
+   "мате",
+   "фруктовые «чаи»"
+  ]
+ },
+ "types": {
+  "green": {
+   "iso_name": "green tea",
+   "gb_name": "绿茶",
+   "definition": "Чай, полученный исключительно из нежных листьев, почек и побегов разновидностей Camellia sinensis (L.) O. Kuntze процессами инактивации ферментов и обычно скручивания, формования или измельчения с последующей сушкой.",
+   "definition_sources": [
+    "iso-11287-2011",
+    "iso-20715-2023"
+   ],
+   "definition_ref": "ISO 11287:2011, п. 3.1; ISO 20715:2023, п. 3.13",
+   "key_process": "enzyme inactivation (фиксация) без аэрации",
+   "subtypes_iso": [
+    "pan-fired",
+    "roasted",
+    "sun-dried",
+    "steamed",
+    "broken",
+    "matcha"
+   ],
+   "subtypes_source": "iso-20715-2023",
+   "chemical_requirements": {
+    "water_extract_pct_min": 32,
+    "total_ash_pct": [
+     4,
+     8
+    ],
+    "water_soluble_ash_pct_of_total_min": 45,
+    "acid_insoluble_ash_pct_max": 1.0,
+    "crude_fibre_pct_max": 16.5,
+    "total_catechins_pct_min": 7,
+    "total_polyphenols_pct_min": 11,
+    "catechins_to_polyphenols_ratio_min": 0.5,
+    "shaded_exception": {
+     "applies_to": [
+      "tencha/matcha",
+      "gyokuro"
+     ],
+     "total_polyphenols_pct_min": 8,
+     "total_catechins_pct_min": 5
+    },
+    "basis": "на сухое вещество при (103 ± 2) °C по ISO 1573",
+    "source": "iso-11287-2011",
+    "ref": "ISO 11287:2011, Table 1"
+   },
+   "liquor_colour_words": "от бледно-жёлто-зелёного до янтарного",
+   "liquor_colour_source": "iso-tr-12591-2013",
+   "liquor_colour_ref": "ISO/TR 12591:2013, п. 3.2"
+  },
+  "black": {
+   "iso_name": "black tea",
+   "gb_name": "红茶 (хун ча)",
+   "definition": "Чай, полученный исключительно из нежных побегов разновидностей Camellia sinensis (L.) O. Kuntze процессами завяливания, скручивания или мацерации листа, аэрации (окисления) и сушки.",
+   "definition_sources": [
+    "iso-3720-2011",
+    "iso-20715-2023"
+   ],
+   "definition_ref": "ISO 3720:2011, п. 3.1; ISO 20715:2023, п. 3.12",
+   "key_process": "полная аэрация (окисление)",
+   "subtypes_iso": [
+    "orthodox",
+    "broken",
+    "congou",
+    "souchong"
+   ],
+   "subtypes_source": "iso-20715-2023",
+   "naming_note": "Китайское 红茶 означает «красный чай» — это тот же тип, что англоязычный black tea. Китайское 黑茶 («чёрный чай») — другой тип, тёмный/постферментированный.",
+   "naming_sources": [
+    "iso-20715-2023",
+    "cn-gb-30766-classification"
+   ],
+   "chemical_requirements": {
+    "water_extract_pct_min": 32,
+    "total_ash_pct": [
+     4,
+     8
+    ],
+    "water_soluble_ash_pct_of_total_min": 45,
+    "water_soluble_ash_alkalinity_as_KOH_pct": [
+     1.0,
+     3.0
+    ],
+    "acid_insoluble_ash_pct_max": 1.0,
+    "crude_fibre_pct_max": 16.5,
+    "total_polyphenols_pct_min": 9,
+    "basis": "на сухое вещество при (103 ± 2) °C по ISO 1573",
+    "source": "iso-3720-2011",
+    "ref": "ISO 3720:2011, Table 1"
+   },
+   "liquor_colour_words": "от бледно-янтарного до глубокого коричнево-чёрного",
+   "liquor_colour_source": "iso-tr-12591-2013",
+   "liquor_colour_ref": "ISO/TR 12591:2013, п. 3.2",
+   "vocabulary_standard": "ISO 6078 Black tea — Vocabulary"
+  },
+  "oolong": {
+   "iso_name": "oolong tea (blue tea)",
+   "gb_name": "乌龙茶 / 青茶",
+   "definition": "Чай из умеренно зрелых новых побегов разновидностей Camellia sinensis (Linnaeus) O. Kuntze, полученный завяливанием, тумблингом и частичной аэрацией, инактивацией ферментов, формованием/скручиванием и сушкой.",
+   "definition_sources": [
+    "iso-20716-2022",
+    "iso-20715-2023"
+   ],
+   "definition_ref": "ISO 20716:2022, п. 3.1; ISO 20715:2023, п. 3.15",
+   "key_process": "частичная аэрация + тумблинг (специфичен только для улуна)",
+   "oxidation_classes": [
+    "light",
+    "medium",
+    "high"
+   ],
+   "oxidation_source": "iso-20716-2022",
+   "oxidation_ref": "ISO 20716:2022, п. 3.1, Note 1",
+   "processing_parameters": {
+    "harvest": "побег с одной почкой и 2–4 листами",
+    "tumbling_min": [
+     2,
+     60
+    ],
+    "static_aeration_h": [
+     1,
+     5
+    ],
+    "enzyme_inactivation_pan_temp_c": [
+     250,
+     300
+    ],
+    "shaping": "скручивание → полоска; обёртывание-скручивание → неправильный шарик",
+    "source": "iso-20716-2022",
+    "ref": "ISO 20716:2022, п. 4.2"
+   },
+   "sensory_profile_normative": {
+    "aroma": "сильный цветочный и/или фруктовый",
+    "taste": "мягкий, округлый, гладкий",
+    "aftertaste": "явное сладкое послевкусие",
+    "liquor": "прозрачный, яркий",
+    "source": "iso-20716-2022",
+    "ref": "ISO 20716:2022, п. 4.3",
+    "note": "единственный найденный источник уровня A, нормативно описывающий вкусо-ароматический профиль типа чая"
+   },
+   "chemical_requirements": {
+    "water_extract_pct_min": 32,
+    "total_ash_pct": [
+     4.0,
+     8.0
+    ],
+    "crude_fibre_pct_max": 16.5,
+    "total_catechins_pct_min": 3.0,
+    "total_polyphenols_pct_min": 10.0,
+    "catechins_to_polyphenols_ratio_min": 0.3,
+    "caffeine_pct_min": 1.0,
+    "theanine_pct_min": 0.1,
+    "basis": "на сухое вещество при (103 ± 2) °C по ISO 1573",
+    "source": "iso-20716-2022",
+    "ref": "ISO 20716:2022, Table 1",
+    "note": "единственный из четырёх типов, где ISO нормирует кофеин и теанин"
+   }
+  },
+  "white": {
+   "iso_name": "white tea",
+   "gb_name": "白茶",
+   "definition": "Чай, полученный сбором и единственной стадией завяливания/сушки почки либо почки с нежными побегами (1–3 листа) разновидностей Camellia sinensis (L.) O. Kuntze.",
+   "definition_sources": [
+    "iso-tr-12591-2013",
+    "iso-20715-2023"
+   ],
+   "definition_ref": "ISO/TR 12591:2013, п. 2.1; ISO 20715:2023, п. 3.14",
+   "key_process": "только завяливание и сушка — ни фиксации, ни скручивания, ни измельчения",
+   "process_ref": "ISO/TR 12591:2013, п. 3.4",
+   "subtypes_iso": [
+    "bud white tea (только почка)",
+    "bud-leaf white tea (почка + 1–3 листа)"
+   ],
+   "subtypes_source": "iso-20715-2023",
+   "naming_note": "Назван «белым» не по цвету листа, а по тонким белым волоскам на поверхности почек и нижней стороне листа.",
+   "naming_ref": "ISO/TR 12591:2013, п. 3.2",
+   "origin_note": "Исторические корни — провинция Фуцзянь, Китай; изначально два подсорта Camellia sinensis sinensis: var. Zhenghe dai bai и var. Fuding dai bai. Стандарт прямо оговаривает, что белый чай не определяется географией.",
+   "origin_ref": "ISO/TR 12591:2013, п. 3.1",
+   "sensory_discriminator": "Ноты, указывающие на инактивацию ферментов паром или прожаркой (характерные для зелёного чая), в белом чае должны полностью отсутствовать.",
+   "sensory_ref": "ISO/TR 12591:2013, п. 3.5",
+   "chemical_requirements": null,
+   "chemical_requirements_note": "ISO/TR 12591 — Technical Report, числовых требований не устанавливает. Китайский GB/T 22291-2017 «白茶» их задаёт, но полный текст недоступен."
+  },
+  "yellow": {
+   "iso_name": "yellow tea",
+   "gb_name": "黄茶",
+   "definition": "Чай, полученный инактивацией ферментов, скручиванием/формованием, желтением (yellowing) и сушкой из почки либо почки с нежными побегами разновидностей Camellia sinensis (L.) O. Kuntze.",
+   "definition_sources": [
+    "iso-20715-2023"
+   ],
+   "definition_ref": "ISO 20715:2023, п. 3.16",
+   "key_process": "желтение (闷黄) — складывание зафиксированного листа в закрытой ёмкости с мягким нагревом до постепенного пожелтения; процесс специфичен только для жёлтого чая",
+   "process_ref": "ISO 20715:2023, п. 3.10",
+   "standards_gap": "Отдельного стандарта ISO на жёлтый чай нет. Китайские: GB/T 21726-2018 «黄茶» и GB/T 39592-2020 «黄茶加工技术规程».",
+   "chemical_requirements": null
+  },
+  "dark": {
+   "iso_name": "dark tea",
+   "gb_name": "黑茶 (хэй ча)",
+   "definition": "Чай, полученный инактивацией ферментов, скручиванием, ферментацией в куче (piling fermentation) и сушкой из нежных или зрелых новых побегов разновидностей Camellia sinensis (L.) O. Kuntze.",
+   "definition_sources": [
+    "iso-20715-2023"
+   ],
+   "definition_ref": "ISO 20715:2023, п. 3.17",
+   "key_process": "микробная постферментация в куче (渥堆) — специфична только для тёмного чая",
+   "process_ref": "ISO 20715:2023, п. 3.11",
+   "subtypes_iso": [
+    "ripen pu-erh tea (шу пуэр)",
+    "other dark teas"
+   ],
+   "subtypes_source": "iso-20715-2023",
+   "subtypes_ref": "ISO 20715:2023, п. 5.6",
+   "standards_gap": "Отдельного стандарта ISO на тёмный чай нет. Китайские: серия GB/T 32719 «黑茶» (基本要求, 花卷茶, 湘尖茶, 六堡茶, 茯茶), GB/T 22111-2008 «普洱茶» (GI), серия GB/T 9833 «紧压茶».",
+   "schema_conflict": "В data/teas.json этого типа нет; вместо него используется `pu-erh`. См. schema-proposal.md, предложение 1.",
+   "chemical_requirements": null
+  }
+ },
+ "brewing_reference": {
+  "iso-3103-sensory": {
+   "purpose": "reference",
+   "label": "Органолептическое испытание по ISO 3103",
+   "disclaimer": "ISO 3103 не описывает «правильное» заваривание для питья. Это метод приготовления настоя для сопоставимых дегустаций.",
+   "source": "iso-3103-2019",
+   "ref": "ISO 3103:2019, Table 1 и п. 4, 7.2",
+   "confidence": "high",
+   "by_type": {
+    "black": {
+     "ratio_g_per_100ml": 2.0,
+     "temperature_c": 100,
+     "temperature_note": "кипящая вода, прибл. 100 °C",
+     "infusions": [
+      {
+       "number": 1,
+       "time_s": 360
+      }
+     ]
+    },
+    "green": {
+     "ratio_g_per_100ml": 2.0,
+     "temperature_c": 100,
+     "temperature_note": "кипящая вода, прибл. 100 °C",
+     "infusions": [
+      {
+       "number": 1,
+       "time_s": 300,
+       "note": "листовой чай; для высевок (fannings) — 180 с"
+      }
+     ]
+    }
+   },
+   "vessels": [
+    {
+     "name": "large pot",
+     "dose_g": 5.6,
+     "dose_tolerance_g": 0.1,
+     "water_ml": 285
+    },
+    {
+     "name": "small pot",
+     "dose_g": 2.8,
+     "dose_tolerance_g": 0.05,
+     "water_ml": 140
+    }
+   ],
+   "water": "Похожая на питьевую воду региона потребления. Жёсткость влияет на вкус и внешний вид настоя. Дистиллированная/деионизированная — только как исключение.",
+   "types_not_covered": [
+    "oolong",
+    "white",
+    "yellow",
+    "dark"
+   ]
+  },
+  "cn-gb-23776-sensory": {
+   "purpose": "reference",
+   "label": "Органолептическая оценка по GB/T 23776 (КНР)",
+   "disclaimer": "Метод экспертной оценки (审评), а не рекомендация потребителю.",
+   "source": "cn-gb-23776-2018",
+   "via": "cn-sensory-theory-pdf",
+   "ref": "GB/T 23776, раздел общей процедуры",
+   "confidence": "medium",
+   "confidence_reason": "полный текст действующей редакции 2018 недоступен; числа взяты из вторичного источника уровня B, ссылающегося на редакцию 2009. В редакции 2018 изменены размеры посуды — параметры могли измениться.",
+   "verified_against_standard_text": false,
+   "methods": [
+    {
+     "id": "cylindrical-cup",
+     "name": "柱形杯审评法",
+     "applies_to": [
+      "black",
+      "green",
+      "yellow",
+      "white",
+      "oolong (в полоске)"
+     ],
+     "dose_g": [
+      3.0,
+      5.0
+     ],
+     "tea_to_water_ratio": "1:50",
+     "typical": "3 г на 150 мл",
+     "ratio_g_per_100ml": 2.0,
+     "temperature_c": 100,
+     "temperature_exception": {
+      "applies_to": "именитые нежные зелёные чаи",
+      "temperature_c": 80
+     },
+     "infusions": [
+      {
+       "number": 1,
+       "time_s": 300,
+       "note": "для красного и зелёного чая"
+      }
+     ]
+    },
+    {
+     "id": "gaiwan-oolong",
+     "name": "盖碗审评法",
+     "applies_to": [
+      "oolong"
+     ],
+     "vessel": "倒钟形评茶杯 (чашка перевёрнутого колокола), 110 мл",
+     "dose_g": 5.0,
+     "water_ml": 110,
+     "tea_to_water_ratio": "1:22",
+     "ratio_g_per_100ml": 4.5,
+     "temperature_c": 100,
+     "infusions": [
+      {
+       "number": 1,
+       "time_s": 120,
+       "lid_aroma_at_s": 60
+      },
+      {
+       "number": 2,
+       "time_s": 180,
+       "lid_aroma_at_s": 120
+      },
+      {
+       "number": 3,
+       "time_s": 300,
+       "lid_aroma_at_s": 180,
+       "note": "на третьем проливе сравнивают выносливость к проливам (耐泡程度)"
+      }
+     ]
+    },
+    {
+     "id": "dark-compressed",
+     "name": "黑茶与紧压茶 二次冲泡法",
+     "applies_to": [
+      "dark",
+      "compressed"
+     ],
+     "dose_g": 5.0,
+     "water_ml": 250,
+     "tea_to_water_ratio": "1:50",
+     "ratio_g_per_100ml": 2.0,
+     "temperature_c": 100,
+     "infusions": [
+      {
+       "number": 1,
+       "time_s": 120
+      },
+      {
+       "number": 2,
+       "time_s": 300
+      }
+     ]
+    },
+    {
+     "id": "scented",
+     "name": "花茶 单杯二次冲泡法",
+     "applies_to": [
+      "scented"
+     ],
+     "dose_g": 3.0,
+     "water_ml": 150,
+     "ratio_g_per_100ml": 2.0,
+     "temperature_c": 100,
+     "infusions": [
+      {
+       "number": 1,
+       "time_s": 180
+      },
+      {
+       "number": 2,
+       "time_s": 300
+      }
+     ]
+    }
+   ],
+   "aroma_assessment": [
+    {
+     "stage": "热嗅 горячий",
+     "cup_temp_c": 75,
+     "judges": "нормальность, наличие дефектов"
+    },
+    {
+     "stage": "温嗅 тёплый",
+     "cup_temp_c": 45,
+     "judges": "тип и интенсивность аромата"
+    },
+    {
+     "stage": "冷嗅 холодный",
+     "cup_temp_c": null,
+     "cup_temp_note": "близко к комнатной",
+     "judges": "тип и стойкость"
+    }
+   ]
+  },
+  "jp-official-consumer": {
+   "purpose": "consumer",
+   "label": "Официальные потребительские параметры (Япония)",
+   "source": "jp-pref-shizuoka-brewing",
+   "corroborated_by": "jp-wgta-serving",
+   "confidence": "high",
+   "agreement": "два независимых источника совпадают по навеске, температуре и времени; WGTA дополнительно даёт объём воды",
+   "second_infusion_rule": "примерно 1/3 времени первого пролива (лист уже раскрылся)",
+   "water": "низкокислотная мягкая вода; после закипания кипятить с открытой крышкой 4–5 мин, чтобы ушёл углекислый газ водопроводной воды",
+   "rows": [
+    {
+     "tea": "gyokuro",
+     "grade": "высший",
+     "servings": 3,
+     "dose_g": 10,
+     "water_ml": 60,
+     "ratio_g_per_100ml": 16.7,
+     "temperature_c": 50,
+     "time_s": 150,
+     "serve_temp_c": 35
+    },
+    {
+     "tea": "gyokuro",
+     "grade": "обычный",
+     "servings": 3,
+     "dose_g": 10,
+     "water_ml": 60,
+     "ratio_g_per_100ml": 16.7,
+     "temperature_c": 60,
+     "time_s": 120,
+     "serve_temp_c": 40
+    },
+    {
+     "tea": "sencha",
+     "grade": "высшая",
+     "servings": 3,
+     "dose_g": 6,
+     "water_ml": 180,
+     "ratio_g_per_100ml": 3.3,
+     "temperature_c": 70,
+     "time_s": 120,
+     "serve_temp_c": 50
+    },
+    {
+     "tea": "sencha",
+     "grade": "обычная",
+     "servings": 5,
+     "dose_g": 10,
+     "water_ml": 450,
+     "ratio_g_per_100ml": 2.2,
+     "temperature_c": 90,
+     "time_s": 60,
+     "serve_temp_c": 65
+    },
+    {
+     "tea": "bancha",
+     "grade": null,
+     "servings": 5,
+     "dose_g": 15,
+     "water_ml": 650,
+     "ratio_g_per_100ml": 2.3,
+     "temperature_c": 100,
+     "time_s": 30,
+     "serve_temp_c": 75
+    },
+    {
+     "tea": "houjicha",
+     "grade": null,
+     "servings": 5,
+     "dose_g": 15,
+     "water_ml": 650,
+     "ratio_g_per_100ml": 2.3,
+     "temperature_c": 100,
+     "time_s": 30,
+     "serve_temp_c": 75
+    },
+    {
+     "tea": "fukamushicha",
+     "grade": null,
+     "servings": null,
+     "dose_g": null,
+     "water_ml": null,
+     "ratio_g_per_100ml": null,
+     "temperature_c": null,
+     "time_s": 30,
+     "note": "навеска и температура как у сенчи; время настаивания 30 с вместо 60 с",
+     "source_only": "jp-pref-shizuoka-brewing"
+    },
+    {
+     "tea": "genmaicha",
+     "grade": null,
+     "servings": 5,
+     "dose_g": 15,
+     "water_ml": 650,
+     "ratio_g_per_100ml": 2.3,
+     "temperature_c": 100,
+     "time_s": 30,
+     "note": "как банча/ходзича",
+     "source_only": "jp-pref-shizuoka-brewing"
+    },
+    {
+     "tea": "sencha-cold-brew",
+     "grade": null,
+     "servings": null,
+     "dose_g": 5,
+     "water_ml": 500,
+     "ratio_g_per_100ml": 1.0,
+     "temperature_c": null,
+     "temperature_note": "холодная вода",
+     "time_s": 900,
+     "time_range_s": [
+      600,
+      900
+     ],
+     "note": "пакетик 5 г на 0,5 л холодной воды, 10–15 мин, затем отжать и убрать",
+     "source_only": "jp-pref-shizuoka-brewing"
+    }
+   ],
+   "not_covered": [
+    "матча (взбивается, не настаивается — см. ISO/TR 21380)",
+    "кукича",
+    "конача",
+    "синча отдельно",
+    "гунфу-режим"
+   ]
+  },
+  "gongfu": {
+   "purpose": "consumer",
+   "label": "Гунфу-ча (многопроливный режим)",
+   "confidence": "low",
+   "standards_status": "НОРМАТИВНОГО ИСТОЧНИКА НЕ СУЩЕСТВУЕТ",
+   "explanation": "Ни ISO, ни GB/T, ни JAS не стандартизируют потребительский многопроливный режим. Ближайший нормативный аналог — метод оценки улуна в гайвани по GB/T 23776 (5 г / 110 мл, проливы 2/3/5 мин), но это экспертная оценка, а не рекомендация. Числа вида «20 с, +5 с каждый следующий пролив» — отраслевая практика (уровень B/C), у разных мастеров и продавцов они различаются.",
+   "nearest_normative_anchor": "cn-gb-23776-sensory / gaiwan-oolong",
+   "recommendation": "Публиковать такие параметры только с указанием источника и как диапазон, а не как единственно верное число. См. schema-proposal.md, предложение 3."
+  }
+ },
+ "teas": [
+  {
+   "slug": "longjing",
+   "name_ru": "Лунцзин",
+   "name_zh": "龙井茶",
+   "name_en": "Longjing tea",
+   "type": {
+    "value": "green",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-18650-longjing"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20715:2023 п. 3.13; GB/T 18650-2008"
+   },
+   "origin": {
+    "value_ru": "Ханчжоу, провинция Чжэцзян, Китай",
+    "sources": [
+     "cn-gb-18650-longjing"
+    ],
+    "confidence": "high",
+    "ref": "GB/T 18650-2008 «地理标志产品 龙井茶» / Product of geographical indication — Longjing tea",
+    "note": "Защищённое географическое указание КНР. Точные границы района, разрешённые сорта куста и требования к продукту заданы стандартом; полный текст стандарта недоступен в открытом доступе.",
+    "current_site_value": "Ханчжоу, Китай",
+    "correction": "добавить провинцию Чжэцзян — в data/teas.json указан только город"
+   },
+   "processing": {
+    "value": "pan-fired green tea (обжиг в воке)",
+    "sources": [
+     "iso-20715-2023"
+    ],
+    "confidence": "medium",
+    "ref": "ISO 20715:2023 п. 5.3.1",
+    "note": "подтип по классификации ISO; конкретная технология Лунцзина задана GB/T 18650, текст недоступен"
+   },
+   "sensory": {
+    "value": null,
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно",
+    "current_site_value": {
+     "aroma": [
+      "Каштан",
+      "Свежая трава",
+      "Морские водоросли"
+     ],
+     "flavor": [
+      "Ореховый",
+      "Сладкий",
+      "Умами",
+      "Лёгкая овощность"
+     ],
+     "aftertaste": [
+      "Сладкое",
+      "Длительное",
+      "Чистое"
+     ]
+    },
+    "note": "дескрипторы дегустатора; источника уровня A для профиля конкретного сорта не существует. Нормативны только словари терминов: ISO 6078, GB/T 14487-2017"
+   },
+   "brewing": {
+    "reference_modes": [
+     "iso-3103-sensory/green",
+     "cn-gb-23776-sensory/cylindrical-cup"
+    ],
+    "consumer_recommended": null,
+    "current_site_value": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": 3.5,
+     "temperature_c": [
+      75,
+      80
+     ],
+     "infusions": [
+      {
+       "number": 1,
+       "time_s": 20
+      },
+      {
+       "number": 2,
+       "time_s": 15
+      },
+      {
+       "number": 3,
+       "time_s": 20
+      }
+     ],
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    },
+    "notes": [
+     "GB/T 23776 допускает ~80 °C для именитых нежных зелёных чаёв — это единственное нормативное подтверждение пониженной температуры, и оно согласуется с 75–80 °C на сайте (источник: cn-gb-23776-2018 через cn-sensory-theory-pdf).",
+     "Навеска 3,5 г/100 мл на сайте выше, чем 2 г/100 мл по ISO 3103 и GB/T 23776, но это ожидаемо: на сайте многопроливный режим, в стандартах — один длинный пролив.",
+     "Пик экстракции EGCG около 85 °C (lit-perva-2006, lit-jin-2019) — обоснование диапазона, но не точного числа."
+    ]
+   },
+   "altitude_m": {
+    "value": 500,
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+   },
+   "in_site_catalog": true
+  },
+  {
+   "slug": "bi-lo-chun",
+   "name_ru": "Би Ло Чунь",
+   "name_zh": "洞庭（山）碧螺春茶",
+   "name_en": "Dongting (mountain) biluochun tea",
+   "type": {
+    "value": "green",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-18957-biluochun"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20715:2023 п. 3.13; GB/T 18957-2008"
+   },
+   "origin": {
+    "value_ru": "Дунтиншань, город Сучжоу, провинция Цзянсу, Китай",
+    "sources": [
+     "cn-gb-18957-biluochun"
+    ],
+    "confidence": "high",
+    "ref": "GB/T 18957-2008 «地理标志产品 洞庭（山）碧螺春茶»",
+    "current_site_value": "Дунтиншань, Цзянсу, Китай",
+    "note": "Защищённое ГУ КНР. Важно не путать с озером Дунтин в провинции Хунань: Би Ло Чунь — с горы Дунтиншань у озера Тайху в Цзянсу. Полное название стандарта содержит уточнение «(山)» — «(гора)» именно для устранения этой путаницы."
+   },
+   "processing": {
+    "value": "pan-fired green tea",
+    "sources": [
+     "iso-20715-2023"
+    ],
+    "confidence": "medium",
+    "ref": "ISO 20715:2023 п. 5.3.1"
+   },
+   "sensory": {
+    "value": null,
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно",
+    "current_site_value": "см. data/teas.json"
+   },
+   "brewing": {
+    "reference_modes": [
+     "iso-3103-sensory/green",
+     "cn-gb-23776-sensory/cylindrical-cup"
+    ],
+    "consumer_recommended": null,
+    "current_site_value": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": 3.5,
+     "temperature_c": [
+      75,
+      80
+     ],
+     "infusion_count": 4,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    }
+   },
+   "altitude_m": {
+    "value": null,
+    "note": "в data/teas.json не заполнено"
+   },
+   "in_site_catalog": true
+  },
+  {
+   "slug": "tie-guan-yin",
+   "name_ru": "Те Гуань Инь",
+   "name_zh": "安溪铁观音",
+   "name_en": "Anxi tieguanyin",
+   "type": {
+    "value": "oolong",
+    "sources": [
+     "iso-20716-2022",
+     "cn-gb-30357-2-tieguanyin"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20716:2022 п. 3.1; GB/T 30357.2-2013 «乌龙茶 第2部分：铁观音»"
+   },
+   "origin": {
+    "value_ru": "уезд Аньси, город Цюаньчжоу, провинция Фуцзянь, Китай",
+    "sources": [
+     "cn-gb-19598-tieguanyin"
+    ],
+    "confidence": "high",
+    "ref": "GB/T 19598-2025 «地理标志产品质量要求 安溪铁观音» / Quality requirements for product of geographical indication — Anxi tieguanyin",
+    "current_site_value": "Аньси, Фуцзянь, Китай",
+    "standard_note": "Действующая редакция GB/T 19598-2025 опубликована 2025-02-28 и заменила GB/T 19598-2006 (и ещё более раннюю GB 19598-2004). Если каталог будет ссылаться на стандарт — ссылаться на 2025."
+   },
+   "processing": {
+    "value": "partially aerated oolong; тумблинг + частичная аэрация, фиксация, обёртывание-скручивание (неправильный шарик), сушка",
+    "sources": [
+     "iso-20716-2022"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20716:2022 п. 4.2",
+    "oxidation_class": "light-to-medium для современного 清香 стиля",
+    "oxidation_confidence": "low",
+    "oxidation_note": "ISO даёт три класса (light/medium/high), но не привязывает их к конкретным сортам. Привязка Те Гуань Инь к light/medium — отраслевая практика, не нормативна"
+   },
+   "sensory": {
+    "type_level_normative": {
+     "aroma": "сильный цветочный и/или фруктовый",
+     "taste": "мягкий, округлый",
+     "aftertaste": "явное сладкое послевкусие",
+     "liquor": "прозрачный, яркий",
+     "sources": [
+      "iso-20716-2022"
+     ],
+     "confidence": "high",
+     "ref": "ISO 20716:2022 п. 4.3"
+    },
+    "cultivar_level": {
+     "value": null,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно",
+     "current_site_value": "см. data/teas.json"
+    }
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/gaiwan-oolong"
+    ],
+    "research_optimum": {
+     "ratio_g_per_100ml": 5.0,
+     "water_to_tea_ml_per_g": 20,
+     "temperature_c": 100,
+     "time_s": 100,
+     "variant_balanced": {
+      "ratio_g_per_100ml": 3.8,
+      "water_to_tea_ml_per_g": 26,
+      "temperature_c": 100,
+      "time_s": 127
+     },
+     "sources": [
+      "lit-cao-2022"
+     ],
+     "confidence": "high",
+     "ref": "Cao Q-Q et al. 2022, npj Science of Food 6:25",
+     "method_note": "квадратичная ортогональная регрессия; оптимум по общим полифенолам, катехинам и антиоксидантной активности, один длинный пролив — не гунфу"
+    },
+    "current_site_value": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": 5.0,
+     "temperature_c": [
+      95,
+      100
+     ],
+     "infusion_count": 6,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    },
+    "agreement": "навеска 5,0 г/100 мл на сайте совпадает с научным оптимумом Cao 2022 (5,0 г/100 мл) и близка к GB/T 23776 (4,5 г/100 мл). Температура 95–100 °C совпадает с обоими. Это самый хорошо подкреплённый чай в каталоге."
+   },
+   "altitude_m": {
+    "value": 800,
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+   },
+   "in_site_catalog": true
+  },
+  {
+   "slug": "da-hong-pao",
+   "name_ru": "Да Хун Пао",
+   "name_zh": "武夷岩茶 (大红袍)",
+   "name_en": "Wuyi rock-essence tea (Da Hong Pao)",
+   "type": {
+    "value": "oolong",
+    "sources": [
+     "iso-20716-2022",
+     "cn-gb-18745-wuyi"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20716:2022 п. 3.1; GB/T 18745-2006"
+   },
+   "origin": {
+    "value_ru": "горы Уишань, провинция Фуцзянь, Китай",
+    "sources": [
+     "cn-gb-18745-wuyi"
+    ],
+    "confidence": "high",
+    "ref": "GB/T 18745-2006 «地理标志产品 武夷岩茶» / Product of geographical indication — Wuyi rock-essence tea",
+    "current_site_value": "Уишань, Фуцзянь, Китай",
+    "standard_note": "ВНИМАНИЕ: GB/T 18745-2026 «地理标志产品质量要求 武夷岩茶» опубликован 2026-09-28 и вступает в силу 2027-10-01. Ссылка на редакцию 2006 станет устаревшей.",
+    "scope_note": "Да Хун Пао — не отдельное ГУ, а один из сортов внутри ГУ «Уи яньча» (утёсный чай Уишань)"
+   },
+   "processing": {
+    "value": "partially aerated oolong с обжаркой (焙火)",
+    "sources": [
+     "iso-20716-2022",
+     "lit-liu-2021"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20716:2022 п. 4.2",
+    "roasting_note": "степень обжарки существенно меняет химический и летучий профиль утёсного чая Уи — показано в Liu X et al. 2021, RSC Adv 11:12074"
+   },
+   "sensory": {
+    "type_level_normative": {
+     "sources": [
+      "iso-20716-2022"
+     ],
+     "confidence": "high",
+     "ref": "ISO 20716:2022 п. 4.3",
+     "value": "см. слой типов, oolong"
+    },
+    "cultivar_level": {
+     "value": null,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    }
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/gaiwan-oolong"
+    ],
+    "current_site_value": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": 5.0,
+     "temperature_c": [
+      95,
+      100
+     ],
+     "infusion_count": 6,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    },
+    "agreement": "согласуется с GB/T 23776 (gaiwan-oolong: 4,5 г/100 мл, 100 °C, три пролива 2/3/5 мин) по навеске и температуре; время проливов на сайте существенно короче — это разница между дегустационным и потребительским режимом"
+   },
+   "altitude_m": {
+    "value": 1000,
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+   },
+   "in_site_catalog": true
+  },
+  {
+   "slug": "bai-hao-yin-zhen",
+   "name_ru": "Бай Хао Инь Чжэнь",
+   "name_zh": "白毫银针",
+   "name_en": "Baihao Yinzhen (Silver Needle)",
+   "type": {
+    "value": "white",
+    "sources": [
+     "iso-tr-12591-2013",
+     "cn-gb-22291-baicha"
+    ],
+    "confidence": "high",
+    "ref": "ISO/TR 12591:2013 п. 2.1; GB/T 22291-2017 «白茶»"
+   },
+   "subtype": {
+    "value": "bud white tea (только почка)",
+    "sources": [
+     "iso-20715-2023",
+     "iso-tr-12591-2013"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20715:2023 п. 5.4.1; ISO/TR 12591:2013 п. 3.3(a)",
+    "note": "ISO/TR 12591 прямо называет «silver needle» примером типа «только почка» — это подтверждение уровня A"
+   },
+   "origin": {
+    "value_ru": "Фудин, провинция Фуцзянь, Китай",
+    "sources": [
+     "iso-tr-12591-2013"
+    ],
+    "confidence": "medium",
+    "ref": "ISO/TR 12591:2013 п. 3.1",
+    "current_site_value": "Фудин, Фуцзянь, Китай",
+    "note": "ISO/TR 12591 называет исторической родиной белого чая Фуцзянь и два подсорта куста — var. Fuding dai bai и var. Zhenghe dai bai, — но прямо оговаривает, что белый чай географией не определяется. Отдельного ГУ на «фудинский белый чай» в реестре GB/T не нашлось; есть GB/T 22109-2008 «政和白茶» (Чжэнхэ байча). Поэтому «Фудин» для Бай Хао Инь Чжэнь — типичное, но не юридически закреплённое происхождение.",
+    "confidence_reason": "сорт куста подтверждён уровнем A, конкретный город — нет"
+   },
+   "processing": {
+    "value": "только завяливание и сушка; без фиксации, скручивания и измельчения",
+    "sources": [
+     "iso-tr-12591-2013"
+    ],
+    "confidence": "high",
+    "ref": "ISO/TR 12591:2013 п. 3.4"
+   },
+   "sensory": {
+    "type_level_normative": {
+     "discriminator": "ноты пропарки или прожарки должны полностью отсутствовать",
+     "sources": [
+      "iso-tr-12591-2013"
+     ],
+     "confidence": "high",
+     "ref": "ISO/TR 12591:2013 п. 3.5"
+    },
+    "cultivar_level": {
+     "value": null,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    }
+   },
+   "brewing": {
+    "reference_modes": [
+     "cn-gb-23776-sensory/cylindrical-cup"
+    ],
+    "current_site_value": {
+     "method": "gongfu",
+     "ratio_g_per_100ml": 5.0,
+     "temperature_c": [
+      80,
+      85
+     ],
+     "infusion_count": 5,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    },
+    "notes": [
+     "ISO 3103 параметров для белого чая не даёт вообще.",
+     "Жёсткость и качество воды заметно влияют на состав настоя белого чая (lit-zhang-2017, фудинский белый чай) — обоснование требования к мягкой воде.",
+     "Температура 80–85 °C на сайте ниже 100 °C по GB/T 23776; нормативного подтверждения пониженной температуры для белого чая не найдено (оговорка ~80 °C в GB/T 23776 относится к именитым зелёным)."
+    ]
+   },
+   "altitude_m": {
+    "value": null
+   },
+   "in_site_catalog": true
+  },
+  {
+   "slug": "sencha",
+   "name_ru": "Сенча",
+   "name_zh": "煎茶",
+   "name_en": "Sencha",
+   "type": {
+    "value": "green",
+    "sources": [
+     "iso-11287-2011",
+     "iso-20715-2023"
+    ],
+    "confidence": "high",
+    "ref": "ISO 11287:2011 п. 3.1; ISO 20715:2023 п. 3.13"
+   },
+   "subtype": {
+    "value": "steamed green tea (蒸青茶)",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-14456-6-steamed"
+    ],
+    "confidence": "high",
+    "ref": "ISO 20715:2023 п. 5.3.4; GB/T 14456.6-2016 «绿茶 第6部分：蒸青茶»"
+   },
+   "origin": {
+    "value_ru": "Япония; префектура Сидзуока — крупнейший производящий регион",
+    "sources": [
+     "jp-pref-shizuoka-brewing"
+    ],
+    "confidence": "medium",
+    "current_site_value": "Сидзуока, Япония",
+    "note": "Сенча — тип японского зелёного чая, не географическое указание. Привязка к Сидзуоке как к «происхождению» некорректна: сенчу производят во многих префектурах (Кагосима, Миэ, Киото и др.).",
+    "correction": "в поле origin указать «Япония», а префектуру — как регион партии, если он известен"
+   },
+   "brewing": {
+    "consumer_recommended": {
+     "method": "western",
+     "grades": [
+      {
+       "grade": "высшая (上)",
+       "dose_g": 6,
+       "water_ml": 180,
+       "ratio_g_per_100ml": 3.3,
+       "temperature_c": 70,
+       "time_s": 120,
+       "serve_temp_c": 50
+      },
+      {
+       "grade": "обычная (並)",
+       "dose_g": 10,
+       "water_ml": 450,
+       "ratio_g_per_100ml": 2.2,
+       "temperature_c": 90,
+       "time_s": 60,
+       "serve_temp_c": 65
+      }
+     ],
+     "second_infusion": "≈ 1/3 времени первого пролива",
+     "sources": [
+      "jp-pref-shizuoka-brewing",
+      "jp-wgta-serving"
+     ],
+     "confidence": "high",
+     "ref": "таблица 標準的なお茶のいれ方（一煎目）",
+     "agreement": "два независимых источника совпадают полностью"
+    },
+    "reference_modes": [
+     "iso-3103-sensory/green",
+     "cn-gb-23776-sensory/cylindrical-cup"
+    ],
+    "current_site_value": {
+     "western": {
+      "ratio_g_per_100ml": 2.0,
+      "temperature_c": [
+       70,
+       80
+      ],
+      "infusion_count": 1
+     },
+     "gongfu": {
+      "ratio_g_per_100ml": 4.0,
+      "temperature_c": [
+       75,
+       75
+      ],
+      "infusion_count": 3
+     },
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    },
+    "disagreement": {
+     "field": "ratio_g_per_100ml и temperature_c (western)",
+     "site": {
+      "ratio_g_per_100ml": 2.0,
+      "temperature_c": [
+       70,
+       80
+      ]
+     },
+     "official_jp": {
+      "ratio_g_per_100ml": [
+       2.2,
+       3.3
+      ],
+      "temperature_c": [
+       70,
+       90
+      ]
+     },
+     "resolution": "диапазон официального источника шире и привязан к грейду. Значение сайта (2,0 г/100 мл, 70–80 °C) попадает в нижнюю часть официального диапазона, но не разделяет грейды: для высшей сенчи официально 3,3 г/100 мл при 70 °C, для обычной — 2,2 г/100 мл при 90 °C. Рекомендация: разделить по грейду."
+    }
+   },
+   "altitude_m": {
+    "value": null
+   },
+   "in_site_catalog": true
+  },
+  {
+   "slug": "assam",
+   "name_ru": "Ассам",
+   "name_en": "Assam",
+   "type": {
+    "value": "black",
+    "sources": [
+     "iso-3720-2011",
+     "iso-20715-2023"
+    ],
+    "confidence": "high",
+    "ref": "ISO 3720:2011 п. 3.1; ISO 20715:2023 п. 3.12"
+   },
+   "origin": {
+    "value_ru": "штат Ассам, Индия",
+    "sources": [
+     "in-teaboard-darjeeling-gi"
+    ],
+    "confidence": "medium",
+    "current_site_value": "Ассам, Индия",
+    "note": "Tea Board of India администрирует отдельные лицензионные программы на логотипы Assam и Assam Orthodox, но регламент Assam в рамках этого этапа не выгружен — выгружен только регламент Darjeeling. Поэтому уровень A для Ассама пока не подтверждён прямой выпиской.",
+    "todo": "выгрузить регламент Assam GI с teaboard.gov.in"
+   },
+   "processing": {
+    "value": "black tea; подтип зависит от партии — orthodox или broken (CTC)",
+    "sources": [
+     "iso-20715-2023",
+     "cn-gb-13738-2-congou"
+    ],
+    "confidence": "medium",
+    "ref": "ISO 20715:2023 п. 5.2.1–5.2.2",
+    "note": "ISO разделяет orthodox (скручивание на ортодоксальных роллерах) и broken; у Ассама массово представлены оба. В data/teas.json это различие не отражено, хотя оно сильно влияет на параметры заваривания"
+   },
+   "sensory": {
+    "value": null,
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+   },
+   "brewing": {
+    "reference_modes": [
+     "iso-3103-sensory/black",
+     "cn-gb-23776-sensory/cylindrical-cup"
+    ],
+    "current_site_value": {
+     "method": "western",
+     "ratio_g_per_100ml": 2.5,
+     "temperature_c": [
+      95,
+      100
+     ],
+     "infusion_count": 1,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    },
+    "agreement": "навеска 2,5 г/100 мл близка к 2,0 г/100 мл по ISO 3103; температура 95–100 °C совпадает с кипятком по ISO 3103 и GB/T 23776. Время на сайте короче 6 мин по ISO 3103 — ожидаемо для питья.",
+    "notes": [
+     "Кинетика экстракции чёрного чая изучена: lit-fernando-2015 — скорость выхода фитохимических веществ и антиоксидантной активности при заваривании.",
+     "Для чёрного чая ISO 3103 отдельно описывает режим с молоком: 5 мл на большую чашу, настой 65–80 °C при добавлении молока после."
+    ]
+   },
+   "altitude_m": {
+    "value": null
+   },
+   "in_site_catalog": true
+  },
+  {
+   "slug": "darjeeling",
+   "name_ru": "Дарджилинг",
+   "name_en": "Darjeeling",
+   "type": {
+    "value": "black",
+    "sources": [
+     "iso-3720-2011",
+     "iso-20715-2023"
+    ],
+    "confidence": "high",
+    "ref": "ISO 3720:2011 п. 3.1",
+    "caveat": "Darjeeling first flush по степени аэрации часто ближе к улуну, но GI-определение Tea Board тип обработки не фиксирует",
+    "caveat_source": "in-teaboard-darjeeling-gi"
+   },
+   "origin": {
+    "value_ru": "округ Дарджилинг, штат Западная Бенгалия, Индия — горные районы подокругов Садар и Калимпонг и подокруг Курсеонг (кроме негорных участков списка юрисдикций № 20, 21, 23, 24, 29, 30, 33); 87 зарегистрированных садов",
+    "sources": [
+     "in-teaboard-darjeeling-gi"
+    ],
+    "confidence": "high",
+    "ref": "Tea Board of India, Regulations п. 2 и Schedules II–III",
+    "current_site_value": "Дарджилинг, Западная Бенгалия, Индия",
+    "legal_status": {
+     "gi_act": "The Geographical Indications of Goods Act, 1999 — первое ГУ, зарегистрированное в Индии",
+     "trade_marks": "сертификационные знаки: слово рег. № 831599, логотип рег. № 532240, класс 30 (Trade Marks Act, 1999)",
+     "copyright": "логотип защищён как художественное произведение (Copyright Act, 1957)",
+     "owner": "Tea Board of India"
+    },
+    "definition_conditions": [
+     "выращен в садах в границах Schedule II, зарегистрированных по Tea Act 1953",
+     "выращен в одном из садов Schedule III (87 садов)",
+     "переработан на фабрике внутри границ Schedule II",
+     "подтверждён дегустаторами как имеющий характерный органолептический профиль"
+    ],
+    "registered_gardens_count": 87,
+    "history": "чай выращивают в районе примерно с 1835 года"
+   },
+   "processing": {
+    "value": "black tea, преимущественно orthodox",
+    "sources": [
+     "iso-20715-2023"
+    ],
+    "confidence": "medium",
+    "ref": "ISO 20715:2023 п. 5.2.1"
+   },
+   "sensory": {
+    "value": null,
+    "standard_position": "GI-определение требует «distinctive and naturally occurring organoleptic characteristics of taste, aroma and mouth feel typical of tea cultivated, grown and produced in the region of Darjeeling», но конкретных нот не перечисляет — оценку выносят дегустаторы Tea Board",
+    "standard_source": "in-teaboard-darjeeling-gi",
+    "standard_ref": "Regulations п. 2(d)",
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+   },
+   "brewing": {
+    "reference_modes": [
+     "iso-3103-sensory/black"
+    ],
+    "current_site_value": {
+     "method": "western",
+     "ratio_g_per_100ml": 2.5,
+     "temperature_c": [
+      85,
+      90
+     ],
+     "infusion_count": 1,
+     "sources": [
+      "justea-existing-docs"
+     ],
+     "confidence": "none",
+     "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно"
+    },
+    "disagreement": {
+     "field": "temperature_c",
+     "site": [
+      85,
+      90
+     ],
+     "iso_3103": 100,
+     "resolution": "ISO 3103 для чёрного чая предписывает кипяток. Пониженные 85–90 °C на сайте — отраслевая практика для нежных сборов (особенно first flush, слабо аэрированного). Нормативного подтверждения нет; оставить как диапазон с пометкой уровня."
+    },
+    "flush_note": "Деление на сборы (first flush, second flush, monsoon, autumnal) сильно меняет нужные параметры, но в GI-определении отсутствует и в схеме сайта не отражено"
+   },
+   "altitude_m": {
+    "value": 1500,
+    "sources": [
+     "justea-existing-docs"
+    ],
+    "confidence": "none",
+    "warning": "значение взято из существующих файлов проекта; источник факта не зафиксирован, проверить невозможно",
+    "standard_position": "Tea Board использует не высоту числом, а юридический критерий «горные районы»: негорные участки Курсеонга исключены из ГУ прямо потому, что «not capable of producing tea of the requisite standard»"
+   },
+   "in_site_catalog": true
+  }
+ ]
+}
