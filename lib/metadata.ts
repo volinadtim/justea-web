@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { publicImageSize } from "./image-size";
 import { absoluteUrl, isMultilingual, siteConfig } from "./site";
 
 /** hreflang-альтернативы. Пока локаль одна — возвращаем undefined. */
@@ -22,8 +23,6 @@ export function createPageMetadata({
     description,
     path = "",
     image,
-    /** Фактические размеры `image`; не указывать, если размер неизвестен. */
-    imageSize,
     /** `true` — страница закрыта от индексации (noindex, follow). */
     noindex = false,
 }: {
@@ -31,17 +30,13 @@ export function createPageMetadata({
     description?: string;
     path?: string;
     image?: string;
-    imageSize?: { width: number; height: number };
     noindex?: boolean;
 }): Metadata {
     const pageDescription = description ?? siteConfig.description;
     const pageUrl = absoluteUrl(path);
     const pageImage = image ?? siteConfig.ogImage;
-    const size =
-        imageSize ??
-        (image
-            ? undefined
-            : { width: siteConfig.ogImageWidth, height: siteConfig.ogImageHeight });
+    // Размер читаем из самого файла: заявить неверный хуже, чем не заявить.
+    const size = publicImageSize(pageImage);
 
     return {
         title,

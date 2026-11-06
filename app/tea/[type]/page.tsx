@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import TeaCard from "../../components/TeaCard";
@@ -13,7 +14,7 @@ import {
     teaTypeLabel,
     teaTypePath,
 } from "@/lib/tea-type-pages";
-import { filterTeasByType, TEA_TYPES } from "@/lib/teas";
+import { filterTeasByType, getAvailableTeaTypes, TEA_TYPES } from "@/lib/teas";
 
 interface PageProps {
     params: Promise<{ type: string }>;
@@ -66,6 +67,10 @@ export default async function TeaTypePage({ params }: PageProps) {
 
     const teas = filterTeasByType(type);
     const page = TEA_TYPE_PAGES[type];
+    const filledTypes =
+        teas.length === 0
+            ? getAvailableTeaTypes().filter((filled) => filled !== type)
+            : [];
     const crumbs = [
         { label: "Главная", href: "/" },
         { label: teaTypeLabel(type) },
@@ -99,10 +104,32 @@ export default async function TeaTypePage({ params }: PageProps) {
                     ))}
                 </div>
             ) : (
-                <p className="text-[19px] leading-[1.4]">
-                    Сортов этого типа в справочнике пока нет — руководство по
-                    завариванию выше работает для любого из них.
-                </p>
+                // Тупик без выхода выглядит как ошибка, даже когда страница
+                // полезна краулеру: даём ссылки на типы, где сорта есть
+                // (нашёл justea-design 06.11.2026).
+                <div className="text-[19px] leading-[1.4]">
+                    <p className="mb-3">
+                        Отдельных сортов этого типа в справочнике пока нет —
+                        всё, что нужно для заваривания, в тексте выше.
+                    </p>
+                    {filledTypes.length > 0 && (
+                        <p>
+                            Сорта с разобранными проливами есть у других типов:{" "}
+                            {filledTypes.map((filled, index) => (
+                                <span key={filled}>
+                                    {index > 0 && ", "}
+                                    <Link
+                                        href={teaTypePath(filled)}
+                                        className="underline underline-offset-2"
+                                    >
+                                        {teaTypeLabel(filled).toLowerCase()}
+                                    </Link>
+                                </span>
+                            ))}
+                            .
+                        </p>
+                    )}
+                </div>
             )}
         </main>
     );

@@ -9,6 +9,7 @@ import Search from "./components/Search";
 import SiteJsonLd from "./components/seo/SiteJsonLd";
 import ThemeProvider from "./components/ThemeProvider";
 import ThemeToggle from "./components/ThemeToggle";
+import { publicImageSize } from "@/lib/image-size";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 const comfortaaSans = Comfortaa({
@@ -75,8 +76,8 @@ export const metadata: Metadata = {
         images: [
             {
                 url: siteConfig.ogImage,
-                width: siteConfig.ogImageWidth,
-                height: siteConfig.ogImageHeight,
+                // Размер из самого файла — см. lib/image-size.ts
+                ...publicImageSize(siteConfig.ogImage),
                 alt: siteConfig.name,
             },
         ],

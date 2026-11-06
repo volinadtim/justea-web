@@ -1,3 +1,4 @@
+import { publicImageSize } from "@/lib/image-size";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { TEA_TYPE_LABELS } from "@/lib/teas";
 import type { BrewMethod, Tea } from "@/types/tea";
@@ -19,8 +20,8 @@ export function organizationSchema() {
         logo: {
             "@type": "ImageObject",
             url: absoluteUrl(siteConfig.ogImage),
-            width: siteConfig.ogImageWidth,
-            height: siteConfig.ogImageHeight,
+            // Размер из самого файла — см. lib/image-size.ts
+            ...publicImageSize(siteConfig.ogImage),
         },
         // TODO(orchestrator): добавить sameAs — соцсети и каналы проекта,
         // когда они появятся.
