@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-11-06",
+  "generatedAtSource": "HTTP Date заголовок сервера justea.ru",
+  "agent": "justea-ceremony",
+  "tasks": [8, 9],
+  "questions": [
+    { "id": 1, "group": "host", "question": "ФИО Регины полностью и как подписывать на сайте", "blocks": ["app/ceremony/page.tsx", "metadata"], "askedTo": "user", "status": "open" },
+    { "id": 2, "group": "host", "question": "Биография: годы в чае, где и у кого училась, сертификаты, поездки", "blocks": ["placeholder:hostBio"], "askedTo": "user", "status": "open" },
+    { "id": 3, "group": "host", "question": "Фото: портрет и 2-4 фото церемонии и места", "blocks": ["placeholder:hostPhoto", "og-image"], "askedTo": "user", "status": "open" },
+    { "id": 4, "group": "place", "question": "Город, адрес, описание пространства, как добираться", "blocks": ["placeholder:place"], "askedTo": "user", "status": "open" },
+    { "id": 5, "group": "format", "question": "Длительность церемонии и максимум гостей за столом", "blocks": ["placeholder:duration", "validate.MAX_PEOPLE"], "askedTo": "user", "status": "open" },
+    { "id": 6, "group": "format", "question": "Какие чаи наливают и в каком порядке (3-5 позиций)", "blocks": ["placeholder:teaList"], "askedTo": "user", "status": "open" },
+    { "id": 7, "group": "schedule", "question": "Фиксированные дни и время или набор группы", "blocks": ["placeholder:schedule", "CEREMONY_DATE_PROMISE"], "askedTo": "user", "status": "open" },
+    { "id": 8, "group": "price", "question": "Из чего складывается оплата чая: сумма и за что", "blocks": ["placeholder:teaPayment"], "askedTo": "user", "status": "open" },
+    { "id": 9, "group": "price", "question": "Оплата на месте или предоплата", "blocks": ["app/ceremony/content.ts"], "askedTo": "user", "status": "open" },
+    { "id": 10, "group": "proof", "question": "Отзывы гостей: тексты, имена, источник", "blocks": ["placeholder:reviews"], "askedTo": "user", "status": "open" },
+    { "id": 11, "group": "mail", "question": "Почтовый провайдер: Yandex 360, Resend или свой SMTP", "blocks": ["app/api/ceremony/mail.ts", "package.json"], "askedTo": "user", "status": "open" },
+    { "id": 12, "group": "mail", "question": "Адрес отправителя писем", "blocks": ["env:CEREMONY_MAIL_FROM"], "askedTo": "user", "status": "open" },
+    { "id": 13, "group": "mail", "question": "Адрес, куда приходят заявки Регине", "blocks": ["env:CEREMONY_MAIL_TO"], "askedTo": "user", "status": "open" },
+    { "id": 14, "group": "mail", "question": "Дублировать ли заявку в Telegram Регине", "blocks": ["app/api/ceremony/mail.ts"], "askedTo": "user", "status": "open" },
+    { "id": 15, "group": "privacy", "question": "Реквизиты оператора ПД: ФИО/ИП/ООО, ИНН, адрес, email", "blocks": ["app/ceremony/privacy/page.tsx"], "askedTo": "user", "status": "open" },
+    { "id": 16, "group": "privacy", "question": "Срок хранения заявок", "blocks": ["app/ceremony/privacy/page.tsx"], "askedTo": "user", "status": "open" },
+    { "id": 17, "group": "privacy", "question": "Страна и провайдер хостинга, передача данных за пределы РФ", "blocks": ["app/ceremony/privacy/page.tsx"], "askedTo": "user", "status": "open" },
+    { "id": 18, "group": "privacy", "question": "Проверит ли текст политики юрист", "blocks": ["app/ceremony/privacy/page.tsx"], "askedTo": "user", "status": "open" },
+    { "id": 19, "group": "process", "question": "Согласовать кросс-зонные правки с justea-design и justea-seo", "blocks": ["app/page.tsx", "app/[slug]/page.tsx", "app/sitemap.ts", ".env.example", ".gitignore"], "askedTo": "orchestrator", "status": "open" },
+    { "id": 20, "group": "process", "question": "Том для заявок в infra/docker", "blocks": ["infra/docker/docker-compose.yml", "infra/docker/Dockerfile"], "askedTo": "orchestrator", "status": "open" },
+    { "id": 21, "group": "process", "question": "Передать тексты лендинга justea-voice, макет justea-design", "blocks": ["app/ceremony/content.ts"], "askedTo": "orchestrator", "status": "open" }
+  ]
+}
