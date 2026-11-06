@@ -7,16 +7,20 @@ import CeremonyPlaceholder from "../components/CeremonyPlaceholder";
 import CeremonySection from "../components/CeremonySection";
 import { createPageMetadata } from "@/lib/metadata";
 import {
+    CEREMONY_CITY,
+    CEREMONY_CITY_IN,
+    CEREMONY_FORMAT,
     CEREMONY_HOST_NAME,
     CEREMONY_PLAN,
     CEREMONY_PRICE,
     CEREMONY_STAGES,
+    CEREMONY_VENUE,
 } from "./content";
 
 export const metadata: Metadata = createPageMetadata({
     title: "Чайная церемония",
     description:
-        "Чайная церемония с мастером Региной: проливы одного чая, час за столом и никаких требований к опыту. Запись по почте, 600 ₽ за участие.",
+        "Чайная церемония в Санкт-Петербурге с мастером Региной: разовая встреча в небольшой группе, проливы одного чая и никаких требований к опыту. 600 ₽ за участие.",
     path: "/ceremony",
 });
 
@@ -34,13 +38,18 @@ export default function CeremonyPage() {
                 />
 
                 <h1 className="mb-[16px] text-[36px] leading-none sm:text-[44px] lg:text-[50px]">
-                    Чайная церемония
+                    Чайная церемония {CEREMONY_CITY_IN}
                 </h1>
 
-                <p className="mb-[28px] max-w-[48ch] text-[19px] leading-[1.4] sm:text-[22px] lg:text-[24px]">
-                    Час за столом у чайного мастера {CEREMONY_HOST_NAME}: один чай,
-                    много проливов и вкус, который меняется от пролива к проливу.
-                    Разбираться в чае заранее не нужно — за этим и приходят.
+                <p className="mb-[20px] max-w-[48ch] text-[19px] leading-[1.4] sm:text-[22px] lg:text-[24px]">
+                    Вечер за столом у чайного мастера {CEREMONY_HOST_NAME}: один чай,
+                    много проливов, небольшая группа и люди, с которыми к последнему
+                    проливу уже разговариваешь. Разбираться в чае заранее не нужно — за
+                    этим и приходят.
+                </p>
+
+                <p className="mb-[28px] text-[16px] text-black/70 dark:text-white/70">
+                    {CEREMONY_FORMAT}. {CEREMONY_CITY}, {CEREMONY_VENUE}.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-[12px]">
@@ -134,9 +143,16 @@ export default function CeremonyPage() {
                     ))}
                 </ol>
 
-                <div className="grid gap-[12px] sm:grid-cols-3">
+                <div className="grid gap-[12px] sm:grid-cols-2">
                     <CeremonyPlaceholder item="duration" />
                     <CeremonyPlaceholder item="teaList" />
+                </div>
+
+                <div className="mt-[20px] border-2 border-black/10 p-[16px] dark:border-white/10">
+                    <h3 className="mb-[8px] text-[22px] leading-[1.2]">Где это</h3>
+                    <p className="mb-[12px] text-[19px] leading-[1.45]">
+                        {CEREMONY_CITY}, {CEREMONY_VENUE}.
+                    </p>
                     <CeremonyPlaceholder item="place" />
                 </div>
             </CeremonySection>
@@ -163,8 +179,9 @@ export default function CeremonyPage() {
                         </h3>
                         <p className="text-[19px] leading-[1.45]">
                             Вы один раз чувствуете, каким вкус должен быть — и дальше
-                            свой чай дома заваривается уже иначе. Плюс появляется место,
-                            куда можно прийти на час и просто помолчать за столом.
+                            свой чай дома заваривается уже иначе. Плюс появляется место
+                            в городе, куда можно прийти вечером, и несколько человек, с
+                            которыми вы познакомились за столом.
                         </p>
                     </div>
                 </div>

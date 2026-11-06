@@ -6,8 +6,12 @@
  * без ключей провайдер `log` печатает письма в лог процесса, и заявка
  * всё равно считается принятой.
  *
+ * По умолчанию провайдер — `log`: решение пользователя 2026-11-06 «почта на
+ * домене justea будет позже, адрес через env, без реальной отправки». Чтобы
+ * письма действительно уходили, нужно явно выставить CEREMONY_MAIL_PROVIDER.
+ *
  * Переменные окружения:
- *   CEREMONY_MAIL_PROVIDER — resend | log (по умолчанию resend, если есть ключ)
+ *   CEREMONY_MAIL_PROVIDER — resend | log (по умолчанию log)
  *   CEREMONY_MAIL_FROM     — адрес отправителя, например "Justea <ceremony@justea.ru>"
  *   CEREMONY_MAIL_TO       — куда приходят заявки Регине
  *   RESEND_API_KEY         — ключ Resend
@@ -32,14 +36,15 @@ export interface MailResult {
 
 function resolveProvider(): Provider {
     const configured = process.env.CEREMONY_MAIL_PROVIDER?.toLowerCase();
-    if (configured === "resend" || configured === "log") {
-        return configured;
+    if (configured === "resend") {
+        return process.env.RESEND_API_KEY ? "resend" : "log";
     }
-    return process.env.RESEND_API_KEY ? "resend" : "log";
+    // Явно не включили — ничего не отправляем, только пишем в лог.
+    return "log";
 }
 
 function fromAddress(): string {
-    return process.env.CEREMONY_MAIL_FROM ?? "Justea <onboarding@resend.dev>";
+    return process.env.CEREMONY_MAIL_FROM ?? "Justea <ceremony@justea.ru>";
 }
 
 async function sendViaResend(letter: Letter): Promise<void> {
