@@ -4,6 +4,7 @@ import TeaDescription from "../components/TeaDescription";
 import TeaTypeLink from "../components/TeaTypeLink";
 import TeaBrewSection from "../components/TeaBrewSection";
 import RowAdvertisement from "../components/Advertisement/RowAdvertisement";
+import CeremonyInlineCta from "../components/CeremonyInlineCta";
 import Breadcrumbs from "../components/Breadcrumbs";
 import FavoriteButton from "../components/FavoriteButton";
 import RecentTeaTracker from "../components/RecentTeaTracker";
@@ -98,6 +99,8 @@ export default async function TeaPage({ params }: PageProps) {
                     brewMethods={tea.brewMethods}
                     defaultMethodId={primaryBrewMethod.id}
                 />
+
+                <CeremonyInlineCta className="mt-[40px] mb-[40px]" />
 
                 <RowAdvertisement />
             </main>

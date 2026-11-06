@@ -1,3 +1,4 @@
+import CeremonyCta from "./components/CeremonyCta";
 import Hero from "./components/Hero";
 import TeaCard from "./components/TeaCard";
 import TeaTypeFilter from "./components/TeaTypeFilter";
@@ -19,6 +20,7 @@ export default async function Home({ searchParams }: HomeProps) {
     return (
         <main>
             <Hero />
+            <CeremonyCta className="mb-8 sm:mb-10" />
             <RecentTeasSection />
             <FavoriteTeasSection />
             <TeaTypeFilter activeType={activeType} />

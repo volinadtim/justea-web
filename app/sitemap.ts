@@ -14,6 +14,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 1,
         },
         {
+            url: `${siteConfig.url}/ceremony`,
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.9,
+        },
+        {
             url: `${siteConfig.url}/search`,
             lastModified: now,
             changeFrequency: "weekly",
