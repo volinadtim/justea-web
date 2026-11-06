@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Justea — направление A «Гунфу»</title>
+<link rel="stylesheet" href="../assets/base.css" />
+<style>
+/* ==========================================================================
+   Направление A «Гунфу» — эволюция текущего стиля.
+   Зелёный остаётся полем страницы, но перестаёт быть и фоном, и поверхностью:
+   читаемый контент переезжает на тёплую бумагу, а глубина достигается сменой
+   поверхности, а не полупрозрачными рамками (которые сейчас не проходят 3:1).
+   Акцент — терракота настоя: единственный тёплый цвет, им помечено действие.
+   ========================================================================== */
+
+.pal {
+    --bg: #9ad279;
+    --surface: #fbf8ef;
+    --surface-alt: #eef4e2;
+    --ink: #12170e;
+    --muted: #464e3c;
+    --line: #5c6b4e;
+    --accent: #8f3010;
+    --accent-ink: #fbf8ef;
+    --focus: #18340a;
+    --radius: 10px;
+    --radius-lg: 14px;
+}
+
+.pal[data-theme="dark"] {
+    --bg: #10150d;
+    --surface: #1a2116;
+    --surface-alt: #232c1d;
+    --ink: #e9efe1;
+    --muted: #a3b096;
+    --line: #637352;
+    --accent: #e2824f;
+    --accent-ink: #10150d;
+    --focus: #9ad279;
+}
+
+/* --- экран --------------------------------------------------------------- */
+
+.a-screen {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Bainsley, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.a-num {
+    font-family: Comfortaa, sans-serif;
+    font-weight: 700;
+    font-feature-settings: "tnum";
+}
+
+/* шапка: впервые появляется логотип и возврат на главную */
+.a-head {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 28px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+}
+
+.a-logo {
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.a-logo__mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+    color: var(--accent-ink);
+    font-size: 14px;
+}
+
+.a-search {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 16px;
+    background: var(--surface-alt);
+}
+
+.a-iconbtn {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    background: transparent;
+    color: var(--ink);
+}
+
+/* фокус — то, чего сейчас нет вовсе */
+.a-iconbtn.is-focus {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.a-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: 20px 28px 0;
+}
+
+.a-crumbs {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+
+.a-crumbs a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* --- герой: бумажная карточка + фото ------------------------------------ */
+
+.a-hero {
+    display: grid;
+    grid-template-columns: 1fr 352px;
+    gap: 18px;
+    align-items: start;
+}
+
+.a-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+}
+
+.a-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 15px;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 12px;
+}
+
+.a-h1 {
+    font-size: 50px;
+    line-height: 0.98;
+    margin: 0 0 6px;
+}
+
+.a-origin {
+    font-size: 15px;
+    color: var(--muted);
+    margin: 0 0 14px;
+}
+
+.a-lede {
+    font-size: 18px;
+    line-height: 1.45;
+    margin: 0 0 18px;
+    max-width: 48ch;
+}
+
+.a-traits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+}
+
+.a-trait__label {
+    font-family: Comfortaa, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.a-trait__value {
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+/* фото — то, чего на сайте нет ни на одном экране */
+.a-photo {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--surface);
+}
+
+.a-photo img {
+    display: block;
+    width: 100%;
+    height: 214px;
+    object-fit: cover;
+}
+
+/* цвет настоя остаётся, но как подпись к фото, а не вместо него */
+.a-liquor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+}
+
+.a-liquor__dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #c85a2a;
+}
+
+/* --- прибор заваривания -------------------------------------------------- */
+
+.a-brew {
+    margin-top: 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.a-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-alt);
+}
+
+.a-tab {
+    font-size: 15px;
+    height: 36px;
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: transparent;
+}
+
+.a-tab[aria-selected="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.a-brew__grid {
+    display: grid;
+    grid-template-columns: 268px 1fr;
+}
+
+.a-specs {
+    padding: 20px;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.a-spec__label {
+    font-family: Comfortaa, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.a-spec__value {
+    font-size: 26px;
+    line-height: 1;
+}
+
+.a-spec__value .unit {
+    font-family: Bainsley, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+/* объём — нормальный степпер вместо поля, ломающего строку */
+.a-stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px;
+    background: var(--surface-alt);
+}
+
+.a-stepper button {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1;
+}
+
+.a-stepper__value {
+    min-width: 44px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.a-steeps {
+    padding: 20px;
+}
+
+.a-steeps__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.a-steeps__title {
+    font-family: Comfortaa, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.a-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+}
+
+.a-steep {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 4px 8px;
+    text-align: center;
+    background: var(--surface-alt);
+}
+
+.a-steep__cn {
+    font-size: 20px;
+    line-height: 1;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.a-steep__t {
+    font-size: 21px;
+    line-height: 1;
+}
+
+.a-steep__u {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.a-steep.is-done {
+    opacity: 0.55;
+}
+
+.a-steep.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.a-steep.is-active .a-steep__cn,
+.a-steep.is-active .a-steep__u {
+    color: var(--accent-ink);
+}
+
+/* таймер: главный орган управления, а не мелкая коробка внизу */
+.a-timer {
+    margin-top: 16px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.a-timer__dial {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+}
+
+.a-timer__dial svg {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+}
+
+.a-timer__count {
+    position: relative;
+    font-family: Comfortaa, sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1;
+}
+
+.a-timer__meta {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.a-timer__state {
+    font-family: Comfortaa, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.a-timer__hint {
+    font-size: 15px;
+    color: var(--muted);
+}
+
+.a-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.a-btn {
+    height: 48px;
+    min-width: 48px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-family: Bainsley, sans-serif;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.a-btn--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.a-btn--icon {
+    padding: 0;
+    width: 48px;
+    justify-content: center;
+}
+
+/* --- мобильный ----------------------------------------------------------- */
+
+.a-m-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+}
+
+.a-m-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 0 96px;
+}
+
+.a-m-photo {
+    position: relative;
+    height: 168px;
+}
+
+.a-m-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.a-m-main {
+    padding: 18px 16px 20px;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    border-radius: 16px 16px 0 0;
+    margin-top: -16px;
+    position: relative;
+}
+
+.a-m-h1 {
+    font-size: 38px;
+    line-height: 0.98;
+    margin: 8px 0 4px;
+}
+
+.a-m-traits {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+}
+
+.a-m-trait {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 10px;
+    align-items: baseline;
+}
+
+/* ключевое решение мобильной версии: параметры и таймер — в липкой панели,
+   они доступны с первого экрана, а не с третьего */
+.a-dock {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    padding: 12px 16px 16px;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.14);
+}
+
+.a-dock__row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.a-dock__specs {
+    display: flex;
+    gap: 14px;
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.a-dock__specs b {
+    font-family: Comfortaa, sans-serif;
+    color: var(--ink);
+}
+
+.a-dock__strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.a-dock__cell {
+    text-align: center;
+    border-radius: 7px;
+    border: 1px solid var(--line);
+    padding: 5px 0 4px;
+    font-size: 15px;
+    background: var(--surface-alt);
+}
+
+.a-dock__cell.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.a-dock__cell small {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.a-dock__cell.is-active small {
+    color: var(--accent-ink);
+}
+
+.a-dock__time {
+    font-family: Comfortaa, sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1;
+}
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.4-3.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+<symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6C9.5 14.5 12 13 13 12"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" class="f"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 4h3v16H7zM14 4h3v16h-3z" class="f"/></symbol>
+<symbol id="i-skip" viewBox="0 0 24 24"><path d="M5 4l11 8-11 8z" class="f"/><path d="M19 5v14"/></symbol>
+<symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 2v6h6"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/></symbol>
+<symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.8V3.5a2.5 2.5 0 0 0-5 0v11.3a4.5 4.5 0 1 0 5 0z"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M8 21h8M5 7h14"/><path d="M5 7l-3 6a3 3 0 0 0 6 0zM19 7l3 6a3 3 0 0 1-6 0z"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5l-7.1-7A4.8 4.8 0 1 1 12 6.7a4.8 4.8 0 1 1 7.1 6.8z"/></symbol>
+</defs></svg>
+<style>.f{fill:currentColor;stroke:none}</style>
+
+<div class="doc">
+
+<p class="doc__eyebrow">Justea · направление A</p>
+<h1 class="doc__title">«Гунфу» — прибор на зелёном поле</h1>
+<p class="doc__lead">
+    Эволюция, а не перезапуск. Фирменный зелёный остаётся полем страницы и
+    узнаётся с первого кадра, но перестаёт одновременно быть и фоном, и
+    поверхностью: текст и органы управления переезжают на тёплую бумагу.
+    Глубина делается сменой поверхности, а не полупрозрачными рамками — именно
+    поэтому <strong>все границы теперь проходят порог 3:1</strong>, который в
+    текущей вёрстке не проходит ни одна. Акцент — терракота настоя: ровно один
+    тёплый цвет, и он всегда означает действие.
+</p>
+
+<nav class="nav" aria-label="Направления">
+    <a href="../index.html">Все направления</a>
+    <a href="./" aria-current="page">A · Гунфу</a>
+    <a href="../b-paper/">B · Чайная бумага</a>
+    <a href="../c-scroll/">C · Свиток</a>
+</nav>
+
+<!-- ================= мудборд ================= -->
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">01</span>
+        <h2 class="section__title">Палитра</h2>
+        <span class="section__note">светлая тема</span>
+    </div>
+    <div class="swatches">
+        <div class="swatch">
+            <div class="swatch__chip pal" style="background:#9ad279;color:#12170e">10.28 : 1</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Поле</p>
+                <span class="swatch__hex">#9AD279</span>
+                <p class="swatch__role">Фон страницы. Фирменный зелёный почти без изменений — узнаваемость сохраняется.</p>
+            </div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#fbf8ef;color:#12170e">17.13 : 1</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Бумага</p>
+                <span class="swatch__hex">#FBF8EF</span>
+                <p class="swatch__role">Поверхность для чтения и управления. Всё, что нужно разобрать глазами, лежит здесь.</p>
+            </div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#eef4e2;color:#12170e">16.17 : 1</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Бумага-2</p>
+                <span class="swatch__hex">#EEF4E2</span>
+                <p class="swatch__role">Вложенные плашки: ячейки проливов, поля ввода, шапка вкладок.</p>
+            </div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#12170e;color:#fbf8ef">осн. текст</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Тушь</p>
+                <span class="swatch__hex">#12170E</span>
+                <p class="swatch__role">Основной текст. Почти чёрный с зелёным подтоном — мягче чистого #000.</p>
+            </div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#464e3c;color:#fbf8ef">4.91 : 1</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Приглушённый</p>
+                <span class="swatch__hex">#464E3C</span>
+                <p class="swatch__role">Подписи и единицы. Заменяет <code>black/50</code>, который даёт только 3.50.</p>
+            </div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#5c6b4e;color:#fbf8ef">3.24 : 1</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Линия</p>
+                <span class="swatch__hex">#5C6B4E</span>
+                <p class="swatch__role">Единственный токен границ. Проходит 1.4.11 на обеих поверхностях.</p>
+            </div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#8f3010;color:#fbf8ef">7.61 : 1</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Настой</p>
+                <span class="swatch__hex">#8F3010</span>
+                <p class="swatch__role">Акцент действия: активный пролив, основная кнопка, активная вкладка.</p>
+            </div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#18340a;color:#9ad279">7.74 : 1</div>
+            <div class="swatch__body">
+                <p class="swatch__name">Фокус</p>
+                <span class="swatch__hex">#18340A</span>
+                <p class="swatch__role">Кольцо 3 px с отступом 2 px. Отдельный токен, чтобы кольцо нельзя было «потерять».</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section__head" style="margin-top:36px">
+        <span class="section__num">01·b</span>
+        <h2 class="section__title">Тёмная тема — та же система</h2>
+        <span class="section__note">не другой сайт</span>
+    </div>
+    <div class="swatches">
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#10150d;color:#e9efe1">фон</div>
+            <div class="swatch__body"><p class="swatch__name">Ночь</p><span class="swatch__hex">#10150D</span>
+            <p class="swatch__role">Тёплый тёмный с зелёным подтоном вместо нейтрального <code>#0a0a0a</code>.</p></div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#1a2116;color:#e9efe1">14.06 : 1</div>
+            <div class="swatch__body"><p class="swatch__name">Поверхность</p><span class="swatch__hex">#1A2116</span>
+            <p class="swatch__role">Та же роль, что у бумаги: карточки, прибор, шапка.</p></div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#637352;color:#e9efe1">3.62 : 1</div>
+            <div class="swatch__body"><p class="swatch__name">Линия</p><span class="swatch__hex">#637352</span>
+            <p class="swatch__role">Проходит 3:1 — в отличие от нынешних <code>white/10</code> (1.25) и <code>white/20</code> (1.77).</p></div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#e2824f;color:#10150d">6.64 : 1</div>
+            <div class="swatch__body"><p class="swatch__name">Настой</p><span class="swatch__hex">#E2824F</span>
+            <p class="swatch__role">Акцент светлеет, чтобы держать роль на тёмном фоне.</p></div>
+        </div>
+        <div class="swatch">
+            <div class="swatch__chip" style="background:#9ad279;color:#10150d">10.46 : 1</div>
+            <div class="swatch__body"><p class="swatch__name">Фокус / бренд</p><span class="swatch__hex">#9AD279</span>
+            <p class="swatch__role">Фирменный зелёный возвращается как кольцо фокуса и знак бренда — а не как рекламная плашка.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= типографика ================= -->
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">02</span>
+        <h2 class="section__title">Типографика</h2>
+        <span class="section__note">шкала 1.25 вместо произвольных пикселей</span>
+    </div>
+    <div class="specimen pal" style="background:var(--surface);color:var(--ink);border-color:var(--line)">
+        <div class="specimen__row"><span class="specimen__meta" style="color:var(--muted)">display · 50/0.98</span><span class="specimen__sample" style="font-size:50px;line-height:0.98">Да Хун Пао</span></div>
+        <div class="specimen__row"><span class="specimen__meta" style="color:var(--muted)">h2 · 32/1.05</span><span class="specimen__sample" style="font-size:32px;line-height:1.05">Как заваривать проливами</span></div>
+        <div class="specimen__row"><span class="specimen__meta" style="color:var(--muted)">h3 · 24/1.15</span><span class="specimen__sample" style="font-size:24px">Аромат и вкус</span></div>
+        <div class="specimen__row"><span class="specimen__meta" style="color:var(--muted)">body · 18/1.45</span><span class="specimen__sample" style="font-size:18px">Легендарный утёсный улун с гор Уишань: минеральность от каменистых склонов, жареный профиль от сильной прожарки.</span></div>
+        <div class="specimen__row"><span class="specimen__meta" style="color:var(--muted)">label · 11/700 caps</span><span class="specimen__sample a-num" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Температура воды</span></div>
+        <div class="specimen__row"><span class="specimen__meta" style="color:var(--muted)">данные · Comfortaa 700</span><span class="specimen__sample a-num" style="font-size:34px">0 1 2 3 4 5 6 7 8 9 · 95–100 °C</span></div>
+        <div class="specimen__row"><span class="specimen__meta" style="color:var(--muted)">проливы · 20px</span><span class="specimen__sample" style="font-size:24px;letter-spacing:.12em">一 二 三 四 五 六</span></div>
+    </div>
+    <p class="note" style="margin-top:14px">
+        Bainsley и Comfortaa сохраняются — пара работает и узнаётся. Меняется
+        только дисциплина: шесть ступеней вместо нынешних <code>text-[36px]</code>,
+        <code>text-[44px]</code>, <code>text-[19px]</code>, <code>text-[17px]</code>,
+        расставленных вручную в каждом компоненте.
+    </p>
+</section>
+
+<!-- ================= компоненты ================= -->
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">03</span>
+        <h2 class="section__title">Базовые компоненты</h2>
+        <span class="section__note">цели касания от 44 px</span>
+    </div>
+    <div class="kit">
+        <div class="kit__cell">
+            <p class="kit__title">Кнопки и фокус</p>
+            <div class="kit__stage pal" style="background:var(--bg)">
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                    <button class="a-btn a-btn--primary"><svg class="ic"><use href="#i-play"/></svg>Заварить</button>
+                    <button class="a-btn">Сброс</button>
+                    <button class="a-iconbtn is-focus"><svg class="ic"><use href="#i-moon"/></svg></button>
+                </div>
+                <p style="font-size:13px;color:var(--muted);margin:12px 0 0">Справа — состояние <code>:focus-visible</code>: кольцо 3 px, отступ 2 px.</p>
+            </div>
+        </div>
+        <div class="kit__cell">
+            <p class="kit__title">Ячейка пролива</p>
+            <div class="kit__stage pal" style="background:var(--surface)">
+                <div class="a-strip" style="grid-template-columns:repeat(4,1fr)">
+                    <div class="a-steep is-done"><div class="a-steep__cn">一</div><div class="a-steep__t a-num">15</div><div class="a-steep__u">сек</div></div>
+                    <div class="a-steep is-active"><div class="a-steep__cn">二</div><div class="a-steep__t a-num">15</div><div class="a-steep__u">сек</div></div>
+                    <div class="a-steep"><div class="a-steep__cn">三</div><div class="a-steep__t a-num">20</div><div class="a-steep__u">сек</div></div>
+                    <div class="a-steep"><div class="a-steep__cn">四</div><div class="a-steep__t a-num">25</div><div class="a-steep__u">сек</div></div>
+                </div>
+                <p style="font-size:13px;color:var(--muted);margin:12px 0 0">Пройденный / текущий / предстоящий — тремя разными средствами, не только цветом.</p>
+            </div>
+        </div>
+        <div class="kit__cell">
+            <p class="kit__title">Объём воды</p>
+            <div class="kit__stage pal" style="background:var(--surface)">
+                <div class="a-spec__label">Пропорция</div>
+                <div class="a-spec__value" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                    <span class="a-num">5</span><span class="unit">гр на</span>
+                    <span class="a-stepper"><button>−</button><span class="a-stepper__value a-num">100</span><button>+</button></span>
+                    <span class="unit">мл</span>
+                </div>
+                <p style="font-size:13px;color:var(--muted);margin:12px 0 0">Степпер вместо поля с автошириной: строка не разваливается, ввод доступен с клавиатуры.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= ключевой экран ================= -->
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">04</span>
+        <h2 class="section__title">Ключевой экран: страница чая</h2>
+        <span class="section__note">десктоп 1140 · светлая</span>
+    </div>
+
+    <div class="screens">
+        <div class="stage">
+            <span class="stage__label">Десктоп · светлая</span>
+            <div class="desk">
+                <div class="a-screen pal screen" data-theme="light">
+                    <div class="a-head">
+                        <span class="a-logo"><span class="a-logo__mark">茶</span>Justea</span>
+                        <span class="a-search"><svg class="ic"><use href="#i-search"/></svg>Поиск по названию, типу, аромату…</span>
+                        <button class="a-iconbtn"><svg class="ic"><use href="#i-moon"/></svg></button>
+                    </div>
+                    <div class="a-body">
+                        <p class="a-crumbs"><a href="#">Главная</a> / <a href="#">Улун</a> / Да Хун Пао</p>
+                        <div class="a-hero">
+                            <div class="a-card">
+                                <span class="a-type"><svg class="ic ic--sm"><use href="#i-leaf"/></svg>Улун</span>
+                                <h1 class="a-h1">Да Хун Пао</h1>
+                                <p class="a-origin">Уишань, Фуцзянь, Китай · утёсный</p>
+                                <p class="a-lede">Легендарный утёсный улун с гор Уишань. Сильная ферментация и характерная минеральность каменистых склонов.</p>
+                                <div class="a-traits">
+                                    <div><p class="a-trait__label">Аромат</p><p class="a-trait__value">Древесный, пряный, жареный, тёмный шоколад</p></div>
+                                    <div><p class="a-trait__label">Вкус</p><p class="a-trait__value">Минеральный, карамельный, ореховый, дымный</p></div>
+                                    <div><p class="a-trait__label">Послевкусие</p><p class="a-trait__value">Длительное, сладкое, согревающее</p></div>
+                                </div>
+                            </div>
+                            <div class="a-photo">
+                                <img src="../assets/tea.jpg" alt="Сухой лист Да Хун Пао" />
+                                <div class="a-liquor"><span class="a-liquor__dot"></span>Цвет настоя — тёмный янтарь</div>
+                            </div>
+                        </div>
+
+                        <div class="a-brew">
+                            <div class="a-tabs" role="tablist">
+                                <button class="a-tab" role="tab" aria-selected="true">Гунфу-ча</button>
+                                <button class="a-tab" role="tab">Западный стиль</button>
+                                <button class="a-tab" role="tab">Холодное</button>
+                            </div>
+                            <div class="a-brew__grid">
+                                <div class="a-specs">
+                                    <div>
+                                        <p class="a-spec__label">Температура</p>
+                                        <p class="a-spec__value"><span class="a-num">95–100</span> <span class="unit">°C</span></p>
+                                    </div>
+                                    <div>
+                                        <p class="a-spec__label">Пропорция</p>
+                                        <p class="a-spec__value" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                                            <span class="a-num">5</span><span class="unit">гр на</span>
+                                            <span class="a-stepper"><button>−</button><span class="a-stepper__value a-num">100</span><button>+</button></span>
+                                            <span class="unit">мл</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="a-spec__label">Посуда</p>
+                                        <p class="a-spec__value" style="font-size:18px">Гайвань или исинский чайник</p>
+                                    </div>
+                                </div>
+                                <div class="a-steeps">
+                                    <div class="a-steeps__head">
+                                        <span class="a-steeps__title">Проливы</span>
+                                        <span style="font-size:14px;color:var(--muted)">6 проливов · всего 2:25</span>
+                                    </div>
+                                    <div class="a-strip">
+                                        <div class="a-steep is-done"><div class="a-steep__cn">一</div><div class="a-steep__t a-num">15</div><div class="a-steep__u">сек</div></div>
+                                        <div class="a-steep is-active"><div class="a-steep__cn">二</div><div class="a-steep__t a-num">15</div><div class="a-steep__u">сек</div></div>
+                                        <div class="a-steep"><div class="a-steep__cn">三</div><div class="a-steep__t a-num">20</div><div class="a-steep__u">сек</div></div>
+                                        <div class="a-steep"><div class="a-steep__cn">四</div><div class="a-steep__t a-num">25</div><div class="a-steep__u">сек</div></div>
+                                        <div class="a-steep"><div class="a-steep__cn">五</div><div class="a-steep__t a-num">30</div><div class="a-steep__u">сек</div></div>
+                                        <div class="a-steep"><div class="a-steep__cn">六</div><div class="a-steep__t a-num">40</div><div class="a-steep__u">сек</div></div>
+                                    </div>
+                                    <div class="a-timer">
+                                        <div class="a-timer__dial">
+                                            <svg viewBox="0 0 104 104" aria-hidden="true">
+                                                <circle cx="52" cy="52" r="46" fill="none" stroke="#5c6b4e" stroke-width="3" opacity=".35" />
+                                                <circle cx="52" cy="52" r="46" fill="none" stroke="#8f3010" stroke-width="5" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="92" />
+                                            </svg>
+                                            <span class="a-timer__count">09</span>
+                                        </div>
+                                        <div class="a-timer__meta">
+                                            <p class="a-timer__state">Пролив 2 из 6 · идёт</p>
+                                            <p class="a-timer__hint">В конце пролива — сигнал и вибрация. Экран не гаснет, пока таймер работает.</p>
+                                        </div>
+                                        <div class="a-controls">
+                                            <button class="a-btn a-btn--icon"><svg class="ic ic--lg"><use href="#i-pause"/></svg></button>
+                                            <button class="a-btn a-btn--icon"><svg class="ic ic--lg"><use href="#i-skip"/></svg></button>
+                                            <button class="a-btn a-btn--icon"><svg class="ic ic--lg"><use href="#i-reset"/></svg></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="screens" style="margin-top:32px">
+        <div class="stage">
+            <span class="stage__label">Мобильный · светлая</span>
+            <div class="phone">
+                <div class="a-screen pal screen" data-theme="light">
+                    <div class="a-m-head">
+                        <span class="a-logo" style="font-size:19px"><span class="a-logo__mark" style="width:22px;height:22px;font-size:12px">茶</span>Justea</span>
+                        <span class="a-search" style="height:40px;font-size:15px"><svg class="ic ic--sm"><use href="#i-search"/></svg>Поиск чая</span>
+                    </div>
+                    <div class="a-m-body">
+                        <div class="a-m-photo"><img src="../assets/tea.jpg" alt="Да Хун Пао" /></div>
+                        <div class="a-m-main">
+                            <span class="a-type"><svg class="ic ic--sm"><use href="#i-leaf"/></svg>Улун</span>
+                            <h1 class="a-m-h1">Да Хун Пао</h1>
+                            <p class="a-origin">Уишань, Фуцзянь · утёсный</p>
+                            <p style="font-size:17px;line-height:1.4;margin:0">Легендарный утёсный улун. Сильная ферментация и минеральность каменистых склонов.</p>
+                            <div class="a-m-traits">
+                                <div class="a-m-trait"><span class="a-trait__label" style="margin:0">Аромат</span><span style="font-size:16px">Древесный, пряный, жареный</span></div>
+                                <div class="a-m-trait"><span class="a-trait__label" style="margin:0">Вкус</span><span style="font-size:16px">Минеральный, карамельный, дымный</span></div>
+                                <div class="a-m-trait"><span class="a-trait__label" style="margin:0">Настой</span><span style="font-size:16px;display:inline-flex;align-items:center;gap:8px"><span class="a-liquor__dot" style="width:16px;height:16px"></span>тёмный янтарь</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="a-dock">
+                        <p class="a-dock__specs"><span><b>95–100</b> °C</span><span><b>5</b> гр на <b>100</b> мл</span><span>Гунфу-ча</span></p>
+                        <div class="a-dock__strip">
+                            <div class="a-dock__cell"><span class="a-num">15</span><small>一</small></div>
+                            <div class="a-dock__cell is-active"><span class="a-num">15</span><small>二</small></div>
+                            <div class="a-dock__cell"><span class="a-num">20</span><small>三</small></div>
+                            <div class="a-dock__cell"><span class="a-num">25</span><small>四</small></div>
+                            <div class="a-dock__cell"><span class="a-num">30</span><small>五</small></div>
+                            <div class="a-dock__cell"><span class="a-num">40</span><small>六</small></div>
+                        </div>
+                        <div class="a-dock__row">
+                            <span class="a-dock__time">0:09</span>
+                            <span style="font-size:13px;line-height:1.2;color:var(--muted);flex:1 1 auto">пролив 2<br />из 6</span>
+                            <button class="a-btn a-btn--icon"><svg class="ic ic--lg"><use href="#i-pause"/></svg></button>
+                            <button class="a-btn a-btn--primary"><svg class="ic"><use href="#i-skip"/></svg>Дальше</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stage">
+            <span class="stage__label">Мобильный · тёмная</span>
+            <div class="phone">
+                <div class="a-screen pal screen" data-theme="dark">
+                    <div class="a-m-head">
+                        <span class="a-logo" style="font-size:19px"><span class="a-logo__mark" style="width:22px;height:22px;font-size:12px">茶</span>Justea</span>
+                        <span class="a-search" style="height:40px;font-size:15px"><svg class="ic ic--sm"><use href="#i-search"/></svg>Поиск чая</span>
+                    </div>
+                    <div class="a-m-body">
+                        <div class="a-m-photo"><img src="../assets/tea.jpg" alt="Да Хун Пао" /></div>
+                        <div class="a-m-main">
+                            <span class="a-type"><svg class="ic ic--sm"><use href="#i-leaf"/></svg>Улун</span>
+                            <h1 class="a-m-h1">Да Хун Пао</h1>
+                            <p class="a-origin">Уишань, Фуцзянь · утёсный</p>
+                            <p style="font-size:17px;line-height:1.4;margin:0">Легендарный утёсный улун. Сильная ферментация и минеральность каменистых склонов.</p>
+                            <div class="a-m-traits">
+                                <div class="a-m-trait"><span class="a-trait__label" style="margin:0">Аромат</span><span style="font-size:16px">Древесный, пряный, жареный</span></div>
+                                <div class="a-m-trait"><span class="a-trait__label" style="margin:0">Вкус</span><span style="font-size:16px">Минеральный, карамельный, дымный</span></div>
+                                <div class="a-m-trait"><span class="a-trait__label" style="margin:0">Настой</span><span style="font-size:16px;display:inline-flex;align-items:center;gap:8px"><span class="a-liquor__dot" style="width:16px;height:16px"></span>тёмный янтарь</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="a-dock">
+                        <p class="a-dock__specs"><span><b>95–100</b> °C</span><span><b>5</b> гр на <b>100</b> мл</span><span>Гунфу-ча</span></p>
+                        <div class="a-dock__strip">
+                            <div class="a-dock__cell"><span class="a-num">15</span><small>一</small></div>
+                            <div class="a-dock__cell is-active"><span class="a-num">15</span><small>二</small></div>
+                            <div class="a-dock__cell"><span class="a-num">20</span><small>三</small></div>
+                            <div class="a-dock__cell"><span class="a-num">25</span><small>四</small></div>
+                            <div class="a-dock__cell"><span class="a-num">30</span><small>五</small></div>
+                            <div class="a-dock__cell"><span class="a-num">40</span><small>六</small></div>
+                        </div>
+                        <div class="a-dock__row">
+                            <span class="a-dock__time">0:09</span>
+                            <span style="font-size:13px;line-height:1.2;color:var(--muted);flex:1 1 auto">пролив 2<br />из 6</span>
+                            <button class="a-btn a-btn--icon"><svg class="ic ic--lg"><use href="#i-pause"/></svg></button>
+                            <button class="a-btn a-btn--primary"><svg class="ic"><use href="#i-skip"/></svg>Дальше</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">05</span>
+        <h2 class="section__title">Что это решает и чем рискует</h2>
+    </div>
+    <div class="cols">
+        <dl class="verdict">
+            <dt>Решает</dt>
+            <dd>Фокус, контраст границ, тёмная тема, фото чая, мобильный доступ к таймеру с первого экрана, сломанный выбор объёма — всё из списка блокеров аудита.</dd>
+            <dt>Сохраняет</dt>
+            <dd>Фирменный зелёный, Bainsley + Comfortaa, китайские цифры проливов, цвет настоя. Сайт остаётся узнаваемо тем же.</dd>
+            <dt>Риск</dt>
+            <dd>Самое осторожное из трёх. Рядом с конкурентами выглядит аккуратнее, но не обязательно заметнее — характер прежний.</dd>
+            <dt>Объём работ</dt>
+            <dd>Наименьший: токены + переразметка страницы чая и карточки. Главная и поиск меняются косметически.</dd>
+        </dl>
+    </div>
+</section>
+
+</div>
+</body>
+</html>
