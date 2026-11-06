@@ -25,7 +25,7 @@ function TimerIconButton({
             type="button"
             aria-label={label}
             title={label}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-line transition-colors hover:border-line-strong"
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-line transition-colors hover:border-line-strong"
             onClick={onClick}
         >
             {children}
