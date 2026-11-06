@@ -1,100 +1,134 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
-import Scrollable from "../Scrollable";
+import React, { useEffect, useId, useRef, useState } from "react";
 import VolumeInput from "./VolumeInput";
 
 interface VolumeSelectProps {
-  volume: number;
-  onVolumeChange: (value: number) => void;
-  options?: number[];
+    volume: number;
+    onVolumeChange: (value: number) => void;
+    options?: number[];
 }
 
 const defaultOptions = [50, 100, 200, 300, 500, 1000];
-// const defaultOptions = [50, 100, 150, 200, 250, 300, 350, 500, 1000];
 
 export default function VolumeSelect({
-  volume,
-  onVolumeChange,
-  options = defaultOptions,
+    volume,
+    onVolumeChange,
+    options = defaultOptions,
 }: VolumeSelectProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(-1);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const listboxId = useId();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        function handlePointerDown(event: MouseEvent) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handlePointerDown);
+        return () => document.removeEventListener("mousedown", handlePointerDown);
+    }, [isOpen]);
+
+    function handleSelect(value: number) {
+        onVolumeChange(value);
         setIsOpen(false);
-      }
-    };
+        setActiveIndex(-1);
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    function handleKeyDown(event: React.KeyboardEvent) {
+        if (event.key === "Escape") {
+            setIsOpen(false);
+            setActiveIndex(-1);
+            return;
+        }
 
-  const handleSelect = (value: number) => {
-    onVolumeChange(value);
-    setIsOpen(false);
-  };
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
 
-  const handleCustomVolumeChange = (value: number) => {
-    const validatedValue = value; // Math.min(10000, value);
-    // setVolume(validatedValue);
-    onVolumeChange(validatedValue);
-  };
+            if (!isOpen) {
+                setIsOpen(true);
+                setActiveIndex(0);
+                return;
+            }
 
-  return (
-    <div className="relative inline-block" ref={dropdownRef}>
-      <div className="flex items-center gap-1 text-[19px]">
-        <VolumeInput
-          value={volume}
-          onChange={handleCustomVolumeChange}
-          minWidth={20}
-          onFocus={() => setIsOpen(true)}
-        />
-        {/* // onBlur={() => setTimeout(() => setIsOpen(false))} */}
-        {/* Dropdown toggle */}
-        {/* <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-          aria-label="Toggle volume options"
+            setActiveIndex((index) => Math.min(index + 1, options.length - 1));
+            return;
+        }
+
+        if (event.key === "ArrowUp") {
+            event.preventDefault();
+            setActiveIndex((index) => Math.max(index - 1, 0));
+            return;
+        }
+
+        if (event.key === "Enter" && isOpen && activeIndex >= 0) {
+            event.preventDefault();
+            handleSelect(options[activeIndex]);
+        }
+    }
+
+    return (
+        // `inline-flex` с базовой линией по тексту: раньше здесь был
+        // `inline-block`, и при открытии списка строка «5 гр на 100 мл»
+        // разъезжалась — «гр на» и «мл» уходили на другую строку.
+        <span
+            className="relative inline-flex align-baseline"
+            ref={dropdownRef}
+            onKeyDown={handleKeyDown}
         >
-          <ChevronDown
-            className={`w-4 h-4 transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`}
-          />
-        </button> */}
-      </div>
+            <VolumeInput
+                value={volume}
+                onChange={onVolumeChange}
+                minWidth={28}
+                onFocus={() => setIsOpen(true)}
+                ariaExpanded={isOpen}
+                ariaControls={isOpen ? listboxId : undefined}
+            />
 
-      {/* Dropdown menu */}
-      {isOpen && (
-        <Scrollable
-          className="absolute top-full left-[50%] translate-x-[-50%] mt-1 max-h-60 bg-main-200 rounded-md shadow-lg z-50"
-          options={{ overflow: { x: "hidden" } }}
-        >
-          <div className="py-1">
-            {options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => handleSelect(option)}
-                className={`w-full text-center px-4 py-1 hover:bg-main-400 cursor-pointer transition-colors ${
-                  volume === option ? "bg-main-600" : ""
-                }`}
-              >
-                <span className="font-comfortaa font-bold">{option}</span> 
-                {/* мл */}
-              </button>
-            ))}
-          </div>
-        </Scrollable>
-      )}
-    </div>
-  );
+            {isOpen && (
+                <ul
+                    id={listboxId}
+                    role="listbox"
+                    aria-label="Объём воды, мл"
+                    // Открывается вверх: внизу страницы список упирался
+                    // в край экрана и обрезался.
+                    className="absolute bottom-full left-1/2 z-50 mb-[6px] max-h-60 w-[94px] -translate-x-1/2 overflow-auto rounded-md border-2 border-line bg-surface py-[4px] shadow-lg"
+                >
+                    {options.map((option, index) => {
+                        const isSelected = volume === option;
+                        const isActive = activeIndex === index;
+
+                        return (
+                            <li key={option} role="none">
+                                <button
+                                    type="button"
+                                    role="option"
+                                    aria-selected={isSelected}
+                                    className={[
+                                        "w-full px-[12px] py-[6px] text-center transition-colors",
+                                        isActive ? "bg-black/10 dark:bg-white/10" : "",
+                                        isSelected ? "font-bold underline underline-offset-4" : "",
+                                    ].join(" ")}
+                                    onMouseEnter={() => setActiveIndex(index)}
+                                    onClick={() => handleSelect(option)}
+                                >
+                                    <span className="font-comfortaa font-bold">{option}</span>
+                                </button>
+                            </li>
+                        );
+                    })}
+                </ul>
+            )}
+        </span>
+    );
 }
