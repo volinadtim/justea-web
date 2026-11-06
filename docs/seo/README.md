@@ -11,28 +11,37 @@ metadata и JSON-LD в страницах (`app/components/seo/**`, `lib/metadat
 
 | Файл | Что внутри |
 |---|---|
-| [`technical-audit.md`](technical-audit.md) | Аудит этапа 1: 17 находок, что исправлено, что передано и кому. **Начинать отсюда.** |
-| [`audit-findings.json`](audit-findings.json) | Те же находки машиночитаемо: severity, status, owner, evidence |
-| [`core-web-vitals.json`](core-web-vitals.json) | Базовые замеры Lighthouse (mobile) с диагностикой |
+| [`technical-audit.md`](technical-audit.md) | **Этап 1.** Аудит: 17 находок, что исправлено, что передано и кому. Начинать отсюда. |
+| [`site-structure.md`](site-structure.md) | **Этап 2.** Структура сайта под кластеры запросов: какие страницы создать, URL, title, description, перелинковка |
+| [`pages.json`](pages.json) | Карта страниц машиночитаемо: 24 страницы, URL, мета, спрос, приоритет, владелец текста |
+| [`content-briefs.md`](content-briefs.md) | **Заказ justea-voice:** брифы на тексты всех новых страниц |
+| [`audit-findings.json`](audit-findings.json) | Находки аудита машиночитаемо: severity, status, owner, evidence |
+| [`core-web-vitals.json`](core-web-vitals.json) | Замеры Lighthouse, парная методика «до/после» |
 | [`webmaster-setup.md`](webmaster-setup.md) | **Для пользователя:** пошагово Яндекс.Вебмастер, Google Search Console, Яндекс.Метрика + чеклист |
 | [`h1-variants.md`](h1-variants.md) | **Решение пользователя:** три варианта `<h1>` главной |
 
 ## Состояние на 06.11.2026
 
-Этап 1 (технический SEO) закрыт в ветке `agent/seo`. Lighthouse SEO — 100/100
-на главной и на странице чая.
+Этапы 1 и 2 закрыты в ветке `agent/seo`.
+
+Lighthouse: **SEO 100/100 и Performance 100/100** на главной и на странице чая
+(парный замер, [`core-web-vitals.json`](core-web-vitals.json)). CLS 0.188 → 0,
+шрифты 800 → 423 КБ.
 
 **Ждёт пользователя:** подключение панелей вебмастеров
 ([`webmaster-setup.md`](webmaster-setup.md)), выбор `<h1>`
-([`h1-variants.md`](h1-variants.md)).
+([`h1-variants.md`](h1-variants.md)), решение по `/health/effect` —
+[`site-structure.md`](site-structure.md) §9.
 
-**Ждёт justea-design:** находки 3.1 (~390 КБ неиспользуемых шрифтов — самая
-дешёвая правка с наибольшим эффектом), 3.2 (CLS 0.188), 3.3 (TBT), 3.5
-(`og.jpg` 1200 × 630), 4.4 (порядок заголовков), 5.1, 5.2.
+**Ждёт justea-voice:** тексты по [`content-briefs.md`](content-briefs.md).
+Без них новые разделы `/guides` и `/health` не выпускаются.
 
 **Ждёт инфраструктуру:** находка 2.2 — `www.justea.ru` отдаёт 200 вместо 301.
+**Единственная неисправленная находка критичной серьёзности.**
 
-**Этап 2** начинается, когда justea-market отдаст `docs/market/semantic-core.csv`.
+**Ждёт justea-sources и justea-design:** матча (448 score) не укладывается в
+модель данных — нет типа `matcha`, и её взбивают, а не заваривают проливами.
+См. [`site-structure.md`](site-structure.md) §6.
 
 ## Решения, принятые на этапе 1
 
@@ -42,9 +51,12 @@ metadata и JSON-LD в страницах (`app/components/seo/**`, `lib/metadat
   после чего `alternates.languages` начинает собираться сам.
 - **URL кластеров.** `/tea/<type>` вместо `/?type=<type>`. Старые адреса —
   301 через `middleware.ts`.
-- **Страницы без контента не создаются.** `/tea/pu-erh` и `/tea/yellow` отдают
-  404, пока в каталоге нет чаёв этих типов, и появятся сами на следующей
-  сборке после того, как justea-sources их добавит.
+- **Страницы типов не зависят от наполнения каталога.** На этапе 1 было
+  наоборот (`/tea/pu-erh` → 404), но ядро показало, что посылка неверна:
+  странице типа листинг не нужен, её закрывает руководство по завариванию.
+  Решение отменено, см. [`site-structure.md`](site-structure.md) §3.
+- **Структура URL — единый источник правды здесь.** В `semantic-core.csv` URL
+  намеренно нет: иначе получим два расходящихся источника.
 - **Разметка только по реальным данным.** Без `aggregateRating` (нет отзывов),
   без `offers` (чай не продаётся). Подробнее — раздел 2.3 аудита.
 - **Правило для нового URL.** Любой новый маршрут обязан получить canonical,

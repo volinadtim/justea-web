@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getAvailableTeaTypes } from "@/lib/teas";
+import { isTeaType } from "@/lib/teas";
 import { teaTypePath } from "@/lib/tea-type-pages";
 
 /**
@@ -13,9 +13,10 @@ import { teaTypePath } from "@/lib/tea-type-pages";
  * исходный query к destination, и получалось `/tea/green?type=green` — второй
  * URL с тем же содержимым. Здесь мы строим адрес сами и параметр выбрасываем.
  *
- * Сверяемся с `getAvailableTeaTypes()`, а не со статическим списком: страницы
- * есть только у типов, для которых в каталоге есть хотя бы один чай
- * (см. `app/tea/[type]/page.tsx`). Иначе 301 указывал бы на 404.
+ * Сверяемся с `isTeaType`, а не со статическим списком: страницы есть у всех
+ * известных типов, в том числе тех, для которых в каталоге пока нет чаёв
+ * (см. `app/tea/[type]/page.tsx`). Неизвестное значение ведёт на `/`, чтобы
+ * 301 не указывал на 404.
  */
 export function middleware(request: NextRequest) {
     const type = request.nextUrl.searchParams.get("type");
@@ -27,10 +28,9 @@ export function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.searchParams.delete("type");
 
-    const target = getAvailableTeaTypes().find((available) => available === type);
-    // Неизвестный или пустой тип раньше показывал полный каталог — значит,
-    // его место на главной без параметра.
-    url.pathname = target ? teaTypePath(target) : "/";
+    // Неизвестный тип раньше показывал полный каталог — значит, его место
+    // на главной без параметра.
+    url.pathname = isTeaType(type) ? teaTypePath(type) : "/";
 
     return NextResponse.redirect(url, 301);
 }

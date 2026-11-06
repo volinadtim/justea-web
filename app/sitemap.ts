@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllTeas, getAvailableTeaTypes } from "@/lib/teas";
+import { getAllTeas, TEA_TYPES } from "@/lib/teas";
 import { teaTypePath } from "@/lib/tea-type-pages";
 import { absoluteUrl } from "@/lib/site";
 import type { Tea } from "@/types/tea";
@@ -39,7 +39,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: "weekly",
             priority: 1,
         },
-        ...getAvailableTeaTypes().map((type) => ({
+        // Страницы есть у всех типов, независимо от наполнения каталога
+        // (см. docs/seo/site-structure.md §3).
+        ...TEA_TYPES.map((type) => ({
             url: absoluteUrl(teaTypePath(type)),
             lastModified: latest(
                 teas

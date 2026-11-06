@@ -13,19 +13,27 @@ import {
     teaTypeLabel,
     teaTypePath,
 } from "@/lib/tea-type-pages";
-import { filterTeasByType, getAvailableTeaTypes } from "@/lib/teas";
+import { filterTeasByType, TEA_TYPES } from "@/lib/teas";
 
 interface PageProps {
     params: Promise<{ type: string }>;
 }
 
 /**
- * Только типы, для которых в каталоге есть хотя бы один чай: страница без
- * товаров — это thin content, в индекс ей не надо. Остальные отдают 404, пока
- * чай не появится; при появлении страница возникает со следующей сборкой.
+ * Страницы есть у всех типов, даже если в каталоге нет ни одного такого чая.
+ *
+ * На этапе 1 страница зависела от каталога (нет чаёв → 404), потому что пустой
+ * листинг — это thin content. Семантическое ядро показало, что посылка была
+ * неверной: странице типа листинг не нужен, её закрывает руководство по
+ * завариванию. У пуэра информационный спрос ~510 (`type-puerh` 171 +
+ * `brewing-howto` с `связанный_тип=puerh` 339) — «как заваривать шу пуэр в
+ * таблетках», «температура шен пуэра», «нужно ли промывать лист». Ответ на
+ * это не требует ни одного сорта в каталоге.
+ *
+ * Подробнее — docs/seo/site-structure.md §3.
  */
 export async function generateStaticParams() {
-    return getAvailableTeaTypes().map((type) => ({ type }));
+    return TEA_TYPES.map((type) => ({ type }));
 }
 
 export const dynamicParams = false;
@@ -57,11 +65,6 @@ export default async function TeaTypePage({ params }: PageProps) {
     }
 
     const teas = filterTeasByType(type);
-
-    if (teas.length === 0) {
-        notFound();
-    }
-
     const page = TEA_TYPE_PAGES[type];
     const crumbs = [
         { label: "Главная", href: "/" },
@@ -89,11 +92,18 @@ export default async function TeaTypePage({ params }: PageProps) {
 
             <TeaTypeFilter activeType={type} />
 
-            <div className="grid grid-cols-1 gap-[20px] sm:grid-cols-2">
-                {teas.map((tea) => (
-                    <TeaCard key={tea.id} tea={tea} />
-                ))}
-            </div>
+            {teas.length > 0 ? (
+                <div className="grid grid-cols-1 gap-[20px] sm:grid-cols-2">
+                    {teas.map((tea) => (
+                        <TeaCard key={tea.id} tea={tea} />
+                    ))}
+                </div>
+            ) : (
+                <p className="text-[19px] leading-[1.4]">
+                    Сортов этого типа в справочнике пока нет — руководство по
+                    завариванию выше работает для любого из них.
+                </p>
+            )}
         </main>
     );
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Scrollable from "./Scrollable";
-import { getAvailableTeaTypes, TEA_TYPE_LABELS } from "@/lib/teas";
+import { TEA_TYPES, TEA_TYPE_LABELS } from "@/lib/teas";
 import { teaTypePath } from "@/lib/tea-type-pages";
 import { TeaType } from "@/types/tea";
 
@@ -18,7 +18,10 @@ function filterLinkClass(isActive: boolean) {
 }
 
 export default function TeaTypeFilter({ activeType }: Props) {
-    const availableTypes = getAvailableTeaTypes();
+    // Все типы, а не только представленные в каталоге: у каждого есть своя
+    // страница, и без ссылки отсюда она осталась бы сиротой — внутренних
+    // ссылок на неё не было бы вообще (docs/seo/site-structure.md §5).
+    const availableTypes = TEA_TYPES;
 
     return (
         <Scrollable

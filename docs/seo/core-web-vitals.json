@@ -1,232 +1,199 @@
 {
-  "$comment": "Базовые замеры Core Web Vitals для justea.ru. Лабораторные (Lighthouse), не поле (CrUX). Повторить на проде после деплоя и после правок по находкам 3.1-3.3 из audit-findings.json.",
+  "$comment": "Замеры Core Web Vitals justea.ru. Парная методика: состояния «до» и «после» собраны и запущены одновременно на одной машине, Lighthouse чередовал их 3 раза — так нагрузка машины влияет на оба одинаково. Это лабораторные замеры, не поле (CrUX).",
   "meta": {
     "date": "2026-11-06",
-    "time_source": "HTTP Date заголовок сервера justea.ru; локальные часы спешат на ~20 мин",
-    "tool": "Lighthouse 13.6.0",
-    "chromium": "ms-playwright chromium-1247",
-    "target": "локальная production-сборка ветки agent/seo на http://127.0.0.1:4012",
-    "form_factor": "mobile",
-    "throttling": "Lighthouse default mobile (4x CPU, имитация медленного 4G)",
-    "caveat": "Замеры на localhost: сетевая задержка не моделирует прод, CPU-throttling применялся на загруженной машине. Абсолютные цифры пессимистичны; сравнивать страницы между собой, а не с порогами Google.",
-    "thresholds_google": {
-      "LCP_good_s": 2.5,
-      "CLS_good": 0.1,
-      "INP_good_ms": 200,
-      "TBT_proxy_good_ms": 200
-    }
+    "tool": "Lighthouse 13.6.0, Chromium ms-playwright 1247",
+    "form_factor": "mobile, 4x CPU throttling",
+    "before": "коммит 6fbe9df (этап 1), порт 4030",
+    "after": "этап 2 + хендофф justea-design (шрифты, CLS), порт 4020",
+    "load_average": "2.7 на 8 ядрах во время парных замеров",
+    "runs": 3
+  },
+  "correction": {
+    "what": "Первые замеры (этап 1) показывали performance 68 на главной и 73 на странице чая, TBT 6420 мс на главной. Эти цифры неверны.",
+    "why": "Они снимались, когда на машине параллельно разворачивались 6 других агентских сессий (pnpm install, сборки). Lighthouse под 4x CPU-throttling на перегруженной машине даёт TBT с разбросом в 20 раз: на одном и том же билде я получал 310, 310, 970 и 1940 мс.",
+    "corrected_baseline": "Реальная база — performance 90–91 на странице чая и 96–99 на главной. TBT 86–215 мс, то есть у порога 200 мс, а не в 30 раз выше.",
+    "impact_on_findings": "Находка 3.3 отчёта (TBT 6420 мс на главной) снята как артефакт измерения. Находки 3.1 (шрифты) и 3.2 (CLS) подтвердились и исправлены.",
+    "lesson": "Абсолютные TBT и performance на этой машине не воспроизводимы без парного замера. CLS и размер передаваемых байт детерминированы и годятся всегда."
   },
   "pages": [
     {
-      "page": "home",
-      "url": "/",
-      "categories": {
-        "performance": 68,
-        "seo": 100
+      "page": "tea",
+      "url": "/longjing",
+      "before": {
+        "performance": [
+          90,
+          91
+        ],
+        "cls": 0.188,
+        "tbt_ms": [
+          86,
+          121
+        ],
+        "fonts_count": 8,
+        "fonts_kb": 800
       },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": "0.8 s",
-          "numeric": 772.3657000000001,
-          "score": 1
-        },
-        "largest-contentful-paint": {
-          "value": "0.8 s",
-          "numeric": 772.3657000000001,
-          "score": 1
-        },
-        "cumulative-layout-shift": {
-          "value": "0.028",
-          "numeric": 0.028127752862267236,
-          "score": 1
-        },
-        "total-blocking-time": {
-          "value": "6,420 ms",
-          "numeric": 6415.317149999998,
-          "score": 0
-        },
-        "speed-index": {
-          "value": "4.1 s",
-          "numeric": 4142.57534893147,
-          "score": 0.78
-        },
-        "interactive": {
-          "value": "12.0 s",
-          "numeric": 11996.7971,
-          "score": 0.16
-        },
-        "server-response-time": {
-          "value": "Root document took 80 ms",
-          "numeric": 76,
-          "score": 1
-        }
+      "after": {
+        "performance": 100,
+        "cls": 0.001,
+        "tbt_ms": [
+          50,
+          60
+        ],
+        "fonts_count": 4,
+        "fonts_kb": 423
       },
-      "diagnostics": {
-        "mainthread_work_ms": {
-          "Script Evaluation": 7164,
-          "Other": 897,
-          "Style & Layout": 227,
-          "Script Parsing & Compilation": 151,
-          "Parse HTML & CSS": 101,
-          "Garbage Collection": 41,
-          "Rendering": 31
-        },
-        "bootup_top_scripts": [
+      "lcp": "0.8 s в обоих состояниях, все прогоны",
+      "runs_raw": {
+        "before": [
           {
-            "url": "/_next/static/chunks/4937d69254c1eedb.js",
-            "total_ms": 6686
+            "performance": 90,
+            "cls": 0.188,
+            "tbt_ms": 121,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
           },
           {
-            "url": "Unattributable",
-            "total_ms": 717
+            "performance": 91,
+            "cls": 0.188,
+            "tbt_ms": 86,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
           },
           {
-            "url": "/_next/static/chunks/20556fd069e2409b.js",
-            "total_ms": 388
-          },
-          {
-            "url": "/",
-            "total_ms": 334
+            "performance": 91,
+            "cls": 0.188,
+            "tbt_ms": 96,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
           }
         ],
-        "long_tasks": [
+        "after": [
           {
-            "url": "/_next/static/chunks/4937d69254c1eedb.js",
-            "duration_ms": 3467
+            "performance": 100,
+            "cls": 0.001,
+            "tbt_ms": 50,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
           },
           {
-            "url": "/_next/static/chunks/4937d69254c1eedb.js",
-            "duration_ms": 2851
+            "performance": 100,
+            "cls": 0.001,
+            "tbt_ms": 54,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
           },
           {
-            "url": "/_next/static/chunks/20556fd069e2409b.js",
-            "duration_ms": 149
-          },
-          {
-            "url": "/_next/static/chunks/8671e72e360c7266.css",
-            "duration_ms": 138
-          }
-        ],
-        "layout_shifts": [
-          {
-            "score": 0.0237,
-            "selector": "div.flex > div > main > div.mb-6"
-          },
-          {
-            "score": 0.0044,
-            "selector": "div.grid > div.min-w-0 > div.flex > div"
+            "performance": 100,
+            "cls": 0.001,
+            "tbt_ms": 60,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
           }
         ]
       }
     },
     {
-      "page": "tea",
-      "url": "/longjing",
-      "categories": {
-        "performance": 73,
-        "accessibility": 87,
-        "best-practices": 100,
-        "seo": 100
+      "page": "home",
+      "url": "/",
+      "before": {
+        "performance": [
+          96,
+          99
+        ],
+        "cls": 0.004,
+        "tbt_ms": [
+          79,
+          215
+        ],
+        "fonts_count": 8,
+        "fonts_kb": 800
       },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": "0.8 s",
-          "numeric": 778.0123000000001,
-          "score": 1
-        },
-        "largest-contentful-paint": {
-          "value": "0.8 s",
-          "numeric": 778.0123000000001,
-          "score": 1
-        },
-        "cumulative-layout-shift": {
-          "value": "0.188",
-          "numeric": 0.1884459728287097,
-          "score": 0.65
-        },
-        "total-blocking-time": {
-          "value": "730 ms",
-          "numeric": 730.9938500000001,
-          "score": 0.4
-        },
-        "speed-index": {
-          "value": "1.5 s",
-          "numeric": 1539.234386035501,
-          "score": 1
-        },
-        "interactive": {
-          "value": "7.3 s",
-          "numeric": 7264.561500000002,
-          "score": 0.5
-        },
-        "server-response-time": {
-          "value": "Root document took 20 ms",
-          "numeric": 22,
-          "score": 1
-        }
+      "after": {
+        "performance": 100,
+        "cls": [
+          0,
+          0.024
+        ],
+        "tbt_ms": [
+          39,
+          50
+        ],
+        "fonts_count": 4,
+        "fonts_kb": 423
       },
-      "diagnostics": {
-        "mainthread_work_ms": {
-          "Script Evaluation": 1060,
-          "Other": 697,
-          "Style & Layout": 490,
-          "Script Parsing & Compilation": 128,
-          "Parse HTML & CSS": 119,
-          "Garbage Collection": 100,
-          "Rendering": 46
-        },
-        "bootup_top_scripts": [
+      "lcp": "0.8 s в обоих состояниях, все прогоны",
+      "runs_raw": {
+        "before": [
           {
-            "url": "/_next/static/chunks/4937d69254c1eedb.js",
-            "total_ms": 763
+            "performance": 96,
+            "cls": 0.004,
+            "tbt_ms": 215,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
           },
           {
-            "url": "/longjing",
-            "total_ms": 654
+            "performance": 99,
+            "cls": 0.004,
+            "tbt_ms": 123,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
           },
           {
-            "url": "Unattributable",
-            "total_ms": 578
-          },
-          {
-            "url": "/_next/static/chunks/20556fd069e2409b.js",
-            "total_ms": 351
+            "performance": 99,
+            "cls": 0.004,
+            "tbt_ms": 79,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
           }
         ],
-        "long_tasks": [
+        "after": [
           {
-            "url": "/_next/static/chunks/4937d69254c1eedb.js",
-            "duration_ms": 344
+            "performance": 100,
+            "cls": 0.024,
+            "tbt_ms": 50,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
           },
           {
-            "url": "Unattributable",
-            "duration_ms": 190
+            "performance": 100,
+            "cls": 0,
+            "tbt_ms": 42,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
           },
           {
-            "url": "/longjing",
-            "duration_ms": 177
-          },
-          {
-            "url": "/_next/static/chunks/20556fd069e2409b.js",
-            "duration_ms": 150
-          }
-        ],
-        "layout_shifts": [
-          {
-            "score": 0.1884,
-            "selector": "div.grid > div.min-w-0 > div.flex > div"
+            "performance": 100,
+            "cls": 0,
+            "tbt_ms": 39,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
           }
         ]
       }
     }
   ],
-  "interpretation": {
-    "good": "LCP 0.8 с и server-response-time 20 мс на обеих страницах — отдача статики работает отлично. SEO 100/100.",
-    "problems": [
-      "CLS 0.188 на странице чая против порога 0.1 — находка 3.2 (Suspense-фallback поиска, зона justea-design)",
-      "TBT 6420 мс на главной против 730 мс на странице чая — находка 3.3 (монтирование клиентских компонентов, зона justea-design)",
-      "~390 КБ неиспользуемых предзагружаемых шрифтов — находка 3.1, самая дешёвая в починке (зона justea-design)"
+  "verdict": {
+    "fixed": [
+      "CLS на странице чая 0.188 → 0.001. Причина была в `SearchFallback`: заглушка строки поиска имела другую высоту, чем реальный `Search`, и контент уезжал вниз при подстановке. Теперь заглушка повторяет структуру (flex + py-3 + border-b-2 + распорка h-6), высота совпадает сама.",
+      "Шрифты 800 КБ → 423 КБ (8 файлов → 4). Убраны Geist, Geist Mono и два начертания Bainsley Italic — ни одно не применялось ни к одному элементу.",
+      "Performance на странице чая 90–91 → 100, на главной 96–99 → 100."
     ],
-    "field_data": "CrUX-данных пока нет: появятся через 28 дней после того, как на сайт пойдёт трафик. Следить в Google Search Console → Основные интернет-показатели."
+    "retracted": [
+      "TBT 6420 мс на главной (находка 3.3). Реальный TBT до правок — 79–215 мс. Это был артефакт нагрузки машины, а не дефект кода. Переработка `TeaCard` в серверный компонент данными не обоснована."
+    ],
+    "field_data": "CrUX-данных нет: появятся через 28 дней после начала трафика. Повторить замеры на проде после деплоя — localhost не моделирует сеть."
   }
 }

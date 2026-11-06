@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Comfortaa } from "next/font/google";
+import { Comfortaa } from "next/font/google";
 import localFont from "next/font/local";
 import { Suspense } from "react";
 import "./globals.css";
@@ -11,21 +11,26 @@ import ThemeProvider from "./components/ThemeProvider";
 import ThemeToggle from "./components/ThemeToggle";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
-
 const comfortaaSans = Comfortaa({
     variable: "--font-comfortaa-sans",
     subsets: ["latin", "cyrillic"],
 });
 
+/**
+ * Bainsley: только Roman и Bold.
+ *
+ * Italic и Bold Italic (333 КБ) убраны из набора: класса `italic` и тега `em`
+ * нет ни в одном компоненте, а предзагружались они на каждой странице —
+ * находка 3.1 аудита. `next/font/local` не умеет `preload: false` для
+ * отдельного начертания, только для всего набора, поэтому компромисса
+ * «оставить доступными, но не качать» здесь нет: либо грузим всегда, либо не
+ * подключаем.
+ *
+ * Файлы остались в `app/fonts/Bainsley/`. Если justea-voice понадобится
+ * курсив в текстах `/guides` или `/health` — скажите, верну отдельным
+ * загрузчиком: без реального начертания браузер нарисует синтетический наклон.
+ * Решение согласовано с justea-design 06.11.2026.
+ */
 const bainsley = localFont({
     src: [
         {
@@ -34,19 +39,9 @@ const bainsley = localFont({
             style: "normal",
         },
         {
-            path: "./fonts/Bainsley/Bainsley_Italic.woff2",
-            weight: "400",
-            style: "italic",
-        },
-        {
             path: "./fonts/Bainsley/Bainsley_Bold.woff2",
             weight: "700",
             style: "normal",
-        },
-        {
-            path: "./fonts/Bainsley/Bainsley_Bold_Italic.woff2",
-            weight: "700",
-            style: "italic",
         },
     ],
     variable: "--font-bainsley",
@@ -94,11 +89,22 @@ export const metadata: Metadata = {
     },
 };
 
+/**
+ * Заглушка строки поиска на время Suspense.
+ *
+ * Высота обязана совпадать с реальным `Search`, иначе при подстановке контент
+ * уезжает вниз: это давало CLS 0.188 при пороге Google 0.1 (находка 3.2
+ * аудита). Поэтому здесь не подобранная в пикселях высота, а та же структура —
+ * `flex` + `py-3` + `border-b-2` и распорка `h-6` вместо инпута. Тогда высота
+ * сходится сама при любом кегле. Размеры сверены с justea-design.
+ */
 function SearchFallback() {
     return (
-        <div className="flex min-w-0 flex-1 gap-2 border-b-2 py-3 opacity-60">
-            <span className="size-5 shrink-0" />
-            <span className="min-w-0 flex-1 text-base">Поиск…</span>
+        <div className="flex min-w-0 flex-1 items-center gap-2 border-b-2 py-3 opacity-60">
+            <span className="size-5 shrink-0 sm:size-6" />
+            <span className="flex h-6 min-w-0 flex-1 items-center text-[16px] sm:text-[18px]">
+                Поиск…
+            </span>
         </div>
     );
 }
@@ -114,7 +120,7 @@ export default function RootLayout({
                 <SiteJsonLd />
             </head>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} ${comfortaaSans.variable} ${bainsley.variable} antialiased selection:bg-main-300`}
+                className={`${comfortaaSans.variable} ${bainsley.variable} antialiased selection:bg-main-300`}
             >
                 <BodyScrollbars />
                 <ThemeProvider>
