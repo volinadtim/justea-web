@@ -16,7 +16,7 @@ export default function TeaCard({ tea }: Props) {
     return (
         <Link
             href={`/${tea.slug}`}
-            className="group relative flex flex-col gap-[12px] border-2 border-black/10 p-[16px] transition-colors hover:border-black/30 dark:border-white/10 dark:hover:border-white/30"
+            className="group relative flex flex-col gap-[12px] border-2 border-line p-[16px] transition-colors hover:border-line-strong"
         >
             <FavoriteButton
                 slug={tea.slug}
@@ -31,7 +31,7 @@ export default function TeaCard({ tea }: Props) {
             </div>
 
             <div className="flex flex-col gap-[4px]">
-                <span className="text-[14px] text-black/60 dark:text-white/60">
+                <span className="text-[14px] text-muted">
                     {TEA_TYPE_LABELS[tea.type]}
                 </span>
                 <h2 className="text-[22px] leading-none group-hover:underline sm:text-[26px] lg:text-[28px]">

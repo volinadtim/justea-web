@@ -25,7 +25,7 @@ function TimerIconButton({
             type="button"
             aria-label={label}
             title={label}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-black/20 transition-colors hover:border-black/40 dark:border-white/20 dark:hover:border-white/40"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-line transition-colors hover:border-line-strong"
             onClick={onClick}
         >
             {children}
@@ -83,8 +83,8 @@ export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
     const displaySeconds = isIdle || isFinished ? steeps[0] ?? 0 : remainingSeconds;
 
     return (
-        <div className="mt-[20px] rounded-md border-2 border-black/10 p-[16px] dark:border-white/10">
-            <div className="mb-[12px] text-[14px] text-black/60 dark:text-white/60">
+        <div className="mt-[20px] rounded-md border-2 border-line p-[16px]">
+            <div className="mb-[12px] text-[14px] text-muted">
                 {isFinished
                     ? "Все проливы завершены"
                     : isActive

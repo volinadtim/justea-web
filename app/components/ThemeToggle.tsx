@@ -16,7 +16,7 @@ export default function ThemeToggle() {
         return (
             <button
                 type="button"
-                className="size-10 shrink-0 rounded-full border-2 border-black/10 dark:border-white/10"
+                className="size-10 shrink-0 rounded-full border-2 border-line"
                 aria-label="Загрузка темы"
                 disabled
             />
@@ -28,7 +28,7 @@ export default function ThemeToggle() {
     return (
         <button
             type="button"
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-black/20 transition-colors hover:border-black/40 dark:border-white/20 dark:hover:border-white/40"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-line transition-colors hover:border-line-strong"
             aria-label={isDark ? "Включить светлую тему" : "Включить тёмную тему"}
             onClick={() => setTheme(isDark ? "light" : "dark")}
         >

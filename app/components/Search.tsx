@@ -31,7 +31,7 @@ function filterPillClass(isActive: boolean) {
         "shrink-0 rounded-full border-2 px-[12px] py-[5px] text-[14px] transition-colors sm:px-[14px] sm:py-[6px] sm:text-[15px]",
         isActive
             ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
-            : "border-black/20 hover:border-black/40 dark:border-white/20 dark:hover:border-white/40",
+            : "border-line hover:border-line-strong",
     ].join(" ");
 }
 
@@ -277,7 +277,7 @@ export default function Search() {
                 <div className="flex h-full flex-col bg-[var(--background)] px-[16px] pb-[16px] pt-[12px] sm:px-[24px] sm:pb-[20px] sm:pt-[16px]">
                     <form
                         onSubmit={handleSubmit}
-                        className="mb-[12px] flex shrink-0 items-center gap-[10px] border-b-2 border-black/15 pb-[12px] dark:border-white/15 sm:mb-[16px]"
+                        className="mb-[12px] flex shrink-0 items-center gap-[10px] border-b-2 border-line pb-[12px] sm:mb-[16px]"
                         role="search"
                     >
                         <SearchIcon className="size-5 shrink-0 sm:size-6" />
@@ -294,7 +294,7 @@ export default function Search() {
                         />
                         <button
                             type="button"
-                            className="shrink-0 rounded-full border-2 border-black/15 p-[6px] transition-colors hover:border-black/40 dark:border-white/15 dark:hover:border-white/40"
+                            className="shrink-0 rounded-full border-2 border-line p-[6px] transition-colors hover:border-line-strong"
                             onClick={closeSearch}
                             aria-label="Закрыть поиск"
                         >
@@ -338,7 +338,7 @@ export default function Search() {
                     >
                         {!trimmedQuery && recentSearches.length > 0 && (
                             <section className="mb-[16px]">
-                                <h2 className="mb-[8px] text-[13px] uppercase tracking-wide text-black/50 dark:text-white/50">
+                                <h2 className="mb-[8px] text-[13px] uppercase tracking-wide text-muted">
                                     Недавние запросы
                                 </h2>
                                 <ul className="flex flex-col gap-[4px]">
@@ -363,13 +363,13 @@ export default function Search() {
 
                         <section>
                             {trimmedQuery ? (
-                                <h2 className="mb-[10px] text-[13px] uppercase tracking-wide text-black/50 dark:text-white/50">
+                                <h2 className="mb-[10px] text-[13px] uppercase tracking-wide text-muted">
                                     {results.length > 0
                                         ? `Найдено: ${results.length}`
                                         : "Ничего не найдено"}
                                 </h2>
                             ) : (
-                                <h2 className="mb-[10px] text-[13px] uppercase tracking-wide text-black/50 dark:text-white/50">
+                                <h2 className="mb-[10px] text-[13px] uppercase tracking-wide text-muted">
                                     {activeType
                                         ? TEA_TYPE_LABELS[activeType]
                                         : "Все чаи"}
