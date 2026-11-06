@@ -229,6 +229,57 @@
       ],
       "askedTo": "orchestrator",
       "status": "open"
+    },
+    {
+      "id": 22,
+      "group": "format",
+      "question": "Церемония китайская (гунфу ча)?",
+      "blocks": [
+        "app/ceremony/page.tsx:h1"
+      ],
+      "askedTo": "user",
+      "status": "open",
+      "source": "justea-market 2026-11-06"
+    },
+    {
+      "id": 23,
+      "group": "product",
+      "question": "Будет ли выездная церемония (на дом, в офис)?",
+      "blocks": [],
+      "askedTo": "user",
+      "status": "open",
+      "source": "justea-market 2026-11-06"
+    },
+    {
+      "id": 24,
+      "group": "product",
+      "question": "Будет ли обучение или мастер-класс?",
+      "blocks": [],
+      "askedTo": "user",
+      "status": "open",
+      "source": "justea-market 2026-11-06"
+    },
+    {
+      "id": 25,
+      "group": "product",
+      "question": "Делать ли отдельное предложение на двоих или в подарок?",
+      "blocks": [
+        "app/ceremony/content.ts:CEREMONY_FAQ"
+      ],
+      "askedTo": "user",
+      "status": "open",
+      "source": "justea-market 2026-11-06"
+    },
+    {
+      "id": 26,
+      "group": "process",
+      "question": "Гео-варианты «спб» и «питер» в метатегах и alt — согласовать с justea-seo",
+      "blocks": [
+        "app/ceremony/page.tsx:metadata"
+      ],
+      "askedTo": "orchestrator",
+      "status": "open",
+      "source": "justea-market 2026-11-06"
     }
   ],
   "answers": [
@@ -273,6 +324,27 @@
       "answer": "Данных о Регине пока нет — плейсхолдеры с TODO",
       "appliedTo": [
         "app/ceremony/content.ts:PLACEHOLDERS"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "date": "2026-11-06",
+      "from": "justea-market",
+      "source": "docs/market/report.md §5",
+      "facts": [
+        "«чайная церемония спб цена» — запрос №1 по СПб",
+        "сильные форматы без предложения: выездная, обучение/мастер-класс, на двоих/в подарок",
+        "у формата «разовое посещение малой группой ради знакомства» собственного запроса нет",
+        "сезонность: октябрь 121, январь 112, март 112, август 80",
+        "«чайная церемония» — эвфемизм в массажных салонах, нужно минус-слово в рекламе",
+        "гео-формы: спб, санкт-петербург, петербург, питер — сопоставимы по силе",
+        "«китайская» — устойчивое уточнение"
+      ],
+      "appliedTo": [
+        "app/ceremony/page.tsx — цена поднята на первый экран",
+        "app/ceremony/page.tsx — «в Петербурге» в блоке успеха",
+        "app/ceremony/content.ts — честный ответ FAQ про двоих"
       ]
     }
   ]

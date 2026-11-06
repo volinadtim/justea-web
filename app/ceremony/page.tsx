@@ -11,6 +11,7 @@ import {
     CEREMONY_CITY_IN,
     CEREMONY_FORMAT,
     CEREMONY_HOST_NAME,
+    CEREMONY_HOST_NAME_GEN,
     CEREMONY_PLAN,
     CEREMONY_PRICE,
     CEREMONY_STAGES,
@@ -42,10 +43,14 @@ export default function CeremonyPage() {
                 </h1>
 
                 <p className="mb-[20px] max-w-[48ch] text-[19px] leading-[1.4] sm:text-[22px] lg:text-[24px]">
-                    Вечер за столом у чайного мастера {CEREMONY_HOST_NAME}: один чай,
+                    Вечер за столом у чайного мастера {CEREMONY_HOST_NAME_GEN}: один чай,
                     много проливов, небольшая группа и люди, с которыми к последнему
                     проливу уже разговариваешь. Разбираться в чае заранее не нужно — за
                     этим и приходят.
+                </p>
+
+                <p className="mb-[8px] text-[24px] leading-[1.2] sm:text-[28px]">
+                    {CEREMONY_PRICE}
                 </p>
 
                 <p className="mb-[28px] text-[16px] text-black/70 dark:text-white/70">
@@ -58,10 +63,6 @@ export default function CeremonyPage() {
                         Узнать о чаях
                     </CeremonyCta>
                 </div>
-
-                <p className="mt-[16px] text-[16px] text-black/70 dark:text-white/70">
-                    {CEREMONY_PRICE}
-                </p>
             </section>
 
             <CeremonySection title="Почему чай дома не такой">
@@ -180,8 +181,8 @@ export default function CeremonyPage() {
                         <p className="text-[19px] leading-[1.45]">
                             Вы один раз чувствуете, каким вкус должен быть — и дальше
                             свой чай дома заваривается уже иначе. Плюс появляется место
-                            в городе, куда можно прийти вечером, и несколько человек, с
-                            которыми вы познакомились за столом.
+                            в Петербурге, куда можно прийти вечером, и несколько
+                            человек, с которыми вы познакомились за столом.
                         </p>
                     </div>
                 </div>
