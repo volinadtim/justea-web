@@ -74,24 +74,14 @@
     {
       "id": 7,
       "group": "schedule",
-      "question": "Как часто собираются группы и в какие дни",
+      "question": "В какой день недели и в какое время проходит церемония",
       "blocks": [
         "placeholder:schedule",
         "CEREMONY_DATE_PROMISE"
       ],
       "askedTo": "user",
       "status": "partially-answered",
-      "partialAnswer": "Формат — только разовое посещение в небольшой группе"
-    },
-    {
-      "id": 8,
-      "group": "price",
-      "question": "Из чего складывается оплата чая: сумма и за что",
-      "blocks": [
-        "placeholder:teaPayment"
-      ],
-      "askedTo": "user",
-      "status": "open"
+      "partialAnswer": "Частота известна: раз в месяц"
     },
     {
       "id": 9,
@@ -101,7 +91,8 @@
         "app/ceremony/content.ts"
       ],
       "askedTo": "user",
-      "status": "open"
+      "status": "open",
+      "context": "Цена фиксированная и чай включён, поэтому вопрос сводится к способу оплаты."
     },
     {
       "id": 10,
@@ -353,6 +344,25 @@
       "appliedTo": [
         "app/ceremony/content.ts:PLACEHOLDERS"
       ]
+    },
+    {
+      "date": "2026-11-06",
+      "source": "пользователь, запись в docs/agents/ORCHESTRATOR.md",
+      "answer": "Цена 1 500 ₽ с человека, чай включён — отменяет «600 ₽ + оплата чая» из задания 07-ceremony.md",
+      "appliedTo": [
+        "app/ceremony/content.ts:CEREMONY_PRICE",
+        "app/ceremony/page.tsx",
+        "письмо гостю"
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "source": "пользователь, запись в docs/agents/ORCHESTRATOR.md",
+      "answer": "Одна церемония в месяц; церемонии не главная задача проекта",
+      "appliedTo": [
+        "app/ceremony/content.ts:CEREMONY_FREQUENCY",
+        "FAQ «когда ближайшая»"
+      ]
     }
   ],
   "inputs": [
@@ -408,6 +418,22 @@
       ],
       "appliedTo": [
         "docs/ceremony/open-questions.md",
+        "docs/ceremony/sb7.md"
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "from": "justea-market",
+      "source": "инбокс оркестратора, запись #2",
+      "facts": [
+        "церемонии понижены в приоритете: одна в месяц, не главная задача",
+        "1 500 ₽ — середина рынка СПб: выше простой подачи (от 650 ₽), ниже церемонии с мастером (от 2 450 ₽) и клубов (от 4 500 ₽)",
+        "трафика в СПб (2 550 показов/мес) с запасом хватает на одну группу в месяц — оптимизировать и покупать рекламу под церемонию смысла нет",
+        "спроса на «для начинающих» практически нет: 8 показов/мес по СПб, в России в топ-200 не попадает — боль реальная, но непоисковая"
+      ],
+      "appliedTo": [
+        "app/ceremony/content.ts",
+        "app/ceremony/page.tsx",
         "docs/ceremony/sb7.md"
       ]
     }

@@ -10,6 +10,7 @@ import {
     CEREMONY_CITY,
     CEREMONY_CITY_IN,
     CEREMONY_FORMAT,
+    CEREMONY_FREQUENCY,
     CEREMONY_HOST_NAME,
     CEREMONY_HOST_NAME_GEN,
     CEREMONY_PLAN,
@@ -21,7 +22,7 @@ import {
 export const metadata: Metadata = createPageMetadata({
     title: "Чайная церемония",
     description:
-        "Чайная церемония в Санкт-Петербурге с мастером Региной: разовая встреча в небольшой группе, проливы одного чая и никаких требований к опыту. 600 ₽ за участие.",
+        "Чайная церемония в Санкт-Петербурге с мастером Региной: разовая встреча в небольшой группе раз в месяц, проливы одного чая и никаких требований к опыту. 1 500 ₽ с человека, чай включён.",
     path: "/ceremony",
 });
 
@@ -54,7 +55,8 @@ export default function CeremonyPage() {
                 </p>
 
                 <p className="mb-[28px] text-[16px] text-black/70 dark:text-white/70">
-                    {CEREMONY_FORMAT}. {CEREMONY_CITY}, {CEREMONY_VENUE}.
+                    {CEREMONY_FORMAT}. {CEREMONY_FREQUENCY}. {CEREMONY_CITY},{" "}
+                    {CEREMONY_VENUE}.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-[12px]">
@@ -192,12 +194,11 @@ export default function CeremonyPage() {
 
             <CeremonySection title="Сколько стоит">
                 <p className="mb-[16px] text-[24px] leading-[1.2]">{CEREMONY_PRICE}</p>
-                <p className="mb-[16px] max-w-[52ch] text-[19px] leading-[1.45]">
-                    Участие — фиксированное. Чай считается отдельно: на столе бывают
-                    очень разные чаи, и несправедливо брать за редкий и за простой
-                    одинаково.
+                <p className="max-w-[52ch] text-[19px] leading-[1.45]">
+                    Это всё: чай входит в стоимость, доплачивать на месте ничего не
+                    нужно. Чай на стол выбирает {CEREMONY_HOST_NAME} — в том числе
+                    такой, который вы вряд ли купили бы себе на пробу.
                 </p>
-                <CeremonyPlaceholder item="teaPayment" className="max-w-[52ch]" />
             </CeremonySection>
 
             <CeremonySection id="booking" title="Записаться на церемонию">
