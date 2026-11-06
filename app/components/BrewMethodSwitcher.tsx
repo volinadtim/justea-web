@@ -10,7 +10,7 @@ type Props = {
 
 function buttonClass(isActive: boolean) {
     return [
-        "shrink-0 rounded-full border-2 px-3 py-1.5 text-[14px] transition-colors sm:px-[14px] sm:py-[6px] sm:text-[16px]",
+        "inline-flex min-h-11 shrink-0 items-center rounded-full border-2 px-4 text-[14px] transition-colors sm:px-[18px] sm:text-[16px]",
         isActive
             ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
             : "border-line hover:border-line-strong",

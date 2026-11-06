@@ -28,7 +28,7 @@ export default function FavoriteButton({ slug, className = "" }: Props) {
             type="button"
             aria-label={favorite ? "Убрать из избранного" : "Добавить в избранное"}
             aria-pressed={favorite}
-            className={`rounded-full p-[6px] transition-colors hover:bg-black/5 dark:hover:bg-white/5 ${className}`}
+            className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-black/5 dark:hover:bg-white/5 ${className}`}
             onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();

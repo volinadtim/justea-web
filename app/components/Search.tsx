@@ -28,7 +28,7 @@ const REVEAL_ORIGIN_OFFSET_X = 48;
 
 function filterPillClass(isActive: boolean) {
     return [
-        "shrink-0 rounded-full border-2 px-[12px] py-[5px] text-[14px] transition-colors sm:px-[14px] sm:py-[6px] sm:text-[15px]",
+        "inline-flex min-h-11 shrink-0 items-center rounded-full border-2 px-4 text-[14px] transition-colors sm:px-[18px] sm:text-[15px]",
         isActive
             ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
             : "border-line hover:border-line-strong",

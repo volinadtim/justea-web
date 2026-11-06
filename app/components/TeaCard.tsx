@@ -20,7 +20,7 @@ export default function TeaCard({ tea }: Props) {
         >
             <FavoriteButton
                 slug={tea.slug}
-                className="absolute top-[12px] right-[12px] z-10"
+                className="absolute top-[6px] right-[6px] z-10"
             />
 
             <div
