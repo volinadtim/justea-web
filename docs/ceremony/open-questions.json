@@ -74,10 +74,10 @@
     {
       "id": 7,
       "group": "schedule",
-      "question": "В какой день недели и в какое время проходит церемония",
+      "question": "Дата ближайшей церемонии, день недели и время",
       "blocks": [
-        "placeholder:schedule",
-        "CEREMONY_DATE_PROMISE"
+        "placeholder:nextDate",
+        "placeholder:schedule"
       ],
       "askedTo": "user",
       "status": "partially-answered",
@@ -362,6 +362,24 @@
       "appliedTo": [
         "app/ceremony/content.ts:CEREMONY_FREQUENCY",
         "FAQ «когда ближайшая»"
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "source": "пользователь, inbox #3",
+      "answer": "Тон лендинга спокойный, без давления и дефицита; регулярность «раз в месяц» указать, дату ближайшей — заглушкой TODO",
+      "appliedTo": [
+        "app/ceremony/page.tsx — блок «Что это меняет» переписан",
+        "app/ceremony/content.ts:PLACEHOLDERS.nextDate",
+        "антидефицитная строка под блоком"
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "source": "пользователь, inbox #2",
+      "answer": "Интерфейс меняем только точечно; новые блоки — в текущем стиле из существующих компонентов, иначе запрашивать референсы",
+      "appliedTo": [
+        "весь лендинг собран на существующих токенах и компонентах"
       ]
     }
   ],

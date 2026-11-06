@@ -160,25 +160,31 @@ export default function CeremonyPage() {
                 </div>
             </CeremonySection>
 
-            <CeremonySection title="Если не прийти">
+            <CeremonySection title="Что это меняет">
                 <div className="grid gap-[20px] sm:grid-cols-2">
-                    <ul className="flex flex-col gap-[12px] text-[19px] leading-[1.4]">
-                        <li>
-                            Ещё год чай будет «нормальным» — и вы так и не узнаете, каким
-                            он бывает.
-                        </li>
-                        <li>
-                            Хороший чай, купленный «на пробу», будет лежать в шкафу и
-                            выдыхаться, потому что жалко испортить.
-                        </li>
-                        <li>
-                            «Как-нибудь дойду» останется в списке дел ещё на одну зиму.
-                        </li>
-                    </ul>
+                    <div>
+                        <h3 className="mb-[10px] text-[22px] leading-[1.2]">
+                            Если не приходить
+                        </h3>
+                        <ul className="flex flex-col gap-[12px] text-[19px] leading-[1.4]">
+                            <li>
+                                Ничего не случится: чай дома останется таким же, как
+                                сейчас. Если он вас устраивает — это нормальный ответ.
+                            </li>
+                            <li>
+                                Хороший чай, купленный «на пробу», так и будет стоять в
+                                шкафу: жалко испортить, а как заварить — непонятно.
+                            </li>
+                            <li>
+                                Вкус, который меняется от пролива к проливу, останется
+                                описанием в справочнике.
+                            </li>
+                        </ul>
+                    </div>
 
                     <div className="border-2 border-black/10 p-[20px] dark:border-white/10">
                         <h3 className="mb-[10px] text-[22px] leading-[1.2]">
-                            А если прийти
+                            Если прийти
                         </h3>
                         <p className="text-[19px] leading-[1.45]">
                             Вы один раз чувствуете, каким вкус должен быть — и дальше
@@ -188,6 +194,11 @@ export default function CeremonyPage() {
                         </p>
                     </div>
                 </div>
+
+                <p className="mt-[20px] max-w-[60ch] text-[16px] leading-[1.4] text-black/70 dark:text-white/70">
+                    Торопить вас мы не будем: группа собирается раз в месяц, и если не
+                    получилось прийти в эту — придёте в следующую.
+                </p>
 
                 <CeremonyCta href="#booking" className="mt-[24px]" />
             </CeremonySection>
@@ -203,6 +214,10 @@ export default function CeremonyPage() {
 
             <CeremonySection id="booking" title="Записаться на церемонию">
                 <div className="max-w-[46ch]">
+                    <p className="mb-[16px] text-[19px] leading-[1.45]">
+                        {CEREMONY_FREQUENCY}.
+                    </p>
+                    <CeremonyPlaceholder item="nextDate" className="mb-[24px]" />
                     <CeremonyBookingForm />
                 </div>
             </CeremonySection>
