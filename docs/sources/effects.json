@@ -1,0 +1,785 @@
+{
+ "meta": {
+  "title": "Кофеин, L-теанин, ГАМК и «чайное опьянение» — фактура с источниками",
+  "version": 1,
+  "compiled": "2026-11-06",
+  "compiled_by": "агент justea-sources",
+  "requested_by": [
+   "justea-voice (docs/voice/editorial-policy-effect.md, PR #3)",
+   "justea-market (PR #6, кластер спроса «<сорт> эффект»)"
+  ],
+  "human_readable": "effects-caffeine-theanine.md",
+  "status_legend": {
+   "ФАКТ": "подтверждено рецензируемой публикацией или документом госоргана/стандартом",
+   "ГИПОТЕЗА": "в литературе обсуждается, но доказательства слабые, противоречивые или получены не на людях",
+   "ДАННЫХ НЕТ": "рецензируемых источников не найдено; писать можно только как об отсутствии данных",
+   "МОЁ РАССУЖДЕНИЕ": "логический вывод из двух фактов, в литературе не проверялся; как факт не публиковать"
+  },
+  "databases_used": [
+   "Crossref REST API",
+   "NCBI E-utilities (esearch/esummary/efetch)",
+   "J-STAGE",
+   "efsa.europa.eu"
+  ],
+  "related": [
+   "README.md",
+   "catalog.json",
+   "citation-audit.md"
+  ]
+ },
+ "sources": {
+  "csupor-2016": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "Csupor D, Boros K, Jedlinszki N",
+   "year": 2016,
+   "title": "Theanine and Caffeine content of infusions prepared from commercial tea samples",
+   "journal": "Pharmacognosy Magazine 12(45):75",
+   "doi": "10.4103/0973-1296.176061",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref + PubMed, 2026-11-06",
+   "method": "ВЭЖХ-ДМД, 37 коммерческих образцов",
+   "measures": "сухой лист, мг/г"
+  },
+  "ayakdas-2025": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "Ayakdaş G, Ağagündüz D",
+   "year": 2025,
+   "title": "Determination of L-Theanine and Caffeine Contents in Tea Infusions with Different Fermentation Degrees and Brewing Conditions Using the Chromatographic Method",
+   "journal": "Foods 14(13):2313",
+   "doi": "10.3390/foods14132313",
+   "license": "CC BY 4.0",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "verified": "Crossref + PubMed, 2026-11-06",
+   "method": "обратнофазовая ВЭЖХ; 80 и 100 °C; 2/5/10 мин; лист и пакетики",
+   "measures": "настой, мг/200 мл",
+   "caveat": "навеска в абстракте не указана; абсолютные значения применимы только к протоколу работы, относительные выводы переносимы"
+  },
+  "horie-1993": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "HORIE H",
+   "year": 1993,
+   "title": "Chemical Composition of Prized Japanese Green Tea in National Tea Competition 2. Total Nitrogen, Free Amino Acids, Tannin, Caffeine and Ascorbic Acid",
+   "journal": "Chagyo Kenkyu Hokoku (Tea Research Journal) 1993(77):23-28",
+   "doi": "10.5979/cha.1993.23",
+   "language": "ja",
+   "accessed": "2026-11-06",
+   "access": "открытый доступ, J-STAGE",
+   "caveat": "чаи-призёры национального конкурса 1991 г. — премиальные, не типичные"
+  },
+  "shojaku-1984": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "SHOJAKU S, TAKAYANAGI H, ANAN T, IKEGAYA K",
+   "year": 1984,
+   "title": "Chemical Composition of Chinese Bai-cha, Huang-cha, Qing-cha and Hei-cha and the Preference Test for These Tea",
+   "journal": "Chagyo Kenkyu Hokoku (Tea Research Journal) 1984(60):59-65",
+   "doi": "10.5979/cha.1984.60_59",
+   "language": "ja",
+   "accessed": "2026-11-06",
+   "caveat": "в доступном абстракте только качественные выводы, числовых значений кофеина и теанина нет"
+  },
+  "payne-2025": {
+   "level": "A",
+   "kind": "systematic-review-meta-analysis",
+   "authors": "Payne ER, Aceves-Martins M, Dubost J, Greyling A",
+   "year": 2025,
+   "title": "Effects of Tea (Camellia sinensis) or its Bioactive Compounds l-Theanine or l-Theanine plus Caffeine on Cognition, Sleep, and Mood in Healthy Participants: A Systematic Review and Meta-Analysis of Randomized Controlled Trials",
+   "journal": "Nutrition Reviews 83(11):1873-1891",
+   "doi": "10.1093/nutrit/nuaf054",
+   "prospero": "CRD42022351601",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "scope": "50 РКИ в обзоре, 15 в метаанализе, поиск до августа 2023"
+  },
+  "owen-2008": {
+   "level": "A",
+   "kind": "randomized-controlled-trial",
+   "authors": "Owen GN, Parnell H, De Bruin EA, Rycroft JA",
+   "year": 2008,
+   "title": "The combined effects of L-theanine and caffeine on cognitive performance and mood",
+   "journal": "Nutritional Neuroscience 11(4):193-198",
+   "doi": "10.1179/147683008X301513",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "n": 27,
+   "doses": "50 мг кофеина ± 100 мг L-теанина"
+  },
+  "giesbrecht-2010": {
+   "level": "A",
+   "kind": "randomized-controlled-trial",
+   "authors": "Giesbrecht T, Rycroft JA, Rowson MJ, De Bruin EA",
+   "year": 2010,
+   "title": "The combination of L-theanine and caffeine improves cognitive performance and increases subjective alertness",
+   "journal": "Nutritional Neuroscience 13(6):283-290",
+   "doi": "10.1179/147683010X12611460764840",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "n": 44,
+   "doses": "97 мг L-теанина + 40 мг кофеина"
+  },
+  "anas-sohail-2021": {
+   "level": "A",
+   "kind": "systematic-review",
+   "authors": "Anas Sohail A, Ortiz F, Varghese T, Fabara SP, и др.",
+   "year": 2021,
+   "title": "The Cognitive-Enhancing Outcomes of Caffeine and L-theanine: A Systematic Review",
+   "journal": "Cureus 13(12):e20828",
+   "doi": "10.7759/cureus.20828",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "context": "обзор в контексте СДВГ"
+  },
+  "mancini-2017": {
+   "level": "A",
+   "kind": "systematic-review",
+   "authors": "Mancini E, Beglinger C, Drewe J, и др.",
+   "year": 2017,
+   "title": "Green tea effects on cognition, mood and human brain function: A systematic review",
+   "journal": "Phytomedicine 34:26-37",
+   "doi": "10.1016/j.phymed.2017.07.008",
+   "language": "en",
+   "accessed": "2026-11-06"
+  },
+  "tsushida-1987": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "Tsushida T, Murai T",
+   "year": 1987,
+   "title": "Conversion of glutamic acid to γ-aminobutyric acid in tea leaves under anaerobic conditions",
+   "journal": "Agricultural and Biological Chemistry 51(11):2865-2871",
+   "doi": "10.1271/bbb1961.51.2865",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "access": "открытый доступ, J-STAGE",
+   "note": "оригинальная работа о получении габа-чая",
+   "caveat": "в абстракте 1987 г. ГАМК названа «hypertensive compound» — по контексту и последующей литературе это неточность, должно быть hypotensive; формулировку не цитировать"
+  },
+  "hinton-2020": {
+   "level": "A",
+   "kind": "review",
+   "authors": "Hinton T, Johnston GAR",
+   "year": 2020,
+   "title": "GABA-enriched teas as neuro-nutraceuticals",
+   "journal": "Neurochemistry International 141:104895",
+   "doi": "10.1016/j.neuint.2020.104895",
+   "language": "en",
+   "accessed": "2026-11-06"
+  },
+  "lin-2023": {
+   "level": "A",
+   "kind": "human-study",
+   "authors": "Lin C-C, Hsieh M-C, Chen C-H, Chen S-J, и др.",
+   "year": 2023,
+   "title": "Versatile Effects of GABA Oolong Tea on Improvements in Diastolic Blood Pressure, Alpha Brain Waves, and Quality of Life",
+   "journal": "Foods 12(22):4101",
+   "doi": "10.3390/foods12224101",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "caveat": "в абстракте не описаны контрольная группа и плацебо, размер выборки не указан, независимо не воспроизведено"
+  },
+  "kim-2019": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "Kim S, и др.",
+   "year": 2019,
+   "title": "GABA and l-theanine mixture decreases sleep latency and improves NREM sleep",
+   "journal": "Pharmaceutical Biology 57(1):65-73",
+   "doi": "10.1080/13880209.2018.1557698",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "caveat": "смесь ГАМК + теанин, не чай"
+  },
+  "teng-2017": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "Teng J, и др.",
+   "year": 2017,
+   "title": "Quality components and antidepressant-like effects of GABA green tea",
+   "journal": "Food & Function 8:3311-3318",
+   "doi": "10.1039/c7fo01045a",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "caveat": "габа-зелёный чай, не улун; «antidepressant-like» — доклиническая формулировка"
+  },
+  "lu-2026": {
+   "level": "A",
+   "kind": "review",
+   "authors": "Lu W-Y, и др.",
+   "year": 2026,
+   "title": "Supplementation of γ-Aminobutyric Acid as a Functional Nutrient",
+   "journal": "Nutrients 18(14):2389",
+   "doi": "10.3390/nu18142389",
+   "language": "en",
+   "accessed": "2026-11-06"
+  },
+  "efsa-caffeine-2015": {
+   "level": "A",
+   "kind": "government-scientific-opinion",
+   "authors": "EFSA NDA Panel",
+   "year": 2015,
+   "title": "Scientific Opinion on the safety of caffeine",
+   "journal": "EFSA Journal 13(5):4102, 112 pp.",
+   "doi": "10.2903/j.efsa.2015.4102",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "caveat": "полный текст финальной редакции за платным доступом (Wiley отдаёт 403). Выгружен проект заключения для публичного обсуждения, опубликованный EFSA: https://www.efsa.europa.eu/sites/default/files/consultation/150115.pdf. Цифры по взрослым и беременным в проекте и финале совпадают; по кормящим расходятся (проект 400 мг/сут, финал 200 мг/сут). Значение для кормящих взято с https://www.efsa.europa.eu/en/topics/topic/caffeine"
+  },
+  "de-souza-2022": {
+   "level": "A",
+   "kind": "systematic-review",
+   "authors": "de Souza JG, Del Coso J, Fonseca FS, Silva BVC, и др.",
+   "year": 2022,
+   "title": "Risk or benefit? Side effects of caffeine supplementation in sport: a systematic review",
+   "journal": "European Journal of Nutrition 61(8):3823-3834",
+   "doi": "10.1007/s00394-022-02874-3",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "scope": "25 исследований, 421 участник",
+   "caveat": "выборка — спортсмены, кофеин в виде добавки, не чай"
+  },
+  "juliano-2004": {
+   "level": "A",
+   "kind": "review",
+   "authors": "Juliano LM, Griffiths RR",
+   "year": 2004,
+   "title": "A critical review of caffeine withdrawal: empirical validation of symptoms and signs, incidence, severity, and associated features",
+   "journal": "Psychopharmacology 176(1):1-29",
+   "doi": "10.1007/s00213-004-2000-x",
+   "language": "en",
+   "accessed": "2026-11-06"
+  },
+  "cappelletti-2018": {
+   "level": "A",
+   "kind": "systematic-review",
+   "authors": "Cappelletti S, Piacentino D, Fineschi V, и др.",
+   "year": 2018,
+   "title": "Caffeine-Related Deaths: Manner of Deaths and Categories at Risk",
+   "journal": "Nutrients 10(5):611",
+   "doi": "10.3390/nu10050611",
+   "language": "en",
+   "accessed": "2026-11-06"
+  },
+  "marks-1973": {
+   "level": "A",
+   "kind": "journal-article",
+   "authors": "Marks V, Kelly JF",
+   "year": 1973,
+   "title": "Absorption of caffeine from tea, coffee, and Coca Cola",
+   "journal": "The Lancet 301(7807):827",
+   "doi": "10.1016/s0140-6736(73)90625-9",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "caveat": "существование ссылки подтверждено по Crossref; полный текст и абстракт за платным доступом, содержание НЕ проверено — цитировать нельзя"
+  },
+  "lancet-1901": {
+   "level": "A",
+   "kind": "journal-note",
+   "authors": "без автора",
+   "year": 1901,
+   "title": "TEA INTOXICATION WITH SPINAL SYMPTOMS",
+   "journal": "The Lancet 158(4062):40",
+   "doi": "10.1016/s0140-6736(01)55044-8",
+   "language": "en",
+   "accessed": "2026-11-06",
+   "caveat": "единственное найденное упоминание «tea intoxication» в индексированной литературе; полный текст за платным доступом, содержание не проверено. Как источник о механизме не годится"
+  },
+  "iso-20716-2022": {
+   "level": "A",
+   "kind": "international-standard",
+   "title": "ISO 20716:2022 Oolong tea — Definition and basic requirements",
+   "publisher": "ISO",
+   "doi": null,
+   "language": "en",
+   "accessed": "2026-11-06",
+   "see": "raw/iso-type-definitions.md"
+  }
+ },
+ "findings": [
+  {
+   "id": "content-by-type-dry-leaf",
+   "question": "Кофеин и L-теанин по типам чая, сухой лист",
+   "status": "ФАКТ",
+   "sources": [
+    "csupor-2016"
+   ],
+   "data_unit": "мг/г сухого листа",
+   "data": {
+    "white": {
+     "theanine_mg_per_g": 6.26,
+     "caffeine_mg_per_g": 16.79
+    },
+    "green": {
+     "theanine_mg_per_g": 6.56,
+     "caffeine_mg_per_g": 16.28
+    },
+    "oolong": {
+     "theanine_mg_per_g": 6.09,
+     "caffeine_mg_per_g": 19.31
+    },
+    "black": {
+     "theanine_mg_per_g": 5.13,
+     "caffeine_mg_per_g": 17.73
+    },
+    "puer": {
+     "theanine_mg_per_g": "практически ноль",
+     "caffeine_mg_per_g": null
+    }
+   },
+   "as_percent_dry_weight": {
+    "theanine": [
+     0.51,
+     0.66
+    ],
+    "caffeine": [
+     1.63,
+     1.93
+    ]
+   },
+   "critical_caveat": "Разброс ВНУТРИ типа больше разницы МЕЖДУ типами. Авторы прямо пишут, что по теанину и кофеину типы чая различить нельзя и что способ обработки не оказывает определяющего влияния на теанин. Нельзя писать «в зелёном больше теанина, чем в чёрном» как факт.",
+   "only_robust_difference": "в пуэре теанина практически нет"
+  },
+  {
+   "id": "content-by-type-infusion",
+   "question": "Кофеин и L-теанин по типам чая, настой",
+   "status": "ФАКТ",
+   "sources": [
+    "ayakdas-2025"
+   ],
+   "data_unit": "мг/200 мл настоя, базовые условия",
+   "data": {
+    "black": {
+     "caffeine": "14 ± 1,0",
+     "theanine": "12,3 ± 2,8"
+    },
+    "yellow": {
+     "caffeine": "13,8 ± 0,2",
+     "theanine": "значимо ниже (p<0,001)"
+    },
+    "puer": {
+     "caffeine": "13 ± 2,9",
+     "theanine": "значимо ниже",
+     "note": "кофеин не отличается от чёрного (p>0,05)"
+    },
+    "green": {
+     "caffeine": "11 ± 2,1",
+     "theanine": "12,5 ± 2,5"
+    },
+    "white": {
+     "caffeine": "5,8 ± 0,7",
+     "theanine": "значимо ниже"
+    },
+    "oolong": {
+     "caffeine": "4 ± 1,6",
+     "theanine": "значимо ниже"
+    }
+   },
+   "brewing_effects": {
+    "time": "сильно повышает оба; жёлтый чай — кофеин до 53 ± 16,9 мг/200 мл при 10 мин (p<0,05)",
+    "temperature": "влияет на кофеин, не на теанин; улун 4,4 → 13,5 мг/200 мл (p<0,05)",
+    "serving_form": "чёрный чай в пакетиках на чашку 39 ± 9,9 против 24 ± 7,2 мг/200 мл у листового (p<0,001); у зелёного и белого формa не влияет (p>0,05)"
+   },
+   "critical_caveat": "Абсолютные значения заметно ниже обычно приводимых 30–50 мг/чашку. Навеска в абстракте не указана. Относительные выводы использовать можно, абсолютные мг/чашку как универсальные — нельзя."
+  },
+  {
+   "id": "content-japanese-green",
+   "question": "Состав японских зелёных чаёв",
+   "status": "ФАКТ",
+   "sources": [
+    "horie-1993"
+   ],
+   "data_unit": "% сухого веса",
+   "data": {
+    "sencha-regular": {
+     "total_N": 6.7,
+     "free_amino_acids": 5.2,
+     "caffeine": 3.6,
+     "tannins": 14.2,
+     "ascorbic_acid": 0.4
+    },
+    "sencha-fukamushi": {
+     "total_N": 6.7,
+     "free_amino_acids": 4.9,
+     "caffeine": 3.6,
+     "tannins": 15.0,
+     "ascorbic_acid": 0.45
+    },
+    "tamaryokucha-steamed": {
+     "total_N": 6.6,
+     "free_amino_acids": 4.4,
+     "caffeine": 3.8,
+     "tannins": 13.6,
+     "ascorbic_acid": 0.33
+    },
+    "tamaryokucha-panfired": {
+     "total_N": 6.3,
+     "free_amino_acids": 4.2,
+     "caffeine": 3.8,
+     "tannins": 13.8,
+     "ascorbic_acid": 0.36
+    }
+   },
+   "caveat": "Кофеин 3,6–3,8 % против 1,6–1,9 % у Csupor. Разница объяснима: здесь элитные чаи из молодой флеши. Оба числа верны для своих выборок — единого числа «кофеина в зелёном чае» дать нельзя."
+  },
+  {
+   "id": "iso-minimums-oolong",
+   "question": "Нормативные минимумы кофеина и теанина",
+   "status": "ФАКТ",
+   "sources": [
+    "iso-20716-2022"
+   ],
+   "data": {
+    "caffeine_pct_min": 1.0,
+    "theanine_pct_min": 0.1
+   },
+   "basis": "на сухое вещество при (103 ± 2) °C",
+   "note": "только для улуна; это минимумы соответствия стандарту, не типичные значения"
+  },
+  {
+   "id": "tea-drunkenness",
+   "question": "«Чайное опьянение» (茶醉): есть ли рецензируемые публикации о физиологии",
+   "status": "ДАННЫХ НЕТ",
+   "sources": [
+    "lancet-1901"
+   ],
+   "searches_run": [
+    {
+     "db": "PubMed",
+     "query": "\"cha zui\"",
+     "hits": 0
+    },
+    {
+     "db": "PubMed",
+     "query": "\"tea drunkenness\"",
+     "hits": 17,
+     "relevant": 0,
+     "note": "все совпадения по строке в другом смысле, абстракты проверены поимённо"
+    },
+    {
+     "db": "PubMed",
+     "query": "\"tea drunk\"",
+     "hits": 4,
+     "relevant": 0
+    },
+    {
+     "db": "PubMed",
+     "query": "tea AND (drunkenness OR \"drunken feeling\") AND camellia",
+     "hits": 2,
+     "relevant": 0
+    },
+    {
+     "db": "PubMed",
+     "query": "caffeine AND tea AND (dizziness OR palpitations) AND (empty stomach OR fasting)",
+     "hits": 0
+    },
+    {
+     "db": "Crossref",
+     "query": "tea drunkenness cha zui tea intoxication symptoms",
+     "relevant": 0
+    }
+   ],
+   "only_historical_mention": "анонимная заметка в The Lancet 1901;158(4062):40",
+   "safe_wording": "Состояние, которое в китайской чайной традиции называют 茶醉, в рецензируемой литературе не описано: работ о его физиологии нет.",
+   "forbidden": [
+    "объяснять 茶醉 «особыми алкалоидами чая» или «энергетикой чая»",
+    "утверждать «茶醉 — это избыток кофеина» как установленный факт"
+   ],
+   "my_inference_not_publishable": "Симптомы, которые популярная литература относит к 茶醉, совпадают с документированными симптомами избытка кофеина, но именно эта связь в литературе не проверялась. Писать только как «похожи на»."
+  },
+  {
+   "id": "tea-vs-coffee-caffeine-molecule",
+   "question": "Отличается ли чайный кофеин от кофейного как вещество",
+   "status": "ФАКТ",
+   "answer": "Нет. Это одно и то же вещество — 1,3,7-триметилксантин.",
+   "sources": [
+    "efsa-caffeine-2015",
+    "iso-20716-2022"
+   ],
+   "basis": "ISO 10727 определяет кофеин в чае как то же соединение; EFSA рассматривает «кофеин из всех источников» единым показателем",
+   "forbidden": [
+    "«чайный кофеин — особое вещество, мягче кофейного»"
+   ]
+  },
+  {
+   "id": "theanine-caffeine-combination",
+   "question": "Действуют ли теанин и кофеин вместе иначе, чем кофеин отдельно",
+   "status": "ФАКТ средней силы",
+   "sources": [
+    "payne-2025",
+    "owen-2008",
+    "giesbrecht-2010",
+    "anas-sohail-2021",
+    "mancini-2017"
+   ],
+   "meta_analysis": {
+    "source": "payne-2025",
+    "scope": "50 РКИ в обзоре, 15 в метаанализе",
+    "results_smd": [
+     {
+      "outcome": "choice reaction time, теанин+кофеин vs плацебо",
+      "hour": 1,
+      "smd": -0.48,
+      "ci": [
+       -1.01,
+       0.05
+      ],
+      "crosses_zero": true
+     },
+     {
+      "outcome": "digit vigilance task accuracy",
+      "hour": 2,
+      "smd": 0.2,
+      "ci": [
+       0.02,
+       0.38
+      ],
+      "crosses_zero": false
+     },
+     {
+      "outcome": "attention switching task accuracy",
+      "hour": 2,
+      "smd": 0.33,
+      "ci": [
+       0.13,
+       0.54
+      ],
+      "crosses_zero": false
+     },
+     {
+      "outcome": "overall mood",
+      "hour": 2,
+      "smd": 0.26,
+      "ci": [
+       -0.1,
+       0.63
+      ],
+      "crosses_zero": true
+     },
+     {
+      "outcome": "choice reaction time, теанин один vs плацебо",
+      "hour": 1,
+      "smd": -0.35,
+      "ci": [
+       -0.61,
+       -0.1
+      ],
+      "crosses_zero": false
+     }
+    ],
+    "authors_conclusion": "could be beneficial for cognitive and mood outcomes; more research using tea beverages or tea-equivalent bioactive doses and research in free-living participants is needed",
+    "authors_uncertainty": "The CIs frequently highlighted the uncertainty surrounding the direction and magnitude of these differences"
+   },
+   "critical_caveat": "Дозы в испытаниях: 40–50 мг кофеина и ~100 мг теанина. По данным csupor-2016 (теанин 5–6,6 мг/г) 100 мг теанина — это 15–20 г сухого листа, то есть теанина давали как в 4–6 чашках крепкого чая, а кофеина — как в одной. Соотношение в испытаниях НЕ равно соотношению в чашке; переносить результат на чашку чая напрямую нельзя.",
+   "mechanism_level": "обсуждается",
+   "mechanism": "кофеин блокирует аденозиновые рецепторы A1 и A2a; L-теанин — ингибитор обратного захвата глутамата и низкоаффинный конкурентный антагонист глутаматных рецепторов в гиппокампе, действует на ГАМК-A рецепторы",
+   "forbidden": [
+    "«теанин нейтрализует кофеин»",
+    "«чай бодрит без нервозности»"
+   ]
+  },
+  {
+   "id": "absorption-tea-vs-coffee",
+   "question": "Различается ли всасывание кофеина из чая и кофе",
+   "status": "ИСТОЧНИК НАЙДЕН, СОДЕРЖАНИЕ НЕ ПРОВЕРЕНО",
+   "sources": [
+    "marks-1973"
+   ],
+   "note": "Работа посвящена именно этому сравнению, ссылка проверяема, но полный текст и абстракт за платным доступом. Цитировать содержание нельзя, пока не прочитан текст."
+  },
+  {
+   "id": "sheng-puer-stronger",
+   "question": "Почему шэн-пуэр описывают как действующий сильнее",
+   "status": "ДАННЫХ НЕТ по кофеину; ФАКТ по теанину",
+   "caffeine_difference": {
+    "status": "ДАННЫХ НЕТ",
+    "detail": "Ни csupor-2016, ни ayakdas-2025 не разделяют шэн и шу — измеряли «пуэр» как один тип. Целенаправленный поиск по Crossref релевантных работ не дал. По ayakdas-2025 кофеин в настое пуэра 13 ± 2,9 мг/200 мл — статистически не отличается от чёрного чая (p>0,05).",
+    "forbidden": [
+     "«в шэн-пуэре больше кофеина»"
+    ]
+   },
+   "theanine_difference": {
+    "status": "ФАКТ",
+    "sources": [
+     "csupor-2016"
+    ],
+    "detail": "в пуэре теанина практически нет — единственное надёжно измеренное отличие"
+   },
+   "mechanism_of_theanine_loss": {
+    "status": "ФАКТ для хэй ча, НЕ ПРОВЕРЕНО для шэна",
+    "sources": [
+     "shojaku-1984"
+    ],
+    "detail": "у хэй ча после пропарки и складирования много катехиновых окислительных полимеров, прочих компонентов меньше, свободного аммиака больше — свободные аминокислоты расходуются. Шэн ферментацию в куче не проходит, для него это не проверено"
+   },
+   "drinking-pattern": {
+    "status": "МОЁ РАССУЖДЕНИЕ, публиковать как факт нельзя",
+    "premises": [
+     "время заваривания и повторные заливы сильно повышают извлечение кофеина (ayakdas-2025)",
+     "гунфу — много проливов подряд за короткое время"
+    ],
+    "inference": "за сеанс гунфу суммарная доза кофеина выше, чем за одну чашку",
+    "why_not_publishable": "связка «гунфу → больше кофеина → сильнее эффект» не измерялась"
+   },
+   "safe_wording": "Измеренных данных о том, что в шэн-пуэре больше кофеина, чем в других чаях, нет. Что измерено — в пуэре практически отсутствует L-теанин, который в других чаях сопровождает кофеин."
+  },
+  {
+   "id": "gaba-oolong-production",
+   "question": "Как получают габа-чай и насколько растёт ГАМК",
+   "status": "ФАКТ",
+   "sources": [
+    "tsushida-1987",
+    "hinton-2020"
+   ],
+   "data": {
+    "gaba_increase_fold": [
+     10,
+     20
+    ],
+    "mechanism": "анаэробная обработка; источник азота — глутаминовая кислота; фермент — глутаматдекарбоксилаза, оптимум pH 5,8, активируется пиридоксальфосфатом, субстрат только L-глутаминовая кислота",
+    "also_changed": "EGCG, кофеин, теанин"
+   }
+  },
+  {
+   "id": "gaba-oolong-calming",
+   "question": "Оправдано ли слово «успокаивающий» для габа-улуна",
+   "status": "ГИПОТЕЗА",
+   "sources": [
+    "hinton-2020",
+    "lin-2023",
+    "kim-2019",
+    "teng-2017",
+    "lu-2026"
+   ],
+   "key_quote": "While there is considerable evidence that such GABA is acting on GABA receptors in the periphery, there is rather less evidence that is acting directly in the brain. Certainly, there is more to the action of GABA-enriched teas than GABA itself. — hinton-2020",
+   "human_evidence": {
+    "source": "lin-2023",
+    "design": "28 дней ежедневного употребления габа-улуна, измерения на 0/7/14/21/28 день",
+    "results": [
+     "систолическое давление снижено на 21-й день (p<0,05)",
+     "диастолическое снижено на 28-й день (p<0,05)",
+     "у людей с предгипертензией снижены ЧСС и оба давления на 28-й день (p<0,05)",
+     "прирост альфа-ритма (p<0,05)",
+     "прирост качества жизни по 8 пунктам (p<0,05)"
+    ],
+    "authors_hedge": "might potentially serve as a natural source for alternative therapy",
+    "limitations": [
+     "контрольная группа и плацебо в абстракте не описаны",
+     "размер выборки в абстракте не указан",
+     "независимо не воспроизведено"
+    ]
+   },
+   "allowed": [
+    "«анаэробная обработка повышает содержание ГАМК в 10–20 раз»",
+    "«есть данные одного небольшого исследования на людях: 28 дней ежедневного употребления снижали давление и повышали альфа-ритм; независимо не воспроизведено»"
+   ],
+   "forbidden": [
+    "«успокаивающий эффект» без оговорок",
+    "«ГАМК из чая действует на мозг»"
+   ],
+   "existing-claim-to-fix": {
+    "where": "docs/tea-research.md:361",
+    "problem": "габа-улун описан как «успокаивающий», единственный источник — каталог магазина torrefacto.ru (уровень C). Для утверждения о действии на человека магазин источником быть не может.",
+    "also": "у числа «ГАМК > 150 мг/100 г» в docs/ источника нет — надо либо найти, либо убрать. tsushida-1987 и hinton-2020 дают механизм и кратность роста, но не абсолютный порог."
+   }
+  },
+  {
+   "id": "caffeine-thresholds",
+   "question": "Пороги безопасности кофеина",
+   "status": "ФАКТ",
+   "sources": [
+    "efsa-caffeine-2015"
+   ],
+   "data": {
+    "adult_single_dose_mg": 200,
+    "adult_single_dose_mg_per_kg": 3,
+    "adult_daily_mg": 400,
+    "adult_daily_mg_per_kg": 5.7,
+    "pregnant_daily_mg": 200,
+    "lactating_mg": 200,
+    "lactating_note": "по финальной редакции; в проекте было 400 мг/сут",
+    "children_adolescents": "данных недостаточно; за основу можно взять 3 мг/кг в сутки, выведенные для острого потребления у взрослых",
+    "sleep_latency_threshold_mg": 100,
+    "sleep_quote": "Single doses of 100 mg (about 1.5 mg/kg bw) of caffeine may increase sleep latency and reduce sleep duration in some adult individuals, particularly when consumed close to bedtime."
+   },
+   "context": {
+    "adult_daily_intake_eu_mg": [
+     37,
+     319
+    ],
+    "coffee_share_of_intake_pct": [
+     40,
+     94
+    ],
+    "tea_is_main_source_in": {
+     "Ireland": "59 %",
+     "United Kingdom": "57 %"
+    }
+   }
+  },
+  {
+   "id": "caffeine-adverse-effects",
+   "question": "Симптомы перебора кофеина",
+   "status": "ФАКТ",
+   "sources": [
+    "de-souza-2022",
+    "juliano-2004",
+    "cappelletti-2018"
+   ],
+   "data": {
+    "low_dose_le_3_mg_per_kg": {
+     "prevalence_pct": [
+      6,
+      34
+     ],
+     "effect_size": [
+      0.13,
+      1.11
+     ]
+    },
+    "moderate_3_1_to_6_mg_per_kg": {
+     "prevalence_pct": [
+      0,
+      34
+     ],
+     "effect_size": [
+      -0.13,
+      1.2
+     ]
+    },
+    "high_ge_6_1_mg_per_kg": {
+     "prevalence_pct": [
+      8,
+      83
+     ],
+     "effect_size": [
+      0.04,
+      1.52
+     ]
+    },
+    "most_prevalent": "тахикардия / сердцебиение и нарушение засыпания",
+    "duration": "эффекты сохраняются не менее 24 часов после приёма"
+   },
+   "caveat": "выборка — спортсмены, кофеин в виде добавки, не чай"
+  },
+  {
+   "id": "caffeine-empty-stomach",
+   "question": "Чай натощак: тошнота и прочие симптомы",
+   "status": "ДАННЫХ НЕТ",
+   "search": {
+    "db": "PubMed",
+    "query": "caffeine AND tea AND (dizziness OR palpitations) AND (empty stomach OR fasting)",
+    "hits": 0
+   },
+   "forbidden": [
+    "«чай натощак вызывает тошноту» — рецензируемого источника нет"
+   ],
+   "allowed": [
+    "пороги EFSA и симптомы из de-souza-2022 без привязки к приёму пищи"
+   ]
+  }
+ ]
+}
