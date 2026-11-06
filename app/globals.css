@@ -7,6 +7,9 @@
   --background: #9cd37a;
   --foreground: #000000;
   --color-main: #9cd37a;
+
+  /* Цвет кольца фокуса: 7.83:1 к фирменному зелёному. */
+  --focus: #18340a;
 }
 
 @theme {
@@ -62,6 +65,8 @@ html.dark,
   --background: #0a0a0a;
   --foreground: #ededed;
   --color-main: #7db95c;
+
+  --focus: #9cd37a; /* 11.32:1 к тёмному фону */
 }
 
 body {
@@ -70,14 +75,34 @@ body {
   color: var(--foreground);
 }
 
-/* Custom base style to remove outline on all elements by default */
-*:focus {
-  outline: none !important;
+/* Видимый фокус. Раньше здесь стояли `*:focus { outline: none !important }`
+   и `* { outline: none !important }` — они гасили индикацию фокуса на всём
+   сайте (нарушение WCAG 2.4.7), а `!important` на `*` не давал вернуть её
+   даже локально в компоненте.
+
+   Кольцо рисуется только для :focus-visible, поэтому при клике мышью оно
+   не появляется — именно то поведение, ради которого обычно и пишут
+   `outline: none`. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
-/* Custom base style to remove outline on all elements by default */
-* {
-  outline: none !important;
+/* У элементов с собственным скруглением кольцо повторяет их форму. */
+.rounded-full:focus-visible {
+  border-radius: 9999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ---- OverlayScrollbars ---------------------------------------------------
