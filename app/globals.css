@@ -8,8 +8,15 @@
   --foreground: #000000;
   --color-main: #9cd37a;
 
-  /* Цвет кольца фокуса: 7.83:1 к фирменному зелёному. */
-  --focus: #18340a;
+  /* Токены доступности. Полупрозрачные black/NN и white/NN заменены на
+     сплошные цвета с проверенным контрастом: black/10…/40 давали для границ
+     1.24–2.62 при пороге 3:1 (WCAG 1.4.11), black/50 — 3.50 для текста при
+     пороге 4.5:1 (1.4.3). Цифры в комментариях — отношение к --background. */
+  --line: #5c6b4e; /* 3.27:1 — границы карточек, кнопок, полей */
+  --line-strong: #3f4b33; /* 5.30:1 — hover и активные границы */
+  --muted: #464e3c; /* 4.97:1 — подписи, единицы, служебный текст */
+  --focus: #18340a; /* 7.83:1 — кольцо фокуса */
+  --surface: #eefbe6; /* подложка выпадающих списков и поповеров */
 }
 
 @theme {
@@ -23,6 +30,11 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-main: var(--color-main); /* Add to theme */
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-muted: var(--muted);
+  --color-focus: var(--focus);
+  --color-surface: var(--surface);
 
   /* Fonts */
   --font-sans: var(--font-bainsley), sans-serif;
@@ -66,7 +78,13 @@ html.dark,
   --foreground: #ededed;
   --color-main: #7db95c;
 
-  --focus: #9cd37a; /* 11.32:1 к тёмному фону */
+  /* Те же роли, пересчитанные под тёмный фон. white/10 и white/20 давали
+     1.25 и 1.77 — границы были физически не видны. */
+  --line: #5e6b54; /* 3.49:1 */
+  --line-strong: #8a9a7e; /* 6.60:1 */
+  --muted: #a8b3a0; /* 9.07:1 */
+  --focus: #9cd37a; /* 11.32:1 — фирменный зелёный как кольцо фокуса */
+  --surface: #1c2318;
 }
 
 body {

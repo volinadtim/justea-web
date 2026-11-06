@@ -16,7 +16,7 @@ export default function Breadcrumbs({ items }: Props) {
                 {items.map((item, index) => (
                     <li key={item.label} className="flex items-center gap-[8px]">
                         {index > 0 && (
-                            <span aria-hidden className="text-black/40 dark:text-white/40">
+                            <span aria-hidden className="text-muted">
                                 /
                             </span>
                         )}

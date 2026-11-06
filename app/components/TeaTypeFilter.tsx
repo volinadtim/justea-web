@@ -12,7 +12,7 @@ function filterLinkClass(isActive: boolean) {
         "rounded-full border-2 px-3 py-1.5 text-[14px] transition-colors sm:px-[14px] sm:py-[6px] sm:text-[16px]",
         isActive
             ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
-            : "border-black/20 hover:border-black/40 dark:border-white/20 dark:hover:border-white/40",
+            : "border-line hover:border-line-strong",
     ].join(" ");
 }
 

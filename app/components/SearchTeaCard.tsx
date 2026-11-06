@@ -21,7 +21,7 @@ export default function SearchTeaCard({ tea, onSelect }: Props) {
         <Link
             href={`/${tea.slug}`}
             onClick={onSelect}
-            className="group flex gap-[12px] border-2 border-black/10 p-[12px] transition-colors hover:border-black/30 dark:border-white/10 dark:hover:border-white/30"
+            className="group flex gap-[12px] border-2 border-line p-[12px] transition-colors hover:border-line-strong"
         >
             <div
                 className="flex size-[56px] shrink-0 items-center justify-center bg-main-200 sm:size-[64px]"
@@ -32,7 +32,7 @@ export default function SearchTeaCard({ tea, onSelect }: Props) {
 
             <div className="flex min-w-0 flex-1 flex-col gap-[6px]">
                 <div>
-                    <span className="text-[12px] text-black/60 dark:text-white/60 sm:text-[13px]">
+                    <span className="text-[12px] text-muted sm:text-[13px]">
                         {TEA_TYPE_LABELS[tea.type]}
                     </span>
                     <h3 className="text-[18px] leading-tight group-hover:underline sm:text-[20px]">
@@ -45,7 +45,7 @@ export default function SearchTeaCard({ tea, onSelect }: Props) {
                         {tags.map((tag) => (
                             <span
                                 key={tag}
-                                className="rounded-full border border-black/15 px-[8px] py-[2px] text-[11px] leading-tight text-black/70 dark:border-white/15 dark:text-white/70 sm:text-[12px]"
+                                className="rounded-full border border-line px-[8px] py-[2px] text-[11px] leading-tight text-black/70 dark:border-white/15 dark:text-white/70 sm:text-[12px]"
                             >
                                 {tag}
                             </span>
