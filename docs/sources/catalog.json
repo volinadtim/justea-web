@@ -690,6 +690,22 @@
    "language": "en",
    "accessed": "2026-11-06",
    "see": "effects.json → ayakdas-2025"
+  },
+  "cn-gb-13738-3-souchong": {
+   "level": "A",
+   "kind": "national-standard",
+   "title": "GB/T 13738.3-2012 红茶 第3部分：小种红茶 / Black tea — Part 3: Souchong black tea",
+   "publisher": "AQSIQ + SAC (КНР)",
+   "status": "现行",
+   "published": "2012-12-31",
+   "effective": "2013-07-01",
+   "ics": "67.140.10",
+   "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=A4F94E2DCBFBF8BC23C3476BD95F6F04",
+   "language": "zh",
+   "accessed": "2026-11-06",
+   "storage": "metadata-only",
+   "raw": "raw/cn-gb-standards.md",
+   "content_note": "метаданные — уровень A из реестра SAMR; содержание разделов (деление на 正山小种 и 烟小种) получено через вторичные источники, полный текст не читал"
   }
  },
  "not_tea": {
