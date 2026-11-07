@@ -3,16 +3,19 @@ import { BrewMethod, Tea, TeaType } from "@/types/tea";
 
 const teas = teasData as Tea[];
 
-export const TEA_TYPES: TeaType[] = [
-    "green",
-    "black",
-    "oolong",
-    "pu-erh",
-    "dark",
-    "white",
-    "yellow",
-];
-
+/**
+ * Подписи типов. **Этот объект — источник правды и для списка типов.**
+ *
+ * `Record<TeaType, string>` компилятор проверяет на полноту: забыть тип здесь
+ * нельзя, сборка упадёт. А массив `TeaType[]` компилятор не проверяет вовсе —
+ * короткий массив принимается молча, и новый тип исчез бы из фильтра, из
+ * `sitemap.xml` и из генерации страниц без единой ошибки.
+ *
+ * Поэтому `TEA_TYPES` выводится отсюда ключами, а не пишется рядом руками.
+ * Порядок ключей — порядок показа; у строковых ключей он сохраняется.
+ *
+ * Находка из аудита тихих ограничений justea-design, 07.11.2026.
+ */
 export const TEA_TYPE_LABELS: Record<TeaType, string> = {
     green: "Зелёный чай",
     black: "Чёрный чай",
@@ -25,6 +28,13 @@ export const TEA_TYPE_LABELS: Record<TeaType, string> = {
     white: "Белый чай",
     yellow: "Жёлтый чай",
 };
+
+/**
+ * Все типы в порядке показа — выведены из `TEA_TYPE_LABELS`, см. его докблок.
+ * Руками сюда ничего не дописывать: тип добавляется в `TeaType` и в подписи,
+ * а здесь появляется сам.
+ */
+export const TEA_TYPES = Object.keys(TEA_TYPE_LABELS) as TeaType[];
 
 export function isTeaType(value: string): value is TeaType {
     return TEA_TYPES.includes(value as TeaType);
@@ -52,8 +62,10 @@ export function filterTeasByType(type?: TeaType): Tea[] {
 }
 
 export function getPrimaryBrewMethod(tea: Tea): BrewMethod | undefined {
+    const methods = tea.brewMethods ?? [];
+
     return (
-        tea.brewMethods.find((method) => method.type === tea.primaryBrewMethod) ??
-        tea.brewMethods[0]
+        methods.find((method) => method.type === tea.primaryBrewMethod) ??
+        methods[0]
     );
 }

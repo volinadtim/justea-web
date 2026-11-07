@@ -101,6 +101,27 @@ const PROCESSINGS = ["gaba"];
 const RATIO_RANGE = [0.5, 25];
 const TEMPERATURE_RANGE = [40, 100];
 
+/**
+ * Поля, которые код действительно читает.
+ *
+ * Проверка на лишние поля нужна не от опечаток, а от **молчаливого
+ * несоответствия**. Сегодня я убрал поле `onlyFor`, и данные в соседней ветке
+ * ещё несли его: мой код просто перестал бы его замечать, записи перестали бы
+ * сужаться, и никто бы не узнал. То же будет, если justea-sources заведут
+ * поле и скажут об этом не мне, а в своём файле: тихое игнорирование хуже
+ * ошибки, потому что обе стороны уверены, что всё работает.
+ */
+const BREW_OUTCOME_FIELDS = [
+    "id",
+    "change",
+    "consequence",
+    "sources",
+    "confidence",
+    "replaces",
+];
+
+const MISCONCEPTION_FIELDS = ["claim", "correction", "sources", "kind"];
+
 /** `Misconception.kind`. */
 const MISCONCEPTION_KINDS = [
     "classification",
@@ -114,61 +135,134 @@ const MISCONCEPTION_KINDS = [
 const PLACEHOLDERS = ["temperature", "ratio"];
 
 const errors = [];
+const warnings = [];
 
 function fail(slug, message) {
     errors.push(`${slug}: ${message}`);
 }
 
 /**
+ * Предупреждение: сборку не валит.
+ *
+ * Отличается от `fail` не строгостью, а природой. `fail` — это нарушение
+ * инварианта: его видно по форме данных, ложных срабатываний не бывает.
+ * `warn` — догадка по тексту: она может ошибиться, и жёсткое падение на
+ * догадке заставило бы обходить проверку, а не чинить данные.
+ *
+ * Молчать о таком тоже нельзя: догадка ниже нашла настоящий дефект на проде.
+ */
+function warn(slug, message) {
+    warnings.push(`${slug}: ${message}`);
+}
+
+/** Промывку в тексте выдают эти слова. */
+const RINSE_WORDS = /промыв|ополосн|ополаск|醒茶|пробужд/i;
+
+/**
+ * Регистр «сколько в чае полезного», которого на сайте нет по решению
+ * пользователя от 06.11.2026.
+ *
+ * Проверяется в видимых текстах — `description` чая и способа, `notes`. Поле
+ * `caution` пропускается: оно для того и заведено, там кофеин и пороги EFSA
+ * стоят законно и с источниками.
+ *
+ * **Проверок две, и различие между ними — главное здесь.**
+ *
+ * `HEALTH_CLAIMS` — слова, которые сами по себе о пользе: «польза», «вред»,
+ * «бодрит». Их на сайте нет ни в каком виде.
+ *
+ * `SUBSTANCE_WORDS` ловятся **только вместе с** `MORE_IS_BETTER`, и вот
+ * почему. Сначала я ловил «полифенолы» в любом контексте и получил четыре
+ * срабатывания на нормативных порогах состава: «по GB/T 22111 прессованный
+ * шэн — это чай с полифенолами не ниже 28 %», «ISO 11287 снижает для гёкуро
+ * пороги полифенолов». Это **определение продукта**, а не обещание пользы, и
+ * запрещать его значило бы запретить объяснять, чем шэн отличается от шу.
+ *
+ * Запретна не сама молекула, а рамка «чем больше, тем лучше»: «максимум
+ * общих полифенолов даёт 90 °C и пролив на 5 минут» — это уже указание
+ * заваривать ради вещества.
+ *
+ * Поиск только с начала слова: без этого «польз» находилось внутри
+ * «Используйте». `\b` не годится — в JavaScript он опирается на латиницу и
+ * кириллицу не видит. Предупреждение, которое врёт в половине случаев,
+ * перестают читать целиком, вместе с верными.
+ */
+const WORD_START = "(?<![а-яёa-z])";
+
+const HEALTH_CLAIMS = new RegExp(
+    WORD_START +
+        "(?:польз|вред|бодрит|тонизир|успокаива|иммунит|похуд|оздоров)",
+    "i",
+);
+
+const SUBSTANCE_WORDS = new RegExp(
+    WORD_START + "(?:полифенол|антиоксидант|флавоноид)",
+    "i",
+);
+
+const MORE_IS_BETTER = new RegExp(
+    WORD_START + "(?:максимум|максимальн|больше всего|выше всего|оптимум|ориентир)",
+    "i",
+);
+
+/**
+ * Дескрипторы, описывающие **человека**, а не настой.
+ *
+ * Проверяется в `characteristics` — и только там: это короткие слова, где
+ * контекста нет, а публикуются они машиночитаемо, как
+ * `PropertyValue` в `Product.additionalProperty`. То есть «Согревающее»
+ * уходит в структурированные данные утверждением о телесном ощущении.
+ *
+ * **«Освежающий» в список НЕ входит, и это не недосмотр.** 爽 — нормативный
+ * сенсорный термин из GB/T 14487-2017, его отрицание 不爽 стоит прямо в
+ * определении дефекта 熟闷味. Это свойство настоя, а не действие на человека.
+ *
+ * Разницу между «освежающий» и «согревающий» задаёт не форма слова, а
+ * нормативный словарь — то есть внешний справочник, которого в данных нет.
+ * Поэтому список ведётся вручную: при появлении нового термина спрашивать
+ * justea-sources, есть ли он в GB/T 14487, а не угадывать по виду.
+ *
+ * Измерено на 149 дескрипторах каталога: со словом «освежа» — 5 срабатываний,
+ * верное 1; без него — 1 и 1. Случай нашли justea-sources, проверка делает
+ * его механическим.
+ */
+const BODY_DESCRIPTORS = new RegExp(
+    WORD_START +
+        "(?:согрева|охлажда|расслабля|взбодр|бодря|тонизирующ|успокаивающ)",
+    "i",
+);
+
+/** Что именно не так с текстом, или `null`, если всё в порядке. */
+function healthRegisterHit(text) {
+    const claim = HEALTH_CLAIMS.exec(text ?? "");
+
+    if (claim) {
+        return claim[0];
+    }
+
+    const substance = SUBSTANCE_WORDS.exec(text ?? "");
+
+    return substance && MORE_IS_BETTER.test(text ?? "") ? substance[0] : null;
+}
+
+/**
  * Ошибки заваривания и заблуждения проверяются одинаково и на уровне типа, и
  * на уровне сорта — поэтому вынесено в функцию, а не продублировано.
  */
-/**
- * `onlyFor` проверяется отдельно: нужны слаги каталога и категория, под
- * которой лежит запись.
- */
-function checkScope(where, facts, category, slugsByCategory, allSlugs) {
-    for (const outcome of facts.brewOutcomes ?? []) {
-        if (outcome.onlyFor === undefined) {
-            continue;
-        }
-
-        if (!Array.isArray(outcome.onlyFor) || outcome.onlyFor.length === 0) {
-            fail(
-                where,
-                `brewOutcomes: onlyFor пустой. Пустое сужение означает «ни для кого» — ` +
-                    "если запись для всей категории, поле надо убрать, а не опустошить",
-            );
-            continue;
-        }
-
-        for (const slug of outcome.onlyFor) {
-            if (!allSlugs.has(slug)) {
-                fail(
-                    where,
-                    `brewOutcomes: onlyFor ссылается на «${slug}», такого чая в каталоге нет`,
-                );
-                continue;
-            }
-
-            // Слаг не из этой категории означает, что запись не покажется
-            // никогда и нигде: она лежит под одним ключом, а сужена до чая
-            // из другого. Молчаливый ноль хуже ошибки.
-            if (category !== "all" && !slugsByCategory.get(category)?.has(slug)) {
-                fail(
-                    where,
-                    `brewOutcomes: onlyFor ссылается на «${slug}», но он не в категории ` +
-                        `«${category}». Запись не покажется ни на одной странице`,
-                );
-            }
-        }
-    }
-}
-
 function checkFacts(where, facts) {
     const seenIds = new Set();
 
     for (const outcome of facts.brewOutcomes ?? []) {
+        for (const field of Object.keys(outcome)) {
+            if (!BREW_OUTCOME_FIELDS.includes(field)) {
+                fail(
+                    where,
+                    `brewOutcomes: поле "${field}" код не читает. Либо опечатка, либо ` +
+                        "поле завели, не сказав мне — молчаливое игнорирование хуже ошибки",
+                );
+            }
+        }
+
         if (outcome.id !== undefined) {
             if (seenIds.has(outcome.id)) {
                 fail(where, `brewOutcomes: id "${outcome.id}" повторяется — на него не сослаться`);
@@ -238,6 +332,16 @@ function checkFacts(where, facts) {
     }
 
     for (const item of facts.misconceptions ?? []) {
+        for (const field of Object.keys(item)) {
+            if (!MISCONCEPTION_FIELDS.includes(field)) {
+                fail(
+                    where,
+                    `misconceptions: поле "${field}" код не читает. Либо опечатка, либо ` +
+                        "поле завели, не сказав мне",
+                );
+            }
+        }
+
         for (const field of ["claim", "correction"]) {
             if (typeof item[field] !== "string" || !item[field].trim()) {
                 fail(where, `misconceptions: поле "${field}" пустое или не строка`);
@@ -400,17 +504,36 @@ for (const tea of teas) {
         }
     }
 
-    checkFacts(slug, tea);
+    const descriptionHit = healthRegisterHit(tea.description);
 
-    for (const outcome of tea.brewOutcomes ?? []) {
-        if (outcome.onlyFor !== undefined) {
-            fail(
+    if (descriptionHit) {
+        warn(
+            slug,
+            `«${descriptionHit}» в описании сорта. О пользе и вреде мы не пишем`,
+        );
+    }
+
+    const descriptors = [
+        ...(tea.characteristics?.aroma ?? []),
+        ...(tea.characteristics?.flavor ?? []),
+        ...(tea.characteristics?.aftertaste ?? []),
+        ...(tea.characteristics?.appearance ?? []),
+    ];
+
+    for (const descriptor of descriptors) {
+        const hit = BODY_DESCRIPTORS.exec(descriptor);
+
+        if (hit) {
+            warn(
                 slug,
-                "brewOutcomes: onlyFor на записи уровня сорта бессмысленно — " +
-                    "она и так относится к одному чаю",
+                `дескриптор «${descriptor}» описывает человека, а не настой. ` +
+                    "Он уходит в разметку как свойство продукта; если это " +
+                    "нормативный сенсорный термин — скажите, добавлю в исключения",
             );
         }
     }
+
+    checkFacts(slug, tea);
 
     for (const outcome of tea.brewOutcomes ?? []) {
         if (outcome.replaces && !inheritedOutcomeIds.has(outcome.replaces)) {
@@ -446,8 +569,28 @@ for (const tea of teas) {
         }
     }
 
+    /*
+     * Отсутствие способов заваривания — **не ошибка**, и требование «хотя бы
+     * один» отсюда убрано 07.11.2026.
+     *
+     * Оно выглядело безобидным, а работало так: когда источника на параметры
+     * нет, поле всё равно надо заполнить, и человек кладёт туда самое
+     * правдоподобное из доступного. У семи чаёв этим оказался метод
+     * ISO 3103 — шесть минут кипятком, то есть процедура дегустационной
+     * экспертизы, выданная за рецепт. Нашёл justea-catalog, проверив опытом.
+     *
+     * **Валидатор, требующий полноты там, где данных нет, не защищает
+     * данные, а производит догадки.**
+     */
     if (!Array.isArray(tea.brewMethods) || tea.brewMethods.length === 0) {
-        fail(slug, "нет ни одного brewMethod");
+        if (tea.primaryBrewMethod !== undefined) {
+            fail(
+                slug,
+                `primaryBrewMethod "${tea.primaryBrewMethod}" задан, а способов нет. ` +
+                    "Выбирать не из чего — либо убрать поле, либо добавить способ",
+            );
+        }
+
         continue;
     }
 
@@ -623,6 +766,52 @@ for (const tea of teas) {
             }
         }
 
+        for (const text of [method.description, ...(method.notes ?? [])]) {
+            const hit = healthRegisterHit(text);
+
+            if (hit) {
+                warn(
+                    slug,
+                    `способ "${method.id}": «${hit}» в видимом тексте ` +
+                        `(«${String(text).slice(0, 45)}…»). О пользе и вреде мы не пишем; ` +
+                        "если это про вкус и экстракцию — переформулировать, если про " +
+                        "содержание вещества — убрать",
+                );
+            }
+        }
+
+        // Промывка, спрятанная в проливах, завышает их число. Это не
+        // косметика: `yield` в разметке говорит «6 проливов», таблица
+        // показывает шесть, а пьют пять — шестой сливают. Ровно ради этого
+        // заведено поле `rinse`, которое стоит вне счёта.
+        //
+        // Проверка по словам, то есть догадка: поэтому предупреждение, а не
+        // ошибка. Найдено justea-sources на данных прода 07.11.2026.
+        if (!method.rinse) {
+            const first = (method.infusions ?? [])[0];
+
+            if (first && RINSE_WORDS.test(first.notes ?? "")) {
+                warn(
+                    slug,
+                    `способ "${method.id}": первый пролив похож на промывку ` +
+                        `(«${(first.notes ?? "").slice(0, 45)}…»). Тогда проливов не ` +
+                        `${(method.infusions ?? []).length}, а на один меньше — ` +
+                        "перенести в поле rinse, оно вне счёта",
+                );
+            }
+
+            for (const note of method.notes ?? []) {
+                if (RINSE_WORDS.test(note)) {
+                    warn(
+                        slug,
+                        `способ "${method.id}": промывка описана в notes ` +
+                            `(«${note.slice(0, 45)}…»). Если она входит в число проливов — ` +
+                            "их на один меньше; место промывки в поле rinse",
+                    );
+                }
+            }
+        }
+
         const [ratioMin, ratioMax] = RATIO_RANGE;
 
         if (
@@ -670,27 +859,15 @@ for (const tea of teas) {
         });
     }
 
-    if (!tea.brewMethods.some((method) => method.type === tea.primaryBrewMethod)) {
+    if (
+        tea.primaryBrewMethod !== undefined &&
+        !tea.brewMethods.some((method) => method.type === tea.primaryBrewMethod)
+    ) {
         fail(
             slug,
             `primaryBrewMethod "${tea.primaryBrewMethod}" не найден среди brewMethods`,
         );
     }
-}
-
-// Слаги каталога по категориям — для проверки `onlyFor`.
-const allSlugs = new Set(teas.map((tea) => tea.slug));
-const slugsByCategory = new Map();
-
-for (const tea of teas) {
-    const category =
-        tea.standardCategory ?? EXPECTED_STANDARD_CATEGORY[tea.type] ?? tea.type;
-
-    if (!slugsByCategory.has(category)) {
-        slugsByCategory.set(category, new Set());
-    }
-
-    slugsByCategory.get(category).add(tea.slug);
 }
 
 // Факты уровня категории: те же проверки плюс полнота ключей.
@@ -705,13 +882,6 @@ for (const category of ["all", ...STANDARD_CATEGORIES]) {
     }
 
     checkFacts(`data/tea-types.json → ${category}`, typeFacts[category]);
-    checkScope(
-        `data/tea-types.json → ${category}`,
-        typeFacts[category],
-        category,
-        slugsByCategory,
-        allSlugs,
-    );
 }
 
 for (const key of Object.keys(typeFacts)) {
@@ -722,6 +892,14 @@ for (const key of Object.keys(typeFacts)) {
                 "StandardTeaCategory, а не TeaType: «pu-erh» здесь не ключ, его факты лежат под «dark»",
         );
     }
+}
+
+if (warnings.length) {
+    console.warn(`\nПредупреждения (сборку не валят): ${warnings.length}\n`);
+    for (const warning of warnings) {
+        console.warn(`  ~ ${warning}`);
+    }
+    console.warn("");
 }
 
 if (errors.length) {
