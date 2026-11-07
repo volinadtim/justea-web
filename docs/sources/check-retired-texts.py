@@ -39,6 +39,7 @@
 """
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -47,20 +48,47 @@ ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "docs" / "sources" / "retired-texts.json"
 SCAN = [ROOT / "data" / "teas.json", ROOT / "data" / "tea-types.json"]
 
-# Поля, которые до читателя не доходят ПО УСТРОЙСТВУ: `reviewNote` снимается в
-# `plainBrewMethods`, `basis` в разметку не идёт. Выведенный из оборота текст в
-# них — не регрессия, а правильное место для него.
+# Поля, которые до читателя не доходят ПО УСТРОЙСТВУ.
 #
-# Первый же прогон этой проверки по master поймал ровно такой случай: пометку у
-# Дун Дина перенесли в `reviewNote` вместе с её полным внутренним
-# происхождением, и это верно — там оно и должно лежать. Проверка посчитала это
-# возвратом, потому что сравнивала строку, не глядя на поле.
+# Список берётся ИЗ КОДА, а не пишется здесь руками. Довод justea-catalog, и это
+# моё же правило, применённое к собственной проверке: в `lib/plain-text.ts` стоит
 #
-# Третий случай за двое суток, когда один и тот же набор букв в одном поле
-# неверен, а в другом верен: `synonyms` (слитные написания), `cultivar`
-# (иероглифы), теперь `reviewNote`. Правильность определяется назначением
-# места, и проверка обязана знать поле.
-INTERNAL_FIELDS = ("reviewNote", "basis", "derivation", "caveat")
+#     const INTERNAL_FIELDS = ["reviewNote"] as const
+#         satisfies readonly (keyof BrewMethod)[];
+#
+# то есть опечатка в имени поля там не скомпилируется, а в моей копии — вполне.
+# Весь день я повторял «брать паттерны из кода, а не из пересказа» и тут же
+# переписал список руками.
+#
+# `caution.basis` добавляется отдельно и по другому основанию: он не в списке
+# BrewMethod, но в разметку не идёт (проверено `git grep` по `app/`). Это
+# единственная запись, которая держится на моей проверке, а не на коде, и
+# поэтому названа отдельно.
+FALLBACK_INTERNAL = ("reviewNote", "basis")
+
+
+def internal_fields(ref):
+    """Имена непубликуемых полей: из lib/plain-text.ts плюс caution.basis.
+
+    Читается из ТОГО ЖЕ ref, что и данные. В моей ветке этого файла нет вовсе —
+    она отрезана раньше, — и чтение из рабочей копии молча включало бы запасной
+    список при проверке свежего master. Список полей и данные должны быть из
+    одного состояния, иначе проверка сверяет одно с ограждением другого.
+    """
+    rel = "lib/plain-text.ts"
+    names = set()
+    text = (ROOT / rel).read_text(encoding="utf-8") if ref in ("HEAD", "working", ".") \
+        and (ROOT / rel).exists() else from_ref(ref, rel)
+    if text:
+        match = re.search(r"INTERNAL_FIELDS\s*=\s*\[(.*?)\]", text, re.S)
+        if match:
+            names = set(re.findall(r'"([A-Za-z_][A-Za-z0-9_]*)"', match.group(1)))
+    if not names:
+        print("⚠ INTERNAL_FIELDS не прочитан из %s:%s — беру запасной список, "
+              "он может отстать от кода" % (ref, rel))
+        names = set(FALLBACK_INTERNAL)
+    names.add("basis")
+    return tuple(sorted(names))
 
 
 def values(node, parent=None):
@@ -123,6 +151,7 @@ def main():
 
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     retired = {r["text"]: r for r in registry["retired"]}
+    internal = internal_fields(ref)
 
     retired_values = registry.get("retired_values", {}).get("entries", [])
     found = []
@@ -142,11 +171,17 @@ def main():
                 continue
         data = json.loads(raw)
         for where, text in strings(data):
-            if any(field in where for field in INTERNAL_FIELDS):
-                continue
             checked += 1
-            if text in retired:
-                found.append((path.name, where, retired[text]))
+            record = retired.get(text)
+            if not record:
+                continue
+            # «Не для читателя» во внутреннем поле — правильное место, не откат.
+            # «Нигде» ловится и там: reviewNote читает тот, кто проверяет факт,
+            # и неверному тексту поверит.
+            if (record.get("scope") == "not_for_readers"
+                    and any(field in where for field in internal)):
+                continue
+            found.append((path.name, where, record))
 
         for parent, key, value in values(data):
             checked_values += 1
@@ -164,7 +199,9 @@ def main():
     print("проверено строк: %d, выведенных из оборота текстов: %d" % (checked, len(retired)))
     print("проверено значений: %d, выведенных из оборота значений: %d"
           % (checked_values, len(retired_values)))
-    print("не проверялись поля, не доходящие до читателя: %s" % ", ".join(INTERNAL_FIELDS))
+    print("непубликуемые поля (из lib/plain-text.ts плюс caution.basis): %s" % ", ".join(internal))
+    print("  в них пропускаются только тексты вида «не для читателя»; "
+          "вид «нигде» ловится и там")
 
     if not found and not found_values:
         print("✅ ни один выведенный из оборота текст или значение не вернулись")
