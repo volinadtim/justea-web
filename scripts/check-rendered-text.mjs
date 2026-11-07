@@ -86,9 +86,28 @@ const visible = (html) =>
  */
 const RAW_RULES = new Set(["справочный аппарат"]);
 
-const pages = readdirSync(DIR)
-    .filter((name) => name.endsWith(".html") && !name.startsWith("_"))
-    .sort();
+/*
+ * Обход рекурсивный, и это не мелочь.
+ *
+ * Плоский `readdirSync` видел двадцать пять страниц из тридцати двух: семь
+ * страниц типов лежат в `tea/`, и проверка про них не знала. На
+ * `/tea/pu-erh` в это время стояло «По стандарту пуэр относится к тёмным
+ * чаям», а в семи вводных абзацах — двадцать одно длинное тире. Проверка
+ * печатала «ноль» и была права по тому множеству, которое смотрела.
+ */
+const pages = [];
+
+(function walk(dir, prefix) {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        if (entry.isDirectory()) {
+            walk(join(dir, entry.name), `${prefix}${entry.name}/`);
+        } else if (entry.name.endsWith(".html") && !entry.name.startsWith("_")) {
+            pages.push(`${prefix}${entry.name}`);
+        }
+    }
+})(DIR, "");
+
+pages.sort();
 
 let failed = 0;
 
