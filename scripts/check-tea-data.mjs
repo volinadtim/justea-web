@@ -126,42 +126,71 @@ function fail(slug, message) {
 function checkFacts(where, facts) {
     const seenIds = new Set();
 
-    for (const mistake of facts.brewMistakes ?? []) {
-        if (mistake.id !== undefined) {
-            if (seenIds.has(mistake.id)) {
-                fail(where, `brewMistakes: id "${mistake.id}" повторяется — на него не сослаться`);
+    for (const outcome of facts.brewOutcomes ?? []) {
+        if (outcome.id !== undefined) {
+            if (seenIds.has(outcome.id)) {
+                fail(where, `brewOutcomes: id "${outcome.id}" повторяется — на него не сослаться`);
             }
-            seenIds.add(mistake.id);
+            seenIds.add(outcome.id);
         }
 
-        for (const field of ["mistake", "result", "fix"]) {
-            if (typeof mistake[field] !== "string" || !mistake[field].trim()) {
-                fail(where, `brewMistakes: поле "${field}" пустое или не строка`);
+        for (const field of ["change", "consequence"]) {
+            if (typeof outcome[field] !== "string" || !outcome[field].trim()) {
+                fail(where, `brewOutcomes: поле "${field}" пустое или не строка`);
             }
         }
 
-        // На странице три поля склеиваются в «{result} — {mistake}. {fix}»,
-        // то есть `fix` начинает новое предложение. Со строчной буквы оно
-        // выглядит как опечатка — а это крупнейшие страницы сайта.
-        if (/^[a-zа-яё]/.test(String(mistake.fix ?? ""))) {
+        // На странице это «{change}. {consequence}», то есть `consequence`
+        // начинает предложение после точки. Со строчной буквы выглядит как
+        // опечатка — а это крупнейшие страницы сайта.
+        if (/^[a-zа-яё]/.test(String(outcome.consequence ?? ""))) {
             fail(
                 where,
-                `brewMistakes: "${String(mistake.fix).slice(0, 30)}…" начинается со строчной буквы. ` +
-                    "На странице это отдельное предложение после точки",
+                `brewOutcomes: "${String(outcome.consequence).slice(0, 30)}…" начинается со ` +
+                    "строчной буквы. На странице это отдельное предложение после точки",
             );
         }
 
-        // Неизвестная подстановка не развернётся и уедет на страницу как
-        // «{whatever}» посреди предложения.
-        for (const text of [mistake.result, mistake.fix]) {
-            for (const [, name] of String(text ?? "").matchAll(/\{(\w+)\}/g)) {
-                if (!PLACEHOLDERS.includes(name)) {
-                    fail(
-                        where,
-                        `brewMistakes: подстановка "{${name}}" неизвестна. Известные: ` +
-                            PLACEHOLDERS.map((p) => `{${p}}`).join(", "),
-                    );
-                }
+        // «Что сделано иначе» без нормы: «больше листа», не «больше, чем
+        // нужно». По Cao 2022 нормы нет — разброс рекомендованной навески
+        // в 1,7 раза, и обе величины названы рекомендуемыми.
+        if (/чем нужно|неправильно|ошибк/i.test(String(outcome.change ?? ""))) {
+            fail(
+                where,
+                `brewOutcomes: "${outcome.change}" утверждает норму. Блок говорит, что ` +
+                    "меняется, а не что сделано неправильно — см. Cao 2022",
+            );
+        }
+
+        // `high` без источника — это `derived`, назвавшийся измеренным.
+        // Ровно тот жанр, от которого проект уходит.
+        if (
+            outcome.confidence === "high" &&
+            (!Array.isArray(outcome.sources) || outcome.sources.length === 0)
+        ) {
+            fail(
+                where,
+                `brewOutcomes: confidence "high" без источников. Без ссылки это derived, ` +
+                    "а не измеренное",
+            );
+        }
+
+        if (
+            outcome.confidence !== undefined &&
+            !["high", "medium", "derived"].includes(outcome.confidence)
+        ) {
+            fail(where, `brewOutcomes: confidence "${outcome.confidence}" неизвестен`);
+        }
+
+        for (const [, name] of String(outcome.consequence ?? "").matchAll(
+            /\{(\w+)\}/g,
+        )) {
+            if (!PLACEHOLDERS.includes(name)) {
+                fail(
+                    where,
+                    `brewOutcomes: подстановка "{${name}}" неизвестна. Известные: ` +
+                        PLACEHOLDERS.map((placeholder) => `{${placeholder}}`).join(", "),
+                );
             }
         }
     }
@@ -196,12 +225,12 @@ function checkFacts(where, facts) {
 const teas = JSON.parse(readFileSync(dataPath, "utf8"));
 const typeFacts = JSON.parse(readFileSync(typesPath, "utf8"));
 
-/** Все `id` записей уровня категории — на них ссылается `replaces`. */
-const categoryMistakeIds = new Set(
+/** Все `id` наследуемых записей (`all` и категории) — на них ссылается `replaces`. */
+const inheritedOutcomeIds = new Set(
     Object.entries(typeFacts)
         .filter(([key]) => key !== "$comment")
-        .flatMap(([, facts]) => facts.brewMistakes ?? [])
-        .map((mistake) => mistake.id)
+        .flatMap(([, facts]) => facts.brewOutcomes ?? [])
+        .map((outcome) => outcome.id)
         .filter(Boolean),
 );
 
@@ -331,12 +360,12 @@ for (const tea of teas) {
 
     checkFacts(slug, tea);
 
-    for (const mistake of tea.brewMistakes ?? []) {
-        if (mistake.replaces && !categoryMistakeIds.has(mistake.replaces)) {
+    for (const outcome of tea.brewOutcomes ?? []) {
+        if (outcome.replaces && !inheritedOutcomeIds.has(outcome.replaces)) {
             fail(
                 slug,
-                `brewMistakes: replaces "${mistake.replaces}" не находит записи с таким id ` +
-                    "в data/tea-types.json. Отменяемое правило осталось бы на странице рядом " +
+                `brewOutcomes: replaces "${outcome.replaces}" не находит записи с таким id ` +
+                    "в data/tea-types.json. Отменяемое осталось бы на странице рядом " +
                     "с отменяющим — то есть правило и его опровержение одновременно",
             );
         }
@@ -515,12 +544,12 @@ for (const tea of teas) {
 }
 
 // Факты уровня категории: те же проверки плюс полнота ключей.
-for (const category of STANDARD_CATEGORIES) {
+for (const category of ["all", ...STANDARD_CATEGORIES]) {
     if (!typeFacts[category]) {
         fail(
             "data/tea-types.json",
-            `нет ключа "${category}". Файл ключуется категорией по стандарту и должен ` +
-                "покрывать все шесть, иначе категория молча останется без фактов",
+            `нет ключа "${category}". Файл ключуется категорией по стандарту плюс «all» и ` +
+                "должен покрывать все семь, иначе категория молча останется без фактов",
         );
         continue;
     }
@@ -529,7 +558,7 @@ for (const category of STANDARD_CATEGORIES) {
 }
 
 for (const key of Object.keys(typeFacts)) {
-    if (key !== "$comment" && !STANDARD_CATEGORIES.includes(key)) {
+    if (key !== "$comment" && key !== "all" && !STANDARD_CATEGORIES.includes(key)) {
         fail(
             "data/tea-types.json",
             `лишний ключ "${key}" — такой категории нет. Файл ключуется ` +
@@ -547,6 +576,6 @@ if (errors.length) {
 }
 
 console.log(
-    `data/teas.json — ${teas.length} записей, data/tea-types.json — ${STANDARD_CATEGORIES.length} категорий, ` +
+    `data/teas.json — ${teas.length} записей, data/tea-types.json — ${STANDARD_CATEGORIES.length} категорий и all, ` +
         "инварианты в порядке",
 );

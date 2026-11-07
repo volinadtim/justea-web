@@ -16,7 +16,7 @@ import {
     TEA_TYPE_LABELS,
 } from "@/lib/teas";
 import { teaTypePath } from "@/lib/tea-type-pages";
-import { brewMistakesFor, misconceptionsFor } from "@/lib/tea-type-facts";
+import { brewOutcomesFor, misconceptionsFor } from "@/lib/tea-type-facts";
 import { createPageMetadata } from "@/lib/metadata";
 import type { Tea } from "@/types/tea";
 
@@ -105,7 +105,7 @@ export default async function TeaPage({ params }: PageProps) {
         notFound();
     }
 
-    const brewMistakes = brewMistakesFor(tea);
+    const brewOutcomes = brewOutcomesFor(tea);
     const misconceptions = misconceptionsFor(tea);
 
     const crumbs = [
@@ -153,38 +153,41 @@ export default async function TeaPage({ params }: PageProps) {
                 />
 
                 {/*
-                    Типичные ошибки и частые заблуждения.
+                    Что меняет вкус и частые заблуждения.
 
                     Два отдельных блока, а не один, и это разделение намеренное.
-                    «Типичные ошибки» отвечают на то, что читатель сделал
-                    («залил кипятком — вышла горечь»); «частые заблуждения» —
-                    на то, во что он верит («бывает рассыпной шэн-пуэр»). Под
-                    одним заголовком рядом оказались бы «остудите воду до
-                    80 °C» и «Бин Дао из Линьцана, а не из Сишуанбаньны».
+                    Первый отвечает на то, отчего вкус вышел другим («больше
+                    листа — настой крепче»); второй — на то, во что читатель
+                    верит («бывает рассыпной шэн-пуэр»). Под одним заголовком
+                    рядом оказались бы «больше листа — настой крепче» и
+                    «Бин Дао из Линьцана, а не из Сишуанбаньны».
 
-                    Оба собираются из `data/tea-types.json` (общее для типа) и
-                    из полей сорта. Сегодня контейнер пуст, поэтому блоки не
-                    выводятся вовсе — это нормальное состояние, а не ошибка:
-                    фактуру даёт justea-sources.
+                    Заголовок не «Типичные ошибки», и это не смягчение
+                    формулировки. Cao 2022 измерил: рекомендованная навеска
+                    различается в 1,7 раза между редко пьющим и ежедневным, и
+                    обе названы рекомендуемыми. Назвать «больше листа» ошибкой
+                    значило бы противоречить измерению. Здесь же живёт запись
+                    тёмного чая «долго и горячо — норма», которая под
+                    заголовком «ошибки» опровергала бы сама себя.
 
-                    Свой `<h2>` у «ошибок» — требование justea-voice: блок
-                    должен находиться поиском отдельно. Классы те же, что у
-                    заголовка способа в `TeaBrewSection` и у списка заметок;
-                    своих стилей агент не вводит.
+                    Оба блока собираются из `data/tea-types.json` (общее для
+                    всех чаёв и для категории) и из полей сорта. Контейнер
+                    пуст, поэтому блоки не выводятся — это нормальное
+                    состояние, а не ошибка: фактуру даёт justea-sources.
 
                     В разметку не выводится. У `HowTo` нет узла «чего не
-                    делать», а натягивать ошибки на шаги инструкции значило бы
-                    заявить краулеру, что залить кипятком — это шаг рецепта.
+                    делать», а натягивать это на шаги инструкции значило бы
+                    заявить краулеру, что взять больше листа — шаг рецепта.
                 */}
-                {brewMistakes.length > 0 && (
+                {brewOutcomes.length > 0 && (
                     <section className="mt-[40px]">
                         <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
-                            Типичные ошибки
+                            Что меняет вкус
                         </h2>
                         <ul className="list-disc space-y-[8px] pl-[20px] text-[16px]">
-                            {brewMistakes.map((item) => (
-                                <li key={item.mistake}>
-                                    {item.result} — {item.mistake}. {item.fix}
+                            {brewOutcomes.map((item) => (
+                                <li key={item.change}>
+                                    {item.change}. {item.consequence}
                                 </li>
                             ))}
                         </ul>

@@ -1,6 +1,6 @@
 import typeFactsData from "@/data/tea-types.json";
 import type {
-    BrewMistake,
+    BrewOutcome,
     Misconception,
     StandardTeaCategory,
     Tea,
@@ -35,7 +35,7 @@ import { getPrimaryBrewMethod } from "./teas";
  */
 
 type TypeFacts = {
-    brewMistakes?: BrewMistake[];
+    brewOutcomes?: BrewOutcome[];
     misconceptions?: Misconception[];
 };
 
@@ -75,12 +75,8 @@ function fill(text: string, tea: Tea): string {
     });
 }
 
-function fillMistake(mistake: BrewMistake, tea: Tea): BrewMistake {
-    return {
-        ...mistake,
-        result: fill(mistake.result, tea),
-        fix: fill(mistake.fix, tea),
-    };
+function fillOutcome(outcome: BrewOutcome, tea: Tea): BrewOutcome {
+    return { ...outcome, consequence: fill(outcome.consequence, tea) };
 }
 
 /**
@@ -110,34 +106,43 @@ function factsForTea(tea: Tea): TypeFacts {
 }
 
 /**
- * Ошибки заваривания для страницы сорта: сначала общие для категории, затем
- * свойственные самому сорту. Порядок именно такой — общее объясняет
- * механизм, частное уточняет.
+ * Что меняет вкус — для страницы сорта: сначала общее для всех чаёв, затем
+ * общее для категории, затем свойственное самому сорту. Порядок именно
+ * такой: общее объясняет механизм, частное уточняет.
  *
- * Сортовая запись с `replaces` **убирает** названную запись категории, а не
- * добавляется к ней. Иначе на странице гёкуро встали бы рядом «листа больше,
- * чем нужно → горечь» и «официальная навеска 16,7 г/100 мл» — правило и его
- * прямое опровержение.
+ * Уровень `all` — для того, что от категории не зависит вовсе: навеска в обе
+ * стороны и вода. Заводить их по шести категориям значило бы завести шесть
+ * мест для одной правки.
+ *
+ * Сортовая запись с `replaces` **убирает** названную запись, а не
+ * добавляется к ней. Иначе на странице гёкуро встали бы рядом «больше листа
+ * — настой крепче» и «у гёкуро высокая навеска норма, 16,7 г/100 мл» —
+ * правило и его прямое опровержение.
  */
-export function brewMistakesFor(tea: Tea): BrewMistake[] {
-    const own = tea.brewMistakes ?? [];
+export function brewOutcomesFor(tea: Tea): BrewOutcome[] {
+    const own = tea.brewOutcomes ?? [];
     const replaced = new Set(
         own
-            .map((mistake) => mistake.replaces)
+            .map((outcome) => outcome.replaces)
             .filter((id): id is string => Boolean(id)),
     );
+    const inherited = [
+        ...(typeFacts.all?.brewOutcomes ?? []),
+        ...(factsForTea(tea).brewOutcomes ?? []),
+    ];
 
     return [
-        ...(factsForTea(tea).brewMistakes ?? []).filter(
-            (mistake) => !mistake.id || !replaced.has(mistake.id),
+        ...inherited.filter(
+            (outcome) => !outcome.id || !replaced.has(outcome.id),
         ),
         ...own,
-    ].map((mistake) => fillMistake(mistake, tea));
+    ].map((outcome) => fillOutcome(outcome, tea));
 }
 
 /** Заблуждения для страницы сорта: общие для категории плюс сортовые. */
 export function misconceptionsFor(tea: Tea): Misconception[] {
     return [
+        ...(typeFacts.all?.misconceptions ?? []),
         ...(factsForTea(tea).misconceptions ?? []),
         ...(tea.misconceptions ?? []),
     ];
