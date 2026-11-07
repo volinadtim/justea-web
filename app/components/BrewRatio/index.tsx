@@ -9,9 +9,12 @@ interface BrewRatioProps {
   options?: number[];
 }
 
+// Разделитель дробной части в русском тексте — запятая: «2.4 гр» это
+// опечатка, а не вариант записи. Обе ветки прежнего тернарника возвращали
+// одно и то же, поэтому он заодно убран.
 function formatGrams(value: number): string {
   const rounded = Math.round(value * 10) / 10;
-  return Number.isInteger(rounded) ? `${rounded}` : `${rounded}`;
+  return String(rounded).replace(".", ",");
 }
 
 export default function BrewRatio({ ratio, options }: BrewRatioProps) {
