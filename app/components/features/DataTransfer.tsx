@@ -25,7 +25,7 @@ function countLine(summary: TransferSummary): string {
         `чаёв с историей заваривания: ${summary.brews}`,
         `избранного: ${summary.favorites}`,
         `просмотренных: ${summary.recentTeas}`,
-        `запросов поиска: ${summary.recentSearches}`,
+        `запросов поиска: ${summary.searchHistory}`,
     ];
 
     return parts.join(", ");
@@ -98,10 +98,16 @@ export default function DataTransfer() {
     return (
         <section className="mt-[40px] border-t-2 border-black/10 pt-[24px] dark:border-white/10">
             <h2 className="mb-[12px] text-[24px] leading-none sm:text-[28px]">Данные</h2>
-            <p className="mb-[16px] text-[17px] leading-[1.4]">
+            <p className="mb-[12px] text-[17px] leading-[1.4]">
                 Дневник, избранное и история просмотров лежат только в этом браузере.
                 Выгрузите их в файл, чтобы перенести на другое устройство или сохранить
                 на случай, если браузер очистят.
+            </p>
+            <p className="mb-[16px] text-[17px] leading-[1.4]">
+                В файл попадают: дневник сессий и история запусков таймера, избранные
+                чаи, недавно просмотренные и история поиска. Состав подписан внутри
+                файла по-русски; если выгрузку кому-то пересылают, раздел с историей
+                поиска можно удалить, остальное от этого не сломается.
             </p>
 
             <div className="flex flex-wrap gap-[8px]">

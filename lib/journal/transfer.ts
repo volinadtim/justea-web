@@ -32,10 +32,23 @@ export type TransferFile = {
     format: typeof TRANSFER_FORMAT;
     formatVersion: number;
     exportedAt: string;
+    /**
+     * Что лежит в файле, по-русски. Выгрузку можно переслать, и человек
+     * должен видеть её состав, открыв файл, а не догадываться по ключам.
+     */
+    содержимое: Record<string, string>;
     journal: JournalData;
     favorites: string[];
     recentTeas: RecentTeaRecord[];
-    recentSearches: string[];
+    searchHistory: string[];
+};
+
+const CONTENTS: Record<string, string> = {
+    journal: "дневник сессий и история запусков таймера",
+    favorites: "избранные чаи",
+    recentTeas: "недавно просмотренные чаи",
+    searchHistory:
+        "история поиска — если файл кому-то пересылается, этот раздел можно удалить, остальное от этого не сломается",
 };
 
 export type TransferSummary = {
@@ -43,7 +56,7 @@ export type TransferSummary = {
     brews: number;
     favorites: number;
     recentTeas: number;
-    recentSearches: number;
+    searchHistory: number;
     exportedAt?: string;
     /** Файл сделан версией схемы новее нашей: часть полей может потеряться. */
     fromNewerVersion: boolean;
@@ -96,10 +109,11 @@ export function buildTransferFile(): TransferFile {
         format: TRANSFER_FORMAT,
         formatVersion: TRANSFER_FORMAT_VERSION,
         exportedAt: new Date().toISOString(),
+        содержимое: CONTENTS,
         journal: readJournal(),
         favorites: readStringArray(FAVORITES_KEY),
         recentTeas: readRecentTeas(),
-        recentSearches: readStringArray(RECENT_SEARCHES_KEY),
+        searchHistory: readStringArray(RECENT_SEARCHES_KEY),
     };
 }
 
@@ -145,6 +159,12 @@ export function parseTransferFile(text: string): {
             ? Number((candidate.journal as JournalData).version)
             : 0;
 
+    // Раздел с историей поиска можно удалить из файла перед пересылкой —
+    // тогда его просто не будет, это не ошибка.
+    const searchHistory = Array.isArray(candidate.searchHistory)
+        ? candidate.searchHistory
+        : [];
+
     const file: TransferFile = {
         format: TRANSFER_FORMAT,
         formatVersion:
@@ -170,11 +190,10 @@ export function parseTransferFile(text: string): {
                       typeof item.viewedAt === "string"
               )
             : [],
-        recentSearches: Array.isArray(candidate.recentSearches)
-            ? candidate.recentSearches.filter(
-                  (item): item is string => typeof item === "string"
-              )
-            : [],
+        содержимое: CONTENTS,
+        searchHistory: searchHistory.filter(
+            (item): item is string => typeof item === "string"
+        ),
     };
 
     return {
@@ -184,7 +203,7 @@ export function parseTransferFile(text: string): {
             brews: Object.keys(file.journal.brews).length,
             favorites: file.favorites.length,
             recentTeas: file.recentTeas.length,
-            recentSearches: file.recentSearches.length,
+            searchHistory: file.searchHistory.length,
             exportedAt: file.exportedAt,
             fromNewerVersion:
                 journalVersion > JOURNAL_SCHEMA_VERSION ||
@@ -267,7 +286,7 @@ export function applyTransferFile(file: TransferFile, mode: ImportMode): void {
         writeJournal(file.journal);
         writeStringArray(FAVORITES_KEY, file.favorites, FAVORITES_EVENT);
         writeRecentTeas(file.recentTeas);
-        writeStringArray(RECENT_SEARCHES_KEY, file.recentSearches);
+        writeStringArray(RECENT_SEARCHES_KEY, file.searchHistory);
         return;
     }
 
@@ -294,7 +313,7 @@ export function applyTransferFile(file: TransferFile, mode: ImportMode): void {
     writeRecentTeas(recentTeas);
 
     const searches = [
-        ...new Set([...readStringArray(RECENT_SEARCHES_KEY), ...file.recentSearches]),
+        ...new Set([...readStringArray(RECENT_SEARCHES_KEY), ...file.searchHistory]),
     ].slice(0, 5);
     writeStringArray(RECENT_SEARCHES_KEY, searches);
 }
