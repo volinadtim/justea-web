@@ -1,7 +1,7 @@
 "use client";
 
 import { HeartIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 import { isFavorite, toggleFavorite } from "@/lib/favorites";
 
 type Props = {
@@ -9,19 +9,16 @@ type Props = {
     className?: string;
 };
 
+function subscribe(onChange: () => void) {
+    window.addEventListener("justea-favorites-change", onChange);
+    return () => window.removeEventListener("justea-favorites-change", onChange);
+}
+
 export default function FavoriteButton({ slug, className = "" }: Props) {
-    const [favorite, setFavorite] = useState(false);
-
-    useEffect(() => {
-        setFavorite(isFavorite(slug));
-
-        function handleChange() {
-            setFavorite(isFavorite(slug));
-        }
-
-        window.addEventListener("justea-favorites-change", handleChange);
-        return () => window.removeEventListener("justea-favorites-change", handleChange);
-    }, [slug]);
+    // Избранное живёт в localStorage и меняется из любой карточки на странице —
+    // это внешнее хранилище, а не состояние компонента.
+    const getSnapshot = useCallback(() => isFavorite(slug), [slug]);
+    const favorite = useSyncExternalStore(subscribe, getSnapshot, () => false);
 
     return (
         <button
@@ -32,7 +29,7 @@ export default function FavoriteButton({ slug, className = "" }: Props) {
             onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                setFavorite(toggleFavorite(slug));
+                toggleFavorite(slug);
             }}
         >
             <HeartIcon
