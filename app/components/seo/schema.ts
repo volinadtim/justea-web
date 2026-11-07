@@ -291,7 +291,12 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
          * одностороннее — разметка не должна заявлять **больше**, чем видно,
          * а меньше может.
          */
-        description: sentences([method.description]),
+        // Поля нет вовсе, когда описание не прошло ограждение: `undefined`
+        // приходит из `plainBrewMethods`, и пустая строка в разметке была бы
+        // заявленным и несказанным одновременно.
+        ...(method.description
+            ? { description: sentences([method.description]) }
+            : {}),
         inLanguage: siteConfig.defaultLocale.code,
         ...(totalSeconds ? { totalTime: isoDuration(totalSeconds) } : {}),
         // У взбивания количества, которое имело бы смысл назвать, нет вовсе.

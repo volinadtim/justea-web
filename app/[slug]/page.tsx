@@ -170,12 +170,24 @@ export default async function TeaPage({ params }: PageProps) {
                     <p className="mb-[40px] text-[19px] leading-[1.4]">{tea.description}</p>
                 )}
 
+                {/*
+                    Связный текст по характеристикам — после списка
+                    дескрипторов. Одно другого не заменяет: список слов нельзя
+                    прочитать, а из абзаца нельзя собрать `PropertyValue`.
+                    В разметку не выводим, чтобы не заявить одно дважды.
+                */}
                 <TeaDescription
-                    className="mb-[40px]"
+                    className={tea.characteristicsText ? "mb-[20px]" : "mb-[40px]"}
                     aroma={tea.characteristics.aroma}
                     taste={tea.characteristics.flavor}
                     aftertaste={tea.characteristics.aftertaste}
                 />
+
+                {tea.characteristicsText && (
+                    <p className="mb-[40px] text-[17px] leading-[1.4] sm:text-[19px]">
+                        {tea.characteristicsText}
+                    </p>
+                )}
 
                 {/*
                     Если проверенных параметров нет, блок не показываем — но и
@@ -198,9 +210,15 @@ export default async function TeaPage({ params }: PageProps) {
                     />
                 ) : (
                     <p className="text-[17px] text-black/70 dark:text-white/70 sm:text-[19px]">
-                        Проверенных параметров заваривания для этого чая у нас
-                        пока нет: мы не нашли источника, которому можно
-                        доверять, а выдумывать не станем.
+                        {/*
+                            Фраза от justea-voice — она про сам чай: «Тёмный
+                            чай не боится ни кипятка, ни долгого
+                            настаивания». Общая запасная говорит читателю
+                            только то, что мы чего-то не знаем, и годится
+                            лишь пока своей нет.
+                        */}
+                        {tea.noBrewParamsNote ??
+                            "Параметров заваривания для этого чая у нас пока нет."}
                     </p>
                 )}
 

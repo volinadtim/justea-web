@@ -110,8 +110,8 @@ export default async function TeaTypePage({ params }: PageProps) {
                 // (нашёл justea-design 06.11.2026).
                 <div className="text-[19px] leading-[1.4]">
                     <p className="mb-3">
-                        Отдельных сортов этого типа в справочнике пока нет —
-                        всё, что нужно для заваривания, в тексте выше.
+                        Отдельных сортов этого типа в справочнике пока нет.
+                        Всё, что нужно для заваривания, в тексте выше.
                     </p>
                     {filledTypes.length > 0 && (
                         <p>

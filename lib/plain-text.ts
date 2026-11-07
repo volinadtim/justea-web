@@ -74,10 +74,25 @@ export function plainOnly(texts: readonly string[] | undefined): string[] {
  */
 export function plainBrewMethods(methods: readonly BrewMethod[]): BrewMethod[] {
     return methods.map((method) => {
-        const { rinse, infusions, ...rest } = method;
+        const { rinse, infusions, whisked, ...rest } = method;
 
         return {
             ...rest,
+            // Цель взбивания («мелкопузырчатая пена») аппарата сейчас не
+            // содержит, но это такая же строка из данных, как заметка, и
+            // уезжает она в те же два места: в пропсы клиента и в
+            // `HowToStep`. Поле, которое ограждение пропускает, рано или
+            // поздно окажется единственным, где аппарат остался.
+            ...(whisked
+                ? {
+                      whisked: whisked.map((preparation) => ({
+                          ...preparation,
+                          target: hasApparatus(preparation.target)
+                              ? undefined
+                              : preparation.target,
+                      })),
+                  }
+                : {}),
             ...(hasApparatus(method.description) ? { description: undefined } : {}),
             notes: plainOnly(method.notes),
             ...(rinse
