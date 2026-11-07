@@ -101,7 +101,16 @@ function fail(slug, message) {
  * на уровне сорта — поэтому вынесено в функцию, а не продублировано.
  */
 function checkFacts(where, facts) {
+    const seenIds = new Set();
+
     for (const mistake of facts.brewMistakes ?? []) {
+        if (mistake.id !== undefined) {
+            if (seenIds.has(mistake.id)) {
+                fail(where, `brewMistakes: id "${mistake.id}" повторяется — на него не сослаться`);
+            }
+            seenIds.add(mistake.id);
+        }
+
         for (const field of ["mistake", "result", "fix"]) {
             if (typeof mistake[field] !== "string" || !mistake[field].trim()) {
                 fail(where, `brewMistakes: поле "${field}" пустое или не строка`);
@@ -162,6 +171,16 @@ function checkFacts(where, facts) {
 }
 
 const teas = JSON.parse(readFileSync(dataPath, "utf8"));
+const typeFacts = JSON.parse(readFileSync(typesPath, "utf8"));
+
+/** Все `id` записей уровня категории — на них ссылается `replaces`. */
+const categoryMistakeIds = new Set(
+    Object.entries(typeFacts)
+        .filter(([key]) => key !== "$comment")
+        .flatMap(([, facts]) => facts.brewMistakes ?? [])
+        .map((mistake) => mistake.id)
+        .filter(Boolean),
+);
 
 if (!Array.isArray(teas)) {
     console.error("data/teas.json: ожидался массив записей");
@@ -289,6 +308,17 @@ for (const tea of teas) {
 
     checkFacts(slug, tea);
 
+    for (const mistake of tea.brewMistakes ?? []) {
+        if (mistake.replaces && !categoryMistakeIds.has(mistake.replaces)) {
+            fail(
+                slug,
+                `brewMistakes: replaces "${mistake.replaces}" не находит записи с таким id ` +
+                    "в data/tea-types.json. Отменяемое правило осталось бы на странице рядом " +
+                    "с отменяющим — то есть правило и его опровержение одновременно",
+            );
+        }
+    }
+
     if (Array.isArray(tea.synonyms)) {
         for (const synonym of tea.synonyms) {
             if (typeof synonym !== "string" || !synonym.trim()) {
@@ -379,9 +409,7 @@ for (const tea of teas) {
     }
 }
 
-// Факты уровня типа: те же проверки плюс полнота ключей.
-const typeFacts = JSON.parse(readFileSync(typesPath, "utf8"));
-
+// Факты уровня категории: те же проверки плюс полнота ключей.
 for (const category of STANDARD_CATEGORIES) {
     if (!typeFacts[category]) {
         fail(
