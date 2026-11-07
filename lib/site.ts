@@ -1,7 +1,71 @@
+/**
+ * Конфигурация сайта для SEO: metadata, OG, sitemap, robots, JSON-LD.
+ *
+ * Сайт пока только на русском. Чтобы добавить локаль, достаточно дописать
+ * строку в `siteConfig.locales` — `alternates.languages` в `lib/metadata.ts`
+ * соберёт hreflang автоматически. Пока в списке одна локаль, hreflang не
+ * выводится: ссылки на несуществующие страницы дают ошибки в GSC.
+ */
+
+export type SiteLocale = {
+    /** Код для hreflang (BCP 47) и префикса пути: `ru` → `/`, `en` → `/en` */
+    code: string;
+    /** Код для `og:locale` */
+    ogLocale: string;
+    /** `true` — локаль по умолчанию, живёт в корне без префикса */
+    default?: boolean;
+};
+
+const locales: SiteLocale[] = [
+    { code: "ru", ogLocale: "ru_RU", default: true },
+    // { code: "en", ogLocale: "en_US" },
+    // { code: "zh", ogLocale: "zh_CN" },
+    // { code: "ja", ogLocale: "ja_JP" },
+];
+
+const defaultLocale = locales.find((locale) => locale.default) ?? locales[0];
+
 export const siteConfig = {
     name: "Justea",
     description: "Справочник по завариванию чая — проливы, температура, пропорции",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://justea.ru",
-    locale: "ru_RU",
+    url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://justea.ru").replace(
+        /\/+$/,
+        "",
+    ),
+    locales,
+    defaultLocale,
+    /** `og:locale` основной локали */
+    locale: defaultLocale.ogLocale,
+    /**
+     * Картинка для OG и Twitter. Её размер нигде не хардкодится: его читает
+     * `publicImageSize()` из самого файла — см. `lib/image-size.ts`.
+     */
     ogImage: "/og.jpg",
+    /**
+     * Коды подтверждения прав в панелях вебмастеров. Значения вставляет
+     * пользователь в `.env.local` и в переменные деплоя — в репозиторий не
+     * коммитим. Пустая строка = мета-тег не выводится.
+     */
+    verification: {
+        yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "",
+        google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "",
+    },
 };
+
+/** Выводить hreflang имеет смысл только когда локалей больше одной. */
+export const isMultilingual = siteConfig.locales.length > 1;
+
+/**
+ * Абсолютный URL для canonical, OG, sitemap и JSON-LD.
+ *
+ * Корень отдаём без завершающего слэша: именно так Next.js нормализует
+ * canonical через `metadataBase`, а canonical, sitemap и `@id` в JSON-LD
+ * обязаны совпадать символ в символ, иначе краулер видит два разных URL.
+ */
+export function absoluteUrl(path = ""): string {
+    if (!path || path === "/") {
+        return siteConfig.url;
+    }
+
+    return `${siteConfig.url}${path.startsWith("/") ? path : `/${path}`}`;
+}

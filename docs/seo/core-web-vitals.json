@@ -1,0 +1,199 @@
+{
+  "$comment": "Замеры Core Web Vitals justea.ru. Парная методика: состояния «до» и «после» собраны и запущены одновременно на одной машине, Lighthouse чередовал их 3 раза — так нагрузка машины влияет на оба одинаково. Это лабораторные замеры, не поле (CrUX).",
+  "meta": {
+    "date": "2026-11-06",
+    "tool": "Lighthouse 13.6.0, Chromium ms-playwright 1247",
+    "form_factor": "mobile, 4x CPU throttling",
+    "before": "коммит 6fbe9df (этап 1), порт 4030",
+    "after": "этап 2 + хендофф justea-design (шрифты, CLS), порт 4020",
+    "load_average": "2.7 на 8 ядрах во время парных замеров",
+    "runs": 3
+  },
+  "correction": {
+    "what": "Первые замеры (этап 1) показывали performance 68 на главной и 73 на странице чая, TBT 6420 мс на главной. Эти цифры неверны.",
+    "why": "Они снимались, когда на машине параллельно разворачивались 6 других агентских сессий (pnpm install, сборки). Lighthouse под 4x CPU-throttling на перегруженной машине даёт TBT с разбросом в 20 раз: на одном и том же билде я получал 310, 310, 970 и 1940 мс.",
+    "corrected_baseline": "Реальная база — performance 90–91 на странице чая и 96–99 на главной. TBT 86–215 мс, то есть у порога 200 мс, а не в 30 раз выше.",
+    "impact_on_findings": "Находка 3.3 отчёта (TBT 6420 мс на главной) снята как артефакт измерения. Находки 3.1 (шрифты) и 3.2 (CLS) подтвердились и исправлены.",
+    "lesson": "Абсолютные TBT и performance на этой машине не воспроизводимы без парного замера. CLS и размер передаваемых байт детерминированы и годятся всегда."
+  },
+  "pages": [
+    {
+      "page": "tea",
+      "url": "/longjing",
+      "before": {
+        "performance": [
+          90,
+          91
+        ],
+        "cls": 0.188,
+        "tbt_ms": [
+          86,
+          121
+        ],
+        "fonts_count": 8,
+        "fonts_kb": 800
+      },
+      "after": {
+        "performance": 100,
+        "cls": 0.001,
+        "tbt_ms": [
+          50,
+          60
+        ],
+        "fonts_count": 4,
+        "fonts_kb": 423
+      },
+      "lcp": "0.8 s в обоих состояниях, все прогоны",
+      "runs_raw": {
+        "before": [
+          {
+            "performance": 90,
+            "cls": 0.188,
+            "tbt_ms": 121,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
+          },
+          {
+            "performance": 91,
+            "cls": 0.188,
+            "tbt_ms": 86,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
+          },
+          {
+            "performance": 91,
+            "cls": 0.188,
+            "tbt_ms": 96,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
+          }
+        ],
+        "after": [
+          {
+            "performance": 100,
+            "cls": 0.001,
+            "tbt_ms": 50,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
+          },
+          {
+            "performance": 100,
+            "cls": 0.001,
+            "tbt_ms": 54,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
+          },
+          {
+            "performance": 100,
+            "cls": 0.001,
+            "tbt_ms": 60,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
+          }
+        ]
+      }
+    },
+    {
+      "page": "home",
+      "url": "/",
+      "before": {
+        "performance": [
+          96,
+          99
+        ],
+        "cls": 0.004,
+        "tbt_ms": [
+          79,
+          215
+        ],
+        "fonts_count": 8,
+        "fonts_kb": 800
+      },
+      "after": {
+        "performance": 100,
+        "cls": [
+          0,
+          0.024
+        ],
+        "tbt_ms": [
+          39,
+          50
+        ],
+        "fonts_count": 4,
+        "fonts_kb": 423
+      },
+      "lcp": "0.8 s в обоих состояниях, все прогоны",
+      "runs_raw": {
+        "before": [
+          {
+            "performance": 96,
+            "cls": 0.004,
+            "tbt_ms": 215,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
+          },
+          {
+            "performance": 99,
+            "cls": 0.004,
+            "tbt_ms": 123,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
+          },
+          {
+            "performance": 99,
+            "cls": 0.004,
+            "tbt_ms": 79,
+            "lcp": "0.8 s",
+            "fonts_count": 8,
+            "fonts_kb": 800
+          }
+        ],
+        "after": [
+          {
+            "performance": 100,
+            "cls": 0.024,
+            "tbt_ms": 50,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
+          },
+          {
+            "performance": 100,
+            "cls": 0,
+            "tbt_ms": 42,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
+          },
+          {
+            "performance": 100,
+            "cls": 0,
+            "tbt_ms": 39,
+            "lcp": "0.8 s",
+            "fonts_count": 4,
+            "fonts_kb": 423
+          }
+        ]
+      }
+    }
+  ],
+  "verdict": {
+    "fixed": [
+      "CLS на странице чая 0.188 → 0.001. Причина была в `SearchFallback`: заглушка строки поиска имела другую высоту, чем реальный `Search`, и контент уезжал вниз при подстановке. Теперь заглушка повторяет структуру (flex + py-3 + border-b-2 + распорка h-6), высота совпадает сама.",
+      "Шрифты 800 КБ → 423 КБ (8 файлов → 4). Убраны Geist, Geist Mono и два начертания Bainsley Italic — ни одно не применялось ни к одному элементу.",
+      "Performance на странице чая 90–91 → 100, на главной 96–99 → 100."
+    ],
+    "retracted": [
+      "TBT 6420 мс на главной (находка 3.3). Реальный TBT до правок — 79–215 мс. Это был артефакт нагрузки машины, а не дефект кода. Переработка `TeaCard` в серверный компонент данными не обоснована."
+    ],
+    "field_data": "CrUX-данных нет: появятся через 28 дней после начала трафика. Повторить замеры на проде после деплоя — localhost не моделирует сеть."
+  }
+}

@@ -7,16 +7,77 @@ import RowAdvertisement from "../components/Advertisement/RowAdvertisement";
 import Breadcrumbs from "../components/Breadcrumbs";
 import FavoriteButton from "../components/FavoriteButton";
 import RecentTeaTracker from "../components/RecentTeaTracker";
+import JsonLd from "../components/seo/JsonLd";
+import { teaPageSchema } from "../components/seo/schema";
 import {
     getAllTeas,
     getPrimaryBrewMethod,
     getTeaBySlug,
     TEA_TYPE_LABELS,
 } from "@/lib/teas";
+import { teaTypePath } from "@/lib/tea-type-pages";
+import { brewOutcomesFor, misconceptionsFor } from "@/lib/tea-type-facts";
+import { formatRatio } from "@/lib/format-number";
 import { createPageMetadata } from "@/lib/metadata";
+import type { Tea } from "@/types/tea";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
+}
+
+/**
+ * Description под сниппет: сначала конкретика, которую и ищут (граммовка,
+ * температура, число проливов), затем описание сорта. Обрезаем по 160 символам
+ * — дальше Google и Яндекс всё равно ставят многоточие.
+ */
+function teaMetaDescription(tea: Tea): string {
+    const method = getPrimaryBrewMethod(tea);
+    const temperature = method
+        ? method.temperature.from === method.temperature.to
+            ? `${method.temperature.from}`
+            : `${method.temperature.from}–${method.temperature.to}`
+        : "";
+    const infusions = method?.infusions ?? [];
+    /*
+     * У взбивания проливов нет, и «0 проливов» в сниппете было бы ошибкой, а
+     * не недомолвкой.
+     *
+     * Навеску у взбивания тоже не выводим, и это не упрощение. У матчи
+     * навесок две, и они расходятся более чем в пять раз: 2,4 г/100 мл у
+     * усучи против 13,3 у коичи. Поле `ratio` у способа одно, то есть любое
+     * выбранное число будет неверным для второго стиля. Сниппет короткий, в
+     * нём негде оговорить, какой стиль имеется в виду, — лучше не называть
+     * числа вовсе, чем назвать одно из двух. К тому же с правки justea-design
+     * (PR #27) навеска у взбивания не показывается и на самой странице.
+     */
+    const facts =
+        !method || method.ratio === undefined || !infusions.length
+            ? method
+                ? `${tea.name}: вода ${temperature} °C.`
+                : `${tea.name}.`
+            : `${tea.name}: ${formatRatio(method.ratio)}, вода ${temperature} °C, ${
+                  infusions.length
+              } ${pluralInfusions(infusions.length)}.`;
+    const full = [facts, tea.description].filter(Boolean).join(" ");
+
+    if (full.length <= 160) {
+        return full;
+    }
+
+    const cut = full.slice(0, 157);
+
+    return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
+}
+
+function pluralInfusions(n: number): string {
+    const mod100 = n % 100;
+    const mod10 = n % 10;
+
+    if (mod100 >= 11 && mod100 <= 14) return "проливов";
+    if (mod10 === 1) return "пролив";
+    if (mod10 >= 2 && mod10 <= 4) return "пролива";
+
+    return "проливов";
 }
 
 export async function generateStaticParams() {
@@ -32,9 +93,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 
     return createPageMetadata({
-        title: tea.name,
-        description: tea.description,
+        // Название сорта + то, что ищут вместе с ним.
+        title: `${tea.name} — как заваривать: проливы, температура, пропорции`,
+        description: teaMetaDescription(tea),
         path: `/${tea.slug}`,
+        // Размеры фото сорта не указываем: они разные и не 1200×630,
+        // а врать краулеру о размере хуже, чем не сообщать его.
         image: tea.photo ?? undefined,
     });
 }
@@ -53,20 +117,21 @@ export default async function TeaPage({ params }: PageProps) {
         notFound();
     }
 
+    const brewOutcomes = brewOutcomesFor(tea);
+    const misconceptions = misconceptionsFor(tea);
+
+    const crumbs = [
+        { label: "Главная", href: "/" },
+        { label: TEA_TYPE_LABELS[tea.type], href: teaTypePath(tea.type) },
+        { label: tea.name },
+    ];
+
     return (
         <div className="">
+            <JsonLd data={teaPageSchema(tea, crumbs)} />
             <RecentTeaTracker slug={tea.slug} />
             <main>
-                <Breadcrumbs
-                    items={[
-                        { label: "Главная", href: "/" },
-                        {
-                            label: TEA_TYPE_LABELS[tea.type],
-                            href: `/?type=${tea.type}`,
-                        },
-                        { label: tea.name },
-                    ]}
-                />
+                <Breadcrumbs items={crumbs} />
 
                 <div className="mb-1 flex min-w-0 items-center justify-between gap-3">
                     <TeaTypeLink type={tea.type} />
@@ -77,9 +142,21 @@ export default async function TeaPage({ params }: PageProps) {
                     {tea.name}
                 </h1>
 
-                {tea.meta.origin && (
+                {/*
+                    Регион и сорт куста — одной строкой, теми же классами.
+                    Сорт куста вынут из `description`, где он лежал текстом, и
+                    выведен отдельно, потому что на него ссылается разметка:
+                    заявлять в JSON-LD то, чего читатель не видит, нельзя.
+
+                    «Сорт» по-русски значит и сорт чая, и сорт куста, поэтому
+                    подпись явная — иначе строка «Цзинь Сюань» под заголовком
+                    «Молочный улун» выглядит как второе имя того же.
+                */}
+                {(tea.meta.origin || tea.cultivar) && (
                     <p className="mb-[20px] text-[19px] text-black/70 dark:text-white/70">
                         {tea.meta.origin}
+                        {tea.meta.origin && tea.cultivar ? " · " : ""}
+                        {tea.cultivar ? `сорт куста ${tea.cultivar}` : ""}
                     </p>
                 )}
 
@@ -98,6 +175,91 @@ export default async function TeaPage({ params }: PageProps) {
                     brewMethods={tea.brewMethods}
                     defaultMethodId={primaryBrewMethod.id}
                 />
+
+                {/*
+                    Что меняет вкус и частые заблуждения.
+
+                    Два отдельных блока, а не один, и это разделение намеренное.
+                    Первый отвечает на то, отчего вкус вышел другим («больше
+                    листа — настой крепче»); второй — на то, во что читатель
+                    верит («бывает рассыпной шэн-пуэр»). Под одним заголовком
+                    рядом оказались бы «больше листа — настой крепче» и
+                    «Бин Дао из Линьцана, а не из Сишуанбаньны».
+
+                    Заголовок не «Типичные ошибки», и это не смягчение
+                    формулировки. Cao 2022 измерил: рекомендованная навеска
+                    различается в 1,7 раза между редко пьющим и ежедневным, и
+                    обе названы рекомендуемыми. Назвать «больше листа» ошибкой
+                    значило бы противоречить измерению. Здесь же живёт запись
+                    тёмного чая «долго и горячо — норма», которая под
+                    заголовком «ошибки» опровергала бы сама себя.
+
+                    Оба блока собираются из `data/tea-types.json` (общее для
+                    всех чаёв и для категории) и из полей сорта. Контейнер
+                    пуст, поэтому блоки не выводятся — это нормальное
+                    состояние, а не ошибка: фактуру даёт justea-sources.
+
+                    В разметку не выводится. У `HowTo` нет узла «чего не
+                    делать», а натягивать это на шаги инструкции значило бы
+                    заявить краулеру, что взять больше листа — шаг рецепта.
+                */}
+                {brewOutcomes.length > 0 && (
+                    <section className="mt-[40px]">
+                        <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
+                            Что меняет вкус
+                        </h2>
+                        <ul className="list-disc space-y-[8px] pl-[20px] text-[16px]">
+                            {brewOutcomes.map((item) => (
+                                <li key={item.change}>
+                                    {item.change}. {item.consequence}
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+
+                {misconceptions.length > 0 && (
+                    <section className="mt-[40px]">
+                        <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
+                            Частые заблуждения
+                        </h2>
+                        <ul className="list-disc space-y-[8px] pl-[20px] text-[16px]">
+                            {misconceptions.map((item) => (
+                                <li key={item.claim}>
+                                    «{item.claim}» — {item.correction}
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+
+                {/*
+                    Сноска-предосторожность. Решение пользователя 06.11.2026:
+                    о пользе и вреде чая не пишем вовсе, вместо раздела о
+                    здоровье — одна обоснованная фраза у тех чаёв, где она
+                    есть. Поэтому у большинства сортов блока нет, и это норма.
+
+                    Стоит после заваривания и до рекламы: сноска относится ко
+                    всей странице, а не к способу заваривания, и показывать её
+                    после рекламного блока значило бы спрятать.
+
+                    Оформление — существующее служебное: те же классы, что у
+                    `tea.meta.origin` выше и у заметок в `TeaBrewSection`;
+                    своих стилей агент не вводит (решение пользователя,
+                    inbox #2). В §6 `docs/seo/content-briefs.md` этот блок
+                    описан как «врезка-предупреждение» — визуально отличимая
+                    от обычного абзаца, но не агрессивная. Такого элемента в
+                    проекте нет, и придумывать его я не вправе: решение за
+                    justea-design, когда у него будет референс. Разметка и
+                    место при этом не изменятся, поменяются только классы.
+
+                    В JSON-LD не выводится сознательно — см. `TeaCaution`.
+                */}
+                {tea.caution && (
+                    <p className="mt-[32px] text-[16px] text-black/70 dark:text-white/70">
+                        {tea.caution.text}
+                    </p>
+                )}
 
                 <RowAdvertisement />
             </main>
