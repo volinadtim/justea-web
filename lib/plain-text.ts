@@ -1,3 +1,5 @@
+import { BrewMethod, Tea } from "@/types/tea";
+
 /**
  * Ограждение справочного аппарата на выходе к читателю.
  *
@@ -24,7 +26,11 @@ const APPARATUS = [
     /[　-鿿＀-￯]/, // иероглифы и китайская пунктуация
     /\d\s?%/,
     /полифенол|катехин|теанин|EGCG|аминокислот|\bppm\b|CaCO/i,
-    /\b[A-ZА-Я][a-zа-я]+\s+(?:19|20)\d\d\b/, // Cao 2022
+    // Фамилия и год: «Cao 2022». Только латиницей, намеренно. Год сам по
+    // себе не аппарат — sources это проверил, и «способ придумали в 1987»
+    // читателю ничего не ломает. Аппаратом его делает фамилия рядом, а
+    // кириллица с годом чаще оказывается обычным текстом: «Тайвань 1980».
+    /\b[A-Z][a-z]+\s+(?:19|20)\d\d\b/,
     /\bet al\b/i,
     /уровн[ьея]\s+[ABC]\b/,
     /экспертн|нормативн|по стандарт|стандарт\w*/i,
@@ -49,3 +55,85 @@ export function hasApparatus(text: string | null | undefined): boolean {
 export function plainOnly(texts: readonly string[] | undefined): string[] {
     return (texts ?? []).filter((text) => !hasApparatus(text));
 }
+
+/**
+ * Способы заваривания, очищенные ДО передачи клиенту.
+ *
+ * `TeaBrewSection` — клиентский компонент, и Next сериализует его пропсы в
+ * страницу целиком. Пока фильтр стоял внутри компонента, читатель номеров
+ * стандартов не видел, а в исходнике страницы они лежали: «DB53/T 236-2007»
+ * и «GB/T 23776» уезжали клиенту на семи страницах, включая главную. Нашёл
+ * justea-catalog.
+ *
+ * Ограждение на выходе к читателю — не ограждение на границе данных. Это
+ * второе: строки с аппаратом не доезжают до пропсов вообще, поэтому их нет
+ * ни на экране, ни в исходнике, ни в индексе краулера.
+ *
+ * `sources` и `confidence` у промывки снимаются целиком: это основание, оно
+ * нужно в `data/**`, а на клиенте ему делать нечего.
+ */
+export function plainBrewMethods(methods: readonly BrewMethod[]): BrewMethod[] {
+    return methods.map((method) => {
+        const { rinse, infusions, ...rest } = method;
+
+        return {
+            ...rest,
+            ...(hasApparatus(method.description) ? { description: undefined } : {}),
+            notes: plainOnly(method.notes),
+            ...(rinse
+                ? {
+                      rinse: {
+                          ...rinse,
+                          note: hasApparatus(rinse.note) ? undefined : rinse.note,
+                          sources: undefined,
+                          confidence: undefined,
+                      },
+                  }
+                : {}),
+            ...(infusions
+                ? {
+                      infusions: infusions.map((infusion) => ({
+                          ...infusion,
+                          // У пролива `notes` — одна строка, не список.
+                          notes: hasApparatus(infusion.notes)
+                              ? undefined
+                              : infusion.notes,
+                      })),
+                  }
+                : {}),
+        } as BrewMethod;
+    });
+}
+
+/**
+ * Поля, которые карточке чая нужны, и ничего кроме них.
+ *
+ * `TeaCard` — клиентский компонент, и до этой правки в него передавалась
+ * вся запись чая целиком. Next сериализует пропсы в страницу, поэтому
+ * каталог уезжал клиенту со всем, что в записях есть: заметки с номерами
+ * стандартов, основания промывки, `caution.basis`. На главной — все
+ * двадцать четыре записи сразу.
+ *
+ * Поэтому здесь не фильтр, а проекция: перечислены поля, которые карточка
+ * выводит. Новое поле в записи чая само на клиент не попадёт.
+ */
+export type TeaCardData = {
+    id: string;
+    slug: string;
+    name: string;
+    type: string;
+    description?: string;
+    liquorColor?: string;
+};
+
+export function toTeaCardData(tea: Tea): TeaCardData {
+    return {
+        id: tea.id,
+        slug: tea.slug,
+        name: tea.name,
+        type: tea.type,
+        description: tea.description,
+        liquorColor: tea.characteristics.liquorColor,
+    };
+}
+

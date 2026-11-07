@@ -4,14 +4,14 @@ import Link from "next/link";
 import { Leaf } from "lucide-react";
 import FavoriteButton from "./FavoriteButton";
 import { TEA_TYPE_LABELS } from "@/lib/teas";
-import { Tea } from "@/types/tea";
+import { TeaCardData } from "@/lib/plain-text";
 
 type Props = {
-    tea: Tea;
+    tea: TeaCardData;
 };
 
 export default function TeaCard({ tea }: Props) {
-    const liquorColor = tea.characteristics.liquorColor;
+    const liquorColor = tea.liquorColor;
 
     return (
         <Link
@@ -32,7 +32,7 @@ export default function TeaCard({ tea }: Props) {
 
             <div className="flex flex-col gap-[4px]">
                 <span className="text-[14px] text-black/60 dark:text-white/60">
-                    {TEA_TYPE_LABELS[tea.type]}
+                    {TEA_TYPE_LABELS[tea.type as keyof typeof TEA_TYPE_LABELS]}
                 </span>
                 <h2 className="text-[22px] leading-none group-hover:underline sm:text-[26px] lg:text-[28px]">
                     {tea.name}

@@ -27,7 +27,7 @@ const defaultLocale = locales.find((locale) => locale.default) ?? locales[0];
 
 export const siteConfig = {
     name: "Justea",
-    description: "Справочник по завариванию чая — проливы, температура, пропорции",
+    description: "Справочник по завариванию чая: проливы, температура, пропорции",
     url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://justea.ru").replace(
         /\/+$/,
         "",

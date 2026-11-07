@@ -970,36 +970,14 @@ console.log(
 );
 
 /*
- * Длинные тире в текстах сайта.
+ * Длинные тире здесь больше не считаются.
  *
- * Решение пользователя 06.11.2026: пунктуация авторская, без «нейронной»;
- * длинное тире — её главная примета. Пока это предупреждение, а не ошибка:
- * тексты переписывает justea-voice. Когда счётчик дойдёт до нуля, строку
- * ниже надо поменять на падение проверки, иначе тире вернётся само.
+ * Проверка стояла в этом файле и обманула: она перечисляла поля вручную
+ * (`description`, `brewMethods[].description`, `notes`) и показала ноль,
+ * когда оставалось пятьдесят одно тире — в `infusions[].notes`,
+ * `caution.text`, `brewOutcomes[].consequence` и `meta.origin`. Список
+ * полей и есть ошибка: он отстаёт от того, что выводится.
+ *
+ * Теперь это `scripts/check-rendered-text.mjs` — он читает собранные
+ * страницы, то есть то, что видит человек, и список полей ему не нужен.
  */
-{
-    const DASH = /\u2014/g;
-    const found = [];
-
-    const scan = (slug, field, text) => {
-        if (typeof text !== "string") return;
-        const n = (text.match(DASH) ?? []).length;
-        if (n > 0) found.push(`${slug} · ${field} · ${n}`);
-    };
-
-    for (const tea of teas) {
-        scan(tea.slug, "description", tea.description);
-        for (const method of tea.brewMethods ?? []) {
-            scan(tea.slug, `${method.id}.description`, method.description);
-            (method.notes ?? []).forEach((note, i) =>
-                scan(tea.slug, `${method.id}.notes[${i}]`, note),
-            );
-        }
-    }
-
-    if (found.length > 0) {
-        const total = found.reduce((sum, line) => sum + Number(line.split(" · ").pop()), 0);
-        console.warn(`предупреждение: длинных тире в текстах — ${total}, в ${found.length} полях`);
-        for (const line of found) console.warn(`  ${line}`);
-    }
-}
