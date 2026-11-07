@@ -3,7 +3,7 @@
 import { useMachine } from "@xstate/react";
 import { PauseIcon, PlayIcon, RotateCcwIcon, SkipForwardIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
-import WetHandsTimer, { TimerStatus } from "./features/WetHandsTimer";
+import FullscreenTimer, { TimerStatus } from "./features/FullscreenTimer";
 import { formatSteepTime } from "@/lib/format-steep-time";
 import { steepTimerMachine } from "@/lib/machines/steep-timer";
 
@@ -11,7 +11,7 @@ type Props = {
     steeps: number[];
     /** Изменение значения запускает таймер с первого пролива. */
     startSignal?: number;
-    /** Полноэкранный режим под мокрые руки. */
+    /** Полноэкранный режим таймера. */
     fullscreen?: boolean;
     onFullscreenChange?: (open: boolean) => void;
     onActiveIndexChange?: (index: number | null) => void;
@@ -177,7 +177,7 @@ export default function SteepTimer({
             </div>
 
             {fullscreen ? (
-                <WetHandsTimer
+                <FullscreenTimer
                     totalSteeps={totalSteeps}
                     currentIndex={currentIndex}
                     remainingSeconds={displaySeconds}
