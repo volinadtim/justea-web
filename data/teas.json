@@ -1430,6 +1430,7 @@
     "name": "Точа",
     "description": "Не сорт, а форма: чай спрессован плотной шайбой с углублением, как половинка гнезда. Точу делают и из шу, и из шэна; здесь речь о шу.",
     "type": "pu-erh",
+    "puerhKind": "shu",
     "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura",
     "pressedForm": "tuo",
     "primaryBrewMethod": "gongfu",
