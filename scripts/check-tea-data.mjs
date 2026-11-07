@@ -382,22 +382,26 @@ for (const tea of teas) {
 // Факты уровня типа: те же проверки плюс полнота ключей.
 const typeFacts = JSON.parse(readFileSync(typesPath, "utf8"));
 
-for (const type of TEA_TYPES) {
-    if (!typeFacts[type]) {
+for (const category of STANDARD_CATEGORIES) {
+    if (!typeFacts[category]) {
         fail(
-            `data/tea-types.json`,
-            `нет ключа "${type}". Файл должен покрывать все типы из TEA_TYPES, ` +
-                "иначе новый тип молча останется без фактов",
+            "data/tea-types.json",
+            `нет ключа "${category}". Файл ключуется категорией по стандарту и должен ` +
+                "покрывать все шесть, иначе категория молча останется без фактов",
         );
         continue;
     }
 
-    checkFacts(`data/tea-types.json → ${type}`, typeFacts[type]);
+    checkFacts(`data/tea-types.json → ${category}`, typeFacts[category]);
 }
 
 for (const key of Object.keys(typeFacts)) {
-    if (key !== "$comment" && !TEA_TYPES.includes(key)) {
-        fail("data/tea-types.json", `лишний ключ "${key}" — такого типа нет`);
+    if (key !== "$comment" && !STANDARD_CATEGORIES.includes(key)) {
+        fail(
+            "data/tea-types.json",
+            `лишний ключ "${key}" — такой категории нет. Файл ключуется ` +
+                "StandardTeaCategory, а не TeaType: «pu-erh» здесь не ключ, его факты лежат под «dark»",
+        );
     }
 }
 
@@ -410,6 +414,6 @@ if (errors.length) {
 }
 
 console.log(
-    `data/teas.json — ${teas.length} записей, data/tea-types.json — ${TEA_TYPES.length} типов, ` +
+    `data/teas.json — ${teas.length} записей, data/tea-types.json — ${STANDARD_CATEGORIES.length} категорий, ` +
         "инварианты в порядке",
 );
