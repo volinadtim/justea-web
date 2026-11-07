@@ -130,9 +130,21 @@ export default async function TeaPage({ params }: PageProps) {
                     {tea.name}
                 </h1>
 
-                {tea.meta.origin && (
+                {/*
+                    Регион и сорт куста — одной строкой, теми же классами.
+                    Сорт куста вынут из `description`, где он лежал текстом, и
+                    выведен отдельно, потому что на него ссылается разметка:
+                    заявлять в JSON-LD то, чего читатель не видит, нельзя.
+
+                    «Сорт» по-русски значит и сорт чая, и сорт куста, поэтому
+                    подпись явная — иначе строка «Цзинь Сюань» под заголовком
+                    «Молочный улун» выглядит как второе имя того же.
+                */}
+                {(tea.meta.origin || tea.cultivar) && (
                     <p className="mb-[20px] text-[19px] text-black/70 dark:text-white/70">
                         {tea.meta.origin}
+                        {tea.meta.origin && tea.cultivar ? " · " : ""}
+                        {tea.cultivar ? `сорт куста ${tea.cultivar}` : ""}
                     </p>
                 )}
 

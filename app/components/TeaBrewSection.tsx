@@ -22,6 +22,28 @@ function getTemperature(method: BrewMethod): number | [number, number] {
     return [from, to];
 }
 
+/** «Перед первым проливом ополоснуть лист 1–2 раза и сразу слить.» */
+function formatRinse(method: BrewMethod): string | null {
+    const { rinse } = method;
+
+    if (!rinse) {
+        return null;
+    }
+
+    const times =
+        typeof rinse.count === "number"
+            ? `${rinse.count}`
+            : `${rinse.count.from}–${rinse.count.to}`;
+
+    return [
+        `Перед первым проливом ополоснуть лист горячей водой ${times} раза и сразу слить`,
+        rinse.note,
+    ]
+        .filter(Boolean)
+        .join(". ")
+        .concat(".");
+}
+
 function getSteepsFromMethod(method: BrewMethod): number[] {
     // `infusions` стало необязательным: у взбивания (матча) проливов нет ни
     // одного. Защита, а не изменение вида — без неё сборка не проходит.
@@ -34,6 +56,7 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
         brewMethods.find((method) => method.id === activeId) ?? brewMethods[0];
     const [activeSteepIndex, setActiveSteepIndex] = useState<number | null>(null);
     const steeps = getSteepsFromMethod(activeMethod);
+    const rinseNote = formatRinse(activeMethod);
 
     useEffect(() => {
         setActiveSteepIndex(null);
@@ -82,9 +105,19 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                 )}
             </div>
 
-            {activeMethod.notes && activeMethod.notes.length > 0 && (
+            {/*
+                Промывка (醒茶) идёт первой строкой того же списка, что и
+                заметки. Раньше она лежала в `notes` текстом; теперь это поле
+                `BrewMethod.rinse`, и строка собирается из него.
+
+                Видимой она быть обязана: в разметке промывка — отдельный шаг
+                `HowTo`, а разметка не должна заявлять то, чего читатель не
+                видит. Список, классы и место те же — вида это не меняет.
+            */}
+            {(rinseNote || (activeMethod.notes && activeMethod.notes.length > 0)) && (
                 <ul className="mt-[32px] list-disc space-y-[8px] pl-[20px] text-[16px]">
-                    {activeMethod.notes.map((note) => (
+                    {rinseNote && <li>{rinseNote}</li>}
+                    {activeMethod.notes?.map((note) => (
                         <li key={note}>{note}</li>
                     ))}
                 </ul>
