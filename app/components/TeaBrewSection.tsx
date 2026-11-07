@@ -6,6 +6,7 @@ import BrewInfo from "./BrewInfo";
 import SteepsTable from "./SteepsTable";
 import SteepTimer from "./SteepTimer";
 import QuickBrewButton from "./features/QuickBrewButton";
+import { MaximizeIcon, PlayIcon } from "lucide-react";
 import { getBrewRecord, rememberBrewStart } from "@/lib/journal/brews";
 import { subscribeToJournal } from "@/lib/journal/storage";
 import { BrewMethod } from "@/types/tea";
@@ -62,6 +63,7 @@ export default function TeaBrewSection({ slug, brewMethods, defaultMethodId }: P
         brewMethods.find((method) => method.id === activeId) ?? brewMethods[0];
     const [activeSteepIndex, setActiveSteepIndex] = useState<number | null>(null);
     const [startSignal, setStartSignal] = useState(readStartSignal);
+    const [fullscreen, setFullscreen] = useState(false);
     const timerRef = useRef<HTMLDivElement>(null);
     const previousSteepIndex = useRef<number | null>(null);
     const steeps = getSteepsFromMethod(activeMethod);
@@ -122,11 +124,19 @@ export default function TeaBrewSection({ slug, brewMethods, defaultMethodId }: P
             <p className="mb-6 text-[17px] sm:mb-8 sm:text-[19px]">{activeMethod.description}</p>
 
             {steeps.length > 0 && (
-                <QuickBrewButton
-                    label="Заварить"
-                    className="mb-6 sm:mb-8"
-                    onClick={() => setStartSignal((value) => value + 1)}
-                />
+                <div className="mb-6 flex flex-wrap items-center gap-[8px] sm:mb-8">
+                    <QuickBrewButton
+                        label="Заварить"
+                        icon={<PlayIcon className="size-5 shrink-0" strokeWidth={2} aria-hidden="true" />}
+                        onClick={() => setStartSignal((value) => value + 1)}
+                    />
+                    <QuickBrewButton
+                        label="Во весь экран"
+                        variant="secondary"
+                        icon={<MaximizeIcon className="size-5 shrink-0" strokeWidth={2} aria-hidden="true" />}
+                        onClick={() => setFullscreen(true)}
+                    />
+                </div>
             )}
 
             <div className="flex min-w-0 flex-col gap-4 md:flex-row md:gap-[14px]">
@@ -140,6 +150,8 @@ export default function TeaBrewSection({ slug, brewMethods, defaultMethodId }: P
                         <SteepTimer
                             steeps={steeps}
                             startSignal={startSignal}
+                            fullscreen={fullscreen}
+                            onFullscreenChange={setFullscreen}
                             onActiveIndexChange={handleActiveIndexChange}
                         />
                     </div>
