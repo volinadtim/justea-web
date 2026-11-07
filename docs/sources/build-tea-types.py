@@ -111,6 +111,21 @@ def apparatus(text):
 
 
 
+# Длинное тире в публикуемом тексте. Решение пользователя 06.11.2026: пунктуация
+# авторская, без «нейронной»; дело не в знаке, а в его однообразной частоте.
+#
+# Проверка запрещает СИМВОЛ, но починить его подстановкой нельзя, поэтому текст
+# правила печатается в самой ошибке. В конструкции «подлежащее — сказуемое»
+# ставится двоеточие: «Диапазон навески — 4,5–6 г» → «Диапазон навески: 4,5–6 г».
+# Запятая не годится: она не менее машинна и вдобавок неграмотна. При отрицании
+# тире не ставится вовсе: «Габа не сорт, а обработка».
+#
+# Правило прочитано в scripts/check-rendered-text.mjs, а не по пересказу: сегодня
+# пересказ правила уже один раз пропустил химию, и четыре исхода из восьми не
+# доходили до страницы.
+DASH = "—"
+DASH_HINT = ("тире меняется не на запятую, а перестройкой фразы: при «подлежащее — сказуемое» двоеточие, при отрицании тире не ставится вовсе")
+
 PUBLISHED = ("change", "consequence", "claim", "correction")
 
 COMMENT = (
@@ -231,6 +246,9 @@ def main():
                 problems.append("%s: %s содержит норму — %r" % (rid, field, NORM.search(text).group(0)))
             if HEALTH.search(text):
                 problems.append("%s: %s содержит тему здоровья — %r" % (rid, field, HEALTH.search(text).group(0)))
+            if DASH in text:
+                problems.append("%s: %s содержит длинное тире — %s"
+                                % (rid, field, DASH_HINT))
             found = apparatus(text)
             if found:
                 problems.append("%s: %s вырежет фильтр lib/plain-text.ts — %r. Аппарат "
@@ -263,6 +281,9 @@ def main():
         if not m.get("sources"):
             problems.append("заблуждение %r: нет источников (обязательны)" % m["claim"][:30])
         for field in ("claim", "correction"):
+            if DASH in (m.get(field) or ""):
+                problems.append("заблуждение %r: %s содержит длинное тире — %s"
+                                % (m["claim"][:30], field, DASH_HINT))
             found = apparatus(m.get(field))
             if found:
                 problems.append("заблуждение %r: %s вырежет фильтр — %r"
