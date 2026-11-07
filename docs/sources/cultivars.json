@@ -1,0 +1,185 @@
+{
+ "meta": {
+  "title": "cultivar — сорт куста по 16 чаям",
+  "version": 1,
+  "compiled": "2026-11-07",
+  "compiled_by": "агент justea-sources",
+  "task": "новое поле seo (его outbox #16); валидатор падает, если cultivar совпадает с названием чая",
+  "validator_rule_agreed": "Правило верное и попадает точно: у молочного улуна соблазн написать «молочный улун» максимален, а это ровно заблуждение «молочный улун — это сорт чая», которое у нас стоит первым в запретах по этому чаю.",
+  "label_rule": "У значения обязательна подпись «сорт куста». Без неё строка «Цзинь Сюань» под заголовком «Молочный улун» читается как второе имя того же чая — то есть то же заблуждение, только с другой стороны.",
+  "empty_rule": "Пусто у шести чаёв из шестнадцати, и у каждого указана причина. У трёх из них пусто НОРМАТИВНО: ходзича — обжарка, габа-чай — способ обработки, сорт наследуется от базового чая. Это не пробел, это свойство предмета.",
+  "sources_registry": "catalog.json → sources"
+ },
+ "cultivars": [
+  {
+   "slug": "lao-banzhang",
+   "tea_name_ru": "Лао Баньчжан",
+   "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+   "sources": [
+    "cn-gb-22111-puer-fulltext"
+   ],
+   "confidence": "high",
+   "ref": "GB/T 22111 п. 6.2"
+  },
+  {
+   "slug": "yiwu",
+   "tea_name_ru": "Иу",
+   "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+   "sources": [
+    "cn-gb-22111-puer-fulltext"
+   ],
+   "confidence": "high",
+   "ref": "GB/T 22111 п. 6.2"
+  },
+  {
+   "slug": "bingdao",
+   "tea_name_ru": "Бин Дао",
+   "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura, местные популяционные сорта",
+   "sources": [
+    "cn-gb-22111-puer-fulltext"
+   ],
+   "confidence": "high",
+   "ref": "GB/T 22111 п. 6.2"
+  },
+  {
+   "slug": "gongting-puer",
+   "tea_name_ru": "Гунтин",
+   "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura",
+   "sources": [
+    "cn-gb-22111-puer-fulltext"
+   ],
+   "confidence": "high",
+   "ref": "GB/T 22111 п. 6.2"
+  },
+  {
+   "slug": "menghai-shu",
+   "tea_name_ru": "Мэнхай шу",
+   "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura",
+   "sources": [
+    "cn-gb-22111-puer-fulltext"
+   ],
+   "confidence": "high",
+   "ref": "GB/T 22111 п. 6.2"
+  },
+  {
+   "slug": "tuocha",
+   "tea_name_ru": "Точа",
+   "cultivar": "Camellia sinensis var. assamica (Mast.) Kitamura",
+   "sources": [
+    "cn-gb-22111-puer-fulltext"
+   ],
+   "confidence": "high",
+   "warning": "⚠ Точа — ФОРМА прессовки (碗臼形), а не сорт куста и не подтип. В cultivar писать название формы нельзя"
+  },
+  {
+   "slug": "matcha",
+   "tea_name_ru": "Матча",
+   "cultivar": "Camellia sinensis (L.) O. Kuntze var. sinensis",
+   "sources": [
+    "iso-tr-21380-2022"
+   ],
+   "confidence": "high",
+   "ref": "ISO/TR 21380 п. 3.1 — var. sinensis обязателен по определению, assamica не подходит",
+   "caveat": "⚠ ISO/TR — технический отчёт, требований не устанавливает"
+  },
+  {
+   "slug": "milk-oolong",
+   "tea_name_ru": "Молочный улун",
+   "cultivar": "Цзинь Сюань, 台茶12號 (Taiwan Tea No. 12)",
+   "sources": [
+    "tw-moa-jinxuan",
+    "tw-tfri-taicha12"
+   ],
+   "confidence": "high",
+   "label_required": "сорт куста",
+   "why": "Это тот случай, о котором предупреждал валидатор seo: у чая торговое имя «молочный улун», у сорта куста — «Цзинь Сюань». Написать в cultivar «молочный улун» значило бы утвердить ровно то заблуждение, которое у нас же стоит первым в списке запретов по этому чаю",
+   "extra": {
+    "line_code": "2027",
+    "bred": "1981",
+    "named": "1982",
+    "parents": "отец 硬枝紅心, мать 台農8號"
+   }
+  },
+  {
+   "slug": "dong-ding",
+   "tea_name_ru": "Дун Дин",
+   "cultivar": "青心烏龍 (Цин Синь Улун)",
+   "sources": [
+    "tw-tcmb-dongding"
+   ],
+   "confidence": "high",
+   "ref": "материал Станции улучшения чая, 1997",
+   "caveat": "⚠ Данные 1997 года: «основной высаживаемый сорт» — на тот момент"
+  },
+  {
+   "slug": "dian-hong",
+   "tea_name_ru": "Дянь Хун",
+   "cultivar": "Camellia sinensis var. assamica — крупнолистовые юньнаньские сорта",
+   "sources": [
+    "cn-gb-22111-puer-fulltext"
+   ],
+   "confidence": "medium",
+   "caveat": "⚠ Сорт выведен из стандарта на ПУЭР, где он нормирован для пуэрного сырья. Что Дянь Хун делают из того же сырья — отраслевая практика, в стандарте сорт не назван"
+  },
+  {
+   "slug": "liupao",
+   "tea_name_ru": "Любао",
+   "cultivar": "местные популяционные сорта уезда Цаньу, а также крупно- и среднелистные сорта",
+   "sources": [
+    "cn-chabaike-32719-4-repost"
+   ],
+   "confidence": "medium",
+   "caveat": "⚠ Содержание GB/T 32719.4 получено через перепечатку, полного текста не читал"
+  },
+  {
+   "slug": "gyokuro",
+   "tea_name_ru": "Гёкуро",
+   "cultivar": null,
+   "sources": [
+    "iso-11287-2011"
+   ],
+   "confidence": "none",
+   "gap": "Конкретного сорта куста в источниках нет. ISO 11287 Table 1 говорит только о СПОСОБЕ выращивания — в тени, — а не о сорте. Японские источники по параметрам заваривания сорт не называют",
+   "do_not_invent": "⚠ «Ябукита» — вероятный, но НЕ подтверждённый ответ. Не вписывать"
+  },
+  {
+   "slug": "houjicha",
+   "tea_name_ru": "Ходзича",
+   "cultivar": null,
+   "sources": [],
+   "confidence": "none",
+   "gap": "Сорта нет и быть не может как свойства: ходзича — это ОБЖАРКА зелёного чая, сорт наследуется от исходного чая и в источниках не фиксирован"
+  },
+  {
+   "slug": "lapsang-souchong",
+   "tea_name_ru": "Лапсанг сушонг",
+   "cultivar": null,
+   "sources": [
+    "cn-gb-13738-3-souchong"
+   ],
+   "confidence": "none",
+   "gap": "GB/T 13738.3 задаёт сырьё как «почки, листья и нежные стебли чайного куста» — без указания сорта. Конкретного сорта у меня нет"
+  },
+  {
+   "slug": "fu-zhuan",
+   "tea_name_ru": "Фу чжуань",
+   "cultivar": null,
+   "sources": [
+    "cn-gb-32719-5-futea"
+   ],
+   "confidence": "none",
+   "gap": "Стандарт задаёт сырьё как 黑毛茶 (тёмный маоча), сорт куста не нормирует"
+  },
+  {
+   "slug": "gaba-tea",
+   "tea_name_ru": "Габа-чай",
+   "cultivar": null,
+   "sources": [
+    "tw-moa-gaba-tea"
+   ],
+   "confidence": "none",
+   "gap": "Сорта нет как свойства, и это НОРМАТИВНО: габа-чай — способ обработки. Минсельхоз Тайваня прямо перечисляет, что его делают из зелёного, улуна, Цзинь Сюаня и Те Гуань Инь. Сорт наследуется от базового чая",
+   "do_not_invent": "⚠ Не вписывать «Цзинь Сюань» только потому, что из него габа-чай делают чаще"
+  }
+ ]
+}

@@ -406,7 +406,11 @@ Csupor 2016, см. [`effects-caffeine-theanine.md`](./effects-caffeine-theanine.
 
 ---
 
-# 8. Молочный улун / Цзинь Сюань — `jin-xuan`
+# 8. Молочный улун — `milk-oolong`
+
+Слаг переименован 2026-11-07 (прежний — `jin-xuan`): «молочный улун» 33 760
+показов против 871 у «цзинь сюань». **«Цзинь Сюань» — имя сорта куста (台茶12號),
+а не второе имя чая**, и уходит в поле `cultivar` с явной подписью.
 
 Полная выгрузка: [`raw/tw-jinxuan-cultivar.md`](./raw/tw-jinxuan-cultivar.md).
 
