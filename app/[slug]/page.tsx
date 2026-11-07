@@ -17,6 +17,7 @@ import {
 } from "@/lib/teas";
 import { teaTypePath } from "@/lib/tea-type-pages";
 import { brewOutcomesFor, misconceptionsFor } from "@/lib/tea-type-facts";
+import { formatRatio } from "@/lib/format-number";
 import { createPageMetadata } from "@/lib/metadata";
 import type { Tea } from "@/types/tea";
 
@@ -37,15 +38,25 @@ function teaMetaDescription(tea: Tea): string {
             : `${method.temperature.from}–${method.temperature.to}`
         : "";
     const infusions = method?.infusions ?? [];
-    // У взбивания проливов нет, и «0 проливов» в сниппете было бы ошибкой,
-    // а не недомолвкой. Для матчи конкретика другая: сколько порошка и воды.
+    /*
+     * У взбивания проливов нет, и «0 проливов» в сниппете было бы ошибкой, а
+     * не недомолвкой.
+     *
+     * Навеску у взбивания тоже не выводим, и это не упрощение. У матчи
+     * навесок две, и они расходятся более чем в пять раз: 2,4 г/100 мл у
+     * усучи против 13,3 у коичи. Поле `ratio` у способа одно, то есть любое
+     * выбранное число будет неверным для второго стиля. Сниппет короткий, в
+     * нём негде оговорить, какой стиль имеется в виду, — лучше не называть
+     * числа вовсе, чем назвать одно из двух. К тому же с правки justea-design
+     * (PR #27) навеска у взбивания не показывается и на самой странице.
+     */
     const facts = !method
         ? `${tea.name}.`
         : infusions.length
-          ? `${tea.name}: ${method.ratio} г на 100 мл, вода ${temperature} °C, ${
+          ? `${tea.name}: ${formatRatio(method.ratio)}, вода ${temperature} °C, ${
                 infusions.length
             } ${pluralInfusions(infusions.length)}.`
-          : `${tea.name}: ${method.ratio} г на 100 мл, вода ${temperature} °C.`;
+          : `${tea.name}: вода ${temperature} °C.`;
     const full = [facts, tea.description].filter(Boolean).join(" ");
 
     if (full.length <= 160) {
