@@ -16,7 +16,7 @@
    "composition",
    "brewing"
   ],
-  "see_also": "naming-traps.md — почему это поле пришлось переименовывать"
+  "see_also": "naming-traps.md — почему это поле пришлось переименовывать; brew-mistakes.json — последствия ошибок заваривания, другой блок"
  },
  "misconceptions": [
   {
@@ -169,6 +169,17 @@
    "applies_to_slug": "fu-zhuan",
    "confidence": "high",
    "note": "⚠ Численный предел «≥20×10⁴ CFU/г» НЕ подтверждён первоисточником — в опровержении числа не приводить"
+  },
+  {
+   "claim": "Первый пролив самый крепкий",
+   "correction": "Не универсально. У Те Гуань Инь первый пролив оказался САМЫМ СЛАБЫМ по концентрации: выход полифенолов и кофеина значимо зависит от номера пролива, и первый дал наименьшие значения.",
+   "sources": [
+    "lit-cao-2022-consumer"
+   ],
+   "kind": "brewing",
+   "applies_to_slug": "tie-guan-yin",
+   "confidence": "high",
+   "note": "Перенесено из brewing-errors.json по решению seo 2026-11-07: это убеждение, а не действие читателя, поэтому место ему здесь, а не в brewMistakes. См. brew-mistakes.json → moved_out"
   }
  ]
 }

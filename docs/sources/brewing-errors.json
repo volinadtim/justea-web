@@ -20,7 +20,8 @@
    "derived": "вывод из подтверждённых источников; само утверждение в источнике не названо",
    "none": "источника нет"
   },
-  "do_not_confuse_with": "misconceptions.json — там ЗАБЛУЖДЕНИЯ о чае («бывает рассыпной шэн»), здесь ПОСЛЕДСТВИЯ ДЕЙСТВИЙ («листа больше → крепче»). Разные жанры; см. naming-traps.md"
+  "do_not_confuse_with": "misconceptions.json — там ЗАБЛУЖДЕНИЯ о чае («бывает рассыпной шэн»), здесь ПОСЛЕДСТВИЯ ДЕЙСТВИЙ («листа больше → крепче»). Разные жанры; см. naming-traps.md",
+  "delivered_as": "brew-mistakes.json — записи уровня категории с id (контракт для Tea.brewMistakes.replaces) и исключения уровня чая, в форме, которую задал seo. Этот файл остаётся источником фактуры, механизма и оговорок; данные брать из brew-mistakes.json"
  },
  "mechanisms": {
   "note": "Чем объясняются последствия. Это общая часть, из неё выводятся утверждения по типам.",
@@ -250,7 +251,8 @@
     "cn-db53-236-brewing"
    ],
    "confidence": "medium",
-   "gap": "времени размачивания для блина, точи, кирпича и таблетки нет ни в одном источнике"
+   "gap": "времени размачивания для блина, точи, кирпича и таблетки нет ни в одном источнике",
+   "moved_to": "brew-mistakes.json → categoryRecords → brew/dark/pressed-rinse — решение seo: не исключение, а условный шаг в записи категории dark"
   },
   {
    "slug": "tie-guan-yin",
@@ -259,7 +261,8 @@
    "sources": [
     "lit-cao-2022-consumer"
    ],
-   "confidence": "high"
+   "confidence": "high",
+   "moved_to": "misconceptions.json (kind: brewing) — решение seo: это убеждение, а не действие читателя"
   }
  ],
  "not_brewing_errors": {
