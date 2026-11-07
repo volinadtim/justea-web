@@ -14,6 +14,7 @@ RAW = ROOT / "wordstat-raw"
 CORE = ROOT / "semantic-core.csv"
 SHOWS = RAW / "wordstat-shows.jsonl"
 GRAPH = RAW / "wordstat-graph.jsonl"
+BATCHES = RAW / "orchestrator-batches"   # доборы, снятые оркестратором вручную
 
 if not SHOWS.exists():
     sys.exit(f"Нет {SHOWS} — сначала запустите wordstat.py")
@@ -73,24 +74,59 @@ print(f"Снято фраз: {len(shows)}  период Вордстата: {per
 if dropped[0]:
     print(f"Отброшено как чужая тема (лемматизация неоднозначного сида): {dropped[0]} строк")
 
+# ------------------------------------------- доборы оркестратора
+# Куки Вордстата у оркестратора, часть фраз снимает он — руками в интерфейсе,
+# по России («все регионы»). Эти цифры не затирают мой прогон: они ставятся
+# только там, где у фразы замера нет. Период у них свой, на месяц позже,
+# поэтому в источнике он помечен отдельно (сверка — report.md §9.6).
+manual: dict[str, dict] = {}
+if BATCHES.is_dir():
+    for f in sorted(BATCHES.glob("*.csv")):
+        for r in csv.DictReader(f.open(encoding="utf-8-sig"), delimiter=";"):
+            v = r["показов_в_месяц"].strip()
+            if not v:
+                continue
+            manual[r["запрос"]] = {"shows": int(v), "date": r["дата_съёма"],
+                                  "period": r["период"]}
+    print(f"Доборов оркестратора: {len(manual)} фраз из "
+          f"{len(list(BATCHES.glob('*.csv')))} пачек")
+
 # индекс по множеству слов: только там, где ключ однозначен
 by_words: dict[str, list[str]] = collections.defaultdict(list)
 for ph in shows:
     by_words[wordkey(ph)].append(ph)
 
+manual_by_words: dict[str, list[str]] = collections.defaultdict(list)
+for ph in manual:
+    manual_by_words[wordkey(ph)].append(ph)
+
 # ----------------------------------------------------- в ядро
 rows = list(csv.DictReader(CORE.open(encoding="utf-8-sig"), delimiter=";"))
-hit = norm_hit = 0
+hit = norm_hit = manual_hit = 0
 for r in rows:
     s = shows.get(r["запрос"])
     note = ""
     if not s:
         cand = by_words.get(wordkey(r["запрос"]), [])
-        if len(cand) != 1:          # пусто или неоднозначно — не угадываем
+        if len(cand) == 1:
+            s = shows[cand[0]]
+            note = ", порядок слов"
+            norm_hit += 1
+    if not s:
+        # своего замера нет — берём добор оркестратора, если он есть
+        m = manual.get(r["запрос"])
+        if not m:
+            mc = manual_by_words.get(wordkey(r["запрос"]), [])
+            m = manual[mc[0]] if len(mc) == 1 else None
+        if not m:
             continue
-        s = shows[cand[0]]
-        note = ", порядок слов"
-        norm_hit += 1
+        r["wordstat_рф"] = str(m["shows"])
+        r["frequency"] = str(m["shows"])
+        r["frequency_source"] = "yandex-wordstat (рф, добор оркестратора)"
+        r["frequency_date"] = m["date"]
+        manual_hit += 1
+        hit += 1
+        continue
     hit += 1
     r["wordstat_спб"] = s.get("спб", "")
     r["wordstat_мск"] = s.get("мск", "")
@@ -105,6 +141,7 @@ with CORE.open("w", encoding="utf-8-sig", newline="") as f:
     w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";",
                        lineterminator="\n")
     w.writeheader(); w.writerows(rows)
+print(f"Из доборов оркестратора заполнено: {manual_hit} строк")
 print(f"В ядре заполнено: {hit} строк из {len(rows)} (из них {norm_hit} по нормализованному порядку слов)")
 
 # ----------------------------------------------------- все снятые фразы

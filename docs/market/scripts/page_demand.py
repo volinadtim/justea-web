@@ -7,6 +7,10 @@
 страниц justea-seo (`docs/seo/pages.json`, ветка `agent/seo`), сопоставляет
 каждой странице головные фразы и печатает измеренный спрос.
 
+Где одну и ту же тему замеряли и я, и оркестратор, берётся **моя** фраза:
+у неё есть все три региона, а у доборов оркестратора только Россия. Цифры при
+этом сходятся — сверка в report.md §9.6.
+
 Головные фразы заданы здесь руками и намеренно: автоматически из подкластера
 их не вывести — Вордстат отдаёт фразу **в широком соответствии**, то есть
 показы «пуэр» уже включают «пуэр купить» и «как заваривать пуэр». Поэтому
@@ -19,6 +23,7 @@ import csv, json, pathlib, collections
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FREQ = ROOT / "wordstat-raw" / "wordstat-frequencies.csv"
+BATCHES = ROOT / "wordstat-raw" / "orchestrator-batches"
 CORE = ROOT / "semantic-core.csv"
 OUT = ROOT / "page-demand.csv"
 
@@ -46,6 +51,8 @@ PAGES = [
       "что такое пролив чая"]),
     ("/guides/time", "время заваривания", 112, ["brewing-time"],
      ["сколько заваривать чай"]),
+    ("/guides/water", "какой водой заваривать", 0, [],
+     ["какой водой заваривать чай", "можно ли заливать чай кипятком"]),
     ("/guides/thermos", "в термосе", 109, ["brewing-thermos"],
      ["как заварить чай в термосе", "как заваривать пуэр в термосе"]),
     ("/guides/gaiwan", "гайвань", 98, ["brewing-gaiwan", "teaware-gaiwan"],
@@ -70,9 +77,19 @@ PAGES = [
 
 
 def load_freq():
+    """Свой прогон плюс доборы оркестратора.
+
+    Доборы сняты по России («все регионы») и на месяц позже, поэтому
+    по СПб и Москве у них пусто, а в РФ они ставятся только там, где
+    своего замера нет. Сверка двух источников — report.md §9.6."""
     f = {}
     for r in csv.DictReader(FREQ.open(encoding="utf-8-sig"), delimiter=";"):
         f[r["запрос"]] = (r["wordstat_спб"], r["wordstat_мск"], r["wordstat_рф"])
+    if BATCHES.is_dir():
+        for b in sorted(BATCHES.glob("*.csv")):
+            for r in csv.DictReader(b.open(encoding="utf-8-sig"), delimiter=";"):
+                if r["запрос"] not in f and r["показов_в_месяц"].strip():
+                    f[r["запрос"]] = ("", "", r["показов_в_месяц"])
     return f
 
 
