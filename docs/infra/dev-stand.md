@@ -24,19 +24,31 @@ reload` — прод остаётся живым.
 
 1. **DNS.** Запись `A` для `dev.justea.ru` → `89.104.68.81`. Без неё certbot не
    выпустит сертификат, и плей честно об этом скажет.
-2. **Пароль basic auth.** В репозитории его нет и быть не должно. Положи его в
-   переменную окружения:
+2. **Пароль basic auth.** В репозитории его нет и быть не должно. Задаётся
+   скриптом со скрытым вводом:
 
    ```bash
-   read -rs JUSTEA_DEV_PASSWORD && export JUSTEA_DEV_PASSWORD
+   ./infra/scripts/set-dev-stand-password.sh
    ```
 
-   Или скопируй `infra/ansible/dev-stand.secrets.example.yml` в
-   `infra/ansible/dev-stand.secrets.yml` (он в `.gitignore`) и впиши пароль туда.
+   Скрипт пишет пароль в `~/.justea/dev-stand.env` с правами 600 — вне
+   репозитория. Пустой ввод означает «сгенерируй случайный»: тогда пароль не
+   появляется на экране вообще, посмотреть его потом можно через
+   `cat ~/.justea/dev-stand.env`. Пароль не передаётся аргументом, поэтому не
+   попадает и в историю команд.
+
+   Альтернатива, если удобнее файлом переменных ansible: скопировать
+   `infra/ansible/dev-stand.secrets.example.yml` в
+   `infra/ansible/dev-stand.secrets.yml` (он в `.gitignore`) и вписать пароль
+   туда, а плеям передавать `-e @infra/ansible/dev-stand.secrets.yml`.
 3. **Ansible.** `pip install -r infra/ansible/requirements.txt` и
    `ansible-galaxy collection install community.docker ansible.posix`.
 
 ## Первый запуск
+
+```bash
+. ~/.justea/dev-stand.env
+```
 
 ```bash
 ansible-playbook -i infra/ansible/inventory.ini infra/ansible/dev-stand-setup.yml -e dev_basic_auth_password="$JUSTEA_DEV_PASSWORD"
@@ -89,10 +101,16 @@ nginx не наследует `add_header` в location, где есть свой
 HTTP Basic auth на весь хост, логин по умолчанию `dev`, файл паролей
 `/etc/nginx/.htpasswd-justea-dev` (apr1, `root:www-data`, `0640`).
 
-Сменить пароль:
+Посмотреть пароль, чтобы зайти на стенд: `cat ~/.justea/dev-stand.env`.
+
+Сменить пароль — тем же скриптом, потом повторить setup:
 
 ```bash
-ansible-playbook -i infra/ansible/inventory.ini infra/ansible/dev-stand-setup.yml -e dev_basic_auth_password="$NEW_PASSWORD"
+./infra/scripts/set-dev-stand-password.sh && . ~/.justea/dev-stand.env
+```
+
+```bash
+ansible-playbook -i infra/ansible/inventory.ini infra/ansible/dev-stand-setup.yml -e dev_basic_auth_password="$JUSTEA_DEV_PASSWORD"
 ```
 
 nginx читает файл паролей на каждый запрос, reload не нужен.
