@@ -56,6 +56,27 @@ const PUERH_KINDS = ["shu", "sheng"];
 /** `PressedForm` — GB/T 22111-2008 п. 5.2.2. */
 const PRESSED_FORMS = ["cake", "tuo", "brick", "column"];
 
+/** `TeaProcessing` — модификация обработки, тип при этом не меняется. */
+const PROCESSINGS = ["gaba"];
+
+/**
+ * Границы правдоподобия для навески и температуры.
+ *
+ * Это защита от описки в разряде, а не от неверного значения: сказать,
+ * сколько грамм правильно, скрипт не может. Границы намеренно широкие.
+ *
+ * Верхняя граница навески — 25 г/100 мл, потому что законный выброс уже
+ * известен: **официальная навеска гёкуро это 10 г на 60 мл при 50 °C и
+ * 150 с, то есть 16,7 г/100 мл** против 2,2 у сенчи. Если гёкуро внести «по
+ * шаблону зелёного чая», получится совсем другой напиток. Не «исправляйте»
+ * это число, когда оно появится в каталоге.
+ *
+ * Нижняя граница температуры — 40 °C, и она тоже из-за гёкуро: 50 °C для
+ * чая выглядит опиской, но это норма.
+ */
+const RATIO_RANGE = [0.5, 25];
+const TEMPERATURE_RANGE = [40, 100];
+
 const errors = [];
 
 function fail(slug, message) {
@@ -137,6 +158,27 @@ for (const tea of teas) {
     }
 
     if (
+        tea.processing !== undefined &&
+        !PROCESSINGS.includes(tea.processing)
+    ) {
+        fail(
+            slug,
+            `processing "${tea.processing}" неизвестен. Известные: ${PROCESSINGS.join(", ")}`,
+        );
+    }
+
+    // Габа-чай — способ обработки, а не тип: габа-улун остаётся улуном.
+    // Запись с type "gaba" противоречила бы источнику уровня A.
+    if (tea.type === "gaba" || tea.standardCategory === "gaba") {
+        fail(
+            slug,
+            "габа — это processing, а не type: по Минсельхозу Тайваня это способ " +
+                "обработки, применимый к разному сырью. Тип должен остаться тем, " +
+                "из которого чай сделан (габа-улун → oolong)",
+        );
+    }
+
+    if (
         tea.pressedForm !== undefined &&
         !PRESSED_FORMS.includes(tea.pressedForm)
     ) {
@@ -201,6 +243,52 @@ for (const tea of teas) {
                     "структура шагов и своя ветка в teaPageSchema",
             );
         }
+
+        const [ratioMin, ratioMax] = RATIO_RANGE;
+
+        if (
+            typeof method.ratio !== "number" ||
+            method.ratio < ratioMin ||
+            method.ratio > ratioMax
+        ) {
+            fail(
+                slug,
+                `способ "${method.id}": навеска ${method.ratio} г/100 мл вне правдоподобного ` +
+                    `диапазона ${ratioMin}–${ratioMax}. Проверьте разряд. Законный выброс — ` +
+                    "гёкуро, 16,7 г/100 мл; если это он, число верное",
+            );
+        }
+
+        const [tempMin, tempMax] = TEMPERATURE_RANGE;
+        const { from, to } = method.temperature ?? {};
+
+        if (
+            typeof from !== "number" ||
+            typeof to !== "number" ||
+            from < tempMin ||
+            to > tempMax ||
+            from > to
+        ) {
+            fail(
+                slug,
+                `способ "${method.id}": температура ${from}–${to} °C вне диапазона ` +
+                    `${tempMin}–${tempMax} или границы переставлены. Гёкуро при 50 °C — ` +
+                    "норма, а не описка",
+            );
+        }
+
+        // Пролив описывает и видимую таблицу, и шаг HowTo. Номер с нуля или
+        // с дырой разведёт нумерацию на странице с нумерацией в разметке.
+        method.infusions?.forEach((infusion, index) => {
+            if (infusion.number !== index + 1) {
+                fail(
+                    slug,
+                    `способ "${method.id}": пролив на позиции ${index + 1} имеет number ` +
+                        `${infusion.number}. Номера должны идти подряд с единицы: по ним ` +
+                        "строятся и видимая таблица, и шаги HowTo",
+                );
+            }
+        });
     }
 
     if (!tea.brewMethods.some((method) => method.type === tea.primaryBrewMethod)) {

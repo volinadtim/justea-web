@@ -300,3 +300,122 @@ export function teaTypeListSchema({
         ],
     };
 }
+
+/**
+ * Разметка лендинга церемоний.
+ *
+ * Данные приходят из `app/ceremony/content.ts` (зона justea-ceremony) —
+ * здесь их не дублируем, иначе текст на странице и разметка разойдутся, а
+ * расхождение разметки с видимым контентом Google считает нарушением.
+ *
+ * Состав графа сознательно неполный, и это главное, что нужно знать об этой
+ * функции. На 07.11.2026 известны адрес (Караванная улица, 14), город, цена
+ * и частота. **Даты ближайшей церемонии нет** — на странице она стоит
+ * заглушкой. Поэтому узел `Event` собирается только при переданном
+ * `nextDate`: `Event` без `startDate` невалиден, а подставить любую дату —
+ * значит соврать и краулеру, и человеку, который по этой дате придёт.
+ *
+ * Что это даёт сегодня: место с адресом (`Place` + `PostalAddress`) —
+ * нормальный узел, его можно выводить и без события. Он же станет
+ * `location`, когда дата появится.
+ *
+ * Честно про выигрыш: пока `/ceremony` под `noindex` (решение оркестратора
+ * 07.11.2026, на странице пять заглушек), разметка в выдачу не попадает
+ * вовсе. Это подготовка к возвращению страницы в индекс, а не прирост
+ * сегодня.
+ */
+export function ceremonyPageSchema({
+    path,
+    name,
+    description,
+    crumbs,
+    venueName,
+    streetAddress,
+    addressLocality,
+    price,
+    priceCurrency = "RUB",
+    nextDate,
+    hostName,
+}: {
+    path: string;
+    name: string;
+    description: string;
+    crumbs: Crumb[];
+    /** Название площадки, как оно написано на странице. */
+    venueName: string;
+    /** Улица и дом: «Караванная улица, 14». */
+    streetAddress: string;
+    addressLocality: string;
+    /**
+     * Цена числом, без знака валюты и без «от»: решение пользователя
+     * 06.11.2026 — 1500 ₽ с человека, чай включён, то есть цена точная.
+     */
+    price: number;
+    priceCurrency?: string;
+    /**
+     * Дата и время начала в ISO 8601 с часовым поясом
+     * (`2026-12-06T16:00:00+03:00`). Без неё узел `Event` не выводится.
+     */
+    nextDate?: string;
+    /** Имя мастера. Выводится как `performer`, только если передано. */
+    hostName?: string;
+}) {
+    const pageUrl = absoluteUrl(path);
+    const venueId = `${pageUrl}#venue`;
+
+    const venue = {
+        "@type": "Place",
+        "@id": venueId,
+        name: venueName,
+        address: {
+            "@type": "PostalAddress",
+            streetAddress,
+            addressLocality,
+            addressCountry: "RU",
+            // Почтовый индекс и координаты не выводим: их нам никто не
+            // называл, а выяснять адрес по карте и выдавать догадку за факт
+            // — ровно то, чего мы избегаем в данных о чае.
+        },
+    };
+
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            webPageSchema({
+                pageUrl,
+                name,
+                description,
+                hasBreadcrumbs: crumbs.length > 0,
+            }),
+            ...(crumbs.length ? [breadcrumbListSchema(crumbs, pageUrl)] : []),
+            venue,
+            ...(nextDate
+                ? [
+                      {
+                          "@type": "Event",
+                          "@id": `${pageUrl}#event`,
+                          name,
+                          description,
+                          startDate: nextDate,
+                          eventAttendanceMode:
+                              "https://schema.org/OfflineEventAttendanceMode",
+                          eventStatus: "https://schema.org/EventScheduled",
+                          inLanguage: siteConfig.defaultLocale.code,
+                          location: { "@id": venueId },
+                          organizer: { "@id": ORGANIZATION_ID },
+                          ...(hostName
+                              ? { performer: { "@type": "Person", name: hostName } }
+                              : {}),
+                          offers: {
+                              "@type": "Offer",
+                              price,
+                              priceCurrency,
+                              url: pageUrl,
+                              availability: "https://schema.org/InStock",
+                          },
+                      },
+                  ]
+                : []),
+        ],
+    };
+}
