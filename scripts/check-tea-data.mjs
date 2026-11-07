@@ -141,48 +141,6 @@ const RINSE_WORDS = /промыв|ополосн|ополаск|醒茶|проб�
  * Ошибки заваривания и заблуждения проверяются одинаково и на уровне типа, и
  * на уровне сорта — поэтому вынесено в функцию, а не продублировано.
  */
-/**
- * `onlyFor` проверяется отдельно: нужны слаги каталога и категория, под
- * которой лежит запись.
- */
-function checkScope(where, facts, category, slugsByCategory, allSlugs) {
-    for (const outcome of facts.brewOutcomes ?? []) {
-        if (outcome.onlyFor === undefined) {
-            continue;
-        }
-
-        if (!Array.isArray(outcome.onlyFor) || outcome.onlyFor.length === 0) {
-            fail(
-                where,
-                `brewOutcomes: onlyFor пустой. Пустое сужение означает «ни для кого» — ` +
-                    "если запись для всей категории, поле надо убрать, а не опустошить",
-            );
-            continue;
-        }
-
-        for (const slug of outcome.onlyFor) {
-            if (!allSlugs.has(slug)) {
-                fail(
-                    where,
-                    `brewOutcomes: onlyFor ссылается на «${slug}», такого чая в каталоге нет`,
-                );
-                continue;
-            }
-
-            // Слаг не из этой категории означает, что запись не покажется
-            // никогда и нигде: она лежит под одним ключом, а сужена до чая
-            // из другого. Молчаливый ноль хуже ошибки.
-            if (category !== "all" && !slugsByCategory.get(category)?.has(slug)) {
-                fail(
-                    where,
-                    `brewOutcomes: onlyFor ссылается на «${slug}», но он не в категории ` +
-                        `«${category}». Запись не покажется ни на одной странице`,
-                );
-            }
-        }
-    }
-}
-
 function checkFacts(where, facts) {
     const seenIds = new Set();
 
@@ -419,16 +377,6 @@ for (const tea of teas) {
     }
 
     checkFacts(slug, tea);
-
-    for (const outcome of tea.brewOutcomes ?? []) {
-        if (outcome.onlyFor !== undefined) {
-            fail(
-                slug,
-                "brewOutcomes: onlyFor на записи уровня сорта бессмысленно — " +
-                    "она и так относится к одному чаю",
-            );
-        }
-    }
 
     for (const outcome of tea.brewOutcomes ?? []) {
         if (outcome.replaces && !inheritedOutcomeIds.has(outcome.replaces)) {
@@ -728,21 +676,6 @@ for (const tea of teas) {
     }
 }
 
-// Слаги каталога по категориям — для проверки `onlyFor`.
-const allSlugs = new Set(teas.map((tea) => tea.slug));
-const slugsByCategory = new Map();
-
-for (const tea of teas) {
-    const category =
-        tea.standardCategory ?? EXPECTED_STANDARD_CATEGORY[tea.type] ?? tea.type;
-
-    if (!slugsByCategory.has(category)) {
-        slugsByCategory.set(category, new Set());
-    }
-
-    slugsByCategory.get(category).add(tea.slug);
-}
-
 // Факты уровня категории: те же проверки плюс полнота ключей.
 for (const category of ["all", ...STANDARD_CATEGORIES]) {
     if (!typeFacts[category]) {
@@ -755,13 +688,6 @@ for (const category of ["all", ...STANDARD_CATEGORIES]) {
     }
 
     checkFacts(`data/tea-types.json → ${category}`, typeFacts[category]);
-    checkScope(
-        `data/tea-types.json → ${category}`,
-        typeFacts[category],
-        category,
-        slugsByCategory,
-        allSlugs,
-    );
 }
 
 for (const key of Object.keys(typeFacts)) {

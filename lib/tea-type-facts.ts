@@ -149,12 +149,7 @@ export function brewOutcomesFor(tea: Tea): BrewOutcome[] {
     const inherited = [
         ...(typeFacts.all?.brewOutcomes ?? []),
         ...(factsForTea(tea).brewOutcomes ?? []),
-        // `onlyFor` сужает запись до перечисленных чаёв: ключ категории
-        // бывает шире источника. Под `dark` лежат шесть пуэров, любао и фу
-        // чжуань, а оба тёмных факта — пуэрные.
-    ].filter(
-        (outcome) => !outcome.onlyFor || outcome.onlyFor.includes(tea.slug),
-    );
+    ];
 
     return (
         [
