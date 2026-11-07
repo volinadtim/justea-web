@@ -1,0 +1,123 @@
+/**
+ * ПРЕДЛОЖЕНИЕ для `scripts`: не стоит ли рамка `characteristicsScope` раньше
+ * времени.
+ *
+ * Зачем. Рамка утверждает происхождение дескрипторов блока. Если блок ещё не
+ * того состава, о котором она говорит, рамка врёт — и врать может в обе
+ * стороны. Прошлая рамка Те Гуань Инь завышала обоснованность («орхидея,
+ * сирень и мёд записаны именно для этого чая»), новая занизила бы, объявив те
+ * же слова описанием улунов вообще.
+ *
+ * Два правила, которые мы с justea-voice перепробовали, и почему оба не годятся:
+ *
+ *  - моё, по форме текста: «не названы ни дескриптор, ни число — рамка
+ *    независима». Пропускает ровно те две рамки, из которых выведено: они не
+ *    называют ничего и всё равно верны только после снятия;
+ *  - их, по данным: «каждый дескриптор блока покрыт профилем типа». Слишком
+ *    строгое: у молочного улуна блок смешанный (четыре от типа и свой «лёгкий
+ *    молочный»), а рамка верна, потому что называет, какие именно от типа.
+ *
+ * Проверка поэтому смотрит, ЧТО рамка утверждает, и сверяет это с данными:
+ *
+ *  - рамка называет дескрипторы → каждый названный должен быть в блоке и
+ *    покрыт профилем типа;
+ *  - рамка говорит о блоке целиком → каждый дескриптор блока должен быть
+ *    покрыт профилем типа.
+ *
+ * ⚠ Покрытие здесь перечислено руками, и это не недоделка, а предел: в данных
+ * нет поля происхождения у дескриптора (см. outbox #47 и #70). Как только
+ * `characteristics` получит `sources`/`confidence`, этот список надо выбросить
+ * и читать покрытие из записи. До тех пор список расходится с фактурой молча.
+ *
+ * Прогон: node docs/catalog/check-scope-premature.mjs
+ */
+
+import { readFileSync } from "node:fs";
+
+const teas = JSON.parse(readFileSync("data/teas.json", "utf8"));
+
+const low = (s) => String(s).toLowerCase().replace(/ё/g, "е").replace(/й/g, "и");
+
+/** Покрыто профилем ТИПА, поле к полю. Основания — в outbox #67 и #69. */
+const BY_TYPE_PROFILE = new Set([
+    "tie-guan-yin|цветочныи|аромат", "tie-guan-yin|сладкое|послевкусие",
+    "da-hong-pao|сладкое|послевкусие",
+    "milk-oolong|цветочныи|аромат", "milk-oolong|мягкии|вкус",
+    "milk-oolong|округлыи|вкус", "milk-oolong|сладкое|послевкусие",
+    "lao-banzhang|чистыи|аромат", "lao-banzhang|густои|вкус",
+    "yiwu|чистыи|аромат", "yiwu|густои|вкус",
+    "bingdao|чистыи|аромат", "bingdao|густои|вкус",
+    "menghai-shu|особыи выдержанныи|аромат", "menghai-shu|мягко-густои|вкус",
+    "menghai-shu|возвращающаяся сладость|послевкусие",
+    "tuocha|особыи выдержанныи|аромат", "tuocha|мягко-густои|вкус",
+    "tuocha|возвращающаяся сладость|послевкусие",
+]);
+
+const problems = [];
+let checked = 0;
+
+for (const tea of teas) {
+    const scope = tea.characteristicsScope;
+    if (!scope) continue;
+    checked += 1;
+
+    const { aroma = [], flavor = [], aftertaste = [] } = tea.characteristics;
+    const block = [
+        ...aroma.map((d) => [d, "аромат"]),
+        ...flavor.map((d) => [d, "вкус"]),
+        ...aftertaste.map((d) => [d, "послевкусие"]),
+    ];
+
+    const named = block.filter(([d]) => low(scope).includes(low(d).replace(/ость$|ыи$|ое$|ии$/, "")));
+
+    if (named.length > 0) {
+        // Рамка называет дескрипторы: проверяем только названные.
+        for (const [d, field] of named) {
+            if (!BY_TYPE_PROFILE.has(`${tea.slug}|${low(d)}|${field}`)) {
+                problems.push(
+                    `${tea.slug}: рамка называет «${d}» (${field}), а профилем типа он не покрыт`,
+                );
+            }
+        }
+        continue;
+    }
+
+    // Рамка о блоке целиком: однородность обязательна.
+    const uncovered = block.filter(
+        ([d, field]) => !BY_TYPE_PROFILE.has(`${tea.slug}|${low(d)}|${field}`),
+    );
+
+    if (uncovered.length > 0) {
+        problems.push(
+            `${tea.slug}: рамка говорит о блоке целиком, а ${uncovered.length} из ${block.length} ` +
+                `профилем типа не покрыты (${uncovered.map(([d]) => d).join(", ")})`,
+        );
+    }
+}
+
+console.log(`рамок проверено: ${checked}`);
+
+if (problems.length > 0) {
+    console.error(`преждевременных рамок: ${problems.length}`);
+    for (const line of problems) console.error(`  ${line}`);
+    process.exitCode = 1;
+} else {
+    console.log("✅ ни одна рамка не опережает состав своего блока");
+}
+
+/* Проверка самой проверки: подставляем две отложенные рамки и ждём, что
+   обе будут названы преждевременными. */
+for (const slug of ["tie-guan-yin", "da-hong-pao"]) {
+    const tea = teas.find((t) => t.slug === slug);
+    const c = tea.characteristics;
+    const block = [
+        ...(c.aroma ?? []).map((d) => [d, "аромат"]),
+        ...(c.flavor ?? []).map((d) => [d, "вкус"]),
+        ...(c.aftertaste ?? []).map((d) => [d, "послевкусие"]),
+    ];
+    const uncovered = block.filter(([d, f]) => !BY_TYPE_PROFILE.has(`${slug}|${low(d)}|${f}`));
+    console.log(
+        `  проба «Так описывают улуны вообще» у ${slug}: ` +
+            `${uncovered.length ? `преждевременна, непокрытых ${uncovered.length} из ${block.length}` : "прошла бы"}`,
+    );
+}
