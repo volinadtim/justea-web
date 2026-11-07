@@ -6,6 +6,7 @@ import BrewInfo from "./BrewInfo";
 import SteepsTable from "./SteepsTable";
 import SteepTimer from "./SteepTimer";
 import QuickBrewButton from "./features/QuickBrewButton";
+import { NotebookPenIcon, PlayIcon } from "lucide-react";
 import { getBrewRecord, rememberBrewStart } from "@/lib/journal/brews";
 import { subscribeToJournal } from "@/lib/journal/storage";
 import { BrewMethod } from "@/types/tea";
@@ -122,11 +123,19 @@ export default function TeaBrewSection({ slug, brewMethods, defaultMethodId }: P
             <p className="mb-6 text-[17px] sm:mb-8 sm:text-[19px]">{activeMethod.description}</p>
 
             {steeps.length > 0 && (
-                <QuickBrewButton
-                    label="Заварить"
-                    className="mb-6 sm:mb-8"
-                    onClick={() => setStartSignal((value) => value + 1)}
-                />
+                <div className="mb-6 flex flex-wrap items-center gap-[8px] sm:mb-8">
+                    <QuickBrewButton
+                        label="Заварить"
+                        icon={<PlayIcon className="size-5 shrink-0" strokeWidth={2} aria-hidden="true" />}
+                        onClick={() => setStartSignal((value) => value + 1)}
+                    />
+                    <QuickBrewButton
+                        label="Записать сессию"
+                        variant="secondary"
+                        href={`/journal?tea=${slug}&method=${activeMethod.id}`}
+                        icon={<NotebookPenIcon className="size-5 shrink-0" strokeWidth={2} aria-hidden="true" />}
+                    />
+                </div>
             )}
 
             <div className="flex min-w-0 flex-col gap-4 md:flex-row md:gap-[14px]">
