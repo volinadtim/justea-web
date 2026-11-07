@@ -20,7 +20,7 @@ import { brewOutcomesFor } from "@/lib/tea-type-facts";
 import { formatRatio } from "@/lib/format-number";
 import { createPageMetadata } from "@/lib/metadata";
 import type { Tea } from "@/types/tea";
-import { hasApparatus } from "@/lib/plain-text";
+import { hasApparatus, plainBrewMethods } from "@/lib/plain-text";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -193,7 +193,7 @@ export default async function TeaPage({ params }: PageProps) {
                 */}
                 {primaryBrewMethod ? (
                     <TeaBrewSection
-                        brewMethods={tea.brewMethods ?? []}
+                        brewMethods={plainBrewMethods(tea.brewMethods ?? [])}
                         defaultMethodId={primaryBrewMethod.id}
                     />
                 ) : (

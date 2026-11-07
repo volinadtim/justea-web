@@ -75,6 +75,17 @@ const visible = (html) =>
         .replace(/&[a-z]+;|&#\d+;/g, " ")
         .replace(/\s+/g, " ");
 
+/*
+ * Правило аппарата проверяется по ВСЕМУ исходнику страницы, а не по
+ * видимому тексту.
+ *
+ * Фильтр стоял перед выводом, и этого было мало: «DB53/T 236-2007» и
+ * «GB/T 23776» уезжали клиенту в сериализованных пропсах Next на семи
+ * страницах, а «пик катехинов» — в `HowToStep` разметки. Читатель их не
+ * видел, краулер видел. Нашёл justea-catalog.
+ */
+const RAW_RULES = new Set(["справочный аппарат"]);
+
 const pages = readdirSync(DIR)
     .filter((name) => name.endsWith(".html") && !name.startsWith("_"))
     .sort();
@@ -86,9 +97,9 @@ for (const rule of RULES) {
 
     for (const page of pages) {
         const html = readFileSync(join(DIR, page), "utf8");
-        const text = visible(
-            rule.name === "длинное тире" ? stripHead(html) : html,
-        );
+        const text = RAW_RULES.has(rule.name)
+            ? html.replace(/\s+/g, " ")
+            : visible(stripHead(html));
         const found = text.match(rule.pattern);
 
         if (!found) continue;

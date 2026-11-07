@@ -5,6 +5,7 @@ import TeaCard from "./TeaCard";
 import { getFavoriteSlugs } from "@/lib/favorites";
 import { getTeaBySlug } from "@/lib/teas";
 import { Tea } from "@/types/tea";
+import { toTeaCardData } from "@/lib/plain-text";
 
 export default function FavoriteTeasSection() {
     const [teas, setTeas] = useState<Tea[]>([]);
@@ -32,7 +33,7 @@ export default function FavoriteTeasSection() {
             <h2 className="mb-4 text-[24px] leading-none sm:mb-5 sm:text-[28px]">Избранное</h2>
             <div className="grid grid-cols-1 gap-[20px] sm:grid-cols-2">
                 {teas.map((tea) => (
-                    <TeaCard key={tea.id} tea={tea} />
+                    <TeaCard key={tea.id} tea={toTeaCardData(tea)} />
                 ))}
             </div>
         </section>

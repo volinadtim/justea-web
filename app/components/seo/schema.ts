@@ -3,6 +3,7 @@ import { publicImageSize } from "@/lib/image-size";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { TEA_TYPE_LABELS } from "@/lib/teas";
 import type { BrewMethod, Range, Tea } from "@/types/tea";
+import { plainBrewMethods } from "@/lib/plain-text";
 
 /**
  * Общие узлы графа schema.org. Ссылаемся на них по `@id`, чтобы Organization и
@@ -434,7 +435,15 @@ export function teaPageSchema(tea: Tea, crumbs: Crumb[]) {
             // Способов может не быть вовсе — тогда и инструкций нет. Это
             // честнее, чем `HowTo` с выдуманными параметрами: разметка без
             // рецепта лучше рецепта без источника.
-            ...(tea.brewMethods ?? []).map((method) =>
+            /*
+             * Способы чистятся тем же ограждением, что и страница.
+             *
+             * Без этого разметка заявляла краулеру то, чего читатель не
+             * видит: у Те Гуань Инь в `HowToStep` уезжал «пик катехинов»,
+             * хотя со страницы фильтр его убрал. Это то же правило, по
+             * которому промывку сделали видимой, только с другой стороны.
+             */
+            ...plainBrewMethods(tea.brewMethods ?? []).map((method) =>
                 brewMethodHowTo(tea, method, pageUrl),
             ),
         ],

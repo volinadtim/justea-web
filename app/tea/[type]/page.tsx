@@ -15,6 +15,7 @@ import {
     teaTypePath,
 } from "@/lib/tea-type-pages";
 import { filterTeasByType, getAvailableTeaTypes, TEA_TYPES } from "@/lib/teas";
+import { toTeaCardData } from "@/lib/plain-text";
 
 interface PageProps {
     params: Promise<{ type: string }>;
@@ -100,7 +101,7 @@ export default async function TeaTypePage({ params }: PageProps) {
             {teas.length > 0 ? (
                 <div className="grid grid-cols-1 gap-[20px] sm:grid-cols-2">
                     {teas.map((tea) => (
-                        <TeaCard key={tea.id} tea={tea} />
+                        <TeaCard key={tea.id} tea={toTeaCardData(tea)} />
                     ))}
                 </div>
             ) : (

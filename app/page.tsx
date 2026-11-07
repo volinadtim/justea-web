@@ -9,6 +9,7 @@ import { teaTypeListSchema } from "./components/seo/schema";
 import { getAllTeas } from "@/lib/teas";
 import { createPageMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site";
+import { toTeaCardData } from "@/lib/plain-text";
 
 /**
  * TODO(voice): временный вариант под ключ «как заваривать чай». Оркестратору
@@ -53,7 +54,7 @@ export default function Home() {
             {teas.length > 0 ? (
                 <div className="grid grid-cols-1 gap-[20px] sm:grid-cols-2">
                     {teas.map((tea) => (
-                        <TeaCard key={tea.id} tea={tea} />
+                        <TeaCard key={tea.id} tea={toTeaCardData(tea)} />
                     ))}
                 </div>
             ) : (
