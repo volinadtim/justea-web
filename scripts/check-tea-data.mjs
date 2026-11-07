@@ -371,6 +371,21 @@ for (const tea of teas) {
         }
     }
 
+    if (tea.cultivar !== undefined) {
+        if (typeof tea.cultivar !== "string" || !tea.cultivar.trim()) {
+            fail(slug, "cultivar пустой или не строка");
+        } else if (tea.cultivar.trim() === tea.name) {
+            // Сорт куста и сорт чая по-русски оба «сорт», и спутать их легко.
+            // «Молочный улун» как сорт куста — это и есть то заблуждение,
+            // которое страница должна снимать: куст называется 台茶12號.
+            fail(
+                slug,
+                `cultivar совпадает с названием чая («${tea.name}»). Сорт куста — это ` +
+                    "растение, а не продукт: из одного куста делают разные чаи",
+            );
+        }
+    }
+
     if (Array.isArray(tea.synonyms)) {
         for (const synonym of tea.synonyms) {
             if (typeof synonym !== "string" || !synonym.trim()) {
@@ -488,6 +503,43 @@ for (const tea of teas) {
             // У взбивания свои диапазоны: коича это 13,3 г/100 мл, что для
             // проливного способа было бы опиской, а здесь норма.
             continue;
+        }
+
+        if (method.rinse) {
+            const { count, time } = method.rinse;
+            const counts =
+                typeof count === "number" ? [count] : [count?.from, count?.to];
+
+            for (const value of counts) {
+                if (typeof value !== "number" || value < 1 || value > 5) {
+                    fail(
+                        slug,
+                        `способ "${method.id}": rinse.count ${JSON.stringify(count)} вне 1–5. ` +
+                            "Промывка — один-два раза; пять уже вымывает чай, а не будит",
+                    );
+                    break;
+                }
+            }
+
+            if (time !== undefined && (typeof time !== "number" || time < 1 || time > 60)) {
+                fail(
+                    slug,
+                    `способ "${method.id}": rinse.time ${time} вне 1–60 с. Промывку сливают сразу; ` +
+                        "если держать минуту, это уже пролив",
+                );
+            }
+
+            // Пока промывка жила в notes, её писали туда текстом. Если поле
+            // заполнили, а строку не убрали, на странице она будет дважды.
+            for (const note of method.notes ?? []) {
+                if (/醒茶|ополосн|промыв/i.test(note)) {
+                    fail(
+                        slug,
+                        `способ "${method.id}": промывка задана полем rinse и упомянута в notes ` +
+                            `(«${note.slice(0, 40)}…»). На странице она выведется дважды`,
+                    );
+                }
+            }
         }
 
         const [ratioMin, ratioMax] = RATIO_RANGE;

@@ -189,12 +189,49 @@ function whiskedSteps(method: BrewMethod, pageUrl: string) {
     });
 }
 
+/**
+ * Шаг промывки (醒茶) — отдельно от проливов.
+ *
+ * Положить её первой записью в `infusions` нельзя: `infusions` — это то, что
+ * пьют. Промывка назвалась бы проливом, который не пьют, и превратила бы
+ * восемь проливов в девять и в таблице, и в `yield`.
+ */
+function rinseStep(method: BrewMethod, pageUrl: string) {
+    const { rinse } = method;
+
+    if (!rinse) {
+        return [];
+    }
+
+    const times =
+        typeof rinse.count === "number"
+            ? `${rinse.count} ${plural(rinse.count, "раз", "раза", "раз")}`
+            : `${rinse.count.from}–${rinse.count.to} раза`;
+
+    return [
+        {
+            "@type": "HowToStep",
+            "@id": `${pageUrl}#howto-${method.id}-rinse`,
+            position: 1,
+            name: "Промывка",
+            text: sentences([
+                `Ополоснуть лист горячей водой ${times} и сразу слить`,
+                rinse.time ? `Держать около ${rinse.time} с` : undefined,
+                rinse.note,
+            ]),
+            ...(rinse.time ? { performTime: isoDuration(rinse.time) } : {}),
+        },
+    ];
+}
+
 function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
     const infusions = method.infusions ?? [];
-    const totalSeconds = infusions.reduce(
-        (sum, infusion) => sum + infusion.time,
-        0,
-    );
+    const rinse = rinseStep(method, pageUrl);
+    // Промывка входит в общее время — оно на неё тратится, — но не в `yield`:
+    // чашки она не даёт.
+    const totalSeconds =
+        infusions.reduce((sum, infusion) => sum + infusion.time, 0) +
+        (method.rinse?.time ?? 0);
 
     const temperature = formatTemperature(method.temperature);
     const isBoiled = method.type === "boiled";
@@ -239,9 +276,10 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
         ],
         step: isWhisked
             ? whiskedSteps(method, pageUrl)
-            : infusions.map((infusion) => ({
+            : [
+                  ...rinse,
+                  ...infusions.map((infusion) => ({
                   "@type": "HowToStep",
-                  position: infusion.number,
                   // Номер нужен, только когда варок несколько: «Варка 1» у
                   // единственной варки выглядит обещанием второй.
                   name: isBoiled
@@ -255,10 +293,16 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
                           : `Залить водой ${temperature} и настаивать ${infusion.time} с.`,
                       infusion.notes,
                   ]),
-                  ...(infusion.time
-                      ? { performTime: isoDuration(infusion.time) }
-                      : {}),
-              })),
+                      // `position` — порядок в инструкции, и промывка его
+                      // сдвигает. Номер для человека остаётся в `name`:
+                      // «Пролив 1» стоит вторым шагом, и это верно — перед
+                      // ним промывка, которую не пьют.
+                      position: infusion.number + rinse.length,
+                      ...(infusion.time
+                          ? { performTime: isoDuration(infusion.time) }
+                          : {}),
+                  })),
+              ],
     };
 }
 
@@ -312,6 +356,18 @@ export function teaPageSchema(tea: Tea, crumbs: Crumb[]) {
                 // вида «Ханчжоу, Китай» — регион, а не страна. Поэтому
                 // кладём его в additionalProperty, а не врём типом.
                 additionalProperty: [
+                    // Сорт куста — не то же, что сорт чая: из одного куста
+                    // делают разные чаи. Выводим только потому, что он виден
+                    // на странице; разметка не должна заявлять больше.
+                    ...(tea.cultivar
+                        ? [
+                              {
+                                  "@type": "PropertyValue",
+                                  name: "Сорт куста",
+                                  value: tea.cultivar,
+                              },
+                          ]
+                        : []),
                     ...(tea.meta.origin
                         ? [
                               {
