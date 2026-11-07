@@ -177,11 +177,26 @@ export default async function TeaPage({ params }: PageProps) {
                     В разметку не выводим, чтобы не заявить одно дважды.
                 */}
                 <TeaDescription
-                    className={tea.characteristicsText ? "mb-[20px]" : "mb-[40px]"}
+                    className={
+                        tea.characteristicsText || tea.characteristicsScope
+                            ? "mb-[20px]"
+                            : "mb-[40px]"
+                    }
                     aroma={tea.characteristics.aroma}
                     taste={tea.characteristics.flavor}
                     aftertaste={tea.characteristics.aftertaste}
                 />
+
+                {tea.characteristicsScope && (
+                    <p
+                        className={
+                            "text-[17px] leading-[1.4] sm:text-[19px] " +
+                            (tea.characteristicsText ? "mb-[12px]" : "mb-[40px]")
+                        }
+                    >
+                        {tea.characteristicsScope}
+                    </p>
+                )}
 
                 {tea.characteristicsText && (
                     <p className="mb-[40px] text-[17px] leading-[1.4] sm:text-[19px]">
