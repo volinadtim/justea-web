@@ -1,0 +1,18 @@
+# Dev-стенд dev.justea.ru. Отдельный compose-проект и отдельный порт,
+# чтобы не пересекаться с продом (justea-web, 127.0.0.1:3001).
+name: justea-web-dev
+
+services:
+  web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://dev.justea.ru}
+    container_name: justea-web-dev
+    ports:
+      - "127.0.0.1:3002:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-https://dev.justea.ru}
+    restart: unless-stopped

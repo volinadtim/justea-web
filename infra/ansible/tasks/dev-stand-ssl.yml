@@ -1,0 +1,45 @@
+---
+# Сертификат для dev.justea.ru. Прод-сертификаты (tasks/ssl.yml) не трогаем.
+
+- name: Создать webroot для certbot
+  file:
+    path: /var/www/certbot
+    state: directory
+    mode: "0755"
+
+- name: Проверить, есть ли сертификат dev-стенда
+  stat:
+    path: "/etc/letsencrypt/live/{{ dev_domain }}/fullchain.pem"
+  register: dev_cert_stat
+
+- name: Проверить DNS для dev-домена
+  command: "getent hosts {{ dev_domain }}"
+  register: dev_dns_check
+  changed_when: false
+  failed_when: false
+  when: not dev_cert_stat.stat.exists
+
+- name: Остановиться, если A-записи dev-домена ещё нет
+  fail:
+    msg: >-
+      {{ dev_domain }} не резолвится с сервера. Сначала нужна DNS-запись
+      A {{ dev_domain }} -> 89.104.68.81, иначе certbot не выпустит сертификат.
+  when:
+    - not dev_cert_stat.stat.exists
+    - dev_dns_check is defined
+    - dev_dns_check.rc != 0
+
+- name: Выпустить сертификат для dev-домена
+  command: >
+    certbot certonly --webroot
+    -w /var/www/certbot
+    --non-interactive --agree-tos
+    --email {{ dev_ssl_email }}
+    -d {{ dev_domain }}
+  when:
+    - not dev_cert_stat.stat.exists
+    - dev_dns_check is defined
+    - dev_dns_check.rc == 0
+  register: dev_cert_obtained
+  failed_when: dev_cert_obtained.rc not in [0, 1]
+  changed_when: dev_cert_obtained.rc == 0

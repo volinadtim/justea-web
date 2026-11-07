@@ -1,0 +1,61 @@
+---
+# Установка vhost dev-стенда. Отдельный файл конфигурации, прод-конфиг
+# host-proxy.conf не затрагивается. Перед reload обязательно nginx -t:
+# если конфиг стенда сломан, симлинк снимается и прод остаётся живым.
+
+- name: Проверить наличие файла паролей dev-стенда
+  stat:
+    path: "{{ dev_htpasswd_path }}"
+  register: dev_htpasswd_stat
+
+- name: Остановиться, если файла паролей нет
+  fail:
+    msg: >-
+      Нет {{ dev_htpasswd_path }}. Запусти dev-stand-setup.yml с
+      -e dev_basic_auth_password=... — без basic auth стенд не поднимаем.
+  when: not dev_htpasswd_stat.stat.exists
+
+- name: Проверить наличие сертификата dev-стенда
+  stat:
+    path: "/etc/letsencrypt/live/{{ dev_domain }}/fullchain.pem"
+  register: dev_ssl_ready
+
+- name: Установить nginx-vhost dev-стенда
+  copy:
+    src: "{{ playbook_dir }}/../nginx/{{ 'host-justea-dev.conf' if dev_ssl_ready.stat.exists else 'host-justea-dev-http.conf' }}"
+    dest: "/etc/nginx/sites-available/{{ dev_nginx_conf_name }}"
+    mode: "0644"
+    backup: yes
+  register: dev_nginx_conf
+
+- name: Включить nginx-vhost dev-стенда
+  file:
+    src: "/etc/nginx/sites-available/{{ dev_nginx_conf_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ dev_nginx_conf_name }}"
+    state: link
+  register: dev_nginx_link
+
+- name: Проверить конфигурацию nginx
+  command: nginx -t
+  changed_when: false
+  failed_when: false
+  register: dev_nginx_test
+
+- name: Снять vhost dev-стенда, если конфигурация не проходит проверку
+  file:
+    path: "/etc/nginx/sites-enabled/{{ dev_nginx_conf_name }}"
+    state: absent
+  when: dev_nginx_test.rc != 0
+
+- name: Остановиться с выводом nginx -t
+  fail:
+    msg: >-
+      nginx -t не прошёл, vhost dev-стенда отключён, прод не тронут.
+      Вывод: {{ dev_nginx_test.stderr }}
+  when: dev_nginx_test.rc != 0
+
+- name: Перечитать nginx
+  service:
+    name: nginx
+    state: reloaded
+  when: dev_nginx_conf.changed or dev_nginx_link.changed
