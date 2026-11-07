@@ -290,9 +290,10 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
                 // у усучи против 13,3 у коичи. Назвать одну значило бы
                 // соврать про вторую, поэтому здесь только чай, а количества
                 // стоят в шагах, где у каждого свой стиль.
-                name: isWhisked
-                    ? tea.name
-                    : `${tea.name} — ${formatRatio(method.ratio)} воды`,
+                name:
+                    method.ratio === undefined
+                        ? tea.name
+                        : `${tea.name} — ${formatRatio(method.ratio)} воды`,
             },
             {
                 "@type": "HowToSupply",

@@ -56,28 +56,47 @@ function formatTemperature(tea: Tea): string | undefined {
 }
 
 function ratioOf(tea: Tea): string | undefined {
-    const method = getPrimaryBrewMethod(tea);
+    const ratio = getPrimaryBrewMethod(tea)?.ratio;
 
-    return method ? formatRatio(method.ratio) : undefined;
+    return ratio === undefined ? undefined : formatRatio(ratio);
 }
 
 /**
  * Разворачивает `{temperature}` и `{ratio}` в числа сорта.
  *
- * Неизвестную подстановку оставляем как есть: пустая строка посреди
- * предложения читается как опечатка, а видимая `{whatever}` сразу покажет,
- * что в данных ошибка. То же и когда у сорта нет способа заваривания.
+ * Возвращает `null`, если подстановку развернуть нечем: у взбивания нет
+ * навески, и `{ratio}` там не во что превратить. Тогда запись **не
+ * показывается на этой странице** — см. `brewOutcomesFor`.
+ *
+ * Неизвестное имя подстановки, наоборот, остаётся видимым: пустая строка
+ * посреди предложения читается как опечатка, а `{whatever}` сразу покажет,
+ * что в данных ошибка. Разница существенная — одно это невозможность
+ * посчитать, другое ошибка в данных, и валидатор ловит только второе.
  */
-function fill(text: string, tea: Tea): string {
-    return text.replace(/\{(temperature|ratio)\}/g, (match, key: string) => {
-        const value = key === "temperature" ? formatTemperature(tea) : ratioOf(tea);
+function fill(text: string, tea: Tea): string | null {
+    let resolvable = true;
 
-        return value ?? match;
-    });
+    const filled = text.replace(
+        /\{(temperature|ratio)\}/g,
+        (match, key: string) => {
+            const value =
+                key === "temperature" ? formatTemperature(tea) : ratioOf(tea);
+
+            if (value === undefined) {
+                resolvable = false;
+            }
+
+            return value ?? match;
+        },
+    );
+
+    return resolvable ? filled : null;
 }
 
-function fillOutcome(outcome: BrewOutcome, tea: Tea): BrewOutcome {
-    return { ...outcome, consequence: fill(outcome.consequence, tea) };
+function fillOutcome(outcome: BrewOutcome, tea: Tea): BrewOutcome | null {
+    const consequence = fill(outcome.consequence, tea);
+
+    return consequence === null ? null : { ...outcome, consequence };
 }
 
 /**
@@ -132,12 +151,19 @@ export function brewOutcomesFor(tea: Tea): BrewOutcome[] {
         ...(factsForTea(tea).brewOutcomes ?? []),
     ];
 
-    return [
-        ...inherited.filter(
-            (outcome) => !outcome.id || !replaced.has(outcome.id),
-        ),
-        ...own,
-    ].map((outcome) => fillOutcome(outcome, tea));
+    return (
+        [
+            ...inherited.filter(
+                (outcome) => !outcome.id || !replaced.has(outcome.id),
+            ),
+            ...own,
+        ]
+            .map((outcome) => fillOutcome(outcome, tea))
+            // Запись, которую не во что развернуть, на этой странице не
+            // показывается. Молчание честнее, чем литерал «{ratio}» в тексте
+            // или фраза с дырой на месте числа: сказать нам тут нечего.
+            .filter((outcome): outcome is BrewOutcome => outcome !== null)
+    );
 }
 
 /** Заблуждения для страницы сорта: общие для категории плюс сортовые. */
