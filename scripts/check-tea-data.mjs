@@ -820,6 +820,66 @@ for (const tea of teas) {
             }
         }
 
+        /*
+         * Пометка для ревью. Проверяется трижды, и каждая проверка закрывает
+         * свой способ её потерять.
+         *
+         * Имя: поле называется `reviewNote`, как и всё остальное в записи.
+         * `review_note` в данных сработало бы как опечатка, которую никто не
+         * видит: поле с незнакомым именем просто не читают, и пометка тихо
+         * исчезает. Поэтому это ошибка с подсказкой, а не предупреждение.
+         *
+         * Длина: проверку по собранным страницам нечем выполнять, если
+         * строка короче двадцати букв — три слова найдутся в любом тексте.
+         * Поле, которое нельзя проверить, защищено так же, как было у Дун
+         * Дина: совпадением.
+         *
+         * Копия в `notes`: если то же рассуждение лежит и там, оно выйдет на
+         * страницу, и граница поля не поможет. Именно так пометка и уехала
+         * на прод — она жила в `notes`.
+         */
+        if (method.review_note !== undefined) {
+            fail(
+                slug,
+                `способ "${method.id}": поле называется reviewNote, не review_note. ` +
+                    "С чужим именем пометка не читается и тихо теряется",
+            );
+        }
+
+        if (method.reviewNote !== undefined) {
+            const note = method.reviewNote;
+
+            if (typeof note !== "string" || note.trim().length < 20) {
+                fail(
+                    slug,
+                    `способ "${method.id}": reviewNote короче 20 символов. ` +
+                        "Такую строку не найти в собранных страницах, то есть " +
+                        "нельзя проверить, что она не выводится",
+                );
+            } else {
+                const letters = (text) =>
+                    String(text)
+                        .toLowerCase()
+                        .replace(/[^\p{L}\p{N}]+/gu, "");
+                const needle = letters(note).slice(0, 40);
+
+                for (const text of [
+                    method.description,
+                    ...(method.notes ?? []),
+                    ...(method.infusions ?? []).map((infusion) => infusion.notes),
+                ]) {
+                    if (text && letters(text).includes(needle)) {
+                        fail(
+                            slug,
+                            `способ "${method.id}": reviewNote повторён в видимом тексте ` +
+                                `(«${String(text).slice(0, 45)}…»). Поле не выводится, ` +
+                                "а копия выводится",
+                        );
+                    }
+                }
+            }
+        }
+
         for (const text of [method.description, ...(method.notes ?? [])]) {
             const hit = healthRegisterHit(text);
 

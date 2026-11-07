@@ -72,9 +72,20 @@ export function plainOnly(texts: readonly string[] | undefined): string[] {
  * `sources` и `confidence` у промывки снимаются целиком: это основание, оно
  * нужно в `data/**`, а на клиенте ему делать нечего.
  */
+const INTERNAL_FIELDS = ["reviewNote"] as const satisfies readonly (keyof BrewMethod)[];
+
 export function plainBrewMethods(methods: readonly BrewMethod[]): BrewMethod[] {
     return methods.map((method) => {
         const { rinse, infusions, whisked, ...rest } = method;
+
+        // Поля, которых у читателя нет вовсе: они существуют для нас.
+        // Снимаются здесь, на единственной границе, через которую способы
+        // заваривания уходят и в пропсы клиента, и в разметку. Новое
+        // внутреннее поле добавлять сюда же — и проверка по собранным
+        // страницам поймает, если о нём забудут.
+        for (const field of INTERNAL_FIELDS) {
+            delete rest[field];
+        }
 
         return {
             ...rest,
