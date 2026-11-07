@@ -16,10 +16,11 @@ import {
     TEA_TYPE_LABELS,
 } from "@/lib/teas";
 import { teaTypePath } from "@/lib/tea-type-pages";
-import { brewOutcomesFor, misconceptionsFor } from "@/lib/tea-type-facts";
+import { brewOutcomesFor } from "@/lib/tea-type-facts";
 import { formatRatio } from "@/lib/format-number";
 import { createPageMetadata } from "@/lib/metadata";
 import type { Tea } from "@/types/tea";
+import { hasApparatus, plainCultivar } from "@/lib/plain-text";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -123,8 +124,10 @@ export default async function TeaPage({ params }: PageProps) {
      */
     const primaryBrewMethod = getPrimaryBrewMethod(tea);
 
-    const brewOutcomes = brewOutcomesFor(tea);
-    const misconceptions = misconceptionsFor(tea);
+    const brewOutcomes = brewOutcomesFor(tea).filter(
+        (item) => !hasApparatus(item.change) && !hasApparatus(item.consequence),
+    );
+    const cultivar = plainCultivar(tea.cultivar);
 
     const crumbs = [
         { label: "Главная", href: "/" },
@@ -158,11 +161,11 @@ export default async function TeaPage({ params }: PageProps) {
                     подпись явная — иначе строка «Цзинь Сюань» под заголовком
                     «Молочный улун» выглядит как второе имя того же.
                 */}
-                {(tea.meta.origin || tea.cultivar) && (
+                {(tea.meta.origin || cultivar) && (
                     <p className="mb-[20px] text-[19px] text-black/70 dark:text-white/70">
                         {tea.meta.origin}
-                        {tea.meta.origin && tea.cultivar ? " · " : ""}
-                        {tea.cultivar ? `сорт куста ${tea.cultivar}` : ""}
+                        {tea.meta.origin && cultivar ? " · " : ""}
+                        {cultivar ? `сорт куста ${cultivar}` : ""}
                     </p>
                 )}
 
@@ -205,27 +208,22 @@ export default async function TeaPage({ params }: PageProps) {
                 )}
 
                 {/*
-                    Что меняет вкус и частые заблуждения.
+                    Что меняет вкус.
 
-                    Два отдельных блока, а не один, и это разделение намеренное.
-                    Первый отвечает на то, отчего вкус вышел другим («больше
-                    листа — настой крепче»); второй — на то, во что читатель
-                    верит («бывает рассыпной шэн-пуэр»). Под одним заголовком
-                    рядом оказались бы «больше листа — настой крепче» и
-                    «Бин Дао из Линьцана, а не из Сишуанбаньны».
+                    Блок отвечает на то, отчего вкус вышел другим: «больше
+                    листа — настой крепче». Рядом раньше стоял второй блок,
+                    «Частые заблуждения», — он убран по решению пользователя
+                    07.11.2026: справочного раздела с поправками читателю на
+                    странице быть не должно. Сами записи остались в
+                    `data/tea-types.json` и в полях сорта как основание — они
+                    больше не выводятся.
 
                     Заголовок не «Типичные ошибки», и это не смягчение
-                    формулировки. Cao 2022 измерил: рекомендованная навеска
-                    различается в 1,7 раза между редко пьющим и ежедневным, и
-                    обе названы рекомендуемыми. Назвать «больше листа» ошибкой
-                    значило бы противоречить измерению. Здесь же живёт запись
-                    тёмного чая «долго и горячо — норма», которая под
-                    заголовком «ошибки» опровергала бы сама себя.
-
-                    Оба блока собираются из `data/tea-types.json` (общее для
-                    всех чаёв и для категории) и из полей сорта. Контейнер
-                    пуст, поэтому блоки не выводятся — это нормальное
-                    состояние, а не ошибка: фактуру даёт justea-sources.
+                    формулировки: рекомендованная навеска различается почти
+                    вдвое между редко пьющим и ежедневным, и обе названы
+                    рекомендуемыми. Здесь же живёт запись тёмного чая «долго
+                    и горячо — норма», которая под заголовком «ошибки»
+                    опровергала бы сама себя.
 
                     В разметку не выводится. У `HowTo` нет узла «чего не
                     делать», а натягивать это на шаги инструкции значило бы
@@ -240,21 +238,6 @@ export default async function TeaPage({ params }: PageProps) {
                             {brewOutcomes.map((item) => (
                                 <li key={item.change}>
                                     {item.change}. {item.consequence}
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                )}
-
-                {misconceptions.length > 0 && (
-                    <section className="mt-[40px]">
-                        <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
-                            Частые заблуждения
-                        </h2>
-                        <ul className="list-disc space-y-[8px] pl-[20px] text-[16px]">
-                            {misconceptions.map((item) => (
-                                <li key={item.claim}>
-                                    «{item.claim}» — {item.correction}
                                 </li>
                             ))}
                         </ul>
