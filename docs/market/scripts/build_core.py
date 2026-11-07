@@ -166,11 +166,25 @@ OFF_TARGET = (r"терафлю|шиповник|чиа\b|кофе в турке|
               r"массажн\w*|\bмассаж\w*|\bгормон\w*|\bаптек\w*")
 
 
+# Травяные настои и лекарственные растения: Justea — справочник по Camellia
+# sinensis, поэтому «как заваривать сенну» или «чай из трав» не наша цель,
+# даже когда в запросе есть слово «чай». Найдено justea-seo при разборе P2.
+HERBAL = (r"\bсенн[аыуои]\b|\bлипов\w*|\bтрав\b|\bтрав[аыуеиой]\w*|\bмят[аыуеой]\w*|\bмелисс\w*|"
+          r"\bзверобо\w*|\bдушиц\w*|\bчабрец\w*|\bкрапив\w*|\bбруснич\w*|\bсмородин\w*|"
+          r"\bмалин\w*|\bимбир\w*|\bшалфе\w*|\bпустырник\w*|\bвалериан\w*|\bтолокнянк\w*|"
+          r"\bкор[аы] дуба\b|\bэхинаце\w*|\bгибискус\w*|\bлаванд\w*|\bбергамот\w* трав|"
+          r"\bхельб\w*|\bпажитник\w*|\bсаган[- ]дайл\w*|\bкурильск\w* чай|\bмонастырск\w* чай|"
+          r"\bфиточа\w*|\bтравян\w*|\bсбор трав|\bчай из трав|\bчай на травах|\bчай с травами")
+
+
 def classify(q):
     """-> (cluster, subcluster, intent, target)"""
     nq = norm(q)
     if re.search(OFF_TARGET, nq):
         return "off-target", "", "—", "нет"
+    # травы и лекарственные растения — не Camellia sinensis
+    if re.search(HERBAL, nq):
+        return "off-target", "herbal-nontarget", "—", "нет"
     # «габа» без чайного контекста — это парфюм или аминокислота, не наш чай
     if re.search(r"\bгаб[аы]\b", nq) and not re.search(r"ча[йяёюе]|улун|оолонг|\bгаба ча", nq):
         return "off-target", "", "—", "нет"
@@ -213,11 +227,14 @@ def classify(q):
                 return "brewing", sub, intent, "да"
         return "brewing", "brewing-howto", intent, "да"
 
-    # здоровье и эффект
+    # Здоровье и эффект. Решение пользователя (2026-11-07, вариант B через
+    # justea-voice): о пользе, вреде, эффекте, бодрости и кофеине на сайте не
+    # пишем вообще. Поэтому весь кластер — не наша цель. Строки оставлены в
+    # файле осознанно: это зафиксированный отказ, а не пропущенный спрос, и по
+    # ним видно, какой объём мы сознательно не берём.
     for sub, pat in HEALTH_SUB:
         if re.search(pat, nq):
-            tgt = "нет" if sub == "health-slimming" else "да"
-            return "health", sub, intent, tgt
+            return "health", sub, intent, "нет"
 
     # сорт
     for slug, pat, in_cat in VARIETIES:
@@ -280,13 +297,13 @@ CLUSTER_LABEL = {
     "brewing-gaiwan":           "заваривание в гайвани и типоте",
     "brewing-cold":             "холодное заваривание",
     "brewing-thermos":          "заваривание в термосе",
-    "health-benefit-harm":      "польза и вред",
-    "health-effect":            "эффект и бодрость",
-    "health-pressure":          "чай и давление",
-    "health-caffeine":          "кофеин и теанин",
-    "health-sleep":             "чай и сон",
-    "health-stomach":           "чай и желудок",
-    "health-slimming":          "чай для похудения (не наша цель)",
+    "health-benefit-harm":      "польза и вред (тему не берём)",
+    "health-effect":            "эффект и бодрость (тему не берём)",
+    "health-pressure":          "чай и давление (тему не берём)",
+    "health-caffeine":          "кофеин и теанин (тему не берём)",
+    "health-sleep":             "чай и сон (тему не берём)",
+    "health-stomach":           "чай и желудок (тему не берём)",
+    "health-slimming":          "чай для похудения (тему не берём)",
     "commercial-general":       "покупка чая",
     "info-general":             "справка о чае",
 }
@@ -381,21 +398,38 @@ def confidence(r):
 CATALOG_SLUGS = set(IN_CATALOG)
 
 def priority(cluster, sub, intent, target, dem, conf, in_catalog):
-    """P1 — делать сейчас, P2 — следующая волна, P3 — хвост/на будущее."""
+    """P1 — делать сейчас, P2 — следующая волна, P3 — хвост, P0 — не наша цель.
+
+    Приоритеты отражают решение пользователя от 2026-11-06: основной фокус —
+    справочник по чаю, а кластер церемоний низкоприоритетный (одна церемония
+    в месяц, сильный спрос по нему не нужен). Поэтому заваривание и сорта идут
+    в P1, а церемония — в P2, даже когда спрос по ней высокий.
+    """
     if target == "нет":
         return "P0 (не наша цель)"
     low = conf == "низкая"
     strong = dem in ("очень высокая", "высокая", "средняя")
-    if cluster == "ceremony" and sub.startswith("ceremony-spb"):
-        return "P1" if not low else "P2"
-    if cluster == "ceremony" and sub in ("ceremony-gift", "ceremony-pair", "ceremony-price", "ceremony-masterclass"):
-        return "P2" if strong and not low else "P3"
+
+    # Справочник — ядро проекта
     if cluster in ("brewing", "variety") and in_catalog:
         return "P1" if strong and not low else "P2"
-    if cluster in ("brewing", "variety") and strong and not low:
+    if cluster == "brewing" and strong and not low:
+        return "P1"                      # «как заваривать X» — наша сильная зона
+    if cluster == "variety" and strong and not low:
         return "P2"
-    if cluster in ("type", "health", "teaware", "info") and strong and not low:
-        return "P2" if cluster in ("type", "health") else "P3"
+    if cluster in ("type", "health") and strong and not low:
+        return "P2"
+
+    # Церемония: по решению пользователя — низкий приоритет.
+    # Целевое гео СПб держим в P2, чтобы лендинг было чем наполнить,
+    # остальное в P3.
+    if cluster == "ceremony":
+        if sub.startswith("ceremony-spb") and strong and not low:
+            return "P2"
+        return "P3"
+
+    if cluster in ("teaware", "info") and strong and not low:
+        return "P3"
     return "P3"
 
 
