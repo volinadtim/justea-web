@@ -58,6 +58,8 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
     const [activeSteepIndex, setActiveSteepIndex] = useState<number | null>(null);
     const steeps = getSteepsFromMethod(activeMethod);
     const rinseNote = formatRinse(activeMethod);
+    const whisked = activeMethod.whisked ?? [];
+    const isWhisked = steeps.length === 0 && whisked.length > 0;
 
     useEffect(() => {
         setActiveSteepIndex(null);
@@ -81,9 +83,15 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
             <p className="mb-6 text-[17px] sm:mb-8 sm:text-[19px]">{activeMethod.description}</p>
 
             <div className="flex min-w-0 flex-col gap-4 md:flex-row md:gap-[14px]">
+                {/*
+                    Навеску слева показываем только у способов с проливами.
+                    У взбивания их две — 2,4 г/100 мл у усучи против 13,3
+                    у коичи, — и одно число рядом с панелью читалось бы как
+                    противоречие. Обе навески целиком есть в самой панели.
+                */}
                 <BrewInfo
                     temperature={getTemperature(activeMethod)}
-                    ratio={activeMethod.ratio}
+                    ratio={isWhisked ? undefined : activeMethod.ratio}
                 />
                 {/*
                     Справа — таблица проливов либо панель взбивания: у матчи
@@ -98,8 +106,8 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                             onActiveIndexChange={setActiveSteepIndex}
                         />
                     </div>
-                ) : activeMethod.whisked && activeMethod.whisked.length > 0 ? (
-                    <WhiskedTable whisked={activeMethod.whisked} />
+                ) : isWhisked ? (
+                    <WhiskedTable whisked={whisked} />
                 ) : null}
             </div>
 
