@@ -1,134 +1,118 @@
 {
-    "$comment": "СОБРАН СКРИПТОМ, РУКАМИ НЕ ПРАВИТЬ. Источник — docs/sources/brew-mistakes.json и docs/sources/misconceptions.json у justea-sources; сборщик — docs/sources/build-tea-types.py. Правка здесь будет потеряна при следующей сборке, и, что хуже, разойдётся с источником — решение начнёт жить в двух местах. Нужно изменить факт: правьте brew-mistakes.json и перезапустите сборку. Ключ all — для того, что от категории не зависит вовсе (навеска в обе стороны и вода): заводить такие записи по шести категориям значит завести шесть мест для одной правки. Записи уровня СОРТА (исключения с replaces и заблуждения о конкретном чае) сюда НЕ идут — им место в data/teas.json. Форма полей — types/tea.ts, BrewOutcome и Misconception. Рамка: блок не утверждает «вы заварили неправильно» — по Cao 2022 рекомендованная навеска различается в 1,7 раза между новичком и ежедневно пьющим, и обе названы рекомендуемыми.",
-    "all": {
-        "brewOutcomes": [
-            {
-                "id": "brew/all/too-much-leaf",
-                "change": "Больше листа",
-                "consequence": "Настой крепче: выше концентрация, отчётливее интенсивность вкуса, заметнее горечь и вяжущесть.",
-                "sources": [
-                    "lit-cao-2022-consumer"
-                ],
-                "confidence": "high"
-            },
-            {
-                "id": "brew/all/too-little-leaf",
-                "change": "Меньше листа",
-                "consequence": "Настой жидкий: концентрации не чувствуется, вкус водянистый.",
-                "sources": [
-                    "cn-gb-14487-sensory-terms"
-                ],
-                "confidence": "high"
-            },
-            {
-                "id": "brew/all/wrong-water",
-                "change": "Другая вода",
-                "consequence": "Вкус зависит и от воды. На жёсткой воде зелёный чай выходит бледнее, а настой темнеет и мутнеет.",
-                "sources": [
-                    "lit-cabrera-2021",
-                    "lit-zhang-2017",
-                    "cn-db53-236-brewing",
-                    "iso-3103-2019"
-                ],
-                "confidence": "high"
-            }
+  "$comment": "СОБРАН СКРИПТОМ, РУКАМИ НЕ ПРАВИТЬ. Источник — docs/sources/brew-mistakes.json и docs/sources/misconceptions.json у justea-sources; сборщик — docs/sources/build-tea-types.py. Правка здесь будет потеряна при следующей сборке, и, что хуже, разойдётся с источником — решение начнёт жить в двух местах. Нужно изменить факт: правьте brew-mistakes.json и перезапустите сборку. Ключ all — для того, что от категории не зависит вовсе (навеска в обе стороны и вода): заводить такие записи по шести категориям значит завести шесть мест для одной правки. Записи уровня СОРТА (исключения с replaces и заблуждения о конкретном чае) сюда НЕ идут — им место в data/teas.json. Форма полей — types/tea.ts, BrewOutcome и Misconception. Рамка: блок не утверждает «вы заварили неправильно» — по Cao 2022 рекомендованная навеска различается в 1,7 раза между новичком и ежедневно пьющим, и обе названы рекомендуемыми.",
+  "all": {
+    "brewOutcomes": [
+      {
+        "id": "brew/all/too-much-leaf",
+        "change": "Больше листа",
+        "consequence": "Настой крепче: выше концентрация, отчётливее интенсивность вкуса, заметнее горечь и вяжущесть.",
+        "sources": ["lit-cao-2022-consumer"],
+        "confidence": "high"
+      },
+      {
+        "id": "brew/all/too-little-leaf",
+        "change": "Меньше листа",
+        "consequence": "Настой жидкий: концентрации не чувствуется, вкус водянистый.",
+        "sources": ["cn-gb-14487-sensory-terms"],
+        "confidence": "high"
+      },
+      {
+        "id": "brew/all/wrong-water",
+        "change": "Другая вода",
+        "consequence": "На жёсткой воде настой беднеет на вкус, а цвет уходит из зелёно-жёлтого в бурый, и у зелёного чая это видно глазом. На мягкой воде побурения не происходит. Дело не в том, что вода «хуже вымывает» лист: в жёсткой воде часть того, что даёт зелёному чаю вкус, просто разрушается.",
+        "sources": [
+          "lit-cabrera-2021",
+          "lit-zhang-2017",
+          "cn-db53-236-brewing",
+          "iso-3103-2019"
         ],
-        "misconceptions": []
-    },
-    "green": {
-        "brewOutcomes": [
-            {
-                "id": "brew/green/too-hot",
-                "change": "Вода горячее",
-                "consequence": "Из листа полнее выходит горечь и вяжущесть, чай становится резким.",
-                "sources": [
-                    "lit-jin-2019-brewing",
-                    "lit-perva-2006",
-                    "cn-gb-14487-sensory-terms"
-                ],
-                "confidence": "derived"
-            },
-            {
-                "id": "brew/green/too-long",
-                "change": "Дольше",
-                "consequence": "Потеря с двух сторон: горечи и вяжущести прибывает, сладости и мягкости убывает.",
-                "sources": [
-                    "lit-jin-2019-brewing"
-                ],
-                "confidence": "high"
-            }
+        "confidence": "high"
+      }
+    ],
+    "misconceptions": []
+  },
+  "green": {
+    "brewOutcomes": [
+      {
+        "id": "brew/green/too-hot",
+        "change": "Вода горячее",
+        "consequence": "Настой выходит заметно более вяжущим и горьким: горячая вода полнее вытягивает из листа и то, что даёт горечь, и кофеин.",
+        "sources": [
+          "lit-jin-2019-brewing",
+          "lit-perva-2006",
+          "cn-gb-14487-sensory-terms"
         ],
-        "misconceptions": []
-    },
-    "black": {
-        "brewOutcomes": [
-            {
-                "id": "brew/black/too-long",
-                "change": "Дольше",
-                "consequence": "Крепость и вяжущесть чёрный чай набирает в первые минуты, а не постепенно: дальше настой почти не меняется, только грубеет.",
-                "sources": [
-                    "lit-fernando-2015",
-                    "cn-gb-14487-sensory-terms"
-                ],
-                "confidence": "high"
-            }
+        "confidence": "derived"
+      },
+      {
+        "id": "brew/green/too-long",
+        "change": "Дольше",
+        "consequence": "Двойная потеря: горького и вяжущего прибывает, а сладость и умами убывают. Это не одно и то же вещество в разной мере: то, что даёт сладкий вкус, со временем в настое уменьшается, пока горькое продолжает набираться.",
+        "sources": ["lit-jin-2019-brewing"],
+        "confidence": "high"
+      }
+    ],
+    "misconceptions": []
+  },
+  "black": {
+    "brewOutcomes": [
+      {
+        "id": "brew/black/too-long",
+        "change": "Дольше",
+        "consequence": "У чёрного чая крепость и вяжущесть набираются в первые минуты, а не постепенно: то, что даёт горечь и терпкость, выходит из листа почти сразу.",
+        "sources": ["lit-fernando-2015", "cn-gb-14487-sensory-terms"],
+        "confidence": "high"
+      }
+    ],
+    "misconceptions": []
+  },
+  "oolong": {
+    "brewOutcomes": [],
+    "misconceptions": []
+  },
+  "white": {
+    "brewOutcomes": [
+      {
+        "id": "brew/white/too-long",
+        "change": "Дольше",
+        "consequence": "У белого чая лист не скручивают, а только завяливают и сушат. Из нескрученного листа вещества выходят медленнее, поэтому короткий пролив даёт слабый настой, и правило зелёного чая сюда не переносится.",
+        "sources": ["iso-tr-12591-2013"],
+        "confidence": "derived"
+      }
+    ],
+    "misconceptions": []
+  },
+  "yellow": {
+    "brewOutcomes": [],
+    "misconceptions": []
+  },
+  "dark": {
+    "brewOutcomes": [
+      {
+        "id": "brew/dark/hot-and-long-is-normal",
+        "change": "Вода горячее и дольше",
+        "consequence": "Для тёмного чая это обычный режим, а не передержка: его и оценивают кипятком, с проливами в минуты, тогда как нежным зелёным снижают температуру. Правило зелёного чая сюда не переносится.",
+        "sources": [
+          "cn-gb-23776-2018",
+          "iso-20715-2023",
+          "cn-gb-32719-1-darktea"
         ],
-        "misconceptions": []
-    },
-    "oolong": {
-        "brewOutcomes": [],
-        "misconceptions": []
-    },
-    "white": {
-        "brewOutcomes": [
-            {
-                "id": "brew/white/too-long",
-                "change": "Дольше",
-                "consequence": "У белого чая лист не скручивают, и отдаёт он медленнее. Короткий пролив даёт пустой настой. Правило зелёного чая сюда не переносится.",
-                "sources": [
-                    "iso-tr-12591-2013"
-                ],
-                "confidence": "derived"
-            }
-        ],
-        "misconceptions": []
-    },
-    "yellow": {
-        "brewOutcomes": [],
-        "misconceptions": []
-    },
-    "dark": {
-        "brewOutcomes": [
-            {
-                "id": "brew/dark/hot-and-long-is-normal",
-                "change": "Вода горячее и дольше",
-                "consequence": "Для тёмного чая это обычный режим, а не передержка: его заваривают кипятком и держат минутами, тогда как нежному зелёному температуру снижают.",
-                "sources": [
-                    "cn-gb-23776-2018",
-                    "iso-20715-2023",
-                    "cn-gb-32719-1-darktea"
-                ],
-                "confidence": "medium"
-            }
-        ],
-        "misconceptions": [
-            {
-                "claim": "Бывает рассыпной шэн-пуэр",
-                "correction": "По GB/T 22111 рассыпным бывает только шу; шэн становится пуэром лишь после прессования (п. 5.1 и 6.5.2). Рассыпное сырьё — это 晒青茶, маоча",
-                "sources": [
-                    "cn-gb-22111-puer-fulltext"
-                ],
-                "kind": "classification"
-            },
-            {
-                "claim": "Пуэр — отдельный, седьмой тип чая",
-                "correction": "По ISO 20715 и GB/T 30766 типов шесть, и пуэр относится к тёмным",
-                "sources": [
-                    "iso-20715-2023",
-                    "cn-gb-30766-classification"
-                ],
-                "kind": "classification"
-            }
-        ]
-    }
+        "confidence": "medium"
+      }
+    ],
+    "misconceptions": [
+      {
+        "claim": "Бывает рассыпной шэн-пуэр",
+        "correction": "Рассыпным бывает только шу. Шэн становится пуэром лишь после прессования: до него это ещё не пуэр, а сырьё, и у сырья своё название: маоча",
+        "sources": ["cn-gb-22111-puer-fulltext"],
+        "kind": "classification"
+      },
+      {
+        "claim": "Пуэр считают отдельным, седьмым типом чая",
+        "correction": "Пуэр не образует отдельного типа: он относится к тёмным чаям, то есть к тем, что проходят дополнительное брожение уже после сушки. Отдельная страница у него на сайте есть потому, что его чаще ищут, а не потому, что это другой тип",
+        "sources": ["iso-20715-2023", "cn-gb-30766-classification"],
+        "kind": "classification"
+      }
+    ]
+  }
 }
