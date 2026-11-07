@@ -6,6 +6,7 @@ import type {
     Tea,
     TeaType,
 } from "@/types/tea";
+import { formatRatio } from "./format-number";
 import { getPrimaryBrewMethod } from "./teas";
 
 /**
@@ -54,10 +55,10 @@ function formatTemperature(tea: Tea): string | undefined {
     return from === to ? `${from} °C` : `${from}–${to} °C`;
 }
 
-function formatRatio(tea: Tea): string | undefined {
+function ratioOf(tea: Tea): string | undefined {
     const method = getPrimaryBrewMethod(tea);
 
-    return method ? `${method.ratio} г на 100 мл` : undefined;
+    return method ? formatRatio(method.ratio) : undefined;
 }
 
 /**
@@ -69,7 +70,7 @@ function formatRatio(tea: Tea): string | undefined {
  */
 function fill(text: string, tea: Tea): string {
     return text.replace(/\{(temperature|ratio)\}/g, (match, key: string) => {
-        const value = key === "temperature" ? formatTemperature(tea) : formatRatio(tea);
+        const value = key === "temperature" ? formatTemperature(tea) : ratioOf(tea);
 
         return value ?? match;
     });

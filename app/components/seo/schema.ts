@@ -1,3 +1,4 @@
+import { formatRatio } from "@/lib/format-number";
 import { publicImageSize } from "@/lib/image-size";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { TEA_TYPE_LABELS } from "@/lib/teas";
@@ -224,6 +225,24 @@ function rinseStep(method: BrewMethod, pageUrl: string) {
     ];
 }
 
+const WHISK_TOOL_NAMES: Record<string, string> = {
+    chasen: "Бамбуковый венчик (тясэн)",
+    "electric-frother": "Электрический вспениватель",
+    shaker: "Шейкер",
+};
+
+/** `HowToTool` для взбивания — без повторов, если стилей несколько. */
+function whiskTools(method: BrewMethod) {
+    const names = new Set(
+        (method.whisked ?? [])
+            .map((preparation) => preparation.tool)
+            .filter((tool) => tool !== undefined)
+            .map((tool) => WHISK_TOOL_NAMES[tool] ?? tool),
+    );
+
+    return [...names].map((name) => ({ "@type": "HowToTool", name }));
+}
+
 function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
     const infusions = method.infusions ?? [];
     const rinse = rinseStep(method, pageUrl);
@@ -267,13 +286,23 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
         supply: [
             {
                 "@type": "HowToSupply",
-                name: `${tea.name} — ${method.ratio} г на 100 мл воды`,
+                // У взбивания навеска одна в поле и две в жизни: 2,4 г/100 мл
+                // у усучи против 13,3 у коичи. Назвать одну значило бы
+                // соврать про вторую, поэтому здесь только чай, а количества
+                // стоят в шагах, где у каждого свой стиль.
+                name: isWhisked
+                    ? tea.name
+                    : `${tea.name} — ${formatRatio(method.ratio)} воды`,
             },
             {
                 "@type": "HowToSupply",
                 name: `Вода ${temperature}`,
             },
         ],
+        // Инструмент есть только у взбивания: венчик это именно инвентарь, а
+        // не совет. У проливных способов посуда лежит в `notes` вперемешку с
+        // параметрами воды, и вытаскивать её оттуда разбором я не стану.
+        ...(whiskTools(method).length ? { tool: whiskTools(method) } : {}),
         step: isWhisked
             ? whiskedSteps(method, pageUrl)
             : [
