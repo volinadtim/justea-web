@@ -430,8 +430,18 @@
         "app/ceremony/page.tsx — robots index:false, follow:true с пометкой «временно»",
         "app/sitemap.ts — запись /ceremony закомментирована на месте",
         "app/page.tsx и app/[slug]/page.tsx — возвращены к версии master",
-        "app/components/CeremonyInlineCta.tsx — в шапке отмечено, что компонент не подключён",
         "docs/ceremony/README.md — разделы про кнопки, индексацию и infra переписаны"
+      ]
+    },
+    {
+      "date": "2026-11-07",
+      "source": "оркестратор, inbox #7",
+      "answer": "CeremonyInlineCta удалить (ветка без мёртвого кода лучше). Условие обратного включения записать рядом с пометками «ВРЕМЕННО»: снятие noindex, возврат в sitemap и возврат ссылок делаются одним заходом.",
+      "appliedTo": [
+        "app/components/CeremonyInlineCta.tsx — удалён",
+        "app/ceremony/page.tsx — порядок обратного включения расписан у robots",
+        "app/sitemap.ts — та же пометка со ссылкой на порядок",
+        "docs/ceremony/README.md — раздел про индексацию переписан"
       ]
     }
   ],
