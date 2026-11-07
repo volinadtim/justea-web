@@ -101,6 +101,27 @@ const PROCESSINGS = ["gaba"];
 const RATIO_RANGE = [0.5, 25];
 const TEMPERATURE_RANGE = [40, 100];
 
+/**
+ * Поля, которые код действительно читает.
+ *
+ * Проверка на лишние поля нужна не от опечаток, а от **молчаливого
+ * несоответствия**. Сегодня я убрал поле `onlyFor`, и данные в соседней ветке
+ * ещё несли его: мой код просто перестал бы его замечать, записи перестали бы
+ * сужаться, и никто бы не узнал. То же будет, если justea-sources заведут
+ * поле и скажут об этом не мне, а в своём файле: тихое игнорирование хуже
+ * ошибки, потому что обе стороны уверены, что всё работает.
+ */
+const BREW_OUTCOME_FIELDS = [
+    "id",
+    "change",
+    "consequence",
+    "sources",
+    "confidence",
+    "replaces",
+];
+
+const MISCONCEPTION_FIELDS = ["claim", "correction", "sources", "kind"];
+
 /** `Misconception.kind`. */
 const MISCONCEPTION_KINDS = [
     "classification",
@@ -145,6 +166,16 @@ function checkFacts(where, facts) {
     const seenIds = new Set();
 
     for (const outcome of facts.brewOutcomes ?? []) {
+        for (const field of Object.keys(outcome)) {
+            if (!BREW_OUTCOME_FIELDS.includes(field)) {
+                fail(
+                    where,
+                    `brewOutcomes: поле "${field}" код не читает. Либо опечатка, либо ` +
+                        "поле завели, не сказав мне — молчаливое игнорирование хуже ошибки",
+                );
+            }
+        }
+
         if (outcome.id !== undefined) {
             if (seenIds.has(outcome.id)) {
                 fail(where, `brewOutcomes: id "${outcome.id}" повторяется — на него не сослаться`);
@@ -214,6 +245,16 @@ function checkFacts(where, facts) {
     }
 
     for (const item of facts.misconceptions ?? []) {
+        for (const field of Object.keys(item)) {
+            if (!MISCONCEPTION_FIELDS.includes(field)) {
+                fail(
+                    where,
+                    `misconceptions: поле "${field}" код не читает. Либо опечатка, либо ` +
+                        "поле завели, не сказав мне",
+                );
+            }
+        }
+
         for (const field of ["claim", "correction"]) {
             if (typeof item[field] !== "string" || !item[field].trim()) {
                 fail(where, `misconceptions: поле "${field}" пустое или не строка`);
