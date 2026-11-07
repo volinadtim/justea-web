@@ -825,19 +825,42 @@ Very soft water produces cleaner, sweeter shu. Hard water amplifies earthiness t
 
 ## References
 
-1. Cao Q-Q et al. (2022). Optimization of brewing conditions for Tieguanyin oolong tea. *npj Science of Food* 6:25. [DOI: 10.1038/s41538-022-00141-7](https://doi.org/10.1038/s41538-022-00141-7)
-2. Theppakorn T et al. (2016). Stability and chemical changes of phenolic compounds during Oolong tea processing. *IFRJ* 23(2).
-3. RSC Advances (2021). Chemical characterization of Wuyi rock tea with different roasting degrees. [DOI: 10.1039/D0RA09703A](https://doi.org/10.1039/D0RA09703A)
-4. Balaji V et al. (2015). Extraction kinetics of phytochemicals during black tea brewing. *Nutrition Journal* 14:74. [DOI: 10.1186/s12937-015-0060-x](https://doi.org/10.1186/s12937-015-0060-x)
-5. Rahman MM et al. (2022). Optimization of BT-2 black tea fermentation (TF:TR 1:9.13). *Heliyon* 8:e08948.
-6. Li C et al. (2017). Effect of water quality on Fuding white tea infusions. *Food Science and Biotechnology* 26:217. [PMC5380641](https://pmc.ncbi.nlm.nih.gov/articles/PMC5380641/)
-7. Jeszka-Skowron A et al. (2018). Bioactive compound fingerprint analysis of aged raw and young ripened pu'er tea. *Molecules* 23:1931. [DOI: 10.3390/molecules23081931](https://doi.org/10.3390/molecules23081931)
-8. Isopescu R et al. (2018). Optimizing extraction of bioactive compounds from pu-erh tea (85.4 °C, 3 min). *Food Research International*.
-9. LWT (2025). Keemun black tea brewing control chart (EY, TDS, consumer acceptance).
-10. UK Tea Academy (2022). The Ultimate Ingredient for the Perfect Cup of Tea (water hardness white paper).
-11. MDPI (2021). Effect of water hardness on catechin and caffeine content in green tea infusions. *Molecules* 26:3485.
-12. Pal S et al. (2018). Impact of steeping time and water temperature on CTC black tea liquor. *IJTRS* 3(1).
-13. Characterization of Indian black tea (CTC vs orthodox TF/TR). *Phytochemicals* 2020.
+Checked against Crossref on 2026-11-06 by the sources agent. The audit trail — which
+citation was wrong and why — is in `docs/sources/citation-audit.md`.
+
+1. Cao Q-Q, Zhang X-Z, Xu Y-Q, et al. (2022). Optimization of brewing conditions for Tieguanyin oolong tea by quadratic orthogonal regression design. *npj Science of Food* 6(1):25. [DOI: 10.1038/s41538-022-00141-7](https://doi.org/10.1038/s41538-022-00141-7)
+2. Liu X, Zhu Y, Yang W, et al. (2021). Chemical characterization of Wuyi rock tea with different roasting degrees and their discrimination based on volatile profiles. *RSC Advances* 11(20):12074–12085. [DOI: 10.1039/D0RA09703A](https://doi.org/10.1039/D0RA09703A)
+3. Fernando CD, Soysa P (2015). Extraction kinetics of phytochemicals and antioxidant activity during black tea (*Camellia sinensis* L.) brewing. *Nutrition Journal* 14(1):74. [DOI: 10.1186/s12937-015-0060-x](https://doi.org/10.1186/s12937-015-0060-x)
+4. Pedan V, Popp M, Rohn S, et al. (2018). Bioactive compound fingerprint analysis of aged raw Pu'er tea and young ripened Pu'er tea. *Molecules* 23(8):1931. [DOI: 10.3390/molecules23081931](https://doi.org/10.3390/molecules23081931)
+5. Zhang H, Jiang Y, Lv Y (2017). Effect of water quality on the main components in Fuding white tea infusions. *Journal of Food Science and Technology* 54(5):1206–1211. [DOI: 10.1007/s13197-017-2571-2](https://doi.org/10.1007/s13197-017-2571-2) — [PMC5380641](https://pmc.ncbi.nlm.nih.gov/articles/PMC5380641/)
+6. Jin Y, Zhao J, Kim EM (2019). Comprehensive investigation of the effects of brewing conditions in sample preparation of green tea infusions. *Molecules* 24(9):1735. [DOI: 10.3390/molecules24091735](https://doi.org/10.3390/molecules24091735) — [PMC6539062](https://pmc.ncbi.nlm.nih.gov/articles/PMC6539062/)
+7. Perva-Uzunalić A, Škerget M, Knez Ž, et al. (2006). Extraction of active ingredients from green tea (*Camellia sinensis*): extraction efficiency of major catechins and caffeine. *Food Chemistry* 96(4):597–605. [DOI: 10.1016/j.foodchem.2005.03.015](https://doi.org/10.1016/j.foodchem.2005.03.015)
+8. Cabrera M, Taher F, Llantada A, Do Q, Sapp T, Sommerhalter M (2021). Effect of water hardness on catechin and caffeine content in green tea infusions. *Molecules* 26(12):3485. [DOI: 10.3390/molecules26123485](https://doi.org/10.3390/molecules26123485)
+9. Hossain MS, et al. (2022). Optimization of the factors affecting BT-2 black tea fermentation by observing their combined effects on the quality parameters. *Heliyon* 8:e08948. [DOI: 10.1016/j.heliyon.2022.e08948](https://doi.org/10.1016/j.heliyon.2022.e08948)
+10. Isopescu RD, et al. (2018). Optimised Pu-erh tea infusion by experimental design and response surface methodology. *Revista de Chimie* 69(2):310–317. [DOI: 10.37358/rc.18.2.6096](https://doi.org/10.37358/rc.18.2.6096)
+11. Armstrong L, et al. (2020). Optimizing the extraction of bioactive compounds from pu-erh tea (*Camellia sinensis* var. *assamica*) and evaluation of antioxidant activity. *Food Research International* 137:109430. [DOI: 10.1016/j.foodres.2020.109430](https://doi.org/10.1016/j.foodres.2020.109430)
+12. Murugesan P (2018). Impact of different steeping time and water temperature on tea liquor. *International Journal of Technical Research & Science* 3(1). [DOI: 10.30780/ijtrs.v3.i1.2018.005](https://doi.org/10.30780/ijtrs.v3.i1.2018.005)
+13. Zhao X, et al. (2025). Establishing a keemun black tea brewing control chart based on consumer acceptance via survival analysis and degree of satisfaction. *LWT* 224:117829. [DOI: 10.1016/j.lwt.2025.117829](https://doi.org/10.1016/j.lwt.2025.117829)
+14. Yue Y, et al. (2014). TMDB: a literature-curated database for small molecular compounds found from tea. *BMC Plant Biology* 14(1):243. [DOI: 10.1186/s12870-014-0243-1](https://doi.org/10.1186/s12870-014-0243-1)
+15. Zimmermann BF, Gleichenhagen M (2013). Steeping time and temperature on the content of the main flavanols in green tea. In: *Tea in Health and Disease Prevention*, pp. 335–341. [DOI: 10.1016/B978-0-12-384937-3.00028-8](https://doi.org/10.1016/B978-0-12-384937-3.00028-8)
+16. Hajiaghaalipour F, et al. (2015). Temperature and time of steeping affect the antioxidant properties of white, green, and black tea infusions. *Journal of Food Science* 81. [DOI: 10.1111/1750-3841.13149](https://doi.org/10.1111/1750-3841.13149)
+17. Oracz J, et al. (2025). Optimizing brewing conditions for low-temperature green tea infusions: insights into functional and nutritional properties. *Food Chemistry* 474:143241. [DOI: 10.1016/j.foodchem.2025.143241](https://doi.org/10.1016/j.foodchem.2025.143241)
+18. Mika M, et al. (2026). Brewing conditions and post-brewing handling shape the catechin profile and stability of tea infusions. *Food Chemistry* 527:150884. [DOI: 10.1016/j.foodchem.2026.150884](https://doi.org/10.1016/j.foodchem.2026.150884)
+
+### Industry sources (not peer-reviewed)
+
+- UK Tea Academy (2022). The Ultimate Ingredient for the Perfect Cup of Tea — water hardness white paper.
+- World Green Tea Association — [O-CHA NET](https://www.o-cha.net/english/): serving parameters for sencha and gyokuro.
+
+### Removed as unverifiable
+
+- «Characterization of Indian black tea (CTC vs orthodox TF/TR). *Phytochemicals* 2020» — no such publication found.
+- «Murugesh & Manoj (2015). Water quality and green tea. *J. Food Process Eng.*» — not found, together with the claim that hard water lowers catechins by 84–93 %.
+
+### Needs manual checking
+
+- Theppakorn T et al. (2016), *IFRJ* 23(2) — IFRJ is indexed in Crossref only partially.
+- Matsuda H. & Ozaki Y. (1996), *Chagyo Kenkyu Hokoku*.
 
 ---
 

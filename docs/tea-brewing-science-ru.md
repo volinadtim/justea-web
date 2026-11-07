@@ -27,7 +27,7 @@
 
 ### Температура и катехины (зелёные и светлые чаи)
 
-Исследования экстракции (Jin et al., 2019, *Molecules*; Perva-Uzunalic et al., 2015):
+Исследования экстракции (Jin et al., 2019, *Molecules*; Perva-Uzunalić et al., **2006**, *Food Chemistry*):
 
 | Температура | Что происходит |
 |-------------|----------------|
@@ -39,7 +39,7 @@
 
 | Параметр | Диапазон | Почему |
 |----------|----------|--------|
-| **TDS** | 30–80 ppm (макс. 150) | Жёсткая вода (315+ ppm) снижает катехины в настое на 84–93% (Murugesh & Manoj, 2015) |
+| **TDS** | 30–80 ppm (макс. 150) | Жёсткая вода снижает содержание катехинов в настое. ⚠ Число «на 84–93 % при 315+ ppm» и ссылка «Murugesh & Manoj, 2015» **не подтверждены**: работа не найдена (см. `docs/sources/citation-audit.md`). Подтверждённый источник по жёсткости — Cabrera et al., 2021, *Molecules* 26:3485 |
 | **pH** | 6,0–7,0 | Щёлочная вода (pH > 7,5) окисляет катехины → коричневый настой, вяжущесть |
 | **Жёсткость** | Мягкая: 17–68 ppm CaCO₃ | Ca²⁺ > 51 мг/л даёт муть и «чайный крем» |
 | **Mg²⁺** | 5–15 мг/л | Улучшает растворимость катехинов |
@@ -93,7 +93,7 @@ TDS 30–80 ppm, pH 6,0–7,0, Ca²⁺ < 30 мг/л
 
 #### Научная справка
 
-Perva-Uzunalic 2015: оптимум катехинов 80 °C / 30 мин (лаборатория); для чашки — короткие проливы при 80 °C.
+Perva-Uzunalić **2006**: оптимум катехинов 80 °C / 30 мин (лаборатория); для чашки — короткие проливы при 80 °C.
 
 > **Сверка с каталогом:** В каталоге: ratio 3,5, 75–80 °C, проливы 20/15/20 с — корректно для Минцяня.
 
@@ -360,7 +360,7 @@ PMC5380641 — влияние качества воды на белый чай �
 
 #### Почему именно эта температура
 
-95–100 °C. CTC: 100 °C, 3–4 мин. Ортодокс с типсами: 90–95 °C, 3 мин. Кофеин и TF извлекаются быстро (Balaji et al., 2015).
+95–100 °C. CTC: 100 °C, 3–4 мин. Ортодокс с типсами: 90–95 °C, 3 мин. Кофеин и TF извлекаются быстро (**Fernando & Soysa**, 2015, *Nutrition Journal* 14:74).
 
 #### Идеальные параметры
 
@@ -523,7 +523,7 @@ FTGFOP1 first flush: 80 °C | Second flush: 85–90 °C
 | Молодой (1–5 лет) | 95–98 °C | 5,0–7,0 | 10–15 с | ECG, EGCG, терпкость |
 | Выдержанный (10+ лет) | 100 °C | 5,0–7,0 | 15–20 с | Олигомеры, сухофрукты, сладость |
 | Ошибки молодого | Длительный 1-й пролив → астрактная горечь | | | |
-| Наука | Jeszka-Skowron 2018: смена профиля биоактивов при выдержке |
+| Наука | **Pedan et al.** 2018, *Molecules* 23:1931: смена профиля биоактивов при выдержке |
 
 ### Шу пуэр (`shu-pu-erh`)
 
@@ -572,17 +572,42 @@ FTGFOP1 first flush: 80 °C | Second flush: 85–90 °C
 
 ## V. Ключевые источники
 
-1. Jin Y. et al. (2019). Effects of Brewing Conditions on Green Tea Infusions. *Molecules* 24(9):1735. [PMC6539062](https://pmc.ncbi.nlm.nih.gov/articles/PMC6539062/)
-2. Cao Q-Q. et al. (2022). Optimization of brewing conditions for Tieguanyin. *npj Science of Food* 6:25. [DOI:10.1038/s41538-022-00141-7](https://doi.org/10.1038/s41538-022-00141-7)
-3. Perva-Uzunalic A. et al. (2015). Brewing conditions and catechin content. *Int. J. Food Prop.*
-4. Murugesh & Manoj (2015). Water quality and green tea. *J. Food Process Eng.*
-5. Franks M. et al. (2021). Water hardness and green tea catechins. *Molecules* 26:3485.
-6. Balaji V. et al. (2015). Extraction kinetics of black tea. *Nutrition Journal* 14:74.
-7. Li C. et al. (2017). Water quality and Fuding white tea. *Food Sci. Biotechnol.* [PMC5380641](https://pmc.ncbi.nlm.nih.gov/articles/PMC5380641/)
-8. Jeszka-Skowron A. et al. (2018). Aged sheng vs shu pu-erh. *Molecules* 23:1931.
-9. Matsuda H. & Ozaki Y. (1996). Gyokuro vs sencha chemistry. *Chagaku Kenkyu Hokoku*.
-10. World Green Tea Association — [O-CHA NET](https://www.o-cha.net/english/) (сенча, гёкуро).
-11. RSC Advances (2021). Wuyi rock tea roasting. [DOI:10.1039/D0RA09703A](https://doi.org/10.1039/D0RA09703A)
+Все ссылки проверены по Crossref 2026-11-06 агентом источников. Что именно было
+указано неверно и почему — в `docs/sources/citation-audit.md`.
+
+1. Cao Q-Q, Zhang X-Z, Xu Y-Q и др. (2022). Optimization of brewing conditions for Tieguanyin oolong tea by quadratic orthogonal regression design. *npj Science of Food* 6(1):25. [DOI: 10.1038/s41538-022-00141-7](https://doi.org/10.1038/s41538-022-00141-7)
+2. Liu X, Zhu Y, Yang W и др. (2021). Chemical characterization of Wuyi rock tea with different roasting degrees and their discrimination based on volatile profiles. *RSC Advances* 11(20):12074–12085. [DOI: 10.1039/D0RA09703A](https://doi.org/10.1039/D0RA09703A)
+3. Fernando CD, Soysa P (2015). Extraction kinetics of phytochemicals and antioxidant activity during black tea (*Camellia sinensis* L.) brewing. *Nutrition Journal* 14(1):74. [DOI: 10.1186/s12937-015-0060-x](https://doi.org/10.1186/s12937-015-0060-x)
+4. Pedan V, Popp M, Rohn S и др. (2018). Bioactive compound fingerprint analysis of aged raw Pu'er tea and young ripened Pu'er tea. *Molecules* 23(8):1931. [DOI: 10.3390/molecules23081931](https://doi.org/10.3390/molecules23081931)
+5. Zhang H, Jiang Y, Lv Y (2017). Effect of water quality on the main components in Fuding white tea infusions. *Journal of Food Science and Technology* 54(5):1206–1211. [DOI: 10.1007/s13197-017-2571-2](https://doi.org/10.1007/s13197-017-2571-2) — [PMC5380641](https://pmc.ncbi.nlm.nih.gov/articles/PMC5380641/)
+6. Jin Y, Zhao J, Kim EM (2019). Comprehensive investigation of the effects of brewing conditions in sample preparation of green tea infusions. *Molecules* 24(9):1735. [DOI: 10.3390/molecules24091735](https://doi.org/10.3390/molecules24091735) — [PMC6539062](https://pmc.ncbi.nlm.nih.gov/articles/PMC6539062/)
+7. Perva-Uzunalić A, Škerget M, Knez Ž и др. (2006). Extraction of active ingredients from green tea (*Camellia sinensis*): extraction efficiency of major catechins and caffeine. *Food Chemistry* 96(4):597–605. [DOI: 10.1016/j.foodchem.2005.03.015](https://doi.org/10.1016/j.foodchem.2005.03.015)
+8. Cabrera M, Taher F, Llantada A, Do Q, Sapp T, Sommerhalter M (2021). Effect of water hardness on catechin and caffeine content in green tea infusions. *Molecules* 26(12):3485. [DOI: 10.3390/molecules26123485](https://doi.org/10.3390/molecules26123485)
+9. Hossain MS и др. (2022). Optimization of the factors affecting BT-2 black tea fermentation by observing their combined effects on the quality parameters. *Heliyon* 8:e08948. [DOI: 10.1016/j.heliyon.2022.e08948](https://doi.org/10.1016/j.heliyon.2022.e08948)
+10. Isopescu RD и др. (2018). Optimised Pu-erh tea infusion by experimental design and response surface methodology. *Revista de Chimie* 69(2):310–317. [DOI: 10.37358/rc.18.2.6096](https://doi.org/10.37358/rc.18.2.6096)
+11. Armstrong L и др. (2020). Optimizing the extraction of bioactive compounds from pu-erh tea (*Camellia sinensis* var. *assamica*) and evaluation of antioxidant activity. *Food Research International* 137:109430. [DOI: 10.1016/j.foodres.2020.109430](https://doi.org/10.1016/j.foodres.2020.109430)
+12. Murugesan P (2018). Impact of different steeping time and water temperature on tea liquor. *International Journal of Technical Research & Science* 3(1). [DOI: 10.30780/ijtrs.v3.i1.2018.005](https://doi.org/10.30780/ijtrs.v3.i1.2018.005)
+13. Zhao X и др. (2025). Establishing a keemun black tea brewing control chart based on consumer acceptance via survival analysis and degree of satisfaction. *LWT* 224:117829. [DOI: 10.1016/j.lwt.2025.117829](https://doi.org/10.1016/j.lwt.2025.117829)
+14. Yue Y и др. (2014). TMDB: a literature-curated database for small molecular compounds found from tea. *BMC Plant Biology* 14(1):243. [DOI: 10.1186/s12870-014-0243-1](https://doi.org/10.1186/s12870-014-0243-1)
+15. Zimmermann BF, Gleichenhagen M (2013). Steeping time and temperature on the content of the main flavanols in green tea. В: *Tea in Health and Disease Prevention*, с. 335–341. [DOI: 10.1016/B978-0-12-384937-3.00028-8](https://doi.org/10.1016/B978-0-12-384937-3.00028-8)
+16. Hajiaghaalipour F и др. (2015). Temperature and time of steeping affect the antioxidant properties of white, green, and black tea infusions. *Journal of Food Science* 81. [DOI: 10.1111/1750-3841.13149](https://doi.org/10.1111/1750-3841.13149)
+17. Oracz J и др. (2025). Optimizing brewing conditions for low-temperature green tea infusions: insights into functional and nutritional properties. *Food Chemistry* 474:143241. [DOI: 10.1016/j.foodchem.2025.143241](https://doi.org/10.1016/j.foodchem.2025.143241)
+18. Mika M и др. (2026). Brewing conditions and post-brewing handling shape the catechin profile and stability of tea infusions. *Food Chemistry* 527:150884. [DOI: 10.1016/j.foodchem.2026.150884](https://doi.org/10.1016/j.foodchem.2026.150884)
+
+### Отраслевые источники (не рецензируемые)
+
+- World Green Tea Association — [O-CHA NET](https://www.o-cha.net/english/): параметры подачи сенчи и гёкуро.
+- UK Tea Academy (2022). The Ultimate Ingredient for the Perfect Cup of Tea — доклад о жёсткости воды.
+
+### Убрано как непроверяемое
+
+- «Murugesh & Manoj (2015). Water quality and green tea. *J. Food Process Eng.*» — работа не найдена; вместе с ней снято утверждение о снижении катехинов на 84–93 %.
+- «Characterization of Indian black tea (CTC vs orthodox TF/TR). *Phytochemicals* 2020» — публикация не найдена.
+
+### Требует ручной проверки
+
+- Theppakorn T и др. (2016), *IFRJ* 23(2) — журнал индексируется в Crossref неполно.
+- Matsuda H. & Ozaki Y. (1996), *Chagyo Kenkyu Hokoku* — сравнение химии гёкуро и сенчи.
 
 ---
 
