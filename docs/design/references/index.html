@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Justea — референсы дизайна</title>
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+    margin: 0; background: #141414; color: #e6e6e3;
+    font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 1360px; margin: 0 auto; padding: 48px 24px 96px; }
+h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0 0 14px; }
+.lead { max-width: 74ch; color: #b9bcb6; margin: 0 0 10px; }
+.lead strong { color: #e6e6e3; }
+.meta { color: #8b908a; font-size: 14px; margin: 18px 0 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 0; }
+.toc a {
+    font-size: 13px; color: #cdd2c7; text-decoration: none;
+    border: 1px solid #3a3a37; border-radius: 999px; padding: 6px 14px;
+}
+.toc a:hover { border-color: #6d7568; }
+.part { margin-top: 64px; }
+.part__head { border-bottom: 2px solid #3a3a37; padding-bottom: 12px; margin-bottom: 8px; }
+.part__head h2 { font-size: 26px; margin: 0 0 6px; }
+.part__head p { margin: 0; color: #8b908a; font-size: 15px; }
+.cat { margin-top: 40px; }
+.cat__title {
+    font-size: 15px; letter-spacing: .12em; text-transform: uppercase;
+    color: #8b908a; font-weight: 600; margin: 0 0 18px;
+    display: flex; align-items: center; gap: 10px;
+}
+.cat__count { font-size: 12px; border: 1px solid #3a3a37; border-radius: 999px; padding: 1px 8px; }
+.ref {
+    border: 1px solid #2e2e2b; border-radius: 14px; padding: 20px 22px 22px;
+    margin-bottom: 22px; background: #1a1a18;
+}
+.ref__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin-bottom: 8px; }
+.ref__n { font-variant-numeric: tabular-nums; color: #6f756c; font-size: 14px; }
+.ref__title { font-size: 21px; margin: 0; }
+.ref__url { color: #9ad279; text-decoration: none; font-size: 14px; }
+.ref__url:hover { text-decoration: underline; }
+.ref__author { color: #8b908a; font-size: 14px; }
+.ref__author a { color: #b9bcb6; }
+.ref__date { margin-left: auto; color: #6f756c; font-size: 13px; white-space: nowrap; }
+.ref__take { margin: 0 0 10px; color: #c9cdc5; max-width: 86ch; }
+.ref__key { margin: 0 0 14px; font-size: 13px; color: #7d837b; }
+.ref__key a { color: #7d837b; }
+.shots { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+.shot { margin: 0; }
+.shot img {
+    display: block; border: 1px solid #343431; border-radius: 8px; background: #0d0d0c;
+}
+.shot--d img { width: 420px; max-width: 100%; }
+.shot--m img { width: 158px; }
+.shots--work .shot img { width: 420px; max-width: 100%; }
+.shot figcaption { font-size: 12px; color: #7d837b; margin-top: 6px; }
+.missing { color: #d08a60; font-size: 13px; margin: 10px 0 0; }
+footer { margin-top: 72px; border-top: 1px solid #2e2e2b; padding-top: 20px; color: #7d837b; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Референсы дизайна для Justea</h1>
+<p class="lead">
+    Подборка собрана по задаче пользователя: выбрать образец, по которому дальше
+    делается сайт (повторяем минимум на 60 %). Это <strong>материал для выбора,
+    а не предложение</strong> — своих вариантов редизайна здесь нет, оценок
+    «лучший/худший» тоже.
+</p>
+<p class="lead">
+    Снимки сделаны в светлой теме, desktop 1440 и mobile 390. Дата у каждого
+    сайта — из заголовка <code>Date</code> его же ответа, то есть по часам
+    сервера. Строка «Что можно взять» — одна мысль о том, чем этот сайт
+    полезен именно Justea, не похвала.
+</p>
+
+<div class="toc">
+    <a href="#sites">Реальные сайты</a>
+    <a href="#works">Дизайнерские работы</a>
+    <a href="#cat-%D0%A7%D0%B0%D0%B9%20%C2%B7%20%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F">Чай · Россия</a><a href="#cat-%D0%A7%D0%B0%D0%B9%20%C2%B7%20%D0%BC%D0%B8%D1%80">Чай · мир</a><a href="#cat-%D0%A7%D0%B0%D0%B9%20%C2%B7%20%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%D0%B8">Чай · справочники</a><a href="#cat-%D0%9A%D0%BE%D1%84%D0%B5%20%D0%B8%20%D0%B2%D0%B8%D0%BD%D0%BE">Кофе и вино</a><a href="#cat-%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5">Редакционные</a><a href="#cat-%D0%97%D0%B0%D0%BF%D0%B8%D1%81%D1%8C%20%D0%BD%D0%B0%20%D0%B7%D0%B0%D0%BD%D1%8F%D1%82%D0%B8%D1%8F">Запись на занятия</a><a href="#cat-%D0%9F%D1%80%D0%BE%D0%B7%D0%B0%20%D1%81%20%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0%D0%BC%D0%B8">Проза с таблицами</a>
+</div>
+
+<section class="part" id="sites">
+    <div class="part__head">
+        <h2>Реальные сайты</h2>
+        <p>32 сайтов: чайные магазины и справочники, кофе, вино и саке, редакционные издания, страницы записи на занятия.</p>
+    </div>
+    
+<section class="cat" id="cat-%D0%A7%D0%B0%D0%B9%20%C2%B7%20%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F">
+    <h2 class="cat__title">Чай · Россия <span class="cat__count">5</span></h2>
+    
+    <article class="ref" id="01-moychay.ru">
+        <header class="ref__head">
+            <span class="ref__n">01</span>
+            <h3 class="ref__title">Мойчай</h3>
+            <a class="ref__url" href="https://moychay.ru/" target="_blank" rel="noopener">moychay.ru</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:39 UTC</span>
+        </header>
+        <p class="ref__take">Карточка сорта с большим набором характеристик и фотографий — ближайший к Justea ассортимент и язык.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="01-moychay.ru/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="01-moychay.ru/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="01-moychay.ru/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="01-moychay.ru/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="01-moychay.ru/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="01-moychay.ru/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="01-moychay.ru/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="01-moychay.ru/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="02-tea.ru">
+        <header class="ref__head">
+            <span class="ref__n">02</span>
+            <h3 class="ref__title">Чай.ру</h3>
+            <a class="ref__url" href="https://tea.ru/" target="_blank" rel="noopener">tea.ru</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:05 UTC</span>
+        </header>
+        <p class="ref__take">Крупный русский каталог: как устроена навигация по типам чая и фильтры.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://tea.ru/article/chem-chereshnya-luchshe-vishni-i-skolko-yagod-mozhno-sest-za-raz-gorst-ili-misku/" target="_blank" rel="noopener">tea.ru/article/chem-chereshnya-luchshe-vishni-i-skolko-yagod-mozhno-sest-za-raz-gorst-ili-</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="02-tea.ru/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="02-tea.ru/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="02-tea.ru/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="02-tea.ru/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="02-tea.ru/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="02-tea.ru/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="02-tea.ru/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="02-tea.ru/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="03-realchinatea.ru">
+        <header class="ref__head">
+            <span class="ref__n">03</span>
+            <h3 class="ref__title">RealChinaTea</h3>
+            <a class="ref__url" href="https://www.realchinatea.ru/" target="_blank" rel="noopener">realchinatea.ru</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:06 UTC</span>
+        </header>
+        <p class="ref__take">Подача китайского чая на русском: терминология и структура описания сорта.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://www.realchinatea.ru/shop/tea/zolotie-brovi" target="_blank" rel="noopener">www.realchinatea.ru/shop/tea/zolotie-brovi</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="03-realchinatea.ru/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="03-realchinatea.ru/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="03-realchinatea.ru/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="03-realchinatea.ru/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="03-realchinatea.ru/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="03-realchinatea.ru/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="03-realchinatea.ru/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="03-realchinatea.ru/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="04-daochai.ru">
+        <header class="ref__head">
+            <span class="ref__n">04</span>
+            <h3 class="ref__title">Дао чая</h3>
+            <a class="ref__url" href="https://daochai.ru/" target="_blank" rel="noopener">daochai.ru</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:16 UTC</span>
+        </header>
+        <p class="ref__take">Небольшой русский магазин с упором на культуру: длинный разбор сортов вместо карточки товара.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="04-daochai.ru/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="04-daochai.ru/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="04-daochai.ru/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="04-daochai.ru/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="04-daochai.ru/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="04-daochai.ru/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="04-daochai.ru/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="04-daochai.ru/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="05-teatips.ru">
+        <header class="ref__head">
+            <span class="ref__n">05</span>
+            <h3 class="ref__title">Чайные советы</h3>
+            <a class="ref__url" href="https://teatips.ru/" target="_blank" rel="noopener">teatips.ru</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:16 UTC</span>
+        </header>
+        <p class="ref__take">Русский чайный блог-справочник: как подаётся длинный текст о чае без магазина.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="05-teatips.ru/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="05-teatips.ru/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="05-teatips.ru/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="05-teatips.ru/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="05-teatips.ru/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="05-teatips.ru/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="05-teatips.ru/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="05-teatips.ru/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%A7%D0%B0%D0%B9%20%C2%B7%20%D0%BC%D0%B8%D1%80">
+    <h2 class="cat__title">Чай · мир <span class="cat__count">8</span></h2>
+    
+    <article class="ref" id="06-songtea.com">
+        <header class="ref__head">
+            <span class="ref__n">06</span>
+            <h3 class="ref__title">Song Tea &amp; Ceramics</h3>
+            <a class="ref__url" href="https://songtea.com/" target="_blank" rel="noopener">songtea.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:07 UTC</span>
+        </header>
+        <p class="ref__take">Эталон спокойной карточки сорта: много воздуха, крупная фотография, минимум интерфейса.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://songtea.com/products/the-song-collection-2026-2027" target="_blank" rel="noopener">songtea.com/products/the-song-collection-2026-2027</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="06-songtea.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="06-songtea.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="06-songtea.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="06-songtea.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="06-songtea.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="06-songtea.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="06-songtea.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="06-songtea.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="07-kettl.co">
+        <header class="ref__head">
+            <span class="ref__n">07</span>
+            <h3 class="ref__title">Kettl</h3>
+            <a class="ref__url" href="https://www.kettl.co/" target="_blank" rel="noopener">kettl.co</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:07 UTC</span>
+        </header>
+        <p class="ref__take">Японский чай: как фотография листа и настоя несёт всю страницу.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://kettl.co/products/class-crafting-the-perfect-matcha-latte" target="_blank" rel="noopener">kettl.co/products/class-crafting-the-perfect-matcha-latte</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="07-kettl.co/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="07-kettl.co/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="07-kettl.co/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="07-kettl.co/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="07-kettl.co/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="07-kettl.co/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="07-kettl.co/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="07-kettl.co/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="08-global.ippodo-tea.co.jp">
+        <header class="ref__head">
+            <span class="ref__n">08</span>
+            <h3 class="ref__title">Ippodo Tea</h3>
+            <a class="ref__url" href="https://global.ippodo-tea.co.jp/" target="_blank" rel="noopener">global.ippodo-tea.co.jp</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:16 UTC</span>
+        </header>
+        <p class="ref__take">Старейший японский чайный дом: сдержанная сетка и инструкции по завариванию.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://global.ippodo-tea.co.jp/products/matcha399061" target="_blank" rel="noopener">global.ippodo-tea.co.jp/products/matcha399061</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="08-global.ippodo-tea.co.jp/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="08-global.ippodo-tea.co.jp/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="08-global.ippodo-tea.co.jp/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="08-global.ippodo-tea.co.jp/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="08-global.ippodo-tea.co.jp/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="08-global.ippodo-tea.co.jp/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="08-global.ippodo-tea.co.jp/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="08-global.ippodo-tea.co.jp/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="09-yunomi.life">
+        <header class="ref__head">
+            <span class="ref__n">09</span>
+            <h3 class="ref__title">Yunomi</h3>
+            <a class="ref__url" href="https://yunomi.life/" target="_blank" rel="noopener">yunomi.life</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:08 UTC</span>
+        </header>
+        <p class="ref__take">Большой каталог японского чая: плотная подача и фильтры по типам.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://yunomi.life/products/yunomi-gift-card" target="_blank" rel="noopener">yunomi.life/products/yunomi-gift-card</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="09-yunomi.life/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="09-yunomi.life/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="09-yunomi.life/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="09-yunomi.life/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="09-yunomi.life/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="09-yunomi.life/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="09-yunomi.life/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="09-yunomi.life/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="10-postcardteas.com">
+        <header class="ref__head">
+            <span class="ref__n">10</span>
+            <h3 class="ref__title">Postcard Teas</h3>
+            <a class="ref__url" href="https://www.postcardteas.com/" target="_blank" rel="noopener">postcardteas.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:17 UTC</span>
+        </header>
+        <p class="ref__take">Лондонский минимализм: почти нет интерфейса, всё держится на типографике.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="10-postcardteas.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="10-postcardteas.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="10-postcardteas.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="10-postcardteas.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="10-postcardteas.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="10-postcardteas.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="10-postcardteas.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="10-postcardteas.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="11-meileaf.com">
+        <header class="ref__head">
+            <span class="ref__n">11</span>
+            <h3 class="ref__title">Mei Leaf</h3>
+            <a class="ref__url" href="https://meileaf.com/" target="_blank" rel="noopener">meileaf.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:09 UTC</span>
+        </header>
+        <p class="ref__take">Самые подробные карточки сорта в индустрии: параметры заваривания, профиль вкуса, видео.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://meileaf.com/tea/portal-professor/" target="_blank" rel="noopener">meileaf.com/tea/portal-professor/</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="11-meileaf.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="11-meileaf.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="11-meileaf.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="11-meileaf.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="11-meileaf.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="11-meileaf.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="11-meileaf.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="11-meileaf.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="12-paperandtea.com">
+        <header class="ref__head">
+            <span class="ref__n">12</span>
+            <h3 class="ref__title">P &amp; T Paper &amp; Tea</h3>
+            <a class="ref__url" href="https://paperandtea.com/" target="_blank" rel="noopener">paperandtea.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:17 UTC</span>
+        </header>
+        <p class="ref__take">Берлинский чайный дом: сильная типографика и система обозначений по типам чая.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://www.paperandtea.com/products/organic-popped-rice-matcha" target="_blank" rel="noopener">www.paperandtea.com/products/organic-popped-rice-matcha</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="12-paperandtea.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="12-paperandtea.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="12-paperandtea.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="12-paperandtea.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="12-paperandtea.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="12-paperandtea.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="12-paperandtea.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="12-paperandtea.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="13-jingtea.com">
+        <header class="ref__head">
+            <span class="ref__n">13</span>
+            <h3 class="ref__title">JING Tea</h3>
+            <a class="ref__url" href="https://www.jingtea.com/" target="_blank" rel="noopener">jingtea.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:18 UTC</span>
+        </header>
+        <p class="ref__take">Премиальная подача с акцентом на происхождение и инструкцию заваривания.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://jingtea.com/products/assam-loose-tea" target="_blank" rel="noopener">jingtea.com/products/assam-loose-tea</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="13-jingtea.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="13-jingtea.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="13-jingtea.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="13-jingtea.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="13-jingtea.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="13-jingtea.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="13-jingtea.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="13-jingtea.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%A7%D0%B0%D0%B9%20%C2%B7%20%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%D0%B8">
+    <h2 class="cat__title">Чай · справочники <span class="cat__count">2</span></h2>
+    
+    <article class="ref" id="14-steepster.com">
+        <header class="ref__head">
+            <span class="ref__n">14</span>
+            <h3 class="ref__title">Steepster</h3>
+            <a class="ref__url" href="https://steepster.com/" target="_blank" rel="noopener">steepster.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:18 UTC</span>
+        </header>
+        <p class="ref__take">Справочник и сообщество: страница сорта с параметрами заваривания и отзывами.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="14-steepster.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="14-steepster.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="14-steepster.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="14-steepster.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="14-steepster.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="14-steepster.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="14-steepster.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="14-steepster.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="15-ratetea.com">
+        <header class="ref__head">
+            <span class="ref__n">15</span>
+            <h3 class="ref__title">RateTea</h3>
+            <a class="ref__url" href="https://ratetea.com/" target="_blank" rel="noopener">ratetea.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:19 UTC</span>
+        </header>
+        <p class="ref__take">Чистый справочник без магазина — какие поля вообще описывают сорт.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="15-ratetea.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="15-ratetea.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="15-ratetea.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="15-ratetea.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="15-ratetea.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="15-ratetea.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="15-ratetea.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="15-ratetea.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%9A%D0%BE%D1%84%D0%B5%20%D0%B8%20%D0%B2%D0%B8%D0%BD%D0%BE">
+    <h2 class="cat__title">Кофе и вино <span class="cat__count">6</span></h2>
+    
+    <article class="ref" id="16-onyxcoffeelab.com">
+        <header class="ref__head">
+            <span class="ref__n">16</span>
+            <h3 class="ref__title">Onyx Coffee Lab</h3>
+            <a class="ref__url" href="https://onyxcoffeelab.com/" target="_blank" rel="noopener">onyxcoffeelab.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:19 UTC</span>
+        </header>
+        <p class="ref__take">Карточка сорта с визуальным профилем вкуса — прямой аналог аромата и вкуса у чая.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://onyxcoffeelab.eu/products/2026-advent-calendar" target="_blank" rel="noopener">onyxcoffeelab.eu/products/2026-advent-calendar</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="16-onyxcoffeelab.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="16-onyxcoffeelab.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="16-onyxcoffeelab.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="16-onyxcoffeelab.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="16-onyxcoffeelab.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="16-onyxcoffeelab.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="16-onyxcoffeelab.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="16-onyxcoffeelab.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="17-squaremilecoffee.com">
+        <header class="ref__head">
+            <span class="ref__n">17</span>
+            <h3 class="ref__title">Square Mile Coffee</h3>
+            <a class="ref__url" href="https://www.squaremilecoffee.com/" target="_blank" rel="noopener">squaremilecoffee.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:39 UTC</span>
+        </header>
+        <p class="ref__take">Спокойный британский обжарщик: параметры заваривания как часть карточки.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="17-squaremilecoffee.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="17-squaremilecoffee.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="17-squaremilecoffee.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="17-squaremilecoffee.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="17-squaremilecoffee.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="17-squaremilecoffee.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="17-squaremilecoffee.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="17-squaremilecoffee.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="18-sey.coffee">
+        <header class="ref__head">
+            <span class="ref__n">18</span>
+            <h3 class="ref__title">Sey Coffee</h3>
+            <a class="ref__url" href="https://sey.coffee/" target="_blank" rel="noopener">sey.coffee</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:12 UTC</span>
+        </header>
+        <p class="ref__take">Крайний минимализм: карточка почти без украшений, только данные.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://www.seycoffee.com/products/roasted-coffee-recurring" target="_blank" rel="noopener">www.seycoffee.com/products/roasted-coffee-recurring</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="18-sey.coffee/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="18-sey.coffee/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="18-sey.coffee/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="18-sey.coffee/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="18-sey.coffee/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="18-sey.coffee/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="18-sey.coffee/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="18-sey.coffee/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="19-kurasu.kyoto">
+        <header class="ref__head">
+            <span class="ref__n">19</span>
+            <h3 class="ref__title">Kurasu Kyoto</h3>
+            <a class="ref__url" href="https://www.kurasu.kyoto/" target="_blank" rel="noopener">kurasu.kyoto</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:20 UTC</span>
+        </header>
+        <p class="ref__take">Японский минимализм в коммерции: как рецепты заваривания встроены в магазин.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://kurasu.kyoto/products/coffee-subscription" target="_blank" rel="noopener">kurasu.kyoto/products/coffee-subscription</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="19-kurasu.kyoto/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="19-kurasu.kyoto/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="19-kurasu.kyoto/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="19-kurasu.kyoto/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="19-kurasu.kyoto/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="19-kurasu.kyoto/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="19-kurasu.kyoto/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="19-kurasu.kyoto/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="20-tengusake.com">
+        <header class="ref__head">
+            <span class="ref__n">20</span>
+            <h3 class="ref__title">Tengu Sake</h3>
+            <a class="ref__url" href="https://tengusake.com/" target="_blank" rel="noopener">tengusake.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:20 UTC</span>
+        </header>
+        <p class="ref__take">Саке с подробными карточками: терминология, температура подачи, профиль вкуса.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://www.tengusake.com/enjoying-sake/events/" target="_blank" rel="noopener">www.tengusake.com/enjoying-sake/events/</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="20-tengusake.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="20-tengusake.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="20-tengusake.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="20-tengusake.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="20-tengusake.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="20-tengusake.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="20-tengusake.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="20-tengusake.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="21-vivino.com">
+        <header class="ref__head">
+            <span class="ref__n">21</span>
+            <h3 class="ref__title">Vivino</h3>
+            <a class="ref__url" href="https://www.vivino.com/" target="_blank" rel="noopener">vivino.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:40 UTC</span>
+        </header>
+        <p class="ref__take">Массовый каталог вина: как рейтинг и профиль вкуса встроены в карточку.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="21-vivino.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="21-vivino.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="21-vivino.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="21-vivino.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure></div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5">
+    <h2 class="cat__title">Редакционные <span class="cat__count">4</span></h2>
+    
+    <article class="ref" id="22-kinfolk.com">
+        <header class="ref__head">
+            <span class="ref__n">22</span>
+            <h3 class="ref__title">Kinfolk</h3>
+            <a class="ref__url" href="https://www.kinfolk.com/" target="_blank" rel="noopener">kinfolk.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:40 UTC</span>
+        </header>
+        <p class="ref__take">Спокойная редакционная вёрстка: воздух, крупные кегли, сдержанная палитра.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="22-kinfolk.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="22-kinfolk.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="22-kinfolk.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="22-kinfolk.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="22-kinfolk.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="22-kinfolk.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="22-kinfolk.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="22-kinfolk.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="23-standartmag.com">
+        <header class="ref__head">
+            <span class="ref__n">23</span>
+            <h3 class="ref__title">Standart Magazine</h3>
+            <a class="ref__url" href="https://standartmag.com/" target="_blank" rel="noopener">standartmag.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:13 UTC</span>
+        </header>
+        <p class="ref__take">Журнал о кофе: как отраслевая тема подаётся как культура, а не как товар.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://standartmag.com/products/issue-43-spits-sparks-coffee" target="_blank" rel="noopener">standartmag.com/products/issue-43-spits-sparks-coffee</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="23-standartmag.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="23-standartmag.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="23-standartmag.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="23-standartmag.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="23-standartmag.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="23-standartmag.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="23-standartmag.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="23-standartmag.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="24-thecreativeindependent.com">
+        <header class="ref__head">
+            <span class="ref__n">24</span>
+            <h3 class="ref__title">The Creative Independent</h3>
+            <a class="ref__url" href="https://thecreativeindependent.com/" target="_blank" rel="noopener">thecreativeindependent.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:32 UTC</span>
+        </header>
+        <p class="ref__take">Чтение длинных текстов: ширина строки, межстрочный интервал и ритм заголовков без картинок.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="24-thecreativeindependent.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="24-thecreativeindependent.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="24-thecreativeindependent.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="24-thecreativeindependent.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="24-thecreativeindependent.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="24-thecreativeindependent.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="24-thecreativeindependent.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="24-thecreativeindependent.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="25-mold.is">
+        <header class="ref__head">
+            <span class="ref__n">25</span>
+            <h3 class="ref__title">MOLD</h3>
+            <a class="ref__url" href="https://mold.is/" target="_blank" rel="noopener">mold.is</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:33 UTC</span>
+        </header>
+        <p class="ref__take">Гастрономический журнал: характерная сетка и работа с цветом в длинном материале.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="25-mold.is/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="25-mold.is/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="25-mold.is/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="25-mold.is/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="25-mold.is/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="25-mold.is/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="25-mold.is/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="25-mold.is/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%97%D0%B0%D0%BF%D0%B8%D1%81%D1%8C%20%D0%BD%D0%B0%20%D0%B7%D0%B0%D0%BD%D1%8F%D1%82%D0%B8%D1%8F">
+    <h2 class="cat__title">Запись на занятия <span class="cat__count">2</span></h2>
+    
+    <article class="ref" id="26-obby.co.uk">
+        <header class="ref__head">
+            <span class="ref__n">26</span>
+            <h3 class="ref__title">Obby</h3>
+            <a class="ref__url" href="https://obby.co.uk/" target="_blank" rel="noopener">obby.co.uk</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:14 UTC</span>
+        </header>
+        <p class="ref__take">Запись на мастер-классы: как устроена карточка занятия и выбор даты.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://obby.co.uk/products/learning-kit/art/peonies---painting-kit-1613131374" target="_blank" rel="noopener">obby.co.uk/products/learning-kit/art/peonies---painting-kit-1613131374</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="26-obby.co.uk/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="26-obby.co.uk/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="26-obby.co.uk/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="26-obby.co.uk/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="26-obby.co.uk/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="26-obby.co.uk/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="26-obby.co.uk/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="26-obby.co.uk/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="27-airbnb.com">
+        <header class="ref__head">
+            <span class="ref__n">27</span>
+            <h3 class="ref__title">Airbnb Experiences</h3>
+            <a class="ref__url" href="https://www.airbnb.com/s/experiences" target="_blank" rel="noopener">airbnb.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:33 UTC</span>
+        </header>
+        <p class="ref__take">Эталон карточки впечатления и шага записи.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://www.airbnb.com/experiences/6364358?currentTab=experience_tab&amp;federatedSearchId=2369f214-de2f-4ab1-b65c-e841e23e3edc&amp;sectionId=6092609a-bfdb-490f-8a7f-5dee3752ad5f" target="_blank" rel="noopener">www.airbnb.com/experiences/6364358?currentTab=experience_tab&amp;federatedSearchId=2369f214-de</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="27-airbnb.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="27-airbnb.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="27-airbnb.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="27-airbnb.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="27-airbnb.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="27-airbnb.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="27-airbnb.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="27-airbnb.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%9F%D1%80%D0%BE%D0%B7%D0%B0%20%D1%81%20%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0%D0%BC%D0%B8">
+    <h2 class="cat__title">Проза с таблицами <span class="cat__count">5</span></h2>
+    
+    <article class="ref" id="28-cooksillustrated.com">
+        <header class="ref__head">
+            <span class="ref__n">28</span>
+            <h3 class="ref__title">Cook's Illustrated</h3>
+            <a class="ref__url" href="https://www.cooksillustrated.com/" target="_blank" rel="noopener">cooksillustrated.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:35 UTC</span>
+        </header>
+        <p class="ref__take">Кулинарный справочник: пошаговые инструкции и таблицы параметров рядом с длинным текстом.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="28-cooksillustrated.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="28-cooksillustrated.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="28-cooksillustrated.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="28-cooksillustrated.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="28-cooksillustrated.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="28-cooksillustrated.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="28-cooksillustrated.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="28-cooksillustrated.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="29-kingarthurbaking.com">
+        <header class="ref__head">
+            <span class="ref__n">29</span>
+            <h3 class="ref__title">King Arthur Baking</h3>
+            <a class="ref__url" href="https://www.kingarthurbaking.com/" target="_blank" rel="noopener">kingarthurbaking.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:35 UTC</span>
+        </header>
+        <p class="ref__take">Рецепты с плотными таблицами пропорций — как таблица выживает на 390 px.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="29-kingarthurbaking.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="29-kingarthurbaking.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="29-kingarthurbaking.com/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="29-kingarthurbaking.com/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="29-kingarthurbaking.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="29-kingarthurbaking.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="29-kingarthurbaking.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="29-kingarthurbaking.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="30-coffeeadastra.com">
+        <header class="ref__head">
+            <span class="ref__n">30</span>
+            <h3 class="ref__title">Coffee ad Astra</h3>
+            <a class="ref__url" href="https://coffeeadastra.com/" target="_blank" rel="noopener">coffeeadastra.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:36 UTC</span>
+        </header>
+        <p class="ref__take">Технические статьи о кофе: формулы, графики и таблицы в потоке прозы.</p>
+        <p class="ref__key">Ключевая страница: <a href="https://coffeeadastra.com/category/events/" target="_blank" rel="noopener">coffeeadastra.com/category/events/</a></p>
+        <div class="shots"><figure class="shot shot--d">
+        <a href="30-coffeeadastra.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="30-coffeeadastra.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="30-coffeeadastra.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="30-coffeeadastra.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="30-coffeeadastra.com/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="30-coffeeadastra.com/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="31-gov.uk">
+        <header class="ref__head">
+            <span class="ref__n">31</span>
+            <h3 class="ref__title">GOV.UK</h3>
+            <a class="ref__url" href="https://www.gov.uk/" target="_blank" rel="noopener">gov.uk</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:36 UTC</span>
+        </header>
+        <p class="ref__take">Образец доступной вёрстки: быстрый ответ в начале, таблицы данных, работающие на телефоне.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="31-gov.uk/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="31-gov.uk/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--d">
+        <a href="31-gov.uk/key-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="31-gov.uk/key-desktop.jpg" alt="Ключевая · 1440" />
+        </a>
+        <figcaption>Ключевая · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="31-gov.uk/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="31-gov.uk/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="31-gov.uk/key-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="31-gov.uk/key-mobile.jpg" alt="Ключевая · 390" />
+        </a>
+        <figcaption>Ключевая · 390</figcaption>
+    </figure></div>
+        
+    </article>
+    <article class="ref" id="32-chefsteps.com">
+        <header class="ref__head">
+            <span class="ref__n">32</span>
+            <h3 class="ref__title">ChefSteps</h3>
+            <a class="ref__url" href="https://www.chefsteps.com/" target="_blank" rel="noopener">chefsteps.com</a>
+            <span class="ref__date">снято 6 ноября 2026, 20:36 UTC</span>
+        </header>
+        <p class="ref__take">Кулинарные инструкции с параметрами температуры и времени — ближайший жанр к проливам.</p>
+        
+        <div class="shots"><figure class="shot shot--d">
+        <a href="32-chefsteps.com/home-desktop.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="32-chefsteps.com/home-desktop.jpg" alt="Главная · 1440" />
+        </a>
+        <figcaption>Главная · 1440</figcaption>
+    </figure><figure class="shot shot--m">
+        <a href="32-chefsteps.com/home-mobile.jpg" target="_blank" rel="noopener">
+            <img loading="lazy" src="32-chefsteps.com/home-mobile.jpg" alt="Главная · 390" />
+        </a>
+        <figcaption>Главная · 390</figcaption>
+    </figure></div>
+        
+    </article>
+</section>
+</section>
+
+<section class="part" id="works">
+    <div class="part__head">
+        <h2>Дизайнерские работы</h2>
+        <p>22 концептов и кейсов с дизайнерских площадок. Картинки — те, что опубликованы на странице самой работы; у каждой есть ссылка на работу и автора.</p>
+    </div>
+    
+<section class="cat" id="cat-%D0%A7%D0%B0%D0%B9">
+    <h2 class="cat__title">Чай <span class="cat__count">5</span></h2>
+    
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">HARMONY OF TASTE|Online Store of tea, coffee and sweets - Олеся Богачева</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/247583019/HARMONY-OF-TASTEOnline-Store-of-tea-coffee-and-sweets" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/9eac5bb9" target="_blank" rel="noopener">Олеся Богачева</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w01-247583019-HARMONY-OF-TASTEOnline-Store-of-tea-co/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w01-247583019-HARMONY-OF-TASTEOnline-Store-of-tea-co/shot-1.png" alt="HARMONY OF TASTE|Online Store of tea, coffee and sweets - Олеся Богачева" /></a></figure><figure class="shot"><a href="_works/w01-247583019-HARMONY-OF-TASTEOnline-Store-of-tea-co/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w01-247583019-HARMONY-OF-TASTEOnline-Store-of-tea-co/shot-2.png" alt="HARMONY OF TASTE|Online Store of tea, coffee and sweets - Олеся Богачева" /></a></figure><figure class="shot"><a href="_works/w01-247583019-HARMONY-OF-TASTEOnline-Store-of-tea-co/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w01-247583019-HARMONY-OF-TASTEOnline-Store-of-tea-co/shot-3.png" alt="HARMONY OF TASTE|Online Store of tea, coffee and sweets - Олеся Богачева" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">HOTO - Matcha E-Commerce Landing Page - Sans Brothers</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/254434321/HOTO-Matcha-E-Commerce-Landing-Page" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/sansbrothers" target="_blank" rel="noopener">Sans Brothers</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w02-254434321-HOTO-Matcha-E-Commerce-Landing-Page/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w02-254434321-HOTO-Matcha-E-Commerce-Landing-Page/shot-1.jpg" alt="HOTO - Matcha E-Commerce Landing Page - Sans Brothers" /></a></figure><figure class="shot"><a href="_works/w02-254434321-HOTO-Matcha-E-Commerce-Landing-Page/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w02-254434321-HOTO-Matcha-E-Commerce-Landing-Page/shot-2.jpg" alt="HOTO - Matcha E-Commerce Landing Page - Sans Brothers" /></a></figure><figure class="shot"><a href="_works/w02-254434321-HOTO-Matcha-E-Commerce-Landing-Page/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w02-254434321-HOTO-Matcha-E-Commerce-Landing-Page/shot-3.jpg" alt="HOTO - Matcha E-Commerce Landing Page - Sans Brothers" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Tea store - Sofya Kopylova</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/245191107/Tea-store" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/prunzessatea" target="_blank" rel="noopener">Sofya Kopylova</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w03-245191107-Tea-store/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w03-245191107-Tea-store/shot-1.jpg" alt="Tea store - Sofya Kopylova" /></a></figure><figure class="shot"><a href="_works/w03-245191107-Tea-store/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w03-245191107-Tea-store/shot-2.jpg" alt="Tea store - Sofya Kopylova" /></a></figure><figure class="shot"><a href="_works/w03-245191107-Tea-store/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w03-245191107-Tea-store/shot-3.jpg" alt="Tea store - Sofya Kopylova" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Winter 2026 | Conceptual Design - Tamzidul Rahman Riyad</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/256883185/Winter-2026-Conceptual-Design" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/tamzidulrahmanriyad" target="_blank" rel="noopener">Tamzidul Rahman Riyad</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w04-256883185-Winter-2026-Conceptual-Design/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w04-256883185-Winter-2026-Conceptual-Design/shot-1.jpg" alt="Winter 2026 | Conceptual Design - Tamzidul Rahman Riyad" /></a></figure><figure class="shot"><a href="_works/w04-256883185-Winter-2026-Conceptual-Design/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w04-256883185-Winter-2026-Conceptual-Design/shot-2.jpg" alt="Winter 2026 | Conceptual Design - Tamzidul Rahman Riyad" /></a></figure><figure class="shot"><a href="_works/w04-256883185-Winter-2026-Conceptual-Design/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w04-256883185-Winter-2026-Conceptual-Design/shot-3.jpg" alt="Winter 2026 | Conceptual Design - Tamzidul Rahman Riyad" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Suno | Brand &amp; Product Design</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/250116953/Suno-Brand-Product-Design" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/mrchz" target="_blank" rel="noopener">Maria Chiara Zarra</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w05-250116953-Suno-Brand-Product-Design/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w05-250116953-Suno-Brand-Product-Design/shot-1.jpg" alt="Suno | Brand &amp; Product Design" /></a></figure><figure class="shot"><a href="_works/w05-250116953-Suno-Brand-Product-Design/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w05-250116953-Suno-Brand-Product-Design/shot-2.png" alt="Suno | Brand &amp; Product Design" /></a></figure><figure class="shot"><a href="_works/w05-250116953-Suno-Brand-Product-Design/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w05-250116953-Suno-Brand-Product-Design/shot-3.png" alt="Suno | Brand &amp; Product Design" /></a></figure>
+        </div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%9A%D0%BE%D1%84%D0%B5">
+    <h2 class="cat__title">Кофе <span class="cat__count">4</span></h2>
+    
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Soil Roasters - Specialty Coffee Website</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/257545339/Soil-Roasters-Specialty-Coffee-Website" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/mennaelmagdoub" target="_blank" rel="noopener">Menna Elmagdoub</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w07-257545339-Soil-Roasters-Specialty-Coffee-Website/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w07-257545339-Soil-Roasters-Specialty-Coffee-Website/shot-1.png" alt="Soil Roasters - Specialty Coffee Website" /></a></figure><figure class="shot"><a href="_works/w07-257545339-Soil-Roasters-Specialty-Coffee-Website/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w07-257545339-Soil-Roasters-Specialty-Coffee-Website/shot-2.png" alt="Soil Roasters - Specialty Coffee Website" /></a></figure><figure class="shot"><a href="_works/w07-257545339-Soil-Roasters-Specialty-Coffee-Website/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w07-257545339-Soil-Roasters-Specialty-Coffee-Website/shot-3.png" alt="Soil Roasters - Specialty Coffee Website" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Doe Coffee Roasters</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/251305035/Doe-Coffee-Roasters" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/nothingbutdesign" target="_blank" rel="noopener">Nothing But Design</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w08-251305035-Doe-Coffee-Roasters/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w08-251305035-Doe-Coffee-Roasters/shot-1.jpg" alt="Doe Coffee Roasters" /></a></figure><figure class="shot"><a href="_works/w08-251305035-Doe-Coffee-Roasters/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w08-251305035-Doe-Coffee-Roasters/shot-2.png" alt="Doe Coffee Roasters" /></a></figure><figure class="shot"><a href="_works/w08-251305035-Doe-Coffee-Roasters/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w08-251305035-Doe-Coffee-Roasters/shot-3.png" alt="Doe Coffee Roasters" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">SPECTR COFFEE ROASTERS | Corporate Website - akim molchanov</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/249217399/SPECTR-COFFEE-ROASTERS-Corporate-Website" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/akimmolchanov1" target="_blank" rel="noopener">akim molchanov</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w09-249217399-SPECTR-COFFEE-ROASTERS-Corporate-Websi/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w09-249217399-SPECTR-COFFEE-ROASTERS-Corporate-Websi/shot-1.jpg" alt="SPECTR COFFEE ROASTERS | Corporate Website - akim molchanov" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Local Local</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/256938115/Local-Local" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/johnny0306f38a" target="_blank" rel="noopener">CHENCHI CHEN</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w16-256938115-Local-Local/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w16-256938115-Local-Local/shot-1.png" alt="Local Local" /></a></figure><figure class="shot"><a href="_works/w16-256938115-Local-Local/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w16-256938115-Local-Local/shot-2.jpg" alt="Local Local" /></a></figure><figure class="shot"><a href="_works/w16-256938115-Local-Local/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w16-256938115-Local-Local/shot-3.png" alt="Local Local" /></a></figure>
+        </div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%92%D0%B8%D0%BD%D0%BE">
+    <h2 class="cat__title">Вино <span class="cat__count">5</span></h2>
+    
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">GRONA TERRA - Website, online shop and admin panel - Oksana Sira</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/257364733/GRONA-TERRA-Website-online-shop-and-admin-panel" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/oksanasira" target="_blank" rel="noopener">Oksana Sira</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w10-257364733-GRONA-TERRA-Website-online-shop-and-ad/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w10-257364733-GRONA-TERRA-Website-online-shop-and-ad/shot-1.png" alt="GRONA TERRA - Website, online shop and admin panel - Oksana Sira" /></a></figure><figure class="shot"><a href="_works/w10-257364733-GRONA-TERRA-Website-online-shop-and-ad/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w10-257364733-GRONA-TERRA-Website-online-shop-and-ad/shot-2.png" alt="GRONA TERRA - Website, online shop and admin panel - Oksana Sira" /></a></figure><figure class="shot"><a href="_works/w10-257364733-GRONA-TERRA-Website-online-shop-and-ad/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w10-257364733-GRONA-TERRA-Website-online-shop-and-ad/shot-3.png" alt="GRONA TERRA - Website, online shop and admin panel - Oksana Sira" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Ecommerce Luxury Online Wine Marketplace Website UI/UX</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/243360451/Ecommerce-Luxury-Online-Wine-Marketplace-Website-UIUX" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/shasankocreatios" target="_blank" rel="noopener">https://www.behance.net/shasankocreatios</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w11-243360451-Ecommerce-Luxury-Online-Wine-Marketpla/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w11-243360451-Ecommerce-Luxury-Online-Wine-Marketpla/shot-1.png" alt="Ecommerce Luxury Online Wine Marketplace Website UI/UX" /></a></figure><figure class="shot"><a href="_works/w11-243360451-Ecommerce-Luxury-Online-Wine-Marketpla/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w11-243360451-Ecommerce-Luxury-Online-Wine-Marketpla/shot-2.png" alt="Ecommerce Luxury Online Wine Marketplace Website UI/UX" /></a></figure><figure class="shot"><a href="_works/w11-243360451-Ecommerce-Luxury-Online-Wine-Marketpla/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w11-243360451-Ecommerce-Luxury-Online-Wine-Marketpla/shot-3.png" alt="Ecommerce Luxury Online Wine Marketplace Website UI/UX" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Chizay. Corporate website for a wine producer - Mykhailo Korol</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/157401995/Chizay-Corporate-website-for-a-wine-producer" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/korol_design" target="_blank" rel="noopener">Mykhailo Korol</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w12-157401995-Chizay-Corporate-website-for-a-wine-pr/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w12-157401995-Chizay-Corporate-website-for-a-wine-pr/shot-1.jpg" alt="Chizay. Corporate website for a wine producer - Mykhailo Korol" /></a></figure><figure class="shot"><a href="_works/w12-157401995-Chizay-Corporate-website-for-a-wine-pr/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w12-157401995-Chizay-Corporate-website-for-a-wine-pr/shot-2.jpg" alt="Chizay. Corporate website for a wine producer - Mykhailo Korol" /></a></figure><figure class="shot"><a href="_works/w12-157401995-Chizay-Corporate-website-for-a-wine-pr/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w12-157401995-Chizay-Corporate-website-for-a-wine-pr/shot-3.jpg" alt="Chizay. Corporate website for a wine producer - Mykhailo Korol" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Israel Wine Tourism Platform — Winery Discovery - Никита Сафонов</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/251847825/Israel-Wine-Tourism-Platform-Winery-Discovery" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/e0afa7be" target="_blank" rel="noopener">Никита Сафонов</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w18-251847825-Israel-Wine-Tourism-Platform-Winery-Di/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w18-251847825-Israel-Wine-Tourism-Platform-Winery-Di/shot-1.png" alt="Israel Wine Tourism Platform — Winery Discovery - Никита Сафонов" /></a></figure><figure class="shot"><a href="_works/w18-251847825-Israel-Wine-Tourism-Platform-Winery-Di/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w18-251847825-Israel-Wine-Tourism-Platform-Winery-Di/shot-2.png" alt="Israel Wine Tourism Platform — Winery Discovery - Никита Сафонов" /></a></figure><figure class="shot"><a href="_works/w18-251847825-Israel-Wine-Tourism-Platform-Winery-Di/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w18-251847825-Israel-Wine-Tourism-Platform-Winery-Di/shot-3.png" alt="Israel Wine Tourism Platform — Winery Discovery - Никита Сафонов" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Corporate site UX/UI &amp; Website design - Nadezda Ageeva</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/235263333/Corporate-site-UXUI-Website-design" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/NadezdaAgeeva35" target="_blank" rel="noopener">Nadezda Ageeva</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w19-235263333-Corporate-site-UXUI-Website-design/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w19-235263333-Corporate-site-UXUI-Website-design/shot-1.png" alt="Corporate site UX/UI &amp; Website design - Nadezda Ageeva" /></a></figure><figure class="shot"><a href="_works/w19-235263333-Corporate-site-UXUI-Website-design/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w19-235263333-Corporate-site-UXUI-Website-design/shot-2.png" alt="Corporate site UX/UI &amp; Website design - Nadezda Ageeva" /></a></figure><figure class="shot"><a href="_works/w19-235263333-Corporate-site-UXUI-Website-design/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w19-235263333-Corporate-site-UXUI-Website-design/shot-3.png" alt="Corporate site UX/UI &amp; Website design - Nadezda Ageeva" /></a></figure>
+        </div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5">
+    <h2 class="cat__title">Редакционные <span class="cat__count">3</span></h2>
+    
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">DADA book - Masha Knop</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/1637601/DADA-book" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/mp_design" target="_blank" rel="noopener">Masha Knop</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w13-1637601-DADA-book/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w13-1637601-DADA-book/shot-1.jpg" alt="DADA book - Masha Knop" /></a></figure><figure class="shot"><a href="_works/w13-1637601-DADA-book/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w13-1637601-DADA-book/shot-2.jpg" alt="DADA book - Masha Knop" /></a></figure><figure class="shot"><a href="_works/w13-1637601-DADA-book/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w13-1637601-DADA-book/shot-3.jpg" alt="DADA book - Masha Knop" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Сайт и серия журналов для электронного издания 33 1/3</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/257181105/sajt-i-serija-zhurnalov-dlja-elektronnogo-izdanija-33-13" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/rinaschool" target="_blank" rel="noopener">Arina Lakeeva (Venskih)</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w14-257181105-sajt-i-serija-zhurnalov-dlja-elektronn/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w14-257181105-sajt-i-serija-zhurnalov-dlja-elektronn/shot-1.png" alt="Сайт и серия журналов для электронного издания 33 1/3" /></a></figure><figure class="shot"><a href="_works/w14-257181105-sajt-i-serija-zhurnalov-dlja-elektronn/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w14-257181105-sajt-i-serija-zhurnalov-dlja-elektronn/shot-2.jpg" alt="Сайт и серия журналов для электронного издания 33 1/3" /></a></figure><figure class="shot"><a href="_works/w14-257181105-sajt-i-serija-zhurnalov-dlja-elektronn/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w14-257181105-sajt-i-serija-zhurnalov-dlja-elektronn/shot-3.png" alt="Сайт и серия журналов для электронного издания 33 1/3" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Arxipelag Magazine</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/209754071/Arxipelag-Magazine" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/carosellolab" target="_blank" rel="noopener">CRSL Carosello Lab</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w15-209754071-Arxipelag-Magazine/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w15-209754071-Arxipelag-Magazine/shot-1.jpg" alt="Arxipelag Magazine" /></a></figure><figure class="shot"><a href="_works/w15-209754071-Arxipelag-Magazine/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w15-209754071-Arxipelag-Magazine/shot-2.jpg" alt="Arxipelag Magazine" /></a></figure><figure class="shot"><a href="_works/w15-209754071-Arxipelag-Magazine/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w15-209754071-Arxipelag-Magazine/shot-3.jpg" alt="Arxipelag Magazine" /></a></figure>
+        </div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%97%D0%B0%D0%BF%D0%B8%D1%81%D1%8C%20%D0%BD%D0%B0%20%D0%B7%D0%B0%D0%BD%D1%8F%D1%82%D0%B8%D1%8F">
+    <h2 class="cat__title">Запись на занятия <span class="cat__count">2</span></h2>
+    
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Sui - Brand Identity &amp; Website</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/249964707/Sui-Brand-Identity-Website" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/six2eight_agency" target="_blank" rel="noopener">six2eight 🌟</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w16-249964707-Sui-Brand-Identity-Website/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w16-249964707-Sui-Brand-Identity-Website/shot-1.png" alt="Sui - Brand Identity &amp; Website" /></a></figure><figure class="shot"><a href="_works/w16-249964707-Sui-Brand-Identity-Website/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w16-249964707-Sui-Brand-Identity-Website/shot-2.png" alt="Sui - Brand Identity &amp; Website" /></a></figure><figure class="shot"><a href="_works/w16-249964707-Sui-Brand-Identity-Website/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w16-249964707-Sui-Brand-Identity-Website/shot-3.png" alt="Sui - Brand Identity &amp; Website" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">↗️ BLOOM – MENTAL HEALTH WEBSITE DESIGN - Phenomenon Studio</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/257654389/-BLOOM-MENTAL-HEALTH-WEBSITE-DESIGN" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/phenomenon-studio" target="_blank" rel="noopener">Phenomenon Studio</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w24-257654389--BLOOM-MENTAL-HEALTH-WEBSITE-DESIGN/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w24-257654389--BLOOM-MENTAL-HEALTH-WEBSITE-DESIGN/shot-1.png" alt="↗️ BLOOM – MENTAL HEALTH WEBSITE DESIGN - Phenomenon Studio" /></a></figure><figure class="shot"><a href="_works/w24-257654389--BLOOM-MENTAL-HEALTH-WEBSITE-DESIGN/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w24-257654389--BLOOM-MENTAL-HEALTH-WEBSITE-DESIGN/shot-2.png" alt="↗️ BLOOM – MENTAL HEALTH WEBSITE DESIGN - Phenomenon Studio" /></a></figure><figure class="shot"><a href="_works/w24-257654389--BLOOM-MENTAL-HEALTH-WEBSITE-DESIGN/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w24-257654389--BLOOM-MENTAL-HEALTH-WEBSITE-DESIGN/shot-3.png" alt="↗️ BLOOM – MENTAL HEALTH WEBSITE DESIGN - Phenomenon Studio" /></a></figure>
+        </div>
+        
+    </article>
+</section>
+<section class="cat" id="cat-%D0%93%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D1%8F">
+    <h2 class="cat__title">Гастрономия <span class="cat__count">3</span></h2>
+    
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">ENZO | Restaurant Branding Identity and Web Design</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/253113709/ENZO-Restaurant-Branding-Identity-and-Web-Design" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/jubayer10" target="_blank" rel="noopener">Maniruzzaman Jubayer</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w20-253113709-ENZO-Restaurant-Branding-Identity-and-/shot-1.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w20-253113709-ENZO-Restaurant-Branding-Identity-and-/shot-1.png" alt="ENZO | Restaurant Branding Identity and Web Design" /></a></figure><figure class="shot"><a href="_works/w20-253113709-ENZO-Restaurant-Branding-Identity-and-/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w20-253113709-ENZO-Restaurant-Branding-Identity-and-/shot-2.png" alt="ENZO | Restaurant Branding Identity and Web Design" /></a></figure><figure class="shot"><a href="_works/w20-253113709-ENZO-Restaurant-Branding-Identity-and-/shot-3.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w20-253113709-ENZO-Restaurant-Branding-Identity-and-/shot-3.png" alt="ENZO | Restaurant Branding Identity and Web Design" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">OY BAR - Studio NinetyOne</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/200858717/OY-BAR" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/studio-ninetyone" target="_blank" rel="noopener">Studio NinetyOne</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w21-200858717-OY-BAR/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w21-200858717-OY-BAR/shot-1.jpg" alt="OY BAR - Studio NinetyOne" /></a></figure><figure class="shot"><a href="_works/w21-200858717-OY-BAR/shot-2.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w21-200858717-OY-BAR/shot-2.jpg" alt="OY BAR - Studio NinetyOne" /></a></figure><figure class="shot"><a href="_works/w21-200858717-OY-BAR/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w21-200858717-OY-BAR/shot-3.jpg" alt="OY BAR - Studio NinetyOne" /></a></figure>
+        </div>
+        
+    </article>
+    <article class="ref">
+        <header class="ref__head">
+            <h3 class="ref__title">Move Ceramics Studio</h3>
+            <a class="ref__url" href="https://www.behance.net/gallery/242993881/Move-Ceramics-Studio" target="_blank" rel="noopener">Behance</a>
+            <span class="ref__author">автор: <a href="https://www.behance.net/redobureau" target="_blank" rel="noopener">Redo Team</a></span>
+        </header>
+        
+        <div class="shots shots--work">
+            <figure class="shot"><a href="_works/w22-242993881-Move-Ceramics-Studio/shot-1.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w22-242993881-Move-Ceramics-Studio/shot-1.jpg" alt="Move Ceramics Studio" /></a></figure><figure class="shot"><a href="_works/w22-242993881-Move-Ceramics-Studio/shot-2.png" target="_blank" rel="noopener"><img loading="lazy" src="_works/w22-242993881-Move-Ceramics-Studio/shot-2.png" alt="Move Ceramics Studio" /></a></figure><figure class="shot"><a href="_works/w22-242993881-Move-Ceramics-Studio/shot-3.jpg" target="_blank" rel="noopener"><img loading="lazy" src="_works/w22-242993881-Move-Ceramics-Studio/shot-3.jpg" alt="Move Ceramics Studio" /></a></figure>
+        </div>
+        
+    </article>
+</section>
+</section>
+
+<footer>
+    Собрал агент justea-design, 2026. Все права на изображения
+    принадлежат их владельцам; подборка служебная, для выбора образца.
+</footer>
+
+</div>
+</body>
+</html>

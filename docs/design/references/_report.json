@@ -1,0 +1,546 @@
+[
+  {
+    "n": 1,
+    "cat": "Чай · Россия",
+    "url": "https://moychay.ru/",
+    "locale": "ru-RU",
+    "title": "Мойчай",
+    "keyUrl": null,
+    "take": "Карточка сорта с большим набором характеристик и фотографий — ближайший к Justea ассортимент и язык.",
+    "id": "01-moychay.ru",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:39:03 GMT",
+    "error": null
+  },
+  {
+    "n": 2,
+    "cat": "Чай · Россия",
+    "url": "https://tea.ru/",
+    "locale": "ru-RU",
+    "title": "Чай.ру",
+    "take": "Крупный русский каталог: как устроена навигация по типам чая и фильтры.",
+    "id": "02-tea.ru",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://tea.ru/article/chem-chereshnya-luchshe-vishni-i-skolko-yagod-mozhno-sest-za-raz-gorst-ili-misku/",
+    "date": "Fri, 06 Nov 2026 20:05:49 GMT",
+    "error": null
+  },
+  {
+    "n": 3,
+    "cat": "Чай · Россия",
+    "url": "https://www.realchinatea.ru/",
+    "locale": "ru-RU",
+    "title": "RealChinaTea",
+    "take": "Подача китайского чая на русском: терминология и структура описания сорта.",
+    "id": "03-realchinatea.ru",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://www.realchinatea.ru/shop/tea/zolotie-brovi",
+    "date": "Fri, 06 Nov 2026 20:06:16 GMT",
+    "error": null
+  },
+  {
+    "n": 4,
+    "cat": "Чай · Россия",
+    "url": "https://daochai.ru/",
+    "locale": "ru-RU",
+    "title": "Дао чая",
+    "keyUrl": null,
+    "take": "Небольшой русский магазин с упором на культуру: длинный разбор сортов вместо карточки товара.",
+    "id": "04-daochai.ru",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:16:00 GMT",
+    "error": null
+  },
+  {
+    "n": 5,
+    "cat": "Чай · Россия",
+    "url": "https://teatips.ru/",
+    "locale": "ru-RU",
+    "title": "Чайные советы",
+    "keyUrl": null,
+    "take": "Русский чайный блог-справочник: как подаётся длинный текст о чае без магазина.",
+    "id": "05-teatips.ru",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:16:23 GMT",
+    "error": null
+  },
+  {
+    "n": 6,
+    "cat": "Чай · мир",
+    "url": "https://songtea.com/",
+    "title": "Song Tea & Ceramics",
+    "take": "Эталон спокойной карточки сорта: много воздуха, крупная фотография, минимум интерфейса.",
+    "id": "06-songtea.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://songtea.com/products/the-song-collection-2026-2027",
+    "date": "Fri, 06 Nov 2026 20:07:12 GMT",
+    "error": null
+  },
+  {
+    "n": 7,
+    "cat": "Чай · мир",
+    "url": "https://www.kettl.co/",
+    "title": "Kettl",
+    "take": "Японский чай: как фотография листа и настоя несёт всю страницу.",
+    "id": "07-kettl.co",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://kettl.co/products/class-crafting-the-perfect-matcha-latte",
+    "date": "Fri, 06 Nov 2026 20:07:39 GMT",
+    "error": null
+  },
+  {
+    "n": 8,
+    "cat": "Чай · мир",
+    "url": "https://global.ippodo-tea.co.jp/",
+    "title": "Ippodo Tea",
+    "take": "Старейший японский чайный дом: сдержанная сетка и инструкции по завариванию.",
+    "id": "08-global.ippodo-tea.co.jp",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://global.ippodo-tea.co.jp/products/matcha399061",
+    "date": "Fri, 06 Nov 2026 20:16:45 GMT",
+    "error": null
+  },
+  {
+    "n": 9,
+    "cat": "Чай · мир",
+    "url": "https://yunomi.life/",
+    "title": "Yunomi",
+    "take": "Большой каталог японского чая: плотная подача и фильтры по типам.",
+    "id": "09-yunomi.life",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://yunomi.life/products/yunomi-gift-card",
+    "date": "Fri, 06 Nov 2026 20:08:23 GMT",
+    "error": null
+  },
+  {
+    "n": 10,
+    "cat": "Чай · мир",
+    "url": "https://www.postcardteas.com/",
+    "title": "Postcard Teas",
+    "keyUrl": null,
+    "take": "Лондонский минимализм: почти нет интерфейса, всё держится на типографике.",
+    "id": "10-postcardteas.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:17:13 GMT",
+    "error": null
+  },
+  {
+    "n": 11,
+    "cat": "Чай · мир",
+    "url": "https://meileaf.com/",
+    "title": "Mei Leaf",
+    "take": "Самые подробные карточки сорта в индустрии: параметры заваривания, профиль вкуса, видео.",
+    "id": "11-meileaf.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://meileaf.com/tea/portal-professor/",
+    "date": "Fri, 06 Nov 2026 20:09:32 GMT",
+    "error": null
+  },
+  {
+    "n": 12,
+    "cat": "Чай · мир",
+    "url": "https://paperandtea.com/",
+    "title": "P & T Paper & Tea",
+    "take": "Берлинский чайный дом: сильная типографика и система обозначений по типам чая.",
+    "id": "12-paperandtea.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://www.paperandtea.com/products/organic-popped-rice-matcha",
+    "date": "Fri, 06 Nov 2026 20:17:36 GMT",
+    "error": null
+  },
+  {
+    "n": 13,
+    "cat": "Чай · мир",
+    "url": "https://www.jingtea.com/",
+    "title": "JING Tea",
+    "take": "Премиальная подача с акцентом на происхождение и инструкцию заваривания.",
+    "id": "13-jingtea.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://jingtea.com/products/assam-loose-tea",
+    "date": "Fri, 06 Nov 2026 20:18:05 GMT",
+    "error": null
+  },
+  {
+    "n": 14,
+    "cat": "Чай · справочники",
+    "url": "https://steepster.com/",
+    "title": "Steepster",
+    "keyUrl": null,
+    "take": "Справочник и сообщество: страница сорта с параметрами заваривания и отзывами.",
+    "id": "14-steepster.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:18:48 GMT",
+    "error": null
+  },
+  {
+    "n": 15,
+    "cat": "Чай · справочники",
+    "url": "https://ratetea.com/",
+    "title": "RateTea",
+    "keyUrl": null,
+    "take": "Чистый справочник без магазина — какие поля вообще описывают сорт.",
+    "id": "15-ratetea.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:19:10 GMT",
+    "error": null
+  },
+  {
+    "n": 16,
+    "cat": "Кофе и вино",
+    "url": "https://onyxcoffeelab.com/",
+    "title": "Onyx Coffee Lab",
+    "take": "Карточка сорта с визуальным профилем вкуса — прямой аналог аромата и вкуса у чая.",
+    "id": "16-onyxcoffeelab.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://onyxcoffeelab.eu/products/2026-advent-calendar",
+    "date": "Fri, 06 Nov 2026 20:19:33 GMT",
+    "error": null
+  },
+  {
+    "n": 17,
+    "cat": "Кофе и вино",
+    "url": "https://www.squaremilecoffee.com/",
+    "title": "Square Mile Coffee",
+    "keyUrl": null,
+    "take": "Спокойный британский обжарщик: параметры заваривания как часть карточки.",
+    "id": "17-squaremilecoffee.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:39:35 GMT",
+    "error": null
+  },
+  {
+    "n": 18,
+    "cat": "Кофе и вино",
+    "url": "https://sey.coffee/",
+    "title": "Sey Coffee",
+    "take": "Крайний минимализм: карточка почти без украшений, только данные.",
+    "id": "18-sey.coffee",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://www.seycoffee.com/products/roasted-coffee-recurring",
+    "date": "Fri, 06 Nov 2026 20:12:37 GMT",
+    "error": null
+  },
+  {
+    "n": 19,
+    "cat": "Кофе и вино",
+    "url": "https://www.kurasu.kyoto/",
+    "title": "Kurasu Kyoto",
+    "take": "Японский минимализм в коммерции: как рецепты заваривания встроены в магазин.",
+    "id": "19-kurasu.kyoto",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://kurasu.kyoto/products/coffee-subscription",
+    "date": "Fri, 06 Nov 2026 20:20:08 GMT",
+    "error": null
+  },
+  {
+    "n": 20,
+    "cat": "Кофе и вино",
+    "url": "https://tengusake.com/",
+    "title": "Tengu Sake",
+    "take": "Саке с подробными карточками: терминология, температура подачи, профиль вкуса.",
+    "id": "20-tengusake.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://www.tengusake.com/enjoying-sake/events/",
+    "date": "Fri, 06 Nov 2026 20:20:41 GMT",
+    "error": null
+  },
+  {
+    "n": 21,
+    "cat": "Кофе и вино",
+    "url": "https://www.vivino.com/",
+    "title": "Vivino",
+    "keyUrl": null,
+    "take": "Массовый каталог вина: как рейтинг и профиль вкуса встроены в карточку.",
+    "id": "21-vivino.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "home-mobile": "home-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:40:12 GMT",
+    "error": null
+  },
+  {
+    "n": 22,
+    "cat": "Редакционные",
+    "url": "https://www.kinfolk.com/",
+    "title": "Kinfolk",
+    "keyUrl": null,
+    "take": "Спокойная редакционная вёрстка: воздух, крупные кегли, сдержанная палитра.",
+    "id": "22-kinfolk.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:40:26 GMT",
+    "error": null
+  },
+  {
+    "n": 23,
+    "cat": "Редакционные",
+    "url": "https://standartmag.com/",
+    "title": "Standart Magazine",
+    "take": "Журнал о кофе: как отраслевая тема подаётся как культура, а не как товар.",
+    "id": "23-standartmag.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://standartmag.com/products/issue-43-spits-sparks-coffee",
+    "date": "Fri, 06 Nov 2026 20:13:47 GMT",
+    "error": null
+  },
+  {
+    "n": 24,
+    "cat": "Редакционные",
+    "url": "https://thecreativeindependent.com/",
+    "title": "The Creative Independent",
+    "keyUrl": null,
+    "take": "Чтение длинных текстов: ширина строки, межстрочный интервал и ритм заголовков без картинок.",
+    "id": "24-thecreativeindependent.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:32:41 GMT",
+    "error": null
+  },
+  {
+    "n": 25,
+    "cat": "Редакционные",
+    "url": "https://mold.is/",
+    "title": "MOLD",
+    "keyUrl": null,
+    "take": "Гастрономический журнал: характерная сетка и работа с цветом в длинном материале.",
+    "id": "25-mold.is",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:33:07 GMT",
+    "error": null
+  },
+  {
+    "n": 26,
+    "cat": "Запись на занятия",
+    "url": "https://obby.co.uk/",
+    "title": "Obby",
+    "take": "Запись на мастер-классы: как устроена карточка занятия и выбор даты.",
+    "id": "26-obby.co.uk",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://obby.co.uk/products/learning-kit/art/peonies---painting-kit-1613131374",
+    "date": "Fri, 06 Nov 2026 20:14:40 GMT",
+    "error": null
+  },
+  {
+    "n": 27,
+    "cat": "Запись на занятия",
+    "url": "https://www.airbnb.com/s/experiences",
+    "title": "Airbnb Experiences",
+    "take": "Эталон карточки впечатления и шага записи.",
+    "id": "27-airbnb.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://www.airbnb.com/experiences/6364358?currentTab=experience_tab&federatedSearchId=2369f214-de2f-4ab1-b65c-e841e23e3edc&sectionId=6092609a-bfdb-490f-8a7f-5dee3752ad5f",
+    "date": "Fri, 06 Nov 2026 20:33:31 GMT",
+    "error": null
+  },
+  {
+    "n": 28,
+    "cat": "Проза с таблицами",
+    "url": "https://www.cooksillustrated.com/",
+    "title": "Cook's Illustrated",
+    "keyUrl": null,
+    "take": "Кулинарный справочник: пошаговые инструкции и таблицы параметров рядом с длинным текстом.",
+    "id": "28-cooksillustrated.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:35:08 GMT",
+    "error": null
+  },
+  {
+    "n": 29,
+    "cat": "Проза с таблицами",
+    "url": "https://www.kingarthurbaking.com/",
+    "title": "King Arthur Baking",
+    "keyUrl": null,
+    "take": "Рецепты с плотными таблицами пропорций — как таблица выживает на 390 px.",
+    "id": "29-kingarthurbaking.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:35:44 GMT",
+    "error": null
+  },
+  {
+    "n": 30,
+    "cat": "Проза с таблицами",
+    "url": "https://coffeeadastra.com/",
+    "title": "Coffee ad Astra",
+    "take": "Технические статьи о кофе: формулы, графики и таблицы в потоке прозы.",
+    "id": "30-coffeeadastra.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "keyUrl": "https://coffeeadastra.com/category/events/",
+    "date": "Fri, 06 Nov 2026 20:36:18 GMT",
+    "error": null
+  },
+  {
+    "n": 31,
+    "cat": "Проза с таблицами",
+    "url": "https://www.gov.uk/",
+    "title": "GOV.UK",
+    "keyUrl": null,
+    "take": "Образец доступной вёрстки: быстрый ответ в начале, таблицы данных, работающие на телефоне.",
+    "id": "31-gov.uk",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "key-desktop": "key-desktop.jpg",
+      "home-mobile": "home-mobile.jpg",
+      "key-mobile": "key-mobile.jpg"
+    },
+    "date": "Fri, 06 Nov 2026 20:36:35 GMT",
+    "error": null
+  },
+  {
+    "n": 32,
+    "cat": "Проза с таблицами",
+    "url": "https://www.chefsteps.com/",
+    "title": "ChefSteps",
+    "take": "Кулинарные инструкции с параметрами температуры и времени — ближайший жанр к проливам.",
+    "id": "32-chefsteps.com",
+    "shots": {
+      "home-desktop": "home-desktop.jpg",
+      "home-mobile": "home-mobile.jpg"
+    },
+    "keyUrl": null,
+    "date": "Fri, 06 Nov 2026 20:36:58 GMT",
+    "error": null
+  }
+]
