@@ -22,15 +22,23 @@ import {
     CEREMONY_VENUE,
 } from "./content";
 
-export const metadata: Metadata = createPageMetadata({
-    title: "Чайная церемония",
-    // Цену и адрес берём из констант, чтобы они не разошлись с текстом страницы.
-    description:
-        `Чайная церемония ${CEREMONY_CITY_IN} с мастером ${CEREMONY_HOST_NAME_INS}: ` +
-        `${CEREMONY_ADDRESS}, разовая встреча в небольшой группе раз в месяц. ` +
-        `${CEREMONY_PRICE}.`,
-    path: "/ceremony",
-});
+export const metadata: Metadata = {
+    ...createPageMetadata({
+        title: "Чайная церемония",
+        // Цену и адрес берём из констант, чтобы они не разошлись с текстом.
+        description:
+            `Чайная церемония ${CEREMONY_CITY_IN} с мастером ${CEREMONY_HOST_NAME_INS}: ` +
+            `${CEREMONY_ADDRESS}, разовая встреча в небольшой группе раз в месяц. ` +
+            `${CEREMONY_PRICE}.`,
+        path: "/ceremony",
+    }),
+    // ВРЕМЕННО (решение оркестратора 2026-11-07, inbox #6): на странице стоят
+    // видимые заглушки «нужны данные» — дата ближайшей церемонии, длительность,
+    // размер группы, состав чаёв, фото. В индекс такую страницу пускать нельзя.
+    // СНЯТЬ вместе со строкой в app/sitemap.ts, когда данные придут и заглушек
+    // не останется: docs/ceremony/open-questions.md, вопросы 3, 5, 6, 7.
+    robots: { index: false, follow: true },
+};
 
 /**
  * Лендинг по SB7: герой → проблема → проводник → план → призыв →

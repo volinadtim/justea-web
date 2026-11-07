@@ -203,7 +203,8 @@
         ".gitignore"
       ],
       "askedTo": "orchestrator",
-      "status": "open"
+      "status": "resolved",
+      "decision": "Решение оркестратора 2026-11-07 (inbox #6): видимую часть откатить. CeremonyCta убран с главной, CeremonyInlineCta — со страницы чая; .env.example, .gitignore и служебная часть sitemap.ts остаются. Причина — решение пользователя: церемонии не главная задача сайта, сильный спрос не нужен. Вернём, когда придут данные о Регине и дата."
     },
     {
       "id": 20,
@@ -214,7 +215,8 @@
         "infra/docker/Dockerfile"
       ],
       "askedTo": "orchestrator",
-      "status": "open"
+      "status": "deferred",
+      "decision": "Решение оркестратора 2026-11-07: в PR #2 не включать. infra/ трогает прод — отдельный PR после «да» пользователя на мерж церемонии. Патч остаётся в docs/ceremony/README.md."
     },
     {
       "id": 21,
@@ -302,9 +304,22 @@
         "app/components/seo/*JsonLd.tsx"
       ],
       "askedTo": "orchestrator",
-      "status": "open",
+      "status": "handed-over",
       "source": "justea-market 2026-11-06",
-      "context": "Биться надо за общий «чайная церемония» (2 550 показов/мес в СПб), а не за гео-форму (495): Яндекс подмешивает петербуржцу локальную выдачу сам. Для этого странице нужны город в title и разметка организации с адресом. H1 и описание у меня уже локальные; JSON-LD — зона justea-seo, сам не добавлял."
+      "context": "Биться надо за общий «чайная церемония» (2 550 показов/мес в СПб), а не за гео-форму (495): Яндекс подмешивает петербуржцу локальную выдачу сам. Для этого странице нужны город в title и разметка организации с адресом. H1 и описание у меня уже локальные; JSON-LD — зона justea-seo, сам не добавлял.",
+      "decision": "Передано justea-seo 2026-11-07 вместе с адресом (Санкт-Петербург, Караванная улица, 14): PostalAddress и разметку организации делает он."
+    },
+    {
+      "id": 29,
+      "group": "process",
+      "question": "Индексация /ceremony, пока на странице стоят заглушки",
+      "blocks": [
+        "app/ceremony/page.tsx:metadata",
+        "app/sitemap.ts"
+      ],
+      "askedTo": "orchestrator",
+      "status": "resolved",
+      "decision": "Решение оркестратора 2026-11-07 (inbox #6): вариант 2 — robots index:false на /ceremony и запись убрана из sitemap.ts. Обе правки помечены в коде временными и снимаются вместе, когда уйдут заглушки (вопросы 3, 5, 6, 7). Правку в зоне justea-seo оркестратор разрешил и согласует с seo сам."
     }
   ],
   "answers": [
@@ -405,6 +420,18 @@
         "app/ceremony/page.tsx — первый экран, блок «Где это», описание страницы",
         "app/ceremony/content.ts:PLACEHOLDERS — hostBio и place удалены, hostPhoto оставлен",
         "app/ceremony/page.tsx — блок «Регина проводит церемонию» сокращён до одного абзаца и места под фото"
+      ]
+    },
+    {
+      "date": "2026-11-07",
+      "source": "оркестратор, inbox #6",
+      "answer": "Индексация — вариант 2 (noindex + убрать из sitemap); видимую часть кросс-зонного коммита откатить; том в infra пока не применять.",
+      "appliedTo": [
+        "app/ceremony/page.tsx — robots index:false, follow:true с пометкой «временно»",
+        "app/sitemap.ts — запись /ceremony закомментирована на месте",
+        "app/page.tsx и app/[slug]/page.tsx — возвращены к версии master",
+        "app/components/CeremonyInlineCta.tsx — в шапке отмечено, что компонент не подключён",
+        "docs/ceremony/README.md — разделы про кнопки, индексацию и infra переписаны"
       ]
     }
   ],

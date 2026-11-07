@@ -13,12 +13,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: "weekly",
             priority: 1,
         },
-        {
-            url: `${siteConfig.url}/ceremony`,
-            lastModified: now,
-            changeFrequency: "monthly",
-            priority: 0.9,
-        },
+        // ВРЕМЕННО нет /ceremony (решение оркестратора 2026-11-07, inbox #6):
+        // страница под noindex, пока на ней стоят заглушки «нужны данные».
+        // ВЕРНУТЬ вместе со снятием robots в app/ceremony/page.tsx:
+        // { url: `${siteConfig.url}/ceremony`, lastModified: now,
+        //   changeFrequency: "monthly", priority: 0.9 },
         {
             url: `${siteConfig.url}/search`,
             lastModified: now,
