@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import Breadcrumbs from "../components/Breadcrumbs";
 import JournalScreen from "../components/features/JournalScreen";
+import DataTransfer from "../components/features/DataTransfer";
 import { TeaOption } from "../components/features/JournalForm";
 import { getAllTeas } from "@/lib/teas";
 import { createPageMetadata } from "@/lib/metadata";
@@ -43,6 +44,8 @@ export default function JournalPage() {
             <Suspense fallback={null}>
                 <JournalScreen teas={teas} />
             </Suspense>
+
+            <DataTransfer />
         </main>
     );
 }
