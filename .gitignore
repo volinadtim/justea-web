@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# заявки на церемонию (app/api/ceremony)
+/.data/
+
 # vercel
 .vercel
 
