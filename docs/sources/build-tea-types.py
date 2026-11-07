@@ -193,6 +193,23 @@ def _fmt(value, indent, prefix=0):
     return json.dumps(value, ensure_ascii=False)
 
 
+def eval_protocol_sources(catalog):
+    """Источники, чьи числа — параметры метода оценки, а не рецепт.
+
+    Правило оркестратора 2026-11-08: пометка едет вместе с числом. Ловушка не в
+    том, что кто-то невнимателен, а в том, что документ выглядит как источник
+    параметров заваривания и им не является. Попались трижды, и каждый раз это
+    был один и тот же документ, а не один и тот же агент.
+
+    Поэтому проверка смотрит не на текст записи, а на её ИСТОЧНИКИ: если число
+    публикуется со ссылкой на такой документ, запись обязана это признать полем
+    evaluation_protocol_ack. Признание в поле, которое не выводится, читателя не
+    спасает — но оно и не для читателя, а для следующего, кто возьмёт число.
+    """
+    return {sid for sid, v in catalog.items()
+            if v.get("numbers_are_evaluation_protocol") is True}
+
+
 def _outcome(r):
     """BrewOutcome для контейнера.
 
@@ -226,6 +243,7 @@ def main():
     misc = json.loads((SRC / "misconceptions.json").read_text(encoding="utf-8"))
     catalog = json.loads((SRC / "catalog.json").read_text(encoding="utf-8"))["sources"]
 
+    eval_sources = eval_protocol_sources(catalog)
     records = brew["categoryRecords"]
     ids = {r["id"] for r in records}
     problems = []
@@ -263,6 +281,14 @@ def main():
         for s in r.get("sources", []):
             if s not in catalog:
                 problems.append("%s: источника %r нет в catalog.json" % (rid, s))
+        from_eval = sorted(set(r.get("sources", [])) & eval_sources)
+        has_number = any(ch.isdigit() for ch in r["change"] + r["consequence"])
+        if from_eval and has_number and not r.get("evaluation_protocol_ack"):
+            problems.append(
+                "%s: публикует число со ссылкой на %s, где числа — параметры МЕТОДА "
+                "ОЦЕНКИ, а не рецепт. Нужно поле evaluation_protocol_ack: либо почему "
+                "число всё-таки применимо, либо откуда взят потребительский источник"
+                % (rid, ", ".join(from_eval)))
         if "onlyFor" in r and not r["onlyFor"]:
             problems.append("%s: onlyFor пустой — по правилу seo это «ни для кого». "
                             "Для всей категории поле надо УБРАТЬ, а не опустошать" % rid)
