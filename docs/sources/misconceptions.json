@@ -15,7 +15,8 @@
    "processing",
    "composition",
    "brewing"
-  ]
+  ],
+  "see_also": "naming-traps.md — почему это поле пришлось переименовывать"
  },
  "misconceptions": [
   {
