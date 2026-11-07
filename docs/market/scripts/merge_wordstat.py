@@ -21,8 +21,10 @@ if not SHOWS.exists():
 # Вордстат лемматизирует запрос, и для некоторых сидов это уводит в чужую тему.
 # Самый злой случай: «матча» сводится к «матч», и сид возвращает 200 строк
 # футбола на 147 млн показов («матч», «кхл матчи», «расписание матчей»).
+# Так же уходят «ассам» -> «асса» («биг асс», «тромбо асс», «асса фильм»)
+# и «банча» -> «банч» («банч код», «банчить»). Проверка — audit_wordstat.py.
 # Такие строки нельзя пускать ни в ядро, ни в выгрузку.
-AMBIGUOUS_SEEDS = {"матча"}
+AMBIGUOUS_SEEDS = {"матча", "ассам", "банча"}
 TEA_MARKER = re.compile(r"ча[йяёюе]|чайн|заварив|заварк|улун|пуэр|матч[ае] (?:чай|латте|порош)"
                         r"|латте|порошок|венчик|церемон|гайван|типот|сенча|гёкуро|гекуро"
                         r"|ходзич|генмайч|гэммайч|кукич|банча|купаж|терруар|типс")
@@ -34,6 +36,18 @@ def is_contaminated(seed: str, phrase: str) -> bool:
 
 
 # ----------------------------------------------------- частотности
+def wordkey(q: str) -> str:
+    """Ключ без порядка слов и без ё.
+
+    Широкое соответствие Вордстата порядок слов игнорирует: «черный или
+    зеленый чай» и «зеленый или черный чай» — одна и та же цифра, в выдачу
+    попадает только одна из форм. Поэтому фразу ядра ищем сначала по строке,
+    а потом по множеству слов. Проверено: на 19 329 строках ядра такой
+    поиск даёт 1 207 дополнительных попаданий и ни одного конфликта
+    (двух разных снятых фраз с одним ключом)."""
+    return " ".join(sorted(q.lower().replace("ё", "е").split()))
+
+
 shows: dict[str, dict[str, int]] = collections.defaultdict(dict)
 seeds_of: dict[str, set] = collections.defaultdict(set)
 periods, dates = set(), set()
@@ -59,27 +73,39 @@ print(f"Снято фраз: {len(shows)}  период Вордстата: {per
 if dropped[0]:
     print(f"Отброшено как чужая тема (лемматизация неоднозначного сида): {dropped[0]} строк")
 
+# индекс по множеству слов: только там, где ключ однозначен
+by_words: dict[str, list[str]] = collections.defaultdict(list)
+for ph in shows:
+    by_words[wordkey(ph)].append(ph)
+
 # ----------------------------------------------------- в ядро
 rows = list(csv.DictReader(CORE.open(encoding="utf-8-sig"), delimiter=";"))
-hit = 0
+hit = norm_hit = 0
 for r in rows:
     s = shows.get(r["запрос"])
+    note = ""
     if not s:
-        continue
+        cand = by_words.get(wordkey(r["запрос"]), [])
+        if len(cand) != 1:          # пусто или неоднозначно — не угадываем
+            continue
+        s = shows[cand[0]]
+        note = ", порядок слов"
+        norm_hit += 1
     hit += 1
     r["wordstat_спб"] = s.get("спб", "")
     r["wordstat_мск"] = s.get("мск", "")
     r["wordstat_рф"] = s.get("рф", "")
     # основное гео проекта — СПб; если по нему нет, берём РФ
     r["frequency"] = s.get("спб", s.get("рф", ""))
-    r["frequency_source"] = "yandex-wordstat (спб)" if "спб" in s else "yandex-wordstat (рф)"
+    geo = "спб" if "спб" in s else "рф"
+    r["frequency_source"] = f"yandex-wordstat ({geo}{note})"
     r["frequency_date"] = snap_date
 
 with CORE.open("w", encoding="utf-8-sig", newline="") as f:
     w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), delimiter=";",
                        lineterminator="\n")
     w.writeheader(); w.writerows(rows)
-print(f"В ядре заполнено: {hit} строк из {len(rows)}")
+print(f"В ядре заполнено: {hit} строк из {len(rows)} (из них {norm_hit} по нормализованному порядку слов)")
 
 # ----------------------------------------------------- все снятые фразы
 in_core = {r["запрос"] for r in rows}
