@@ -820,6 +820,66 @@ for (const tea of teas) {
             }
         }
 
+        /*
+         * Пометка для ревью. Проверяется трижды, и каждая проверка закрывает
+         * свой способ её потерять.
+         *
+         * Имя: поле называется `reviewNote`, как и всё остальное в записи.
+         * `review_note` в данных сработало бы как опечатка, которую никто не
+         * видит: поле с незнакомым именем просто не читают, и пометка тихо
+         * исчезает. Поэтому это ошибка с подсказкой, а не предупреждение.
+         *
+         * Длина: проверку по собранным страницам нечем выполнять, если
+         * строка короче двадцати букв — три слова найдутся в любом тексте.
+         * Поле, которое нельзя проверить, защищено так же, как было у Дун
+         * Дина: совпадением.
+         *
+         * Копия в `notes`: если то же рассуждение лежит и там, оно выйдет на
+         * страницу, и граница поля не поможет. Именно так пометка и уехала
+         * на прод — она жила в `notes`.
+         */
+        if (method.review_note !== undefined) {
+            fail(
+                slug,
+                `способ "${method.id}": поле называется reviewNote, не review_note. ` +
+                    "С чужим именем пометка не читается и тихо теряется",
+            );
+        }
+
+        if (method.reviewNote !== undefined) {
+            const note = method.reviewNote;
+
+            if (typeof note !== "string" || note.trim().length < 20) {
+                fail(
+                    slug,
+                    `способ "${method.id}": reviewNote короче 20 символов. ` +
+                        "Такую строку не найти в собранных страницах, то есть " +
+                        "нельзя проверить, что она не выводится",
+                );
+            } else {
+                const letters = (text) =>
+                    String(text)
+                        .toLowerCase()
+                        .replace(/[^\p{L}\p{N}]+/gu, "");
+                const needle = letters(note).slice(0, 40);
+
+                for (const text of [
+                    method.description,
+                    ...(method.notes ?? []),
+                    ...(method.infusions ?? []).map((infusion) => infusion.notes),
+                ]) {
+                    if (text && letters(text).includes(needle)) {
+                        fail(
+                            slug,
+                            `способ "${method.id}": reviewNote повторён в видимом тексте ` +
+                                `(«${String(text).slice(0, 45)}…»). Поле не выводится, ` +
+                                "а копия выводится",
+                        );
+                    }
+                }
+            }
+        }
+
         for (const text of [method.description, ...(method.notes ?? [])]) {
             const hit = healthRegisterHit(text);
 
@@ -981,3 +1041,105 @@ console.log(
  * Теперь это `scripts/check-rendered-text.mjs` — он читает собранные
  * страницы, то есть то, что видит человек, и список полей ему не нужен.
  */
+
+/*
+ * Числа в заметке должны сходиться с полями того же способа.
+ *
+ * Предложил justea-catalog после второго за вечер расхождения текста с
+ * данными: в полях матчи стояло 80 °C, а в заметке — «75–85 °C взяты из
+ * обычной практики». Панель показывала одно, подпись под ней другое, и
+ * ни одна проверка этого не видела: оба числа легальны по отдельности.
+ *
+ * «Сходиться» — не «совпадать», и это существенно. Заметка законно
+ * называет диапазон, из которого взято значение в таблице: «навеска
+ * бывает от 4,5 до 6 г на 100 мл, в таблице нижняя граница». Это как раз
+ * та оговорка, которую мы весь день возвращали на страницу. Поэтому:
+ * назван диапазон — значение способа должно лежать внутри; названа одна
+ * величина — должна совпадать.
+ *
+ * Проверяются температура и навеска, у которых в способе есть своё поле.
+ * Время не проверяется: там та же логика диапазона, но единиц больше и
+ * формулировки свободнее — ложные срабатывания дороже находок.
+ */
+{
+    const problems = [];
+    let checked = 0;
+
+    /** Пары «значение или диапазон» из текста: [[от, до], …]. */
+    const temperatures = (text) =>
+        [...text.matchAll(/(?<!−|-)(\d{2,3})\s*(?:[–—-]\s*(\d{2,3}))?\s*°C/g)].map((m) => [
+            Number(m[1]),
+            Number(m[2] ?? m[1]),
+        ]);
+
+    const RANGE =
+        /(?:от\s*)?(\d+(?:[.,]\d+)?)\s*(?:до|[–—-])\s*(\d+(?:[.,]\d+)?)\s*(?:г|гр)\s+на\s+(\d+)\s*мл/g;
+    const SINGLE = /(\d+(?:[.,]\d+)?)\s*(?:г|гр)\s+на\s+(\d+)\s*мл/g;
+
+    const num = (x) => Number(String(x).replace(",", "."));
+    const per100 = (grams, volume) => (num(grams) / num(volume)) * 100;
+
+    /*
+     * Диапазоны разбираются первыми, и найденное вырезается из текста.
+     * Иначе «от 5 до 7 г на 100 мл» второй раз читается как одиночное
+     * «7 г на 100 мл» — верхняя граница диапазона притворяется величиной.
+     */
+    const ratios = (text) => {
+        const found = [];
+        const rest = text.replace(RANGE, (...m) => {
+            const [, low, high, volume] = m;
+            found.push([per100(low, volume), per100(high, volume)].sort((a, b) => a - b));
+            return " ";
+        });
+
+        for (const m of rest.matchAll(SINGLE)) {
+            const value = per100(m[1], m[2]);
+            found.push([value, value]);
+        }
+
+        return found;
+    };
+
+    for (const tea of teas) {
+        for (const method of tea.brewMethods ?? []) {
+            const notes = [method.description, ...(method.notes ?? [])].filter(Boolean);
+
+            for (const note of notes) {
+                checked += 1;
+
+                const { from, to } = method.temperature ?? {};
+                if (from !== undefined) {
+                    for (const [low, high] of temperatures(note)) {
+                        const inside = from >= low - 1 && to <= high + 1;
+                        const overlaps = low <= Math.max(from, to) && high >= Math.min(from, to);
+                        if (!inside && !overlaps) {
+                            problems.push(
+                                `${tea.slug} · ${method.id}: в заметке ${low === high ? low : `${low}–${high}`} °C, в способе ${from}–${to} °C`,
+                            );
+                        }
+                    }
+                }
+
+                if (typeof method.ratio === "number") {
+                    for (const [low, high] of ratios(note)) {
+                        if (method.ratio < low - 0.2 || method.ratio > high + 0.2) {
+                            problems.push(
+                                `${tea.slug} · ${method.id}: в заметке ${low.toFixed(1)}–${high.toFixed(1)} г на 100 мл, в способе ${method.ratio}`,
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (problems.length > 0) {
+        console.error(`числа в заметках расходятся с полями способа: ${problems.length}`);
+        for (const line of problems) console.error(`  ${line}`);
+        process.exitCode = 1;
+    } else {
+        console.log(
+            `числа в заметках сверены с полями способа: ${checked} строк, расхождений нет`,
+        );
+    }
+}

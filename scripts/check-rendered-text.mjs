@@ -53,15 +53,6 @@ const RULES = [
 ];
 
 /*
- * Заголовок окна и мета-описание из проверки на тире исключены намеренно.
- *
- * «Ассам — как заваривать: проливы, температура, пропорции — Justea»: здесь
- * тире не стилистическая пауза, а разделитель частей заголовка, обычная
- * типографика выдачи. Правило пользователя про прозу; гнать его на шаблон
- * заголовка значило бы переписывать `lib/metadata.ts` ради проверки.
- * Справочный аппарат в заголовке проверяется по-прежнему.
- */
-/*
  * Строки, в которых тире ставит код, а не автор.
  *
  * Вычитаются по тексту самого шаблона, а не по месту в разметке: один и
@@ -83,15 +74,6 @@ const GENERATED = [
 
 const stripGenerated = (html) =>
     GENERATED.reduce((text, pattern) => text.replace(pattern, " "), html);
-
-const visible = (html) =>
-    html
-        .replace(/<script[\s\S]*?<\/script>/g, "")
-        .replace(/<style[\s\S]*?<\/style>/g, "")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/&mdash;/g, "—")
-        .replace(/&[a-z]+;|&#\d+;/g, " ")
-        .replace(/\s+/g, " ");
 
 /*
  * Правило аппарата проверяется по ВСЕМУ исходнику страницы, а не по
@@ -179,6 +161,92 @@ for (const rule of RULES) {
     for (const hit of hits) {
         console.error(`\n  ${hit.page} — ${hit.count}`);
         for (const sample of hit.samples) console.error(`    …${sample}…`);
+    }
+}
+
+/*
+ * Внутренние пометки: их содержимого в собранном HTML быть не должно.
+ *
+ * Это другое правило, чем два верхних, и проверяет другое. Те ищут слова,
+ * которых не должно быть ни в одном тексте; это ищет **конкретные строки из
+ * данных** — те, что помечены как пометки для ревью, а не для читателя.
+ *
+ * Зачем. У Дун Дина внутреннее рассуждение лежало в `notes` и не выводилось
+ * ровно потому, что в нём стоял иероглиф: фильтр аппарата его ловил. Убрали
+ * иероглиф при чистке текста, и рассуждение уехало на прод. Пометку держало
+ * совпадение. `BrewMethod.reviewNote` не выводится по устройству, а эта
+ * проверка показывает, что устройство работает: поле снимается в
+ * `plainBrewMethods`, и ни один байт его содержимого до страницы не доходит.
+ *
+ * Сравнение по буквам и цифрам: во flight-данных Next кавычки экранированы,
+ * пробелы расставлены иначе, а знаки могут отличаться. Совпадение по буквам
+ * это переживает. Берём первые 80 букв — чтобы поймать и обрезанную утечку,
+ * а не только дословную.
+ */
+const internalNotes = (() => {
+    const data = JSON.parse(readFileSync("data/teas.json", "utf8"));
+    const teas = Array.isArray(data) ? data : data.teas;
+
+    return teas.flatMap((tea) =>
+        (tea.brewMethods ?? [])
+            .filter((method) => method.reviewNote)
+            .map((method) => ({
+                where: `${tea.slug} · ${method.id}.reviewNote`,
+                text: method.reviewNote,
+            })),
+    );
+})();
+
+const squash = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+
+if (internalNotes.length === 0) {
+    console.log("внутренние пометки: ни одной в данных");
+} else {
+    const squashed = pages.map((page) => [
+        page,
+        squash(readFileSync(join(DIR, page), "utf8")),
+    ]);
+    const leaks = [];
+
+    for (const note of internalNotes) {
+        const needle = squash(note.text).slice(0, 80);
+
+        // Слишком короткую пометку искать нечем: три слова найдутся в любом
+        // тексте. Длину требует валидатор данных, здесь только говорим, что
+        // эта строка осталась непроверенной.
+        if (needle.length < 20) {
+            console.error(`  ${note.where}: короче 20 букв, проверить нечем`);
+            failed += 1;
+            continue;
+        }
+
+        for (const [page, html] of squashed) {
+            if (html.includes(needle)) {
+                leaks.push({ ...note, page });
+            }
+        }
+    }
+
+    if (leaks.length === 0) {
+        console.log(
+            `внутренние пометки: ${internalNotes.length}, ни одной на ${pages.length} страницах`,
+        );
+    } else {
+        failed += 1;
+        console.error(
+            `\nвнутренние пометки на страницах: ${leaks.length} из ${internalNotes.length}`,
+        );
+        console.error(
+            "  `reviewNote` не выводится нигде: ни на страницу, ни в пропсы " +
+                "клиента, ни в разметку. Снимается в lib/plain-text.ts, " +
+                "plainBrewMethods. Если строка дошла до HTML, её выводят в " +
+                "обход этой границы — или её скопировали в notes.",
+        );
+
+        for (const leak of leaks) {
+            console.error(`\n  ${leak.page} — ${leak.where}`);
+            console.error(`    …${leak.text.slice(0, 90)}…`);
+        }
     }
 }
 
