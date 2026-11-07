@@ -150,7 +150,12 @@ def main():
         ref = argv[argv.index("--ref") + 1]
 
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
-    retired = {r["text"]: r for r in registry["retired"]}
+    retired = {r["text"]: r for r in registry["retired"]
+               if r.get("match", "exact") == "exact"}
+    # Фрагменты сравниваются подстрокой: запись-фрагмент при точном сравнении
+    # не срабатывает никогда и при этом выглядит охватом. Одна такая у меня
+    # уже лежала мёртвой.
+    fragments = [r for r in registry["retired"] if r.get("match") == "substring"]
     internal = internal_fields(ref)
 
     retired_values = registry.get("retired_values", {}).get("entries", [])
@@ -174,6 +179,11 @@ def main():
             checked += 1
             record = retired.get(text)
             if not record:
+                for fragment in fragments:
+                    if fragment["text"] in text:
+                        record = fragment
+                        break
+            if not record:
                 continue
             # «Не для читателя» во внутреннем поле — правильное место, не откат.
             # «Нигде» ловится и там: reviewNote читает тот, кто проверяет факт,
@@ -196,7 +206,8 @@ def main():
     # Знаменатель печатается всегда: «ноль» без него — описание охвата,
     # а не результат. Правило оркестратора 2026-11-08.
     print("ref: %s" % ref)
-    print("проверено строк: %d, выведенных из оборота текстов: %d" % (checked, len(retired)))
+    print("проверено строк: %d, выведенных из оборота текстов: %d (%d целиком, %d подстрокой)"
+          % (checked, len(retired) + len(fragments), len(retired), len(fragments)))
     print("проверено значений: %d, выведенных из оборота значений: %d"
           % (checked_values, len(retired_values)))
     print("непубликуемые поля (из lib/plain-text.ts плюс caution.basis): %s" % ", ".join(internal))
