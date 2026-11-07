@@ -11,6 +11,10 @@ function getTeaSearchText(tea: Tea): string {
         tea.slug,
         TEA_TYPE_LABELS[tea.type],
         tea.type,
+        // Народные и ошибочные написания: «шен пуэр» ищут в 6,7 раза чаще,
+        // чем «шэн пуэр». Только в индексе поиска, в видимый текст синонимы
+        // не подставляются — см. `Tea.synonyms`.
+        ...(tea.synonyms ?? []),
         ...tea.characteristics.aroma,
         ...tea.characteristics.flavor,
     ]

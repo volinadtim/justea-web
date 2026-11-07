@@ -13,7 +13,7 @@ metadata и JSON-LD в страницах (`app/components/seo/**`, `lib/metadat
 |---|---|
 | [`technical-audit.md`](technical-audit.md) | **Этап 1.** Аудит: 17 находок, что исправлено, что передано и кому. Начинать отсюда. |
 | [`site-structure.md`](site-structure.md) | **Этап 2.** Структура сайта под кластеры запросов: какие страницы создать, URL, title, description, перелинковка |
-| [`pages.json`](pages.json) | Карта страниц машиночитаемо: 17 страниц, URL, мета, спрос, приоритет, владелец текста |
+| [`pages.json`](pages.json) | Карта страниц машиночитаемо: 19 страниц, URL, мета, спрос, приоритет, владелец текста |
 | [`content-briefs.md`](content-briefs.md) | **Заказ justea-voice:** брифы на тексты всех новых страниц. §6 — список блоков для justea-design |
 | [`audit-findings.json`](audit-findings.json) | Находки аудита машиночитаемо: severity, status, owner, evidence |
 | [`core-web-vitals.json`](core-web-vitals.json) | Замеры Lighthouse, парная методика «до/после» |
