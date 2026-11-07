@@ -5,6 +5,7 @@ import BrewMethodSwitcher from "./BrewMethodSwitcher";
 import BrewInfo from "./BrewInfo";
 import SteepsTable from "./SteepsTable";
 import SteepTimer from "./SteepTimer";
+import WhiskedTable from "./WhiskedTable";
 import { BrewMethod } from "@/types/tea";
 
 type Props = {
@@ -57,6 +58,8 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
     const [activeSteepIndex, setActiveSteepIndex] = useState<number | null>(null);
     const steeps = getSteepsFromMethod(activeMethod);
     const rinseNote = formatRinse(activeMethod);
+    const whisked = activeMethod.whisked ?? [];
+    const isWhisked = steeps.length === 0 && whisked.length > 0;
 
     useEffect(() => {
         setActiveSteepIndex(null);
@@ -80,21 +83,22 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
             <p className="mb-6 text-[17px] sm:mb-8 sm:text-[19px]">{activeMethod.description}</p>
 
             <div className="flex min-w-0 flex-col gap-4 md:flex-row md:gap-[14px]">
+                {/*
+                    Навеску слева показываем только у способов с проливами.
+                    У взбивания их две — 2,4 г/100 мл у усучи против 13,3
+                    у коичи, — и одно число рядом с панелью читалось бы как
+                    противоречие. Обе навески целиком есть в самой панели.
+                */}
                 <BrewInfo
                     temperature={getTemperature(activeMethod)}
-                    ratio={activeMethod.ratio}
+                    ratio={isWhisked ? undefined : activeMethod.ratio}
                 />
                 {/*
-                    Таблица проливов и таймер — только когда проливы есть.
-                    У взбивания (матча) их нет ни одного, и пустая таблица с
-                    таймером на ноль шагов была бы дефектом, а не решением.
-
-                    Это защита, а не оформление: как показывать взбивание —
-                    вопрос к justea-design, он описан в outbox justea-seo #12.
-                    Своего облика агент не придумывает (решение пользователя
-                    07.11.2026).
+                    Справа — таблица проливов либо панель взбивания: у матчи
+                    проливов нет ни одного, и это место раньше оставалось
+                    пустым. Форма та же, содержание другое.
                 */}
-                {steeps.length > 0 && (
+                {steeps.length > 0 ? (
                     <div className="flex flex-1 flex-col">
                         <SteepsTable steeps={steeps} activeIndex={activeSteepIndex} />
                         <SteepTimer
@@ -102,7 +106,9 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                             onActiveIndexChange={setActiveSteepIndex}
                         />
                     </div>
-                )}
+                ) : isWhisked ? (
+                    <WhiskedTable whisked={whisked} />
+                ) : null}
             </div>
 
             {/*
