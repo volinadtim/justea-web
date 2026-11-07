@@ -1,0 +1,2 @@
+- [Justea communication](justea-communication.md) — user talks via orchestrator in desktop; orchestrator relays to agents
+- [Justea UI rule](justea-ui-changes-rule.md) — site UI: only point fixes or strict user references ≥60%, no own redesigns

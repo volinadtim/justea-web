@@ -1,0 +1,58 @@
+# Передача оркестратора Justea на другой компьютер (2026-11-07)
+
+Ветка `agent/orchestrator` **никогда не мержится в master** (пуш в master = деплой justea.ru). Она хранит состояние оркестратора.
+
+## Что где лежит
+
+| Что | Где |
+|---|---|
+| Справка оркестратора: агенты, решения пользователя, правила | `docs/agents/ORCHESTRATOR.md` |
+| Промпты агентов и общие правила | `docs/agents/0*.md`, `docs/agents/09-features.md`, `docs/agents/_common.md` |
+| Переписка с агентами (inbox — оркестратор, outbox — агенты) | `docs/orchestrator/mail/` |
+| Память оркестратора (правила пользователя) | `docs/orchestrator/memory/` — перенести в память новой сессии |
+| Пробный прогон голоса (промпты и тексты 4 авторов) | `docs/orchestrator/previews/voice-probe/`, `voice-bunin-context.md` |
+
+На старой машине пути были `/home/volin/projects/justea-corp/...`, почта — `/home/volin/projects/justea-corp/mail/`. На новой машине используй `docs/orchestrator/mail/` в этой ветке (или папку рядом с репо) и поправь путь в `_common.md`.
+
+## Правила пользователя (обязательно)
+
+1. **Интерфейс сайта** — только точечные правки или строгие референсы пользователя (повторять ≥60%). Своих стилей и редизайнов не делать.
+2. Пользователь говорит с оркестратором; оркестратор сам общается с агентами и приносит вопросы пачкой.
+3. Мерж PR — только после «да» пользователя на конкретный PR.
+4. Деньги, публикации, регистрации, письма людям — только после явного «да».
+5. Время в данных — по HTTP `Date`.
+
+## Состояние агентов (все остановлены, работа запушена)
+
+| Агент | Ветка, PR | Состояние | Следующий шаг |
+|---|---|---|---|
+| sources | `agent/sources`, PR #13 (последний `0ead481`, WIP) | этап 3 готов: фактура 8 приоритетных чаёв, caution, модель матчи | Решения из inbox #5: standardCategory 6 значений, caution `{text, sources}`, Лао Ча Тоу → точа, следующая волна гёкуро, ходзича, дянь хун, лапсанг; правки ссылок в `docs/tea-brewing-science*.md` и ГАМК в `docs/tea-research.md` отдельным PR |
+| competitors | `agent/competitors`, PR #12 | готово | ничего; топ-15 идей в `docs/competitors/report.md` §6 |
+| market | `agent/market`, PR #6 (последний `13accbc`, WIP Вордстата) | частотности сняты частично | доделать по `docs/market/wordstat-raw/README.md`; куки Яндекса нужны заново (Cookie-Editor → cookies.txt), в репо не класть |
+| voice | `agent/voice`, PR #3 (`4569166`) | пробные промпты готовы, прогон сделан | ждёт: разбор пользователем причины «я»-рассказчика, ответ про «ё»; потом style-guide и prompts |
+| seo | `agent/seo`, PR #4 (`d8e0ea9`) | план 17 страниц | ждёт: разрешение на PR `www → 301` в `infra/nginx/host-justea-ssl.conf`, решение по `/guides/tein-vs-caffeine`, тексты voice, Вордстат |
+| design | `agent/design` PR #1 (аудит + отклонённые A/B/C), точечные PR #5, #7–#11, `fix/steeps-numbering` | собирал референсы | референсы (76 МБ) лежат только на старой машине в `previews/design-references/` — см. ниже; PR #7 и #8 меняют вид — ждут решения |
+| ceremony | `agent/ceremony`, PR #2 | лендинг /ceremony | обновить: цена 1500 ₽ с человека, чай включён; 1 раз в месяц; спокойный тон (inbox #3–#4) |
+| features | не запускался | — | запустить по `docs/agents/09-features.md` |
+| ads | не запускался | — | запускать последним; дать §5 и §8 из `docs/market/report.md`, бюджет до 10 000 ₽/мес |
+
+## Открытые вопросы к пользователю
+
+1. Разрешить seo PR `www.justea.ru → 301`?
+2. Вернуть страницу «Теин и кофеин» (терминология, не здоровье)?
+3. Буква «ё»: везде или как у автора?
+4. Причина «я»-рассказчика в текстах voice — пользователь разбирает сам (`previews/voice-probe/`).
+5. PR #7 (контраст рамок) и #8 (кнопки 44 px) — меняют вид, нужен взгляд пользователя.
+6. PR #1 design — закрыть или оставить только аудит.
+7. Позже: данные Регины, адрес клуба, почта на домене justea.
+
+## Как продолжить на новой машине
+
+```bash
+git clone https://github.com/volinadtim/justea-web.git && cd justea-web
+git checkout agent/orchestrator
+pnpm install
+```
+
+Агентам — отдельные worktree на их ветках (`git worktree add ../justea-web-<имя> agent/<имя>`), запускать как вложенные сессии с промптом:
+«Ты — justea-<имя>. Прочитай docs/agents/_common.md, docs/agents/<файл>.md, свою переписку docs/orchestrator/mail/inbox/justea-<имя>.md и outbox/justea-<имя>.md (в ветке agent/orchestrator: `git show origin/agent/orchestrator:<путь>`). Продолжай с места остановки. Оркестратор — сессия Justea orchestrator.»
