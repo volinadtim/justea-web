@@ -591,7 +591,7 @@ postFermentation?: PostFermentation[]   // массив: у Любао это ["
 | шу-пуэры (`gongting-puer`, `menghai-shu`) | `["piled"]` |
 | `tuocha` | `["piled"]` или `["none"]` — зависит от того, шу или шэн: точа это форма, а не тип |
 | `liupao` | `["piled", "aged"]` |
-| `fu-zhuan` | `["piled", "flowered"]` |
+| `fuzhuan` | `["piled", "flowered"]` |
 
 ### Что это НЕ ломает
 
