@@ -23,7 +23,9 @@ function getTemperature(method: BrewMethod): number | [number, number] {
 }
 
 function getSteepsFromMethod(method: BrewMethod): number[] {
-    return method.infusions.map((infusion) => infusion.time);
+    // `infusions` стало необязательным: у взбивания (матча) проливов нет ни
+    // одного. Защита, а не изменение вида — без неё сборка не проходит.
+    return (method.infusions ?? []).map((infusion) => infusion.time);
 }
 
 export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) {
@@ -59,13 +61,25 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                     temperature={getTemperature(activeMethod)}
                     ratio={activeMethod.ratio}
                 />
-                <div className="flex flex-1 flex-col">
-                    <SteepsTable steeps={steeps} activeIndex={activeSteepIndex} />
-                    <SteepTimer
-                        steeps={steeps}
-                        onActiveIndexChange={setActiveSteepIndex}
-                    />
-                </div>
+                {/*
+                    Таблица проливов и таймер — только когда проливы есть.
+                    У взбивания (матча) их нет ни одного, и пустая таблица с
+                    таймером на ноль шагов была бы дефектом, а не решением.
+
+                    Это защита, а не оформление: как показывать взбивание —
+                    вопрос к justea-design, он описан в outbox justea-seo #12.
+                    Своего облика агент не придумывает (решение пользователя
+                    07.11.2026).
+                */}
+                {steeps.length > 0 && (
+                    <div className="flex flex-1 flex-col">
+                        <SteepsTable steeps={steeps} activeIndex={activeSteepIndex} />
+                        <SteepTimer
+                            steeps={steeps}
+                            onActiveIndexChange={setActiveSteepIndex}
+                        />
+                    </div>
+                )}
             </div>
 
             {activeMethod.notes && activeMethod.notes.length > 0 && (

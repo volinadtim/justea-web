@@ -31,13 +31,21 @@ interface PageProps {
  */
 function teaMetaDescription(tea: Tea): string {
     const method = getPrimaryBrewMethod(tea);
-    const facts = method
-        ? `${tea.name}: ${method.ratio} г на 100 мл, вода ${
-              method.temperature.from === method.temperature.to
-                  ? `${method.temperature.from}`
-                  : `${method.temperature.from}–${method.temperature.to}`
-          } °C, ${method.infusions.length} ${pluralInfusions(method.infusions.length)}.`
-        : `${tea.name}.`;
+    const temperature = method
+        ? method.temperature.from === method.temperature.to
+            ? `${method.temperature.from}`
+            : `${method.temperature.from}–${method.temperature.to}`
+        : "";
+    const infusions = method?.infusions ?? [];
+    // У взбивания проливов нет, и «0 проливов» в сниппете было бы ошибкой,
+    // а не недомолвкой. Для матчи конкретика другая: сколько порошка и воды.
+    const facts = !method
+        ? `${tea.name}.`
+        : infusions.length
+          ? `${tea.name}: ${method.ratio} г на 100 мл, вода ${temperature} °C, ${
+                infusions.length
+            } ${pluralInfusions(infusions.length)}.`
+          : `${tea.name}: ${method.ratio} г на 100 мл, вода ${temperature} °C.`;
     const full = [facts, tea.description].filter(Boolean).join(" ");
 
     if (full.length <= 160) {

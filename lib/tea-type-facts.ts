@@ -95,6 +95,7 @@ const DEFAULT_CATEGORY: Record<TeaType, StandardTeaCategory> = {
     black: "black",
     oolong: "oolong",
     "pu-erh": "dark",
+    dark: "dark",
     white: "white",
     yellow: "yellow",
 };
@@ -108,14 +109,28 @@ function factsForTea(tea: Tea): TypeFacts {
 }
 
 /**
- * Ошибки заваривания для страницы сорта: сначала общие для типа, затем
+ * Ошибки заваривания для страницы сорта: сначала общие для категории, затем
  * свойственные самому сорту. Порядок именно такой — общее объясняет
  * механизм, частное уточняет.
+ *
+ * Сортовая запись с `replaces` **убирает** названную запись категории, а не
+ * добавляется к ней. Иначе на странице гёкуро встали бы рядом «листа больше,
+ * чем нужно → горечь» и «официальная навеска 16,7 г/100 мл» — правило и его
+ * прямое опровержение.
  */
 export function brewMistakesFor(tea: Tea): BrewMistake[] {
+    const own = tea.brewMistakes ?? [];
+    const replaced = new Set(
+        own
+            .map((mistake) => mistake.replaces)
+            .filter((id): id is string => Boolean(id)),
+    );
+
     return [
-        ...(factsForTea(tea).brewMistakes ?? []),
-        ...(tea.brewMistakes ?? []),
+        ...(factsForTea(tea).brewMistakes ?? []).filter(
+            (mistake) => !mistake.id || !replaced.has(mistake.id),
+        ),
+        ...own,
     ].map((mistake) => fillMistake(mistake, tea));
 }
 
