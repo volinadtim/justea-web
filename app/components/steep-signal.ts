@@ -162,6 +162,14 @@ export function keepScreenAwake(): () => void {
     async function request() {
         try {
             sentinel = await navigator.wakeLock.request("screen");
+
+            // Блокировку могли отпустить, пока запрос ещё шёл: тогда снимать
+            // её было нечего, и экран остался бы гореть после остановки
+            // таймера. Проверяем после await и снимаем сами.
+            if (released) {
+                await sentinel.release();
+                sentinel = null;
+            }
         } catch {
             // отказ — не ошибка: батарея, фон вкладки, неподдерживаемый режим
         }
