@@ -3,6 +3,7 @@
 import { useMachine } from "@xstate/react";
 import { PauseIcon, PlayIcon, RotateCcwIcon, SkipForwardIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
+import WetHandsTimer, { TimerStatus } from "./features/WetHandsTimer";
 import { formatSteepTime } from "@/lib/format-steep-time";
 import { steepTimerMachine } from "@/lib/machines/steep-timer";
 
@@ -10,6 +11,9 @@ type Props = {
     steeps: number[];
     /** Изменение значения запускает таймер с первого пролива. */
     startSignal?: number;
+    /** Полноэкранный режим под мокрые руки. */
+    fullscreen?: boolean;
+    onFullscreenChange?: (open: boolean) => void;
     onActiveIndexChange?: (index: number | null) => void;
 };
 
@@ -38,6 +42,8 @@ function TimerIconButton({
 export default function SteepTimer({
     steeps,
     startSignal = 0,
+    fullscreen = false,
+    onFullscreenChange,
     onActiveIndexChange,
 }: Props) {
     const [snapshot, send] = useMachine(steepTimerMachine, {
@@ -101,6 +107,22 @@ export default function SteepTimer({
 
     const totalSteeps = steeps.length;
     const displaySeconds = isIdle || isFinished ? steeps[0] ?? 0 : remainingSeconds;
+    const status: TimerStatus = isRunning
+        ? "running"
+        : isPaused
+          ? "paused"
+          : isFinished
+            ? "finished"
+            : "idle";
+
+    function toggle() {
+        if (isRunning) {
+            send({ type: "PAUSE" });
+            return;
+        }
+
+        send({ type: isPaused ? "RESUME" : "START" });
+    }
 
     return (
         <div className="mt-[20px] rounded-md border-2 border-black/10 p-[16px] dark:border-white/10">
@@ -153,6 +175,19 @@ export default function SteepTimer({
                     </TimerIconButton>
                 ) : null}
             </div>
+
+            {fullscreen ? (
+                <WetHandsTimer
+                    totalSteeps={totalSteeps}
+                    currentIndex={currentIndex}
+                    remainingSeconds={displaySeconds}
+                    status={status}
+                    onPrimary={toggle}
+                    onSkip={() => send({ type: "SKIP" })}
+                    onReset={() => send({ type: "RESET" })}
+                    onClose={() => onFullscreenChange?.(false)}
+                />
+            ) : null}
         </div>
     );
 }
