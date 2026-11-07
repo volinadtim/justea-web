@@ -265,8 +265,36 @@
    "journal": "Molecules 26(12):3485",
    "doi": "10.3390/molecules26123485",
    "language": "en",
-   "accessed": "2026-11-06",
-   "verified": "Crossref, 2026-11-06"
+   "accessed": "2026-11-07",
+   "verified": "Crossref, 2026-11-06",
+   "pmcid": "PMC8229914",
+   "license": "CC BY 4.0",
+   "access": "полный текст через API Europe PMC",
+   "raw": "raw/lit-water-quality.md",
+   "storage": "excerpt",
+   "key_numbers": {
+    "hardness_range_ppm_caco3": [
+     21,
+     338
+    ],
+    "total_catechins_mg_per_cup": {
+     "very_soft": 164.6,
+     "very_hard": 67.5,
+     "fold_decrease": 2.4
+    },
+    "egcg_fold_decrease": 3.2,
+    "egc_fold_decrease": 3.1,
+    "ecg_fold_decrease": 1.7,
+    "ec_fold_decrease": 1.4,
+    "non_epi_gc_c": "не изменились",
+    "browning_threshold": "pH выше 6,3 и жёсткость выше 42 ppm CaCO₃",
+    "tea_ph": {
+     "very_hard": 7.1,
+     "very_soft": 6.0
+    },
+    "method": "пакетик, 70 °C, 3 мин, 235 мл — потребительский режим, не лабораторный"
+   },
+   "content_note": "Главный источник для страницы про воду. Механизм: жёсткая вода делает настой щелочным, EGC и EGCG автоокисляются и полимеризуются в бурые пигменты — то есть дело не в худшей экстракции, а в разрушении. Кофеин устойчивее: снижение было только у одной марки из трёх."
   },
   "lit-fernando-2015": {
    "level": "A",
@@ -290,8 +318,19 @@
    "doi": "10.1007/s13197-017-2571-2",
    "pmc": "PMC5380641",
    "language": "en",
-   "accessed": "2026-11-06",
-   "verified": "Crossref + NCBI, 2026-11-06"
+   "accessed": "2026-11-07",
+   "verified": "Crossref + NCBI, 2026-11-06",
+   "pmcid": "PMC5380641",
+   "raw": "raw/lit-water-quality.md",
+   "storage": "abstract-only",
+   "access": "аннотация через API Europe PMC; полный текст в открытом доступе не значится, fullTextXML отдал 500",
+   "key_directions": {
+    "catechins": "больше на очищенной воде",
+    "caffeine_and_theanine": "больше на родниковой",
+    "free_amino_acids": "больше на водопроводной",
+    "sensory": "очищенная вода признана наиболее пригодной для белого чая по цвету, аромату и вкусу"
+   },
+   "content_note": "⚠ ЧИСЕЛ НЕТ — только направления из аннотации. Важно: результат ОБРАТЕН иерархии DB53/T 236-2007, где родниковая вода на первом месте, а очищенная на третьем. Расхождение зафиксировано в raw/lit-water-quality.md, молча не выбрано."
   },
   "lit-liu-2021": {
    "level": "A",
