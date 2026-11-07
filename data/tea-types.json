@@ -93,7 +93,15 @@
         "change": "Вода горячее и дольше",
         "consequence": "У пуэра это обычный режим: у шу максимум полифенолов получается при 90 °C и 5 минутах, а варка 30–60 секунд признавалась отдельным способом наравне с завариванием. Правило зелёного чая сюда не переносится.",
         "sources": ["lit-pedan-2018", "cn-db53-236-brewing"],
-        "confidence": "high"
+        "confidence": "high",
+        "onlyFor": [
+          "lao-banzhang",
+          "yiwu",
+          "bingdao",
+          "gongting-puer",
+          "menghai-shu",
+          "tuocha"
+        ]
       }
     ],
     "misconceptions": [

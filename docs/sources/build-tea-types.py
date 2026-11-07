@@ -116,6 +116,25 @@ def _fmt(value, indent, prefix=0):
     return json.dumps(value, ensure_ascii=False)
 
 
+def _outcome(r):
+    """BrewOutcome для контейнера.
+
+    `onlyFor` выносится только если он задан: по правилу seo пустой массив означает
+    «ни для кого», а не «для всех», поэтому опускать поле и опустошать его — разные
+    вещи, и опускать правильно.
+    """
+    out = {
+        "id": r["id"],
+        "change": r["change"],
+        "consequence": r["consequence"],
+        "sources": r.get("sources", []),
+        "confidence": r["confidence"],
+    }
+    if r.get("onlyFor"):
+        out["onlyFor"] = r["onlyFor"]
+    return out
+
+
 def fail(problems):
     print("СБОРКА НЕ ВЫПОЛНЕНА, проблем: %d" % len(problems), file=sys.stderr)
     for p in problems:
@@ -158,6 +177,9 @@ def main():
         for s in r.get("sources", []):
             if s not in catalog:
                 problems.append("%s: источника %r нет в catalog.json" % (rid, s))
+        if "onlyFor" in r and not r["onlyFor"]:
+            problems.append("%s: onlyFor пустой — по правилу seo это «ни для кого». "
+                            "Для всей категории поле надо УБРАТЬ, а не опустошать" % rid)
 
     # --- проверки исключений уровня сорта: сюда не попадают, но replaces обязан указывать на запись
     for e in brew.get("teaExceptions", []):
@@ -184,13 +206,7 @@ def main():
     for cat in CATEGORIES:
         out[cat] = {
             "brewOutcomes": [
-                {
-                    "id": r["id"],
-                    "change": r["change"],
-                    "consequence": r["consequence"],
-                    "sources": r.get("sources", []),
-                    "confidence": r["confidence"],
-                }
+                _outcome(r)
                 for r in records if r["scope"] == cat
             ],
             "misconceptions": [
