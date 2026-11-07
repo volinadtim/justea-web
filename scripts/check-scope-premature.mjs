@@ -77,45 +77,106 @@ const BY_TYPE_PROFILE = new Set([
     "tuocha|возвращающаяся сладость|послевкусие",
 ]);
 
+/** Все сенсорные слова каталога: нужны, чтобы заметить названное, но отсутствующее. */
+const VOCABULARY = new Set();
+for (const tea of teas) {
+    const c = tea.characteristics;
+    for (const d of [...(c.aroma ?? []), ...(c.flavor ?? []), ...(c.aftertaste ?? [])]) {
+        VOCABULARY.add(low(d));
+    }
+}
+
+/** Подтверждено как СВОЁ: источник говорит это про сам чай (outbox #67). */
+const OWN = new Set([
+    "gongting-puer|выдержанныи", "gongting-puer|насыщенныи", "gongting-puer|густои",
+    "gongting-puer|мягкии", "gongting-puer|сладко-освежающии",
+    "milk-oolong|легкии молочныи",
+    "lapsang-souchong|сосновыи дым", "lapsang-souchong|сушеныи лонган",
+    "gaba-tea|особыи чаиныи", "gaba-tea|сладковатыи", "gaba-tea|легкая терпкость",
+    "dong-ding|обжарочныи",
+    "liupao|выдержанныи", "liupao|густои", "liupao|мягкии",
+]);
+
+const root = (s) => low(s).replace(/(ость|ыи|ое|ии|ыми|ая|ую|ого|ом)$/, "");
+
+/** Проверяет одну рамку против одного блока. Возвращает список нарушений. */
+export function audit(slug, scope, block) {
+    const bad = [];
+    const text = low(scope);
+
+    if (block.length === 0) {
+        bad.push("блок пуст: рамке не о чем говорить");
+        return bad;
+    }
+
+    const named = block.filter(([d]) => text.includes(root(d)));
+
+    /* Названо слово, которого в блоке нет. Ловится по словарю дескрипторов
+       каталога: «дымность» в рамке шу-пуэра — слово из словаря, но не из
+       этого блока. */
+    /* Корень из словаря каталога, упомянутый рамкой, должен иметь
+       соответствие В ЭТОМ блоке. Сравниваем корни, а не слова: «цветочность»
+       в рамке и «Цветочный» в блоке — одно и то же упоминание, а
+       «дымность» в рамке шу-пуэра не отвечает ничему. */
+    const blockRoots = new Set(block.map(([d]) => root(d)));
+    for (const word of VOCABULARY) {
+        const r = root(word);
+        if (r.length < 4 || !text.includes(r)) continue;
+        /* Вхождение одного корня в другой считается тем же упоминанием:
+           «сладкое послевкусие» из словаря и «Сладкое» в блоке — одно
+           слово, достроенное заголовком поля. */
+        if ([...blockRoots].some((b) => b.includes(r) || r.includes(b))) continue;
+        bad.push(`рамка называет «${word}», а в блоке такого слова нет`);
+    }
+
+    if (named.length === 0) {
+        for (const [d, field] of block) {
+            if (!BY_TYPE_PROFILE.has(`${slug}|${low(d)}|${field}`)) {
+                bad.push(`рамка о блоке целиком, а «${d}» (${field}) профилем типа не покрыт`);
+            }
+        }
+        return bad;
+    }
+
+    for (const [d, field] of named) {
+        if (!BY_TYPE_PROFILE.has(`${slug}|${low(d)}|${field}`)) {
+            bad.push(`названный «${d}» (${field}) профилем типа не покрыт`);
+        }
+    }
+
+    /* Вторая половина требования, названная justea-voice: перечисление
+       делит блок, и читатель достроит, что НЕ названное — своё. Значит
+       каждое не названное обязано быть подтверждённым своим. */
+    for (const [d, field] of block) {
+        if (named.some(([n]) => n === d)) continue;
+        if (!OWN.has(`${slug}|${low(d)}`)) {
+            bad.push(
+                `«${d}» (${field}) не назван рамкой, и своим не подтверждён: ` +
+                    "читатель прочтёт его как свойство сорта",
+            );
+        }
+    }
+
+    return bad;
+}
+
+const blockOf = (tea) => {
+    const c = tea.characteristics;
+    return [
+        ...(c.aroma ?? []).map((d) => [d, "аромат"]),
+        ...(c.flavor ?? []).map((d) => [d, "вкус"]),
+        ...(c.aftertaste ?? []).map((d) => [d, "послевкусие"]),
+    ];
+};
+
 const problems = [];
 let checked = 0;
 
 for (const tea of teas) {
-    const scope = tea.characteristicsScope;
-    if (!scope) continue;
+    if (!tea.characteristicsScope) continue;
     checked += 1;
-
-    const { aroma = [], flavor = [], aftertaste = [] } = tea.characteristics;
-    const block = [
-        ...aroma.map((d) => [d, "аромат"]),
-        ...flavor.map((d) => [d, "вкус"]),
-        ...aftertaste.map((d) => [d, "послевкусие"]),
-    ];
-
-    const named = block.filter(([d]) => low(scope).includes(low(d).replace(/ость$|ыи$|ое$|ии$/, "")));
-
-    if (named.length > 0) {
-        // Рамка называет дескрипторы: проверяем только названные.
-        for (const [d, field] of named) {
-            if (!BY_TYPE_PROFILE.has(`${tea.slug}|${low(d)}|${field}`)) {
-                problems.push(
-                    `${tea.slug}: рамка называет «${d}» (${field}), а профилем типа он не покрыт`,
-                );
-            }
-        }
-        continue;
-    }
-
-    // Рамка о блоке целиком: однородность обязательна.
-    const uncovered = block.filter(
-        ([d, field]) => !BY_TYPE_PROFILE.has(`${tea.slug}|${low(d)}|${field}`),
-    );
-
-    if (uncovered.length > 0) {
-        problems.push(
-            `${tea.slug}: рамка говорит о блоке целиком, а ${uncovered.length} из ${block.length} ` +
-                `профилем типа не покрыты (${uncovered.map(([d]) => d).join(", ")})`,
-        );
+    for (const line of audit(tea.slug, tea.characteristicsScope, blockOf(tea))) {
+        problems.push(`${tea.slug}: ${line}`);
     }
 }
 
@@ -129,19 +190,41 @@ if (problems.length > 0) {
     console.log("✅ ни одна рамка не опережает состав своего блока");
 }
 
-/* Проверка самой проверки: подставляем две отложенные рамки и ждём, что
-   обе будут названы преждевременными. */
-for (const slug of ["tie-guan-yin", "da-hong-pao"]) {
+/* Пробы. Проверка, не ловящая случай, из которого выведена, бесполезна, а
+   предел, записанный в комментарии, проверяется один раз. Поэтому и то и
+   другое лежит здесь и прогоняется каждый раз. Пробы 1–4 предложены
+   justea-voice. */
+const PROBES = [
+    ["отложенная рамка Те Гуань Инь", "tie-guan-yin", "Так описывают улуны вообще.", true],
+    ["отложенная рамка Да Хун Пао", "da-hong-pao", "Так описывают улуны вообще.", true],
+    ["проба 1: названо слово не из блока", "menghai-shu", "Дымность есть у шу-пуэров вообще.", true],
+    ["проба 2: названы два категорийных из четырёх", "milk-oolong", "Цветочность и сладкое послевкусие есть у улунов вообще.", true],
+    ["проба 3: пустой блок", "longjing", "Так описывают зелёные чаи вообще.", true],
+    /* Предел, а не дыра к починке: распознавание «рамка называет дескриптор»
+       отсекает окончания и на другом корне промахивается. Лежит пробой, а не
+       комментарием, чтобы проверялся каждым прогоном. */
+    ["предел: рамка называет дескриптор другим корнем", "menghai-shu", "Возврат сладости есть у шу-пуэров вообще.", "known"],
+];
+
+console.log("\nпробы:");
+for (const [name, slug, scope, mustFail] of PROBES) {
     const tea = teas.find((t) => t.slug === slug);
-    const c = tea.characteristics;
-    const block = [
-        ...(c.aroma ?? []).map((d) => [d, "аромат"]),
-        ...(c.flavor ?? []).map((d) => [d, "вкус"]),
-        ...(c.aftertaste ?? []).map((d) => [d, "послевкусие"]),
-    ];
-    const uncovered = block.filter(([d, f]) => !BY_TYPE_PROFILE.has(`${slug}|${low(d)}|${f}`));
-    console.log(
-        `  проба «Так описывают улуны вообще» у ${slug}: ` +
-            `${uncovered.length ? `преждевременна, непокрытых ${uncovered.length} из ${block.length}` : "прошла бы"}`,
-    );
+    let block = blockOf(tea);
+    if (name.startsWith("проба 3")) block = [];
+    if (name.startsWith("проба 2")) {
+        block = blockOf(tea).filter(([d, f]) => BY_TYPE_PROFILE.has(`${slug}|${low(d)}|${f}`) || OWN.has(`${slug}|${low(d)}`));
+    }
+    const bad = audit(slug, scope, block);
+
+    if (mustFail === "known") {
+        console.log(
+            `  ${bad.length ? "✅ неожиданно ловится" : "⚠ известный предел, не ловится"}  ${name}`,
+        );
+        continue;
+    }
+
+    const ok = mustFail ? bad.length > 0 : bad.length === 0;
+    if (!ok) process.exitCode = 1;
+    console.log(`  ${ok ? "✅" : "⚠ НЕ ЛОВИТСЯ"}  ${name}`);
+    for (const line of bad) console.log(`        ${line}`);
 }
