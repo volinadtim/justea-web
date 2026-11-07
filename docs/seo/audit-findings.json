@@ -10,7 +10,7 @@
     "fix_branch": "agent/seo",
     "language": "ru",
     "languages_decision": "Только русский. Подтверждено пользователем через оркестратора 06.11.2026. hreflang не выводится; lib/site.ts подготовлен к добавлению локали одной строкой.",
-    "updated": "2026-11-06, по итогам этапа 2 и хендоффа justea-design"
+    "updated": "2026-11-07, по итогам разрешений из inbox #5"
   },
   "severity_scale": [
     "critical",
@@ -23,7 +23,8 @@
     "handoff": "вне зоны justea-seo, передано владельцу",
     "user": "требует действия пользователя",
     "later": "этап 2",
-    "retracted": "находка снята как ошибочная — см. поле corrected"
+    "retracted": "находка снята как ошибочная — см. поле corrected",
+    "fixed_pr": "исправлено отдельным PR вне ветки agent/seo — см. поле pr"
   },
   "findings": [
     {
@@ -43,8 +44,8 @@
     {
       "id": "2.2",
       "severity": "critical",
-      "status": "handoff",
-      "owner": "оркестратор / инфраструктура",
+      "status": "fixed_pr",
+      "owner": "justea-seo (точечное разрешение пользователя 07.11.2026)",
       "title": "www.justea.ru отдаёт 200 вместо 301",
       "evidence": "curl -s -o /dev/null -w '%{http_code}' https://www.justea.ru/ → 200",
       "cause": "infra/nginx/host-justea-ssl.conf обслуживает оба домена одним server_name без разделения",
@@ -53,7 +54,10 @@
       "files": [
         "infra/nginx/host-justea-ssl.conf"
       ],
-      "blocked_reason": "infra/ вне зоны justea-seo"
+      "pr": "https://github.com/volinadtim/justea-web/pull/15",
+      "branch": "fix/www-redirect",
+      "fix_applied": "Отдельный server-блок на 443 для www.justea.ru с тем же сертификатом отдаёт 301 на апекс; из основного блока www убран. В HTTP-блоке $host заменён на justea.ru, иначе http://www шёл бы в два прыжка. Только этот файл.",
+      "verification": "Локально проверить было нечем: ни nginx, ни рабочего docker на машине. Сделана структурная проверка (баланс блоков, завершение директив, server_name). Перед reload нужен nginx -t на хосте. После выката: curl -sI https://www.justea.ru/ | head -1 → ожидается 301."
     },
     {
       "id": "2.3",
@@ -294,15 +298,18 @@
     {
       "id": "5.3",
       "severity": "medium",
-      "status": "handoff",
-      "owner": "justea-design (компонент); предупредить justea-sources перед добавлением пуэров",
+      "status": "fixed_pr",
+      "owner": "justea-design",
       "title": "Риск: при 7-м проливе HowTo разойдётся с видимым контентом",
       "evidence": "app/components/SteepsTable.tsx берёт номера из STEEP_NUMBERS длиной 6 (一…六) и при седьмом проливе молча обрезает нумерацию. teaPageSchema выводит в HowTo все проливы из data/teas.json. Максимум в каталоге сейчас ровно 6 (sencha, гунфу-ча); ни один кандидат в docs/*candidates*.json шести не превышает — проверено скриптом.",
       "latent": true,
       "trigger": "Появление в data/teas.json чая с 7+ проливами. Пользователь одобрил расширение каталога шэн- и шу-пуэрами 06.11.2026, а гунфу-ча пуэра — обычно 8–10 проливов.",
       "impact": "Разметка заявит больше шагов, чем видно на странице. Прямое нарушение требования Google «структурированные данные должны соответствовать видимому контенту».",
       "why_not_fixed_here": "Обрезать HowTo до шести шагов значило бы спрятать от краулера реальные данные и захардкодить константу чужого компонента в разметку — при починке компонента она сразу устареет. Лимит принадлежит SteepsTable, там и лечится.",
-      "found_with": "justea-design, 06.11.2026"
+      "found_with": "justea-design, 06.11.2026",
+      "branch": "fix/steeps-numbering",
+      "fix_applied": "Коммит 236806e: SteepsTable нумерует любое число проливов, китайские цифры до десяти, дальше арабские. Проверено 07.11.2026 — риск снят в коде.",
+      "caveat": "Ветка не влита в master. Пока PR не смержен, добавление пуэра с 8–10 проливами снова разведёт разметку с видимым контентом. Порядок: сначала влить fix/steeps-numbering, потом коммитить данные пуэров."
     },
     {
       "id": "5.4",
