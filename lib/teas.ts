@@ -62,8 +62,10 @@ export function filterTeasByType(type?: TeaType): Tea[] {
 }
 
 export function getPrimaryBrewMethod(tea: Tea): BrewMethod | undefined {
+    const methods = tea.brewMethods ?? [];
+
     return (
-        tea.brewMethods.find((method) => method.type === tea.primaryBrewMethod) ??
-        tea.brewMethods[0]
+        methods.find((method) => method.type === tea.primaryBrewMethod) ??
+        methods[0]
     );
 }

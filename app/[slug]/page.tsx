@@ -111,11 +111,17 @@ export default async function TeaPage({ params }: PageProps) {
         notFound();
     }
 
+    /*
+     * Способов заваривания может не быть ни одного — у чая, для которого
+     * проверенных параметров пока нет.
+     *
+     * **Раньше здесь стоял `notFound()`,** то есть такой чай отдавал бы 404.
+     * Это не срабатывало только потому, что валидатор требовал хотя бы один
+     * способ — и тем самым заставлял выдумывать параметры. Убрав требование,
+     * надо было убрать и эту ветку, иначе первая же честная запись исчезла
+     * бы из выдачи вместе со всем, что про неё известно.
+     */
     const primaryBrewMethod = getPrimaryBrewMethod(tea);
-
-    if (!primaryBrewMethod) {
-        notFound();
-    }
 
     const brewOutcomes = brewOutcomesFor(tea);
     const misconceptions = misconceptionsFor(tea);
@@ -171,10 +177,32 @@ export default async function TeaPage({ params }: PageProps) {
                     aftertaste={tea.characteristics.aftertaste}
                 />
 
-                <TeaBrewSection
-                    brewMethods={tea.brewMethods}
-                    defaultMethodId={primaryBrewMethod.id}
-                />
+                {/*
+                    Если проверенных параметров нет, блок не показываем — но и
+                    не молчим.
+
+                    Молчание здесь выглядит поломкой: у всех остальных чаёв на
+                    этом месте главный блок страницы, и его исчезновение
+                    читается как «сайт не догрузился», а не как «мы не знаем».
+                    Это отличается от пустой рубрики в характеристиках, где
+                    отсутствие строки незаметно.
+
+                    TODO(voice): формулировку даёт justea-voice. Здесь
+                    рабочая — она не должна обещать, что параметры появятся,
+                    и не должна извиняться.
+                */}
+                {primaryBrewMethod ? (
+                    <TeaBrewSection
+                        brewMethods={tea.brewMethods ?? []}
+                        defaultMethodId={primaryBrewMethod.id}
+                    />
+                ) : (
+                    <p className="text-[17px] text-black/70 dark:text-white/70 sm:text-[19px]">
+                        Проверенных параметров заваривания для этого чая у нас
+                        пока нет: мы не нашли источника, которому можно
+                        доверять, а выдумывать не станем.
+                    </p>
+                )}
 
                 {/*
                     Что меняет вкус и частые заблуждения.

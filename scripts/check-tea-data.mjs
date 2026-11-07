@@ -205,6 +205,33 @@ const MORE_IS_BETTER = new RegExp(
     "i",
 );
 
+/**
+ * Дескрипторы, описывающие **человека**, а не настой.
+ *
+ * Проверяется в `characteristics` — и только там: это короткие слова, где
+ * контекста нет, а публикуются они машиночитаемо, как
+ * `PropertyValue` в `Product.additionalProperty`. То есть «Согревающее»
+ * уходит в структурированные данные утверждением о телесном ощущении.
+ *
+ * **«Освежающий» в список НЕ входит, и это не недосмотр.** 爽 — нормативный
+ * сенсорный термин из GB/T 14487-2017, его отрицание 不爽 стоит прямо в
+ * определении дефекта 熟闷味. Это свойство настоя, а не действие на человека.
+ *
+ * Разницу между «освежающий» и «согревающий» задаёт не форма слова, а
+ * нормативный словарь — то есть внешний справочник, которого в данных нет.
+ * Поэтому список ведётся вручную: при появлении нового термина спрашивать
+ * justea-sources, есть ли он в GB/T 14487, а не угадывать по виду.
+ *
+ * Измерено на 149 дескрипторах каталога: со словом «освежа» — 5 срабатываний,
+ * верное 1; без него — 1 и 1. Случай нашли justea-sources, проверка делает
+ * его механическим.
+ */
+const BODY_DESCRIPTORS = new RegExp(
+    WORD_START +
+        "(?:согрева|охлажда|расслабля|взбодр|бодря|тонизирующ|успокаивающ)",
+    "i",
+);
+
 /** Что именно не так с текстом, или `null`, если всё в порядке. */
 function healthRegisterHit(text) {
     const claim = HEALTH_CLAIMS.exec(text ?? "");
@@ -486,6 +513,26 @@ for (const tea of teas) {
         );
     }
 
+    const descriptors = [
+        ...(tea.characteristics?.aroma ?? []),
+        ...(tea.characteristics?.flavor ?? []),
+        ...(tea.characteristics?.aftertaste ?? []),
+        ...(tea.characteristics?.appearance ?? []),
+    ];
+
+    for (const descriptor of descriptors) {
+        const hit = BODY_DESCRIPTORS.exec(descriptor);
+
+        if (hit) {
+            warn(
+                slug,
+                `дескриптор «${descriptor}» описывает человека, а не настой. ` +
+                    "Он уходит в разметку как свойство продукта; если это " +
+                    "нормативный сенсорный термин — скажите, добавлю в исключения",
+            );
+        }
+    }
+
     checkFacts(slug, tea);
 
     for (const outcome of tea.brewOutcomes ?? []) {
@@ -522,8 +569,28 @@ for (const tea of teas) {
         }
     }
 
+    /*
+     * Отсутствие способов заваривания — **не ошибка**, и требование «хотя бы
+     * один» отсюда убрано 07.11.2026.
+     *
+     * Оно выглядело безобидным, а работало так: когда источника на параметры
+     * нет, поле всё равно надо заполнить, и человек кладёт туда самое
+     * правдоподобное из доступного. У семи чаёв этим оказался метод
+     * ISO 3103 — шесть минут кипятком, то есть процедура дегустационной
+     * экспертизы, выданная за рецепт. Нашёл justea-catalog, проверив опытом.
+     *
+     * **Валидатор, требующий полноты там, где данных нет, не защищает
+     * данные, а производит догадки.**
+     */
     if (!Array.isArray(tea.brewMethods) || tea.brewMethods.length === 0) {
-        fail(slug, "нет ни одного brewMethod");
+        if (tea.primaryBrewMethod !== undefined) {
+            fail(
+                slug,
+                `primaryBrewMethod "${tea.primaryBrewMethod}" задан, а способов нет. ` +
+                    "Выбирать не из чего — либо убрать поле, либо добавить способ",
+            );
+        }
+
         continue;
     }
 
@@ -792,7 +859,10 @@ for (const tea of teas) {
         });
     }
 
-    if (!tea.brewMethods.some((method) => method.type === tea.primaryBrewMethod)) {
+    if (
+        tea.primaryBrewMethod !== undefined &&
+        !tea.brewMethods.some((method) => method.type === tea.primaryBrewMethod)
+    ) {
         fail(
             slug,
             `primaryBrewMethod "${tea.primaryBrewMethod}" не найден среди brewMethods`,
