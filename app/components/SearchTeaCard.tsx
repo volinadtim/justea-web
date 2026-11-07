@@ -10,12 +10,56 @@ type Props = {
     onSelect?: () => void;
 };
 
+const TAG_LIMIT = 4;
+
+/**
+ * Четыре тега поровну из аромата и вкуса.
+ *
+ * Раньше бралось `[...aroma, ...flavor].slice(0, 4)`. Склейка начинается
+ * с аромата, поэтому у чая с четырьмя ароматами вкус не показывался вообще —
+ * не часть его, а целиком. В каталоге из 24 записей таких шесть: Те Гуань Инь,
+ * Да Хун Пао, Би Ло Чунь, Бай Хао Инь Чжэнь, сенча, дарджилинг.
+ *
+ * Если в одной группе меньше двух значений, недостающее добирается
+ * из соседней — чтобы тегов по-прежнему было четыре.
+ *
+ * Повторы отбрасываются: аромат и вкус описываются одним словарём, и,
+ * например, у дарджилинга «Цветочный» стоит в обоих списках. До этой правки
+ * повтор был невозможен, потому что вкус в карточку не попадал.
+ */
+function pickTags(aroma: string[], flavor: string[]): string[] {
+    const half = Math.floor(TAG_LIMIT / 2);
+    const seen = new Set<string>();
+    const tags: string[] = [];
+
+    function take(values: string[], limit: number) {
+        for (const value of values) {
+            if (tags.length >= limit) {
+                return;
+            }
+
+            const key = value.toLocaleLowerCase("ru");
+
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+            tags.push(value);
+        }
+    }
+
+    take(aroma, Math.max(half, TAG_LIMIT - flavor.length));
+    take(flavor, TAG_LIMIT);
+    // Если во вкусе не хватило непохожих слов, добираем из аромата.
+    take(aroma, TAG_LIMIT);
+
+    return tags;
+}
+
 export default function SearchTeaCard({ tea, onSelect }: Props) {
     const liquorColor = tea.characteristics.liquorColor;
-    const tags = [
-        ...tea.characteristics.aroma,
-        ...tea.characteristics.flavor,
-    ].slice(0, 4);
+    const tags = pickTags(tea.characteristics.aroma, tea.characteristics.flavor);
 
     return (
         <Link
