@@ -1,0 +1,2857 @@
+{
+ "generated": "2026-11-06",
+ "generated_note": "Дата снята с HTTP-заголовка Date (itunes.apple.com, google.com); локальные часы спешат примерно на 21 минуту.",
+ "author": "justea-competitors",
+ "method": "Поиск через WebSearch на четырёх языках; iTunes Search API по 8 странам (us, ru, cn, jp, tw, kr, de, fr) и 44 поисковым фразам (1073 выдачи, 1073→43 после фильтра); iTunes Lookup API для точных метрик; RSS отзывов App Store (200 отзывов); Google Play через Playwright; сайты продуктов через WebFetch и Playwright; GitHub API для открытых проектов.",
+ "legend": {
+  "f": "признак подтверждён источником",
+  "fq": "признак заявлен нечётко, частично или не проверен",
+  "absent": "отсутствие кода в f и fq означает «подтверждения не найдено», а не доказанное отсутствие"
+ },
+ "features": [
+  {
+   "code": "gongfu",
+   "label": "Многопроливной таймер (гунфу)",
+   "group": "Заваривание"
+  },
+  {
+   "code": "autoladder",
+   "label": "Автоматическая лестница времени проливов",
+   "group": "Заваривание"
+  },
+  {
+   "code": "western",
+   "label": "Западный режим / кружка",
+   "group": "Заваривание"
+  },
+  {
+   "code": "cold",
+   "label": "Холодное заваривание",
+   "group": "Заваривание"
+  },
+  {
+   "code": "matcha",
+   "label": "Матча / взбивание",
+   "group": "Заваривание"
+  },
+  {
+   "code": "grandpa",
+   "label": "Grandpa style (чай в стакане)",
+   "group": "Заваривание"
+  },
+  {
+   "code": "dose",
+   "label": "Пересчёт навески под объём посуды",
+   "group": "Заваривание"
+  },
+  {
+   "code": "adapt",
+   "label": "Адаптация времени по отзыву о вкусе",
+   "group": "Заваривание"
+  },
+  {
+   "code": "tastecue",
+   "label": "Подсказки дегустации в процессе пролива",
+   "group": "Заваривание"
+  },
+  {
+   "code": "voice",
+   "label": "Голосовое сопровождение",
+   "group": "Заваривание"
+  },
+  {
+   "code": "wetfinger",
+   "label": "UI под мокрые руки (крупные зоны тапа)",
+   "group": "Заваривание"
+  },
+  {
+   "code": "live",
+   "label": "Экран блокировки / Live Activity",
+   "group": "Платформа"
+  },
+  {
+   "code": "watch",
+   "label": "Приложение для умных часов",
+   "group": "Платформа"
+  },
+  {
+   "code": "widget",
+   "label": "Виджет на домашнем экране",
+   "group": "Платформа"
+  },
+  {
+   "code": "offline",
+   "label": "Работает офлайн",
+   "group": "Платформа"
+  },
+  {
+   "code": "noacct",
+   "label": "Без обязательной регистрации",
+   "group": "Платформа"
+  },
+  {
+   "code": "web",
+   "label": "Веб-версия / PWA",
+   "group": "Платформа"
+  },
+  {
+   "code": "i18n",
+   "label": "Интерфейс на 3+ языках",
+   "group": "Платформа"
+  },
+  {
+   "code": "oss",
+   "label": "Открытый исходный код",
+   "group": "Платформа"
+  },
+  {
+   "code": "cat",
+   "label": "Курируемый каталог/справочник чаёв",
+   "group": "Каталог"
+  },
+  {
+   "code": "origname",
+   "label": "Оригинальные названия + пиньинь/кандзи",
+   "group": "Каталог"
+  },
+  {
+   "code": "usertea",
+   "label": "Можно добавить свой чай",
+   "group": "Каталог"
+  },
+  {
+   "code": "crowdcat",
+   "label": "Каталог пополняется сообществом",
+   "group": "Каталог"
+  },
+  {
+   "code": "caffeine",
+   "label": "Данные о кофеине",
+   "group": "Каталог"
+  },
+  {
+   "code": "pairing",
+   "label": "Сочетания с едой",
+   "group": "Каталог"
+  },
+  {
+   "code": "terroir",
+   "label": "Регион, год урожая, производитель",
+   "group": "Каталог"
+  },
+  {
+   "code": "journal",
+   "label": "Дневник / заметки о чае",
+   "group": "Дневник"
+  },
+  {
+   "code": "perinf",
+   "label": "Заметки по каждому проливу",
+   "group": "Дневник"
+  },
+  {
+   "code": "wheel",
+   "label": "Колесо вкуса / многоосевая оценка",
+   "group": "Дневник"
+  },
+  {
+   "code": "photo",
+   "label": "Фотографии к записям",
+   "group": "Дневник"
+  },
+  {
+   "code": "backdate",
+   "label": "Запись задним числом",
+   "group": "Дневник"
+  },
+  {
+   "code": "stats",
+   "label": "Статистика и графики",
+   "group": "Дневник"
+  },
+  {
+   "code": "export",
+   "label": "Экспорт данных",
+   "group": "Дневник"
+  },
+  {
+   "code": "importd",
+   "label": "Импорт данных",
+   "group": "Дневник"
+  },
+  {
+   "code": "sync",
+   "label": "Синхронизация между устройствами",
+   "group": "Дневник"
+  },
+  {
+   "code": "inv",
+   "label": "Учёт запасов чая",
+   "group": "Запасы"
+  },
+  {
+   "code": "autoded",
+   "label": "Автоматическое списание граммов",
+   "group": "Запасы"
+  },
+  {
+   "code": "fresh",
+   "label": "Срок годности / напоминание о свежести",
+   "group": "Запасы"
+  },
+  {
+   "code": "ware",
+   "label": "Каталог посуды с объёмом",
+   "group": "Запасы"
+  },
+  {
+   "code": "cost",
+   "label": "Цена / стоимость грамма",
+   "group": "Запасы"
+  },
+  {
+   "code": "feed",
+   "label": "Лента / публичное сообщество",
+   "group": "Социальное"
+  },
+  {
+   "code": "friends",
+   "label": "Приватный обмен только с друзьями",
+   "group": "Социальное"
+  },
+  {
+   "code": "follow",
+   "label": "Подписки на других",
+   "group": "Социальное"
+  },
+  {
+   "code": "streak",
+   "label": "Стрики / геймификация",
+   "group": "Социальное"
+  },
+  {
+   "code": "mood",
+   "label": "Подбор по состоянию («что заварить сейчас»)",
+   "group": "Подбор"
+  },
+  {
+   "code": "health",
+   "label": "Подбор по здоровью / конституции (ТКМ)",
+   "group": "Подбор"
+  },
+  {
+   "code": "season",
+   "label": "Сезонность / 节气",
+   "group": "Подбор"
+  },
+  {
+   "code": "ai_id",
+   "label": "ИИ-определение чая по фото листа",
+   "group": "Подбор"
+  },
+  {
+   "code": "ai_label",
+   "label": "ИИ-разбор этикетки → автозаполнение",
+   "group": "Подбор"
+  },
+  {
+   "code": "qr",
+   "label": "QR на упаковке → заваривание",
+   "group": "Подбор"
+  },
+  {
+   "code": "news",
+   "label": "Агрегация новостей о чае",
+   "group": "Прочее"
+  },
+  {
+   "code": "map",
+   "label": "Карта / чайные рядом",
+   "group": "Прочее"
+  },
+  {
+   "code": "booking",
+   "label": "Запись на церемонию",
+   "group": "Прочее"
+  },
+  {
+   "code": "shop",
+   "label": "Продажа чая",
+   "group": "Прочее"
+  },
+  {
+   "code": "seo",
+   "label": "SEO-страницы (таблицы, гайды)",
+   "group": "Прочее"
+  },
+  {
+   "code": "ads",
+   "label": "Реклама в продукте",
+   "group": "Прочее"
+  }
+ ],
+ "products": [
+  {
+   "slug": "myteapal",
+   "name": "MyTeaPal: Tea Timer & Journal",
+   "market": "en",
+   "platforms": [
+    "iOS",
+    "Android"
+   ],
+   "url": "https://www.myteapal.com/",
+   "store": {
+    "ios": "https://apps.apple.com/us/app/myteapal-tea-timer-journal/id1532542738",
+    "android": "https://play.google.com/store/apps/details?id=com.myteapal.myteapal"
+   },
+   "category": "Дневник + таймер + сообщество",
+   "audience": "Увлечённые чаем («tea nerds»), коллекционеры, гунфу-практики",
+   "metrics": {
+    "ios_rating": 4.78,
+    "ios_ratings": 232,
+    "play_rating": 4.9,
+    "play_reviews": 587,
+    "play_installs": "10 000+",
+    "claimed_users": "33 000+ в 100+ странах",
+    "languages": 18,
+    "ios_updated": "2026-09-21",
+    "ios_released": "2020-10-28",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "freemium",
+    "detail": "Бесплатная загрузка, есть встроенные покупки"
+   },
+   "f": [
+    "gongfu",
+    "western",
+    "matcha",
+    "journal",
+    "perinf",
+    "photo",
+    "stats",
+    "inv",
+    "autoded",
+    "ware",
+    "cat",
+    "usertea",
+    "crowdcat",
+    "feed",
+    "follow",
+    "streak",
+    "i18n",
+    "sync",
+    "terroir",
+    "offline"
+   ],
+   "fq": [
+    "export",
+    "wheel",
+    "cold"
+   ],
+   "strengths": [
+    "Самый полный учёт: чай + посуда + поставщики + ингредиенты в одном месте",
+    "Автоматическое списание граммов из запаса после сессии («100 г → 95 г»), удобно для перезаказа",
+    "Каталог посуды с объёмом — считается навеска",
+    "Заметки по каждому проливу: подходит и для западного, и для гунфу",
+    "Словарь вкусов на 100+ тегов",
+    "Сообщество Daily Tea; разработчик активно отвечает на фидбек",
+    "18 языков интерфейса"
+   ],
+   "weaknesses": [
+    "Лаги, зависания и крэши — повторяющаяся тема в 1-звёздочных отзывах; у части пользователей приложение «практически непригодно»",
+    "Нельзя записать сессию задним числом — одна из самых частых просьб (логи привязаны к текущей дате)",
+    "Слишком много шагов до таймера: пользователи просят список своих чаёв на главной и запуск в один тап",
+    "Обязательная регистрация; у части пользователей вход зависает",
+    "Поиск по умолчанию фильтрует по уже отмеченным чаям — сбивает новичков",
+    "Нет приложения для Apple Watch",
+    "Стрики нельзя отключить — вынуждают «успеть залогировать до полуночи»",
+    "Нет приватного обмена с друзьями (только общая лента)",
+    "Порог входа: «overwhelming at first», нужно время на настройку",
+    "Ройбуш и ханибуш свалены в «tisanes»"
+   ],
+   "seo": "Сайт myteapal.com ранжируется по «tea journal app», «tea tracking app»; присутствует в обзорах-подборках (crumble.me, tealytics.app). Основной источник трафика — упоминания в r/tea.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/us/app/myteapal-tea-timer-journal/id1532542738",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://play.google.com/store/apps/details?id=com.myteapal.myteapal",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://www.myteapal.com/app",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://itunes.apple.com/us/rss/customerreviews/id=1532542738/sortby=mostrecent/json",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Фактический лидер западного рынка и самый близкий аналог «большой» Justea. При этом вся его база — порядка 33 тыс. человек."
+  },
+  {
+   "slug": "teafinity",
+   "name": "Teafinity: Tea Timer & AI ID",
+   "market": "en",
+   "platforms": [
+    "iOS",
+    "Android",
+    "Web"
+   ],
+   "url": "https://teafinity.app/",
+   "store": {
+    "ios": "https://apps.apple.com/us/app/teafinity-timer-tea-guide/id6747925058",
+    "android": "https://play.google.com/store/apps/details?id=com.pocketimplementation.tea"
+   },
+   "category": "Таймер + справочник + ИИ-определение",
+   "audience": "Новички и средний уровень; «не хочу угадывать параметры»",
+   "metrics": {
+    "ios_rating": 4.88,
+    "ios_ratings": 33,
+    "play_installs": "1 000+",
+    "teas": 256,
+    "ios_updated": "2026-08-27",
+    "ios_released": "2025-07-04",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "freemium",
+    "detail": "Free: 30 чаёв, западный таймер. Premium $29,99/год или $3,99/нед — 256 чаёв, ИИ-определение, гунфу-таймеры"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "western",
+    "matcha",
+    "cat",
+    "caffeine",
+    "pairing",
+    "journal",
+    "live",
+    "offline",
+    "noacct",
+    "web",
+    "ai_id",
+    "seo",
+    "stats"
+   ],
+   "fq": [
+    "usertea",
+    "i18n"
+   ],
+   "strengths": [
+    "Единственный в выборке с ИИ-определением чая по фото листа или упаковки — с указанием уверенности",
+    "Гунфу-лестницы на 4–20 проливов для 90 чаёв",
+    "Содержание кофеина в мг и сочетания с едой — редкость в категории",
+    "Бесплатный тариф без регистрации (30 чаёв)",
+    "Сильная SEO-машина: /charts/tea-steeping-chart/, /charts/tea-caffeine-chart/, /tools/gongfu-timer/, /learn/ — бесплатные веб-таймеры как точка входа",
+    "Автоматическое логирование пролива в журнал",
+    "Таймер на экране блокировки"
+   ],
+   "weaknesses": [
+    "Главное — за деньги: гунфу-режим целиком в Premium, а это ядро аудитории Justea",
+    "$3,99/неделя — агрессивная подписочная рамка",
+    "Каталог общий, без терруара, года урожая и производителя",
+    "Мало отзывов (33) — продукт молодой, UX не обкатан"
+   ],
+   "seo": "Лучшая SEO-стратегия в категории: отдельные страницы-таблицы (steeping chart, caffeine chart, resteeping chart), раздел /learn/ и бесплатные веб-инструменты /tools/*. Эти страницы попадают в топ по запросам «tea steeping chart», «gong fu tea timer».",
+   "sources": [
+    {
+     "url": "https://teafinity.app/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://teafinity.app/tools/gongfu-timer/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://play.google.com/store/apps/details?id=com.pocketimplementation.tea",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Главный ориентир по SEO и по продуктовой упаковке. Платный гунфу — их слабое место и наша возможность."
+  },
+  {
+   "slug": "tealytics",
+   "name": "tealytics",
+   "market": "en",
+   "platforms": [
+    "Web",
+    "iOS"
+   ],
+   "url": "https://tealytics.app/",
+   "category": "Аналитический дневник чая (web-first)",
+   "audience": "«Tea nerds», аналитический склад; бывшие пользователи Steepster",
+   "metrics": {
+    "languages": 6,
+    "flavor_axes": 12,
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "freemium",
+    "detail": "Leaf — бесплатно (безлимит чаёв/сессий/проливов). Connoisseur — €44,89/год (€3,74/мес). Founding member — €17,49/год пожизненно, 153 места оставалось"
+   },
+   "f": [
+    "gongfu",
+    "western",
+    "cold",
+    "grandpa",
+    "matcha",
+    "journal",
+    "perinf",
+    "wheel",
+    "photo",
+    "stats",
+    "inv",
+    "cost",
+    "ware",
+    "cat",
+    "terroir",
+    "feed",
+    "follow",
+    "streak",
+    "web",
+    "i18n",
+    "importd",
+    "adapt",
+    "ai_label",
+    "crowdcat",
+    "seo"
+   ],
+   "fq": [
+    "export",
+    "backdate",
+    "offline"
+   ],
+   "strengths": [
+    "7 стилей заваривания, включая grandpa, decoction и японский — шире всех в выборке",
+    "Предзаполняет ваши лучшие параметры и корректирует их по результату прошлой чашки: «These are your numbers, not the catalog’s»",
+    "12 осей вкуса (10 вкус + 2 тактильность) на живой радарной диаграмме",
+    "Учёт до подтипа, происхождения, урожая, поставщика, тегов и остатка",
+    "ИИ-разбор фото этикетки → черновик карточки чая",
+    "Щедрый бесплатный тариф: безлимит записей, инвентарь, сообщество",
+    "Интерфейс на 6 языках (EN/DE/ES/FR/CS/IT), юридический комплект ЕС (DPA, Impressum)",
+    "Энциклопедия и блог как SEO-актив"
+   ],
+   "weaknesses": [
+    "Нет Android (в планах) — отсекает основную массу российского рынка",
+    "Нет русского языка",
+    "Web-first: без надёжного офлайна у чайного стола это риск",
+    "За Vercel-защитой — страницы не читаются простыми ботами, что бьёт по части индексации",
+    "Экспорт данных не подтверждён на странице тарифов (импорт — платный)",
+    "Founding-member-механика с обратным отсчётом мест — давление на покупку"
+   ],
+   "seo": "Контент-маркетинг: /blog/best-tea-tracking-apps-2026, /blog/steepster-alternatives — перехват трафика конкурентов. Плюс раздел «Encyclopedia».",
+   "sources": [
+    {
+     "url": "https://tealytics.app/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://tealytics.app/pricing",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Ближайший идейный конкурент по глубине. Главная уязвимость — нет Android и нет русского."
+  },
+  {
+   "slug": "steepster",
+   "name": "Steepster",
+   "market": "en",
+   "platforms": [
+    "Web"
+   ],
+   "url": "https://steepster.com/",
+   "category": "Сообщество + крупнейшая база чаёв",
+   "audience": "Ветераны чайного интернета, англоязычные коллекционеры",
+   "metrics": {
+    "example_notes": "19 443 дегустационных заметки на один чай (Blackberry Sage Oolong)",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Рекламы на главной не видно, премиум-тарифа нет"
+   },
+   "f": [
+    "cat",
+    "crowdcat",
+    "journal",
+    "feed",
+    "follow",
+    "web",
+    "terroir",
+    "seo"
+   ],
+   "fq": [
+    "stats",
+    "inv"
+   ],
+   "strengths": [
+    "Крупнейшая накопленная база чаёв и отзывов в англоязычном сегменте — десятки тысяч заметок на популярные позиции",
+    "Готовый каталог снимает ручной ввод",
+    "Полки «есть / хочу / закончился»",
+    "Статьи («Tea Tasting: Aroma», «Cold Brewing 101»)"
+   ],
+   "weaknesses": [
+    "Фактически не развивается: нет нативного приложения, только сайт",
+    "Нет таймера проливов вообще",
+    "Всё публично по умолчанию, нет настроек приватности и обмена только с друзьями",
+    "Нет привязки к физическому миру (карты, чайные)",
+    "Устаревший интерфейс, мобильная версия — просто сайт"
+   ],
+   "seo": "Исторически сильные позиции по названиям конкретных чаёв и брендов: страницы вида /teas/<бренд>/<чай> собирают низкочастотный трафик.",
+   "sources": [
+    {
+     "url": "https://steepster.com/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://crumble.me/guides/best-tea-tracking-apps",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Главный урок: база данных чаёв + UGC-отзывы — это долгоиграющий SEO-актив, который переживает сам продукт."
+  },
+  {
+   "slug": "crumble",
+   "name": "Crumble (чайный модуль)",
+   "market": "en",
+   "platforms": [
+    "Web",
+    "PWA"
+   ],
+   "url": "https://crumble.me/",
+   "category": "Трекер еды и ресторанов с чайным дневником",
+   "audience": "Те, кто уже ведёт дневник еды; приватные пользователи в ЕС",
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Plus-тариф анонсирован, но недоступен; ядро дневника без пейволла"
+   },
+   "f": [
+    "journal",
+    "wheel",
+    "friends",
+    "photo",
+    "web",
+    "map"
+   ],
+   "fq": [
+    "usertea",
+    "export"
+   ],
+   "strengths": [
+    "Приватность по умолчанию: дневник виден только выбранным друзьям",
+    "Шестиосевое колесо вкуса, заточенное под чай (включая терпкость и умами)",
+    "Хостинг в ЕС, GDPR",
+    "Чай и матча — отдельные журналы в одном приложении"
+   ],
+   "weaknesses": [
+    "Чай — не основной продукт: сайт позиционируется как «Restaurant Tracker App & Social Food Map»",
+    "Нет публичного каталога чаёв — всё вносится руками",
+    "Нет таймера проливов",
+    "Сообщество ограничено кругом друзей"
+   ],
+   "seo": "Гайды /guides/how-to-track-tea, /guides/best-tea-tracking-apps, /guides/matcha-tracker-app — классический перехват сравнительных запросов.",
+   "sources": [
+    {
+     "url": "https://crumble.me/guides/best-tea-tracking-apps",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://crumble.me/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Подтверждает спрос на «приватно, только друзьям» — ровно то, чего не хватает MyTeaPal."
+  },
+  {
+   "slug": "tea-master",
+   "name": "Tea Master: Gongfu Tea Timer",
+   "market": "en",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://teamaster.app/",
+   "store": {
+    "ios": "https://apps.apple.com/us/app/tea-master-brewing-timer/id6751961554"
+   },
+   "category": "Таймер + журнал",
+   "audience": "Владельцы iPhone, гунфу и западное заваривание",
+   "metrics": {
+    "ios_rating": 3.0,
+    "ios_ratings": 1,
+    "teas": 45,
+    "ios_updated": "2026-09-15",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "freemium",
+    "detail": "Free — 2 пробных чая с полным таймером. Premium — подписка или разовая покупка навсегда"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "western",
+    "cold",
+    "matcha",
+    "dose",
+    "cat",
+    "journal",
+    "photo",
+    "stats",
+    "streak",
+    "inv",
+    "widget",
+    "live",
+    "offline",
+    "noacct",
+    "sync"
+   ],
+   "fq": [
+    "usertea",
+    "export"
+   ],
+   "strengths": [
+    "Четыре режима: гунфу, западный, матча, холодное заваривание",
+    "Полностью работает офлайн, без аккаунта; данные на устройстве, опционально личный iCloud",
+    "Калькулятор навески",
+    "Виджеты и Live Activity",
+    "Разовая покупка навсегда как альтернатива подписке"
+   ],
+   "weaknesses": [
+    "Только iOS, часы в разработке",
+    "Каталог 45 чаёв — мало",
+    "Почти нет отзывов (1), продукт не обкатан"
+   ],
+   "seo": "teamaster.app ранжируется по «gongfu brewing timer»; контента мало.",
+   "sources": [
+    {
+     "url": "https://teamaster.app/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://apps.apple.com/us/app/tea-master-brewing-timer/id6751961554",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "slug": "steep-brewtea",
+   "name": "Tea Timer / Steep (brewtea.app)",
+   "market": "en",
+   "platforms": [
+    "iOS",
+    "watchOS",
+    "Android"
+   ],
+   "url": "https://brewtea.app/",
+   "store": {
+    "ios": "https://apps.apple.com/us/app/tea-timer-matcha-brew-guide/id6751850664"
+   },
+   "category": "Таймер",
+   "audience": "Владельцы Apple Watch; минималисты",
+   "metrics": {
+    "ios_ratings": 4,
+    "ios_updated": "2026-11-02",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "freemium",
+    "detail": "Бесплатные таймеры навсегда; PRO — подписка или разовая покупка"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "western",
+    "matcha",
+    "watch",
+    "live",
+    "widget",
+    "offline",
+    "noacct",
+    "i18n",
+    "seo"
+   ],
+   "fq": [
+    "cat",
+    "journal"
+   ],
+   "strengths": [
+    "Полноценное независимое приложение для Apple Watch — редкость; запуск прямо с запястья",
+    "Live Activities и Dynamic Island",
+    "Без аккаунта и облака",
+    "Локализованный блог: /ru, /zh — заходят на русский и китайский рынки",
+    "6 звуков уведомлений, тактильная отдача"
+   ],
+   "weaknesses": [
+    "Всего 8 предустановленных чаёв",
+    "Дневник и каталог слабые — это чистый таймер",
+    "4 оценки в US App Store"
+   ],
+   "seo": "Блог на нескольких языках: brewtea.app/ru, brewtea.app/zh/blog/why-you-need-a-tea-timer, /blog/best-tea-timer-app — уже занимают русские и китайские запросы про чайные таймеры.",
+   "sources": [
+    {
+     "url": "https://brewtea.app/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://brewtea.app/ru",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": "Единственный конкурент, который уже ведёт русскоязычный контент. Прямая угроза SEO-позициям Justea."
+  },
+  {
+   "slug": "teatimer-io",
+   "name": "Tea Timer io",
+   "market": "en",
+   "platforms": [
+    "iOS",
+    "Web"
+   ],
+   "url": "https://teatimer.io/",
+   "store": {
+    "ios": "https://apps.apple.com/us/app/tea-timer-io/id6764414830"
+   },
+   "category": "Таймер",
+   "audience": "Новички",
+   "metrics": {
+    "ios_rating": 5.0,
+    "ios_ratings": 6,
+    "ios_updated": "2026-08-19",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Не заявлено платных уровней"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "western",
+    "cat",
+    "web",
+    "offline",
+    "seo"
+   ],
+   "strengths": [
+    "Веб-версия и приложение; точные температура, пропорция и время для сессии из пяти проливов"
+   ],
+   "weaknesses": [
+    "Очень маленькая аудитория",
+    "Нет дневника и запасов"
+   ],
+   "seo": "teatimer.io — домен-ключевик, страница «Free Tea Steep Timer & Brew Presets».",
+   "sources": [
+    {
+     "url": "https://teatimer.io/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "fq": [],
+   "notes": ""
+  },
+  {
+   "slug": "gongfutimer-desktop",
+   "name": "Gongfu Timer (десктоп)",
+   "market": "en",
+   "platforms": [
+    "Windows",
+    "macOS"
+   ],
+   "url": "https://gongfutimer.com/",
+   "category": "Плавающий таймер для рабочего стола",
+   "audience": "Те, кто пьёт чай за компьютером во время работы",
+   "metrics": {
+    "claimed": "«Loved by hundreds of tea enthusiasts»",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Полностью бесплатно, без аккаунта и трекинга"
+   },
+   "f": [
+    "gongfu",
+    "offline",
+    "noacct",
+    "usertea"
+   ],
+   "strengths": [
+    "Крошечное плавающее окно поверх всех окон — не нужно переключаться с работы",
+    "Один мягкий гонг вместо назойливого будильника; янтарный индикатор «передержано»",
+    "Несколько чаёв в сессии с отдельными счётчиками проливов",
+    "Полностью бесплатно, без аккаунта"
+   ],
+   "weaknesses": [
+    "Нет мобильной версии (в планах)",
+    "Нет каталога чаёв — все параметры вносятся вручную",
+    "Нет дневника"
+   ],
+   "seo": "Домен-ключевик gongfutimer.com по запросу «gongfu timer».",
+   "sources": [
+    {
+     "url": "https://gongfutimer.com/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Автор — Max Bruhn. Важный сценарий, который все мобильные конкуренты игнорируют: чай на рабочем месте.",
+   "fq": []
+  },
+  {
+   "slug": "gongfu-chrome-ext",
+   "name": "Gong Fu Tea Timer (расширение Chrome)",
+   "market": "en",
+   "platforms": [
+    "Chrome"
+   ],
+   "url": "https://gongfu-tea-timer.xyz/",
+   "category": "Браузерное расширение-таймер",
+   "audience": "Те, кто за компьютером",
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Бесплатное расширение"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "cat",
+    "offline",
+    "noacct"
+   ],
+   "metrics": {
+    "presets": "60+",
+    "as_of": "2026-11-06"
+   },
+   "strengths": [
+    "60+ пресетов для пуэра, улуна, зелёного и белого прямо в браузере",
+    "Бесплатно"
+   ],
+   "weaknesses": [
+    "Только Chrome",
+    "Нет дневника, запасов, синхронизации"
+   ],
+   "seo": "Нишевый домен .xyz, трафик с запроса «gong fu tea timer chrome extension».",
+   "sources": [
+    {
+     "url": "https://gongfu-tea-timer.xyz/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "fq": [],
+   "notes": ""
+  },
+  {
+   "slug": "tea-explorer",
+   "name": "Tea Explorer",
+   "market": "en",
+   "platforms": [
+    "Android"
+   ],
+   "url": "https://play.google.com/store/apps/details?id=com.teaexplorer.app",
+   "category": "Таймер + дневник",
+   "audience": "Android-пользователи, ценящие приватность",
+   "metrics": {
+    "play_installs": "50+",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Без аккаунтов и трекинга; ссылки не партнёрские"
+   },
+   "f": [
+    "gongfu",
+    "western",
+    "cat",
+    "usertea",
+    "journal",
+    "offline",
+    "noacct"
+   ],
+   "strengths": [
+    "Два отдельных таймера: западный и гунфу",
+    "Без аккаунтов, без трекинга, данные принадлежат пользователю",
+    "Можно переопределить любой параметр"
+   ],
+   "weaknesses": [
+    "50+ установок — продукт почти никому не известен",
+    "Только Android"
+   ],
+   "seo": "Практически нет.",
+   "sources": [
+    {
+     "url": "https://play.google.com/store/apps/details?id=com.teaexplorer.app",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "fq": [],
+   "notes": ""
+  },
+  {
+   "slug": "resteeped",
+   "name": "Resteeped: Discover Tea",
+   "market": "en",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://resteeped.com/",
+   "store": {
+    "ios": "https://apps.apple.com/us/app/resteeped/id6758778808"
+   },
+   "category": "Коллекция + таймер + ИИ-рекомендации",
+   "audience": "Собиратели чая",
+   "metrics": {
+    "ios_rating": 5.0,
+    "ios_ratings": 1,
+    "ios_updated": "2026-08-28",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Бесплатно на момент проверки"
+   },
+   "f": [
+    "gongfu",
+    "cat",
+    "journal",
+    "inv",
+    "stats"
+   ],
+   "fq": [
+    "ai_id"
+   ],
+   "strengths": [
+    "ИИ-рекомендации новых чаёв на основе истории",
+    "Точные таймеры, история завариваний, оценки"
+   ],
+   "weaknesses": [
+    "1 оценка — продукт на старте",
+    "Только iOS"
+   ],
+   "seo": "Слабое.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/us/app/resteeped/id6758778808",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "slug": "tea-me",
+   "name": "Tea Me – Your Tea Guide",
+   "market": "en",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://tea-me.app",
+   "category": "Справочник + таймер",
+   "audience": "Новички",
+   "metrics": {
+    "teas": 150,
+    "ios_ratings": 0,
+    "ios_updated": "2026-03-31",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "gongfu",
+    "western",
+    "cat",
+    "journal",
+    "usertea"
+   ],
+   "strengths": [
+    "150 сортов с описанием и рекомендациями",
+    "Настраиваемое время и температура для нескольких проливов",
+    "Можно записать, где куплен чай"
+   ],
+   "weaknesses": [
+    "Ноль оценок",
+    "Только iOS",
+    "Нет обновлений с марта 2026"
+   ],
+   "seo": "Слабое.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/us/app/tea-me-tea-timer/id6744725393",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "fq": [],
+   "notes": ""
+  },
+  {
+   "slug": "the-great-tea-app",
+   "name": "The Great Tea App",
+   "market": "en",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/us/app/the-great-tea-app/id1478275612",
+   "category": "Видеокурс + таймер",
+   "audience": "Новички в specialty-чае",
+   "metrics": {
+    "ios_rating": 4.76,
+    "ios_ratings": 17,
+    "ios_updated": "2020-09-14",
+    "ph_upvotes": 88,
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "разовая покупка",
+    "detail": "$1,99 (¥15 в CN)"
+   },
+   "f": [
+    "gongfu",
+    "western",
+    "cat",
+    "offline"
+   ],
+   "strengths": [
+    "Видеогайды по способам заваривания и посуде — единственный в выборке с видео",
+    "#2 Product of the Day на Product Hunt (17 июля 2020, 88 апвоутов)",
+    "Вводные статьи о типах чая и оборудовании"
+   ],
+   "weaknesses": [
+    "Не обновлялся с 2020 года",
+    "Нет дневника и запасов"
+   ],
+   "seo": "Слабое, трафик исторический.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/us/app/the-great-tea-app/id1478275612",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://hunted.space/dashboard/219295",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Доказательство, что видео в чайном приложении заходит, но без развития продукт умирает.",
+   "fq": []
+  },
+  {
+   "slug": "artoftea-content",
+   "name": "Art of Tea / Artful Tea и другие контент-сайты магазинов",
+   "market": "en",
+   "platforms": [
+    "Web"
+   ],
+   "url": "https://www.artoftea.com/blogs/tea-101/recommended-steep-times",
+   "category": "SEO-контент магазинов",
+   "audience": "Поисковый трафик «how long to steep tea»",
+   "monetization": {
+    "model": "электронная коммерция",
+    "detail": "Контент ведёт к продаже чая"
+   },
+   "f": [
+    "cat",
+    "seo",
+    "shop",
+    "web"
+   ],
+   "strengths": [
+    "Занимают топ по самым частотным информационным запросам («tea steeping times», «tea brewing temperature»)",
+    "Домены с историей и ссылочной массой"
+   ],
+   "weaknesses": [
+    "Статичные таблицы без интерактива: нельзя запустить таймер прямо со страницы",
+    "Нет персонализации и сохранения",
+    "Советы обобщённые, без конкретных сортов и терруара"
+   ],
+   "seo": "Это и есть главный SEO-конкурент в англоязычном сегменте: artoftea.com, artfultea.com, teaandpeace.com, bestteabags.com, tmolecule.com, frei-style.com, teawithmind.com.",
+   "sources": [
+    {
+     "url": "https://www.artoftea.com/blogs/tea-101/recommended-steep-times",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    },
+    {
+     "url": "https://teawithmind.com/brewing/water-temperature/",
+     "accessed": "2026-11-06",
+     "lang": "en"
+    }
+   ],
+   "notes": "Ключевой вывод: по информационным запросам конкурируют не приложения, а блоги магазинов — и у них нет интерактива.",
+   "fq": []
+  },
+  {
+   "slug": "moychay",
+   "name": "Мойчай.ру",
+   "market": "ru",
+   "platforms": [
+    "Web",
+    "iOS",
+    "Android"
+   ],
+   "url": "https://moychay.ru/",
+   "category": "Магазин + чайные клубы + контент",
+   "audience": "Весь спектр русскоязычных любителей китайского чая",
+   "metrics": {
+    "clubs_moscow": 3,
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "электронная коммерция + услуги",
+    "detail": "Пин ча 790–12 640 ₽/чел; варка на открытом огне от 4 370 ₽ за чайник до 5 чел; гунфу ча с мастером от 2 590 ₽/чел; Цин Пао (тайваньский стиль) от 3 290 ₽/чел"
+   },
+   "f": [
+    "cat",
+    "origname",
+    "shop",
+    "booking",
+    "web",
+    "terroir",
+    "seo",
+    "map"
+   ],
+   "fq": [
+    "journal"
+   ],
+   "strengths": [
+    "Крупнейший русскоязычный чайный бренд: магазин, три клуба в Москве, концерты, мастер-классы",
+    "Онлайн-бронирование по каждому клубу + телефон 8 800",
+    "Огромный каталог с описаниями, статьями и видео — мощный SEO-актив",
+    "Узнаваемость: фактически синоним «китайский чай» в рунете"
+   ],
+   "weaknesses": [
+    "Нет таймера проливов и инструмента заваривания — только тексты",
+    "Нет личного дневника чая",
+    "Сайт построен вокруг покупки, а не вокруг практики заваривания",
+    "Бронирование разрозненно по клубам"
+   ],
+   "seo": "Доминирует в рунете по сортовым и брендовым запросам; «Статьи» и «Видео» — поддерживающий контент.",
+   "sources": [
+    {
+     "url": "https://moychay.ru/sections/chajnyj_klub",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://moychay.ru/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": "Не конкурент по функциям, но конкурент по вниманию и по SEO. Потенциальный партнёр: у них есть чай и церемонии, у нас — инструмент."
+  },
+  {
+   "slug": "duh-chaya",
+   "name": "Дух Чая, TeaBrain, Art of Tea RU, Laomars и другие магазинные базы знаний",
+   "market": "ru",
+   "platforms": [
+    "Web"
+   ],
+   "url": "https://duh-chaya.ru/rules/",
+   "category": "SEO-контент магазинов",
+   "audience": "Поисковый трафик «как заваривать пуэр / проливами»",
+   "monetization": {
+    "model": "электронная коммерция"
+   },
+   "f": [
+    "cat",
+    "seo",
+    "shop",
+    "web",
+    "origname"
+   ],
+   "strengths": [
+    "Занимают весь топ по русским запросам о заваривании: duh-chaya.ru/knowledge-base/, teabrain.ru/blog/kak-zavarivat-chaj-prolivom, artoftea.ru/how-to-brew-pressed-puer, laomars.com/ru/blog/",
+    "Подробные таблицы: температура, пропорции, число проливов по сортам"
+   ],
+   "weaknesses": [
+    "Статика: ни таймера, ни сохранения, ни персонализации",
+    "Информация противоречива между магазинами",
+    "Цель — продать чай, а не довести до хорошей чашки"
+   ],
+   "seo": "Критично: по русским информационным запросам о заваривании НЕТ ни одного специализированного продукта — только блоги магазинов. Это свободная ниша для Justea.",
+   "sources": [
+    {
+     "url": "https://duh-chaya.ru/rules/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://teabrain.ru/blog/kak-zavarivat-chaj-prolivom",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://artoftea.ru/how-to-brew-pressed-puer",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": "Главный SEO-вывод по России.",
+   "fq": []
+  },
+  {
+   "slug": "teatimer-ru-pwa",
+   "name": "TeaTimer (l1lG1tPain, PWA)",
+   "market": "ru",
+   "platforms": [
+    "Web",
+    "PWA"
+   ],
+   "url": "https://teatimer-livid.vercel.app",
+   "category": "Таймер проливов + каталог",
+   "audience": "Русскоязычные любители китайского чая",
+   "metrics": {
+    "stars": 0,
+    "created": "2026-09-04",
+    "pushed": "2026-10-09",
+    "teas": 32,
+    "categories": 9,
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Открытый пет-проект, без монетизации"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "cat",
+    "origname",
+    "usertea",
+    "journal",
+    "offline",
+    "noacct",
+    "web",
+    "oss",
+    "mood",
+    "stats"
+   ],
+   "strengths": [
+    "Прямой русскоязычный аналог Justea: 32 сорта, 9 категорий, оригинальные названия и иероглифы, диапазон температур, число проливов",
+    "ПОДБОР ПО СОСТОЯНИЮ: «Бодрость», «Спокойствие», «Согреться», «Освежиться», «На вечер» — прямо на главной",
+    "Блок «Под рукой» — быстрый доступ к своим чаям",
+    "Полностью офлайн (PWA), без регистрации",
+    "История сессий с оценками, светлая и тёмная темы"
+   ],
+   "weaknesses": [
+    "Пет-проект: 0 звёзд, один автор, нет гарантии развития",
+    "Нет мобильных приложений, синхронизации, запасов",
+    "Каталог 32 сорта",
+    "Нет лицензии в репозитории"
+   ],
+   "seo": "Практически нулевое: домен на vercel.app, нет контентных страниц.",
+   "sources": [
+    {
+     "url": "https://teatimer-livid.vercel.app",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://api.github.com/repos/l1lG1tPain/TeaTimer",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": "Самый близкий русскоязычный конкурент по сути. Его идея «подбор по состоянию» — проверенный паттерн, стоит забрать.",
+   "fq": []
+  },
+  {
+   "slug": "tea-guide-ru",
+   "name": "Tea Guide (MelDxKviel)",
+   "market": "ru",
+   "platforms": [
+    "Web"
+   ],
+   "url": "https://meldxkviel.github.io/tea-guide/",
+   "category": "Пошаговый гид по проливам",
+   "audience": "Русскоязычные новички в гунфу",
+   "metrics": {
+    "stars": 1,
+    "created": "2026-08-13",
+    "pushed": "2026-10-18",
+    "license": "MIT",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Открытый код, MIT"
+   },
+   "f": [
+    "gongfu",
+    "dose",
+    "cat",
+    "web",
+    "offline",
+    "noacct",
+    "oss"
+   ],
+   "strengths": [
+    "Считает навеску под выбранный объём посуды и ведёт через промывку и всю последовательность проливов",
+    "Открытая лицензия MIT"
+   ],
+   "weaknesses": [
+    "Пет-проект, 1 звезда",
+    "Нет дневника, запасов, аккаунта",
+    "Минимальный каталог"
+   ],
+   "seo": "Нулевое (github.io).",
+   "sources": [
+    {
+     "url": "https://meldxkviel.github.io/tea-guide/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://api.github.com/repos/MelDxKviel/tea-guide",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "fq": [],
+   "notes": ""
+  },
+  {
+   "slug": "daochai",
+   "name": "DaoChai",
+   "market": "ru",
+   "platforms": [
+    "iOS",
+    "Android",
+    "Web"
+   ],
+   "url": "https://daochai.ru/",
+   "store": {
+    "ios": "https://apps.apple.com/ru/app/daochai/id1612804466"
+   },
+   "category": "Магазин китайского чая с приложением",
+   "audience": "Покупатели китайского чая в России",
+   "metrics": {
+    "ios_rating": 4.9,
+    "ios_ratings": 507,
+    "ios_updated": "2026-08-19",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "электронная коммерция"
+   },
+   "f": [
+    "cat",
+    "origname",
+    "shop",
+    "terroir"
+   ],
+   "fq": [
+    "journal"
+   ],
+   "strengths": [
+    "507 оценок при 4,9 — самый «народный» рейтинг среди русских чайных приложений",
+    "Заявляется как первое мобильное приложение среди нишевых магазинов китайского чая",
+    "Хорошие карточки сортов"
+   ],
+   "weaknesses": [
+    "Это витрина магазина, а не инструмент заваривания",
+    "Нет таймера проливов и дневника"
+   ],
+   "seo": "Ранжируется по «купить китайский чай», бренд-запросам.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/ru/app/daochai/id1612804466",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://daochai.ru/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": "Показывает потолок аудитории чайного приложения в РФ: 507 оценок у магазина с рекламным бюджетом."
+  },
+  {
+   "slug": "tea-times-ru",
+   "name": "Tea Times – чайный таймер",
+   "market": "ru",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/ru/app/id6744429848",
+   "category": "Таймер",
+   "audience": "Русскоязычные новички",
+   "metrics": {
+    "ios_rating": 5.0,
+    "ios_ratings": 1,
+    "ios_updated": "2025-04-14",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "western",
+    "cat"
+   ],
+   "fq": [
+    "gongfu"
+   ],
+   "strengths": [
+    "Русский интерфейс"
+   ],
+   "weaknesses": [
+    "1 оценка, нет обновлений с апреля 2025",
+    "Минимум функций"
+   ],
+   "seo": "Нулевое.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/ru/app/id6744429848",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "slug": "dnevnik-zavarivaniya",
+   "name": "Дневник заваривания чая",
+   "market": "ru",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/ru/app/id6800825987",
+   "category": "Дневник",
+   "audience": "Русскоязычные",
+   "metrics": {
+    "ios_ratings": 0,
+    "ios_updated": "2026-08-19",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "разовая покупка",
+    "detail": "99 ₽"
+   },
+   "f": [
+    "journal"
+   ],
+   "fq": [
+    "gongfu",
+    "inv"
+   ],
+   "strengths": [
+    "Разовая покупка вместо подписки"
+   ],
+   "weaknesses": [
+    "Ноль оценок",
+    "Китайский разработчик, вероятна машинная локализация",
+    "Нет сайта и поддержки"
+   ],
+   "seo": "Нулевое.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/ru/app/id6800825987",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "slug": "ru-ceremony-venues",
+   "name": "Чайные церемонии в Москве: Tea108, Чайная мастерская, TeaCeremony.pro, Сэр Пуэр, Души не чаю, Клуб чайной культуры",
+   "market": "ru",
+   "platforms": [
+    "Web"
+   ],
+   "url": "https://teaceremony.pro/",
+   "category": "Услуги: церемонии и чаепития",
+   "audience": "Москвичи и гости, кто хочет сходить на церемонию",
+   "metrics": {
+    "tea108": "3 чая из коллекции 1 500–2 000 ₽",
+    "sirpuer": "первый час для компании до 4 чел 4 500 ₽ + стоимость чая",
+    "kchk": "Гунфу Ча от 2 590 ₽/чел, Цин Пао от 3 290 ₽/чел",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "услуги",
+    "detail": "Почасовая оплата церемонии + стоимость чая"
+   },
+   "f": [
+    "booking",
+    "map",
+    "shop",
+    "web"
+   ],
+   "strengths": [
+    "Живой спрос и сформированные цены на церемонии в Москве",
+    "Гибкие форматы: закрытый зал, выезд, церемонии народов мира"
+   ],
+   "weaknesses": [
+    "Бронирование разрозненное: у кого-то форма, у кого-то только телефон, у TeaCeremony.pro — Telegram-бот @teaceremony_pro_bot",
+    "Нет общего агрегатора: невозможно сравнить площадки, цены и свободное время в одном месте",
+    "Нет онлайн-календаря доступности у большинства",
+    "Нет связи с инструментом заваривания: сходил на церемонию — и дальше сам"
+   ],
+   "seo": "Запрос «чайная церемония Москва» собирают подборки (t-j.ru/list/tea-ceremony-msk/, kerubini.ru) и сами площадки. Агрегатора-продукта нет.",
+   "sources": [
+    {
+     "url": "https://teaceremony.pro/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://tea108.ru/teaceremony",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://sirpuer.com/chajnaya-ceremoniya/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://moychay.ru/sections/chajnyj_klub",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://t-j.ru/list/tea-ceremony-msk/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": "Для задачи «запись на чайные церемонии» (из ТЗ Justea) конкурентов-продуктов нет вообще — только сайты отдельных площадок.",
+   "fq": []
+  },
+  {
+   "slug": "qidu",
+   "name": "沏度 — 功夫茶計時與泡茶筆記",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/tw/app/id6794754780",
+   "category": "Таймер гунфу + карточки чая",
+   "audience": "Тайваньские любители высокогорных улунов",
+   "metrics": {
+    "ios_ratings": 0,
+    "ios_updated": "2026-08-09",
+    "teas": 20,
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "freemium",
+    "detail": "Free — 5 карточек чая, таймер и подстройка вкуса полностью открыты, без рекламы. «Чайная» версия — разовая покупка (примерно цена полпачки высокогорного чая), снимает лимит карточек, добавляет iCloud"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "western",
+    "cold",
+    "dose",
+    "adapt",
+    "cat",
+    "origname",
+    "usertea",
+    "journal",
+    "live",
+    "offline",
+    "noacct",
+    "sync",
+    "wetfinger",
+    "terroir"
+   ],
+   "strengths": [
+    "ЛУЧШАЯ МЕХАНИКА АДАПТАЦИИ в выборке: после каждого пролива один вопрос — «слабо / в самый раз / крепко», слабо → +5 сек, крепко → −5 сек",
+    "Вопрос НЕ прерывает сессию: итог подводится в конце, и пользователь решает, сохранять ли новые параметры в карточку чая",
+    "Явная философия: «после нескольких сессий цифры на карточке — уже не совет, а ваш собственный способ»",
+    "Интерфейс под мокрые руки: тапается весь экран таймера, не нужно целиться в мелкие кнопки",
+    "По окончании автоматически переходит к сливу — не нужен второй тап",
+    "С экрана блокировки видно «3-й пролив, осталось 8 сек»",
+    "Смена чайника пересчитывает навеску",
+    "Честный совет: не нашли свой чай — возьмите близкий по технологии, ведь важны форма листа, степень ферментации и обжарка, а не название на упаковке",
+    "19 тайваньских сортов + матча, у каждого регион, технология и описание вкуса",
+    "Разовая покупка, без подписки, без рекламы"
+   ],
+   "weaknesses": [
+    "Только iOS, только тайваньские чаи",
+    "Ноль оценок — продукт только вышел",
+    "Нет версии на английском/русском"
+   ],
+   "seo": "Отсутствует.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/tw/app/id6794754780",
+     "accessed": "2026-11-06",
+     "lang": "zh-TW"
+    }
+   ],
+   "notes": "Самая умная UX-модель заваривания из всех найденных. Обязателен к изучению дизайнером.",
+   "fq": []
+  },
+  {
+   "slug": "cloudvalley",
+   "name": "雲谷茶時器 (Cloud Valley Tea Timer)",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://www.cloudyvalleyformosa.com/",
+   "store": {
+    "ios": "https://apps.apple.com/tw/app/id1324451571"
+   },
+   "category": "Таймер с дегустационным сопровождением",
+   "audience": "Новички, которые купили дорогой чай и боятся его испортить",
+   "metrics": {
+    "ios_rating": 2.0,
+    "ios_ratings": 2,
+    "ios_updated": "2025-06-23",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно + продажа чая",
+    "detail": "Бесплатно; из приложения можно заказать чай с доставкой"
+   },
+   "f": [
+    "gongfu",
+    "autoladder",
+    "cold",
+    "cat",
+    "tastecue",
+    "qr",
+    "offline",
+    "shop",
+    "terroir",
+    "perinf"
+   ],
+   "strengths": [
+    "УНИКАЛЬНО: в процессе пролива подсказывает, что сейчас почувствовать — когда появится аромат, цветочный он или фруктовый, когда изменится цвет настоя, какими будут вкус и послевкусие. Фактически роль чайного сомелье",
+    "Страница итогов после каждого пролива: чем этот пролив отличался от предыдущего",
+    "Сканирование QR-кода с упаковки сразу открывает нужные шаги заваривания — не надо ничего вводить",
+    "Поддержка разных сосудов: глиняный чайник, гайвань, кружка, холодное заваривание",
+    "Фоновые пуш-уведомления «момент аромата», чтобы не пропустить его за разговором",
+    "Полный офлайн после одного обновления"
+   ],
+   "weaknesses": [
+    "Рейтинг 2,0 — реализация подводит идею",
+    "Всего 2 оценки",
+    "Привязано к чаям одного производителя",
+    "Давно не обновлялось"
+   ],
+   "seo": "Отсутствует.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/tw/app/id1324451571",
+     "accessed": "2026-11-06",
+     "lang": "zh-TW"
+    }
+   ],
+   "notes": "Идея «ведение по дегустации во время пролива» — сильнейшая незанятая механика. Исполнение провалено, идея свободна.",
+   "fq": []
+  },
+  {
+   "slug": "mingcha-baike",
+   "name": "名茶百科",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/cn/app/id1595847097",
+   "category": "Энциклопедия чая",
+   "audience": "Китайские любители чая, изучающие чайное искусство",
+   "metrics": {
+    "ios_rating": 4.57,
+    "ios_ratings": 254,
+    "ios_updated": "2026-09-09",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "подписка за отключение рекламы",
+    "detail": "12 ¥/мес — «убрать рекламу внутри приложения»"
+   },
+   "f": [
+    "cat",
+    "origname",
+    "terroir",
+    "ads"
+   ],
+   "strengths": [
+    "Разбор семи категорий чая: признаки, регионы происхождения, способы заваривания",
+    "Раздел «Знаменитые чаи и классическая поэзия» — культурный слой, которого нет у западных продуктов",
+    "254 оценки при 4,57 — один из самых «настоящих» рейтингов в китайской выборке"
+   ],
+   "weaknesses": [
+    "Монетизация построена на рекламе, подписка только чтобы её убрать",
+    "Нет таймера и дневника",
+    "Только iOS"
+   ],
+   "seo": "Внутри App Store; веб-присутствия почти нет.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/cn/app/id1595847097",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Культурный слой (поэзия, предания) — рабочая механика удержания в китайской культуре чая.",
+   "fq": []
+  },
+  {
+   "slug": "chadao-shijia",
+   "name": "茶道世家",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/cn/app/id6762703276",
+   "category": "Справочник + помощник заваривания + дневник",
+   "audience": "Китайские пользователи среднего уровня",
+   "metrics": {
+    "ios_rating": 4.78,
+    "ios_ratings": 126,
+    "ios_updated": "2026-04-29",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "не заявлена явно"
+   },
+   "f": [
+    "cat",
+    "voice",
+    "gongfu",
+    "journal",
+    "stats",
+    "streak",
+    "origname"
+   ],
+   "strengths": [
+    "ГОЛОСОВОЕ сопровождение заваривания плюс обратный отсчёт — руки заняты чайником, подсказки звучат",
+    "Статистика: сколько раз заваривали, какой чай любимый",
+    "Геймификация: звания и «выращивание чайного дерева»",
+    "Энциклопедия с карточками шести категорий и статьями"
+   ],
+   "weaknesses": [
+    "Только iOS",
+    "Нет запасов и посуды",
+    "Нет англоязычной версии"
+   ],
+   "seo": "Внутри App Store.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/cn/app/id6762703276",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Голосовое ведение — простая и недооценённая механика для «мокрых рук».",
+   "fq": []
+  },
+  {
+   "slug": "shicha",
+   "name": "食茶 (JIA DEI)",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/cn/app/id1106351622",
+   "category": "Культурный справочник о чаошаньском гунфу-ча",
+   "audience": "Молодая аудитория, интересующаяся чайной культурой",
+   "metrics": {
+    "ios_rating": 4.65,
+    "ios_ratings": 1723,
+    "ios_updated": "2016-05-19",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "cat",
+    "origname"
+   ],
+   "strengths": [
+    "1723 оценки при 4,65 — самый массовый отклик во всей выборке, и получен исключительно за счёт дизайна",
+    "Дипломная работа дизайнера (Гуанчжоуская академия художеств): бежевая палитра, спокойная типографика",
+    "Чаошаньское произношение названий чаёв — культурная деталь, которую отмечают в отзывах",
+    "Низкий порог входа для тех, кто ничего не знает о чае"
+   ],
+   "weaknesses": [
+    "Не обновлялся с 2016 года — в отзывах прямо спрашивают «почему перестали развивать?»",
+    "Самая частая претензия: КОНТЕНТА СЛИШКОМ МАЛО. «Пролистал за минуту», «про историю меньше ста слов, лучше бы в Байду посмотрел», «после прочтения можно удалять»",
+    "Нет интерактива: «не хватает взаимодействия с пользователем, цикл жизни пользователя будет очень коротким»",
+    "Нет симуляции самого чаепития",
+    "Не адаптировано под iPhone X и новее"
+   ],
+   "seo": "Внутри App Store.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/cn/app/id1106351622",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    },
+    {
+     "url": "https://itunes.apple.com/cn/rss/customerreviews/id=1106351622/sortby=mostrecent/json",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Самый важный кейс выборки: красивый дизайн приносит 1700 оценок, но без глубины контента и интерактива продукт умирает. Прямое предупреждение для Justea.",
+   "fq": []
+  },
+  {
+   "slug": "chayang",
+   "name": "茶养 — 体质辨识与个性化茶方推荐",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://1dayday.cn/tea-care.html",
+   "store": {
+    "ios": "https://apps.apple.com/cn/app/id6747053763"
+   },
+   "category": "Подбор чая по здоровью (ТКМ)",
+   "audience": "Интересующиеся оздоровлением, 养生",
+   "metrics": {
+    "ios_rating": 4.83,
+    "ios_ratings": 40,
+    "recipes": "80+",
+    "ios_updated": "2026-03-22",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "не заявлена явно"
+   },
+   "f": [
+    "health",
+    "season",
+    "mood",
+    "cat",
+    "offline"
+   ],
+   "strengths": [
+    "Опросник по девяти типам конституции ТКМ → особенности, направление коррекции и подходящие чайные составы",
+    "Двумерный подбор: конституция + сезонный период 节气",
+    "80+ составов с тегами действия (жаропонижающие, согревающие, кроветворные, успокаивающие), составом, способом заваривания и сценарием",
+    "Результаты хранятся локально, можно сравнивать изменения во времени",
+    "Явная цель — перевести «знаю» в «делаю»"
+   ],
+   "weaknesses": [
+    "Только iOS, только китайский",
+    "40 оценок",
+    "Медицинские утверждения требуют осторожности за пределами Китая"
+   ],
+   "seo": "Лендинг 1dayday.cn/tea-care.html.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/cn/app/id6747053763",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Подбор по состоянию/здоровью — работающая механика. В РФ её надо подавать как «по настроению и времени суток», без медицинских заявлений.",
+   "fq": []
+  },
+  {
+   "slug": "chayouwang",
+   "name": "茶友王 / 茶友网",
+   "market": "zh",
+   "platforms": [
+    "iOS",
+    "Android",
+    "Web"
+   ],
+   "url": "https://www.chayou.com/",
+   "store": {
+    "ios": "https://apps.apple.com/cn/app/id1546416058"
+   },
+   "category": "База товаров + цены + сообщество",
+   "audience": "Покупатели и инвесторы в пуэр, профессионалы рынка",
+   "metrics": {
+    "ios_rating": 4.71,
+    "ios_ratings": 330,
+    "products": "20 000+",
+    "claimed_users": "более миллиона",
+    "ios_updated": "2026-11-06",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "электронная коммерция + реклама"
+   },
+   "f": [
+    "cat",
+    "origname",
+    "terroir",
+    "cost",
+    "feed",
+    "shop",
+    "news",
+    "web",
+    "stats"
+   ],
+   "strengths": [
+    "20 000+ позиций с параметрами, реальными ценами сделок и ежедневными котировками",
+    "ИСТОРИЯ ЦЕН на конкретный чай — чая как актива; ничего подобного нет на Западе",
+    "Отзывы и оценки реальных покупателей, десятки тысяч фотографий",
+    "Обновляется ежедневно (последнее обновление — день проверки)"
+   ],
+   "weaknesses": [
+    "Нет инструмента заваривания",
+    "Перегруженный интерфейс",
+    "Только китайский рынок"
+   ],
+   "seo": "chayou.com — сильный отраслевой портал.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/cn/app/id1546416058",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    },
+    {
+     "url": "https://www.chayou.com/",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Идея «история цен на конкретный чай» переносима: для пуэра это актуально и в России.",
+   "fq": []
+  },
+  {
+   "slug": "yiyouhui",
+   "name": "益友会 (Taetea / 大益)",
+   "market": "zh",
+   "platforms": [
+    "iOS",
+    "Android"
+   ],
+   "url": "https://apps.apple.com/cn/app/id899024090",
+   "category": "Брендовая платформа производителя",
+   "audience": "Поклонники бренда Дайи",
+   "metrics": {
+    "ios_rating": 3.48,
+    "ios_ratings": 489,
+    "ios_updated": "2026-09-22",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "электронная коммерция"
+   },
+   "f": [
+    "shop",
+    "feed",
+    "cat",
+    "map",
+    "origname"
+   ],
+   "strengths": [
+    "Четыре связки: купить, обсудить, изучить (茶典 — чайный словарь бренда), найти чайную поблизости",
+    "«Дайи в городе» — каталог чайных по всей стране"
+   ],
+   "weaknesses": [
+    "Рейтинг 3,48 при 489 оценках — самый низкий среди заметных китайских приложений",
+    "Чистый инструмент продаж бренда",
+    "Нет таймера"
+   ],
+   "seo": "Бренд-запросы.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/cn/app/id899024090",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Карта чайных поблизости — полезная механика, слабо исполненная.",
+   "fq": []
+  },
+  {
+   "slug": "tearch",
+   "name": "茶尋 Tearch",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://tearch.stopover.cc/",
+   "store": {
+    "ios": "https://apps.apple.com/tw/app/id6758866150"
+   },
+   "category": "Дневник напитков из сетей手摇饮 (bubble tea)",
+   "audience": "Тайваньцы, пьющие напитки из сетевых чайных ежедневно",
+   "metrics": {
+    "ios_rating": 4.6,
+    "ios_ratings": 199,
+    "reviews_pulled": 73,
+    "ios_updated": "2026-10-26",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "journal",
+    "photo",
+    "feed",
+    "cat",
+    "crowdcat",
+    "streak",
+    "stats"
+   ],
+   "fq": [
+    "map"
+   ],
+   "strengths": [
+    "«茶曆» — чайный календарь месяца: пользователи называют его красивым и отмечают «ощущение ритуала», это главный драйвер удержания",
+    "Фиксируются сладость, количество льда и личные детали вкуса",
+    "Решает ежедневный вопрос «что сегодня пить»",
+    "Можно «загадать» новый бренд — и команда реально добавляет; разработчики быстро отвечают",
+    "199 оценок при 4,6 — отличный результат для нишевого продукта"
+   ],
+   "weaknesses": [
+    "Нельзя записать задним числом — просьба повторяется в отзывах многократно («補記錄»)",
+    "Нельзя исправить неверно поставленную дату в достижениях",
+    "Неполный каталог брендов и напитков — «не могу добавить то, что пил, значит приложение теряет смысл»",
+    "Нет карты: «называется Tearch, а базовой функции показать чайные рядом нет — тогда проще Google Maps»",
+    "Многое закрыто за обязательной регистрацией",
+    "Падения и зависания; у одного пользователя пропал накопленный за месяц календарь",
+    "Нет цен — повторяющаяся просьба: «вижу рекомендацию, прихожу, а цена кусается»",
+    "Нет состава напитка",
+    "Нет виджета",
+    "Нельзя делиться календарём с друзьями"
+   ],
+   "seo": "tearch.stopover.cc — лендинг.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/tw/app/id6758866150",
+     "accessed": "2026-11-06",
+     "lang": "zh-TW"
+    },
+    {
+     "url": "https://itunes.apple.com/tw/rss/customerreviews/id=6758866150/sortby=mostrecent/json",
+     "accessed": "2026-11-06",
+     "lang": "zh-TW"
+    }
+   ],
+   "notes": "73 отзыва — самый богатый источник пользовательских болей во всей выборке. Паттерн «календарь-ритуал» стоит перенять."
+  },
+  {
+   "slug": "matchabook",
+   "name": "Matchabook 抹茶誌",
+   "market": "zh",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://seanseanyin.github.io/matchabook-site/",
+   "store": {
+    "ios": "https://apps.apple.com/tw/app/id6787303953"
+   },
+   "category": "Дневник матчи с учётом банок",
+   "audience": "Любители матчи, покупающие японские марки",
+   "metrics": {
+    "ios_ratings": 0,
+    "brands": "120+",
+    "shops": 11,
+    "ios_updated": "2026-10-31",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "не заявлена явно"
+   },
+   "f": [
+    "matcha",
+    "journal",
+    "photo",
+    "inv",
+    "autoded",
+    "fresh",
+    "cost",
+    "cat",
+    "crowdcat",
+    "usertea",
+    "live",
+    "perinf"
+   ],
+   "strengths": [
+    "Учёт НА УРОВНЕ БАНКИ: дата покупки, вес, дата вскрытия; мягкое напоминание «допей сначала эту» перед истечением срока",
+    "120+ марок от 11 японских старых домов (Марукю Кояма-эн, Иппо-до, Янагисакура-эн и др.); своё можно добавить и анонимно поделиться с сообществом или скачать чужое (отключается)",
+    "Отдельно фактическая цена покупки и официальная цена, каждая в своей валюте — видна наценка посредника и доставки",
+    "«Копировать как новую банку» для повторной покупки",
+    "Рецепт на каждую марку: граммы, вода, температура, шаги (просеять, влить, взбить, вымесить, добавить молоко, лёд, сироп) с анимацией и Dynamic Island",
+    "Повторная фотография не нужна: то же наименование подтягивает ваш прежний снимок"
+   ],
+   "weaknesses": [
+    "Ноль оценок — только вышло",
+    "Только iOS, только китайский",
+    "Узкая ниша (матча)"
+   ],
+   "seo": "Лендинг на github.io.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/tw/app/id6787303953",
+     "accessed": "2026-11-06",
+     "lang": "zh-TW"
+    }
+   ],
+   "notes": "Эталон работы с запасами и свежестью. Механику «напомнить допить до истечения срока» не делает больше никто.",
+   "fq": []
+  },
+  {
+   "slug": "cn-misc",
+   "name": "大茶肆, 茶虫, 51品茶, 习茶笔记, 爱泡茶, 中国茶艺茶道, 茶密",
+   "market": "zh",
+   "platforms": [
+    "iOS",
+    "Android"
+   ],
+   "url": "https://www.zhihu.com/question/278044413",
+   "category": "Прочие китайские чайные приложения",
+   "audience": "Китайские пользователи",
+   "metrics": {
+    "chami_rating": 3.17,
+    "chami_ratings": 29,
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "разное",
+    "detail": "От магазинов до рекламных моделей"
+   },
+   "f": [
+    "cat",
+    "journal",
+    "shop",
+    "ads"
+   ],
+   "strengths": [
+    "51品茶 — подборки по шести категориям с иллюстрированными гайдами заваривания и фильтрами по вкусу, региону и цене",
+    "习茶笔记 — заметки с возможностью делиться",
+    "茶友网 ведёт «след чаепитий» (喝茶轨迹)"
+   ],
+   "weaknesses": [
+    "茶虫 — баги и вылеты при первом входе",
+    "爱泡茶 — функционально, но некрасиво: «цвета не сочетаются»",
+    "中国茶艺茶道 — только iOS, всплывающая реклама, нет избранного",
+    "茶密 — приложение к «умной кружке», рейтинг 3,17: привязка к железу ограничивает"
+   ],
+   "seo": "Обсуждения на Zhihu и Douban — основной канал открытия.",
+   "sources": [
+    {
+     "url": "https://www.zhihu.com/question/278044413",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    },
+    {
+     "url": "https://sj.qq.com/topic/200450411",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    },
+    {
+     "url": "https://www.douban.com/group/topic/110814887/",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Типовые претензии китайского рынка: реклама, вылеты, некрасивый интерфейс, только iOS.",
+   "fq": []
+  },
+  {
+   "slug": "yizhancha",
+   "name": "一盏茶 (tea-timer для Windows)",
+   "market": "zh",
+   "platforms": [
+    "Windows"
+   ],
+   "url": "https://github.com/StrikeNull/tea-timer",
+   "category": "Настольный таймер",
+   "audience": "Китайцы, пьющие чай за компьютером",
+   "metrics": {
+    "stars": 0,
+    "created": "2026-10-02",
+    "pushed": "2026-10-17",
+    "language": "C#",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Открытый код"
+   },
+   "f": [
+    "offline",
+    "noacct",
+    "oss",
+    "cat"
+   ],
+   "strengths": [
+    "Компактное изменяемое окно, запоминает время по типам чая, напоминания, Q-версия анимированного персонажа"
+   ],
+   "weaknesses": [
+    "Пет-проект, 0 звёзд, только Windows"
+   ],
+   "seo": "Нет.",
+   "sources": [
+    {
+     "url": "https://api.github.com/repos/StrikeNull/tea-timer",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "Второе независимое подтверждение сценария «чай за рабочим компьютером».",
+   "fq": []
+  },
+  {
+   "slug": "wechat-mini",
+   "name": "Мини-программы WeChat (茶憩一刻, 一品茶韵 и пр.)",
+   "market": "zh",
+   "platforms": [
+    "WeChat"
+   ],
+   "url": "https://gitcode.com/weixin_62355943/yuecha",
+   "category": "Мини-программы",
+   "audience": "Офисные сотрудники и студенты в Китае",
+   "monetization": {
+    "model": "электронная коммерция / групповые заказы"
+   },
+   "f": [
+    "shop",
+    "map",
+    "feed",
+    "journal"
+   ],
+   "strengths": [
+    "茶憩一刻: агрегация скидок соседних чайных, совместные заказы с автоматическим расчётом доли, быстрый повтор заказа, стена отзывов о новинках, поиск по геолокации",
+    "一品茶韵: просмотр чая, история, избранное, корзина, заказы, отзывы, форум"
+   ],
+   "weaknesses": [
+    "Это про доставку и покупку, а не про заваривание",
+    "Ни одной мини-программы уровня «справочник по проливам» в выдаче не нашлось"
+   ],
+   "seo": "Внутри экосистемы WeChat; внешняя выдача почти пуста.",
+   "sources": [
+    {
+     "url": "https://gitcode.com/weixin_62355943/yuecha",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    },
+    {
+     "url": "https://blog.csdn.net/2301_81454172/article/details/149074434",
+     "accessed": "2026-11-06",
+     "lang": "zh-CN"
+    }
+   ],
+   "notes": "ОГРАНИЧЕНИЕ ИССЛЕДОВАНИЯ: каталог мини-программ WeChat закрыт для внешнего поиска, выводы по ним — косвенные.",
+   "fq": []
+  },
+  {
+   "slug": "teatime-jp",
+   "name": "TeaTime みんなのお茶ログ",
+   "market": "ja",
+   "platforms": [
+    "iOS",
+    "Android",
+    "Web"
+   ],
+   "url": "https://teatime.jp/",
+   "store": {
+    "ios": "https://apps.apple.com/jp/app/id6742354078"
+   },
+   "category": "Социальная сеть о чае",
+   "audience": "Японские любители чая, а также производители и продавцы",
+   "metrics": {
+    "ios_rating": 4.45,
+    "ios_ratings": 22,
+    "hashtags": "500+",
+    "site_visitors": 17644,
+    "ios_updated": "2026-10-11",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Монетизация не заявлена; создан чайной компанией 平岡園"
+   },
+   "f": [
+    "journal",
+    "feed",
+    "follow",
+    "photo",
+    "origname",
+    "terroir",
+    "i18n"
+   ],
+   "fq": [
+    "friends"
+   ],
+   "strengths": [
+    "Публикации можно делать публичными или приватными ПОШТУЧНО — тонкая настройка приватности, которой нет у MyTeaPal",
+    "500+ хештегов для структурирования записей; свои шаблоны записи",
+    "Чистая лента без рекомендательного шума — осознанная позиция автора против современных соцсетей",
+    "Позиционируется и для производителей: записи дегустаций, представление товара, общение с покупателями",
+    "Создано владельцем чайного хозяйства — доверие отрасли"
+   ],
+   "weaknesses": [
+    "Нет таймера заваривания вообще",
+    "22 оценки",
+    "Только японский",
+    "Соцсеть без инструмента — слабое ядро удержания"
+   ],
+   "seo": "teatime.jp + пресс-релизы (value-press.com). Счётчик посещений 17 644.",
+   "sources": [
+    {
+     "url": "https://teatime.jp/",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://apps.apple.com/jp/app/id6742354078",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://www.value-press.com/pressrelease/354284",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    }
+   ],
+   "notes": "Приватность на уровне отдельной записи — важная деталь. И модель «продукт от производителя чая» для партнёрств."
+  },
+  {
+   "slug": "teanote-jp",
+   "name": "紅茶ノート (teanote, PWA)",
+   "market": "ja",
+   "platforms": [
+    "Web",
+    "PWA"
+   ],
+   "url": "https://teanote-app.github.io/",
+   "category": "Таймер + запасы + дневник + новости",
+   "audience": "Японские любители чёрного чая",
+   "metrics": {
+    "stars": 0,
+    "created": "2026-10-13",
+    "pushed": "2026-11-06",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно",
+    "detail": "Открытый пет-проект"
+   },
+   "f": [
+    "western",
+    "cat",
+    "journal",
+    "inv",
+    "autoded",
+    "fresh",
+    "news",
+    "offline",
+    "noacct",
+    "web",
+    "oss",
+    "stats"
+   ],
+   "fq": [
+    "wheel"
+   ],
+   "strengths": [
+    "Связка «таймер → списание из запаса → запись вкуса → анализ предпочтений → рекомендация следующего чая» замкнута в один цикл",
+    "АГРЕГАЦИЯ НОВОСТЕЙ о чае каждые 6 часов с фильтром по ключевым словам — ни у кого больше этого нет",
+    "Уведомление на главной, когда чай заканчивается",
+    "Раздел «Гид» для новичков",
+    "Устанавливается на домашний экран как приложение"
+   ],
+   "weaknesses": [
+    "Пет-проект, 0 звёзд, создан в октябре 2026",
+    "Только чёрный чай",
+    "Только японский",
+    "Нет гунфу-проливов"
+   ],
+   "seo": "github.io, практически нулевое.",
+   "sources": [
+    {
+     "url": "https://teanote-app.github.io/",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://api.github.com/repos/teanote-app/teanote-app.github.io",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    }
+   ],
+   "notes": "Новостная лента внутри чайного приложения — неожиданно сильная идея для возвращаемости."
+  },
+  {
+   "slug": "ocha-note",
+   "name": "お茶ノート",
+   "market": "ja",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/jp/app/id6746263858",
+   "category": "Дневник чая",
+   "audience": "Японцы, начинающие «чайную активность» (茶活)",
+   "metrics": {
+    "ios_rating": 4.0,
+    "ios_ratings": 6,
+    "ios_updated": "2025-05-30",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "journal",
+    "photo",
+    "inv",
+    "fresh",
+    "cat"
+   ],
+   "strengths": [
+    "Записывает упаковку и ЦВЕТ НАСТОЯ (水色) — специфически японская деталь, важная для оценки чая",
+    "Контроль срока годности",
+    "Отзывы отмечают, что приложений для записи чая почти нет, поэтому оно ценно"
+   ],
+   "weaknesses": [
+    "СЛИШКОМ УЗКИЕ ДИАПАЗОНЫ параметров: нельзя записать холодное заваривание 2 литров, пределы по граммам, времени и температуре малы — «корректно записывается только заваривание в кюсу»",
+    "Нет пометки, что чай допит — просят хотя бы ярлык",
+    "6 оценок"
+   ],
+   "seo": "Нет.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/jp/app/id6746263858",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://itunes.apple.com/jp/rss/customerreviews/id=6746263858/sortby=mostrecent/json",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    }
+   ],
+   "notes": "Урок: жёсткие границы ввода ломают реальные сценарии (холодное заваривание, большие объёмы).",
+   "fq": []
+  },
+  {
+   "slug": "my-tea-journal-jp",
+   "name": "紅茶 管理 My Tea Journal",
+   "market": "ja",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/jp/app/id6748881335",
+   "category": "Дневник + учёт",
+   "audience": "Японские любители чёрного чая",
+   "metrics": {
+    "ios_rating": 3.5,
+    "ios_ratings": 2,
+    "ios_updated": "2026-02-15",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "journal",
+    "inv",
+    "cat"
+   ],
+   "strengths": [
+    "Простая регистрация, понятный вид"
+   ],
+   "weaknesses": [
+    "НЕТ ПЕРЕНОСА ДАННЫХ: «сменил телефон — и всё, конец». Прямая претензия в отзыве",
+    "Не прокручивается экран фильтров",
+    "2 оценки"
+   ],
+   "seo": "Нет.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/jp/app/id6748881335",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://itunes.apple.com/jp/rss/customerreviews/id=6748881335/sortby=mostrecent/json",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    }
+   ],
+   "notes": "Отсутствие экспорта/переноса — реальная причина отказа от продукта.",
+   "fq": []
+  },
+  {
+   "slug": "matchanote-jp",
+   "name": "MatchaNote — 茶道お稽古支援アプリ",
+   "market": "ja",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://matchanote.jp",
+   "store": {
+    "ios": "https://apps.apple.com/jp/app/id1011070170"
+   },
+   "category": "Поддержка занятий чайной церемонией (садо)",
+   "audience": "Ученики школ чайной церемонии",
+   "metrics": {
+    "ios_rating": 2.4,
+    "ios_ratings": 15,
+    "ios_updated": "2022-05-31",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "journal",
+    "cat"
+   ],
+   "strengths": [
+    "Единственный найденный продукт для УЧЕБНОГО процесса в чайной церемонии: записи занятий (お稽古)"
+   ],
+   "weaknesses": [
+    "Рейтинг 2,4 — худший среди японских чайных приложений",
+    "Не обновлялся с 2022 года",
+    "15 оценок"
+   ],
+   "seo": "matchanote.jp.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/jp/app/id1011070170",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    }
+   ],
+   "notes": "Ниша «обучение церемонии» существует, но занята провальным продуктом — она открыта.",
+   "fq": []
+  },
+  {
+   "slug": "chaen-techo",
+   "name": "茶園手帖",
+   "market": "ja",
+   "platforms": [
+    "iOS"
+   ],
+   "url": "https://apps.apple.com/jp/app/id6788956262",
+   "category": "Справочник чайных садов",
+   "audience": "Японские любители чёрного чая, интересующиеся происхождением",
+   "metrics": {
+    "ios_rating": 5.0,
+    "ios_ratings": 1,
+    "ios_updated": "2026-08-02",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бесплатно"
+   },
+   "f": [
+    "cat",
+    "terroir",
+    "journal"
+   ],
+   "strengths": [
+    "СПРАВОЧНИК ПО САДАМ (茶園), а не по сортам — особенности конкретных хозяйств",
+    "Колонки, которые «познавательно читать»"
+   ],
+   "weaknesses": [
+    "Мало полей в дегустационной заметке — отмечено в отзыве",
+    "Просьба из отзыва: «было бы интересно, если бы все могли редактировать» — спрос на совместное наполнение",
+    "1 оценка"
+   ],
+   "seo": "Нет.",
+   "sources": [
+    {
+     "url": "https://apps.apple.com/jp/app/id6788956262",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://itunes.apple.com/jp/rss/customerreviews/id=6788956262/sortby=mostrecent/json",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    }
+   ],
+   "notes": "Запрос на вики-подход к каталогу («чтобы все могли редактировать») прозвучал прямо от пользователя.",
+   "fq": []
+  },
+  {
+   "slug": "jp-institutional",
+   "name": "日本茶インストラクター協会, 農林水産省, LUPICIA, ConSeki",
+   "market": "ja",
+   "platforms": [
+    "Web",
+    "iOS"
+   ],
+   "url": "https://www.nihoncha-inst.com/basic/basic5.html",
+   "category": "Институциональный контент и бренды",
+   "audience": "Японская массовая аудитория",
+   "metrics": {
+    "lupicia_rating": 2.8,
+    "lupicia_ratings": 168,
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "бюджет / электронная коммерция"
+   },
+   "f": [
+    "cat",
+    "seo",
+    "web",
+    "shop",
+    "origname",
+    "terroir"
+   ],
+   "strengths": [
+    "Ассоциация инструкторов японского чая даёт выверенные методики заваривания сэнтя, бантя, ходзитя, гёкуро + карту чайных регионов",
+    "Минсельхоз (maff.go.jp) публикует официальное «Руководство по завариванию чая» (PDF) — высочайшее доверие и ссылочный вес",
+    "新版 日本茶の図鑑 — печатный определитель на 119 сортов с фото листа и настоя: офлайновый стандарт, который никто не перенёс в цифру",
+    "ConSeki — лёгкая запись чайного листа, температуры, времени и впечатлений"
+   ],
+   "weaknesses": [
+    "Институциональные сайты статичны: нет таймера, нет сохранения, устаревший дизайн",
+    "LUPICIA (крупный чайный бренд) имеет рейтинг 2,8 при 168 оценках — приложение бренда не любят",
+    "Данные заперты в PDF и бумажных книгах"
+   ],
+   "seo": "maff.go.jp и nihoncha-inst.com занимают верх выдачи по «日本茶 淹れ方» — доменный авторитет государства и отраслевой ассоциации.",
+   "sources": [
+    {
+     "url": "https://www.nihoncha-inst.com/basic/basic5.html",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://www.maff.go.jp/j/seisan/tokusan/cha/ocha.html",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://conseki.com/articles/japanese-tea-log",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    },
+    {
+     "url": "https://www.kinokuniya.co.jp/f/dsg-08-EK-0461322",
+     "accessed": "2026-11-06",
+     "lang": "ja"
+    }
+   ],
+   "notes": "«Определитель на 119 сортов с фотографией листа и цвета настоя» — готовая структура данных для цифрового каталога.",
+   "fq": []
+  },
+  {
+   "slug": "spb-ceremony-venues",
+   "name": "Чайные церемонии в Санкт-Петербурге: Special Tea (Мойчай), Art of Tea, Лао Ча Ван, Чай как искусство, TEARTROOM, Процесс, Белая Обезьяна, Белый Лотос, Аромат Востока, Чайная студия на Васильевском, Международный центр чая",
+   "market": "ru",
+   "platforms": [
+    "Web"
+   ],
+   "url": "https://www.kp.ru/afisha/spb/obzory/moj-gorod/luchshie-chainye-czeremonii-v-sankt-peterburge/",
+   "category": "Услуги: церемонии и чаепития (реальная география проекта)",
+   "audience": "Петербуржцы и гости города; формат Justea — разовое посещение в небольших группах",
+   "metrics": {
+    "venues": 11,
+    "special_tea": "от 650 ₽/чел; Гунфу Ча с мастером от 2 450 ₽/чел; филиалы Апраксин пер. 10–12, Лиговский пр. 74, Большой пр. В.О. 16, Оранжерейная 27; ежедневно 11:00–23:00",
+    "art_of_tea": "от 990 ₽; Гун Фу Ча от 5 500 ₽ за 1 ч 30 мин; ул. Чайковского 56",
+    "lao_cha_van": "от 1 100 ₽/чел; ул. Инженерная 6",
+    "vasilievsky_studio": "от 1 500 ₽/чел + чай; 7-я линия В.О. 34",
+    "bely_lotos": "групповые занятия от 1 800 ₽",
+    "aromat_vostoka": "групповые занятия от 2 000 ₽",
+    "chay_kak_iskusstvo": "от 3 000 ₽ за 1–2 чел + 500 ₽/час за каждого следующего + чай; ул. Гороховая 36",
+    "teartroom": "от 4 000 ₽ за 4 чел за час, есть дресс-код; ул. Гороховая 36",
+    "process": "от 4 500 ₽; ул. 7-я Советская 18/21",
+    "belaya_obezyana": "1–3 часа, цена по числу участников, чай включён; Фурштатская 11, Каменноостровский 16Б, Фонтанки 102",
+    "mezhd_centr_chaya": "по запросу, только по предварительной записи; наб. Фонтанки 91",
+    "as_of": "2026-11-06"
+   },
+   "monetization": {
+    "model": "услуги",
+    "detail": "Разовый сеанс: 650–4 500 ₽. Медиана рынка 1 500–3 000 ₽. Выбранный клуб Special Tea — самый доступный порог (650 ₽/чел)"
+   },
+   "f": [
+    "booking",
+    "map",
+    "shop",
+    "web"
+   ],
+   "strengths": [
+    "Рынок сформирован: одиннадцать площадок с понятными форматами (Пин Ча, Гунфу Ча, Доу Ча, варка на огне) и ценами",
+    "Special Tea (бывший Мойчай) — самый низкий порог входа в городе, 650 ₽/чел, четыре адреса, работает до 23:00",
+    "У «Белой Обезьяны» чай включён в цену — понятнее для новичка, чем «цена зала + стоимость чая»",
+    "Подарочный сертификат на церемонию как отдельная модель продаж (axaa.ru продаёт Доу Ча и Пин Ча с доставкой)"
+   ],
+   "weaknesses": [
+    "НИ У ОДНОЙ площадки нет онлайн-календаря свободных слотов: запись — звонок, форма или мессенджер",
+    "Формат «разовое посещение небольшой группой по фиксированной цене за человека» есть только у «Белого Лотоса» (от 1 800 ₽) и «Аромата Востока» (от 2 000 ₽), и обе без онлайн-записи",
+    "Большинство продают либо индивидуальный сеанс, либо выкуп комнаты за 3 000–4 500 ₽ — дорого для знакомства с культурой",
+    "Непрозрачное ценообразование: у части площадок «цена по запросу», у части «+ стоимость чая» без указания суммы",
+    "У TEARTROOM дресс-код — дополнительный барьер",
+    "Слабое органическое присутствие самих клубов: трафик забирают справочники",
+    "Нет связи между знакомством с чаем офлайн и инструментом для заваривания дома"
+   ],
+   "seo": "Выдачу по «чайная церемония СПб» занимают справочники и редакционные подборки, а не площадки: kp.ru/afisha/spb, 2gis.ru/spb, zoon.ru/spb, jusandi.ru/spb, spb.fooby.ru, vc.ru. Поддомен spb.moychay.ru отдаёт 301 на moychay.ru — петербургский поддомен свёрнут в основной сайт.",
+   "sources": [
+    {
+     "url": "https://www.kp.ru/afisha/spb/obzory/moj-gorod/luchshie-chainye-czeremonii-v-sankt-peterburge/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://spb.moychay.ru/sections/chajnyj_klub",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://artoftea.ru/chaynye-ceremonii/gong-fu-cha",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://2gis.ru/spb/firm/70000001007207920/tab/prices",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://2gis.ru/spb/firm/70000001075231524",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://zoon.ru/spb/shops/chajnyj_klub_mojchajru_na_ligovskom_prospekte/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://jusandi.ru/spb/pouchastvovat-v-chajnoj-ceremonii/",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    },
+    {
+     "url": "https://www.axaa.ru/Chaynyye-Tseremoniya-Dou-Cha-I-Pin-Cha-V-Sankt-peterburge.html",
+     "accessed": "2026-11-06",
+     "lang": "ru"
+    }
+   ],
+   "notes": "Реальная география проекта Justea по решению пользователя от 2026-11-06. Главная незанятая возможность: страница сеанса с датой, временем, числом оставшихся мест и ценой за человека — такого нет ни у одной площадки города.",
+   "fq": []
+  }
+ ]
+}
