@@ -215,19 +215,17 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
         description: sentences([method.description, ...(method.notes ?? [])]),
         inLanguage: siteConfig.defaultLocale.code,
         ...(totalSeconds ? { totalTime: isoDuration(totalSeconds) } : {}),
-        // `yield` выводим только для проливных способов. У варки проливов нет
-        // — «1 пролив» было бы неправдой, — а у взбивания нет и количества,
-        // которое имело бы смысл назвать. Лучше не заявлять ничего, чем
-        // заявить неверное.
-        ...(isBoiled || isWhisked
+        // У взбивания количества, которое имело бы смысл назвать, нет вовсе.
+        // У варки оно есть — но это варки, а не проливы: источник описывает
+        // последовательные варки одного листа с растущим временем.
+        ...(isWhisked
             ? {}
             : {
-                  yield: `${infusions.length} ${plural(
-                      infusions.length,
-                      "пролив",
-                      "пролива",
-                      "проливов",
-                  )}`,
+                  yield: `${infusions.length} ${
+                      isBoiled
+                          ? plural(infusions.length, "варка", "варки", "варок")
+                          : plural(infusions.length, "пролив", "пролива", "проливов")
+                  }`,
               }),
         supply: [
             {
@@ -244,10 +242,16 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
             : infusions.map((infusion) => ({
                   "@type": "HowToStep",
                   position: infusion.number,
-                  name: isBoiled ? "Варка" : `Пролив ${infusion.number}`,
+                  // Номер нужен, только когда варок несколько: «Варка 1» у
+                  // единственной варки выглядит обещанием второй.
+                  name: isBoiled
+                      ? infusions.length > 1
+                          ? `Варка ${infusion.number}`
+                          : "Варка"
+                      : `Пролив ${infusion.number}`,
                   text: sentences([
                       isBoiled
-                          ? `Довести воду до кипения и варить ${infusion.time} с.`
+                          ? `Довести до кипения и варить ${infusion.time} с.`
                           : `Залить водой ${temperature} и настаивать ${infusion.time} с.`,
                       infusion.notes,
                   ]),
