@@ -7,22 +7,28 @@ import CeremonyPlaceholder from "../components/CeremonyPlaceholder";
 import CeremonySection from "../components/CeremonySection";
 import { createPageMetadata } from "@/lib/metadata";
 import {
+    CEREMONY_ADDRESS,
     CEREMONY_CITY,
     CEREMONY_CITY_IN,
     CEREMONY_FORMAT,
     CEREMONY_FREQUENCY,
     CEREMONY_HOST_NAME,
     CEREMONY_HOST_NAME_GEN,
+    CEREMONY_HOST_NAME_INS,
     CEREMONY_PLAN,
     CEREMONY_PRICE,
+    CEREMONY_ROUTE,
     CEREMONY_STAGES,
     CEREMONY_VENUE,
 } from "./content";
 
 export const metadata: Metadata = createPageMetadata({
     title: "Чайная церемония",
+    // Цену и адрес берём из констант, чтобы они не разошлись с текстом страницы.
     description:
-        "Чайная церемония в Санкт-Петербурге с мастером Региной: разовая встреча в небольшой группе раз в месяц, проливы одного чая и никаких требований к опыту. 1 500 ₽ с человека, чай включён.",
+        `Чайная церемония ${CEREMONY_CITY_IN} с мастером ${CEREMONY_HOST_NAME_INS}: ` +
+        `${CEREMONY_ADDRESS}, разовая встреча в небольшой группе раз в месяц. ` +
+        `${CEREMONY_PRICE}.`,
     path: "/ceremony",
 });
 
@@ -44,10 +50,10 @@ export default function CeremonyPage() {
                 </h1>
 
                 <p className="mb-[20px] max-w-[48ch] text-[19px] leading-[1.4] sm:text-[22px] lg:text-[24px]">
-                    Вечер за столом у чайного мастера {CEREMONY_HOST_NAME_GEN}: один чай,
-                    много проливов, небольшая группа и люди, с которыми к последнему
-                    проливу уже разговариваешь. Разбираться в чае заранее не нужно — за
-                    этим и приходят.
+                    Встреча за столом у чайного мастера {CEREMONY_HOST_NAME_GEN}: много
+                    проливов, небольшая группа и люди, с которыми к последнему проливу
+                    уже разговариваешь. Разбираться в чае заранее не нужно — за этим и
+                    приходят.
                 </p>
 
                 <p className="mb-[8px] text-[24px] leading-[1.2] sm:text-[28px]">
@@ -56,7 +62,7 @@ export default function CeremonyPage() {
 
                 <p className="mb-[28px] text-[16px] text-black/70 dark:text-white/70">
                     {CEREMONY_FORMAT}. {CEREMONY_FREQUENCY}. {CEREMONY_CITY},{" "}
-                    {CEREMONY_VENUE}.
+                    {CEREMONY_ADDRESS} — {CEREMONY_VENUE}.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-[12px]">
@@ -81,7 +87,7 @@ export default function CeremonyPage() {
                     </p>
                     <p className="text-black/70 dark:text-white/70">
                         Вкус — это навык, и ему учатся у человека, а не у инструкции. Как
-                        и привычке сесть на час за стол и никуда не спешить.
+                        и привычке сесть за стол и никуда не спешить.
                     </p>
                 </div>
             </CeremonySection>
@@ -90,12 +96,10 @@ export default function CeremonyPage() {
                 <div className="grid gap-[20px] sm:grid-cols-[2fr_1fr]">
                     <div className="flex flex-col gap-[16px] text-[19px] leading-[1.45]">
                         <p>
-                            {CEREMONY_HOST_NAME} начинала так же: с чая из пакетика и
-                            вопроса «а почему у них вкуснее». Поэтому на её столе никто
-                            не сдаёт экзамен — спрашивать можно что угодно, включая «а
-                            почему этот чай такой дорогой».
+                            За столом {CEREMONY_HOST_NAME_GEN} никто не сдаёт экзамен:
+                            спрашивать можно что угодно, включая «а почему этот чай такой
+                            дорогой». Опыт в чае не нужен — за этим и приходят.
                         </p>
-                        <CeremonyPlaceholder item="hostBio" />
                     </div>
                     <CeremonyPlaceholder item="hostPhoto" />
                 </div>
@@ -153,10 +157,12 @@ export default function CeremonyPage() {
 
                 <div className="mt-[20px] border-2 border-black/10 p-[16px] dark:border-white/10">
                     <h3 className="mb-[8px] text-[22px] leading-[1.2]">Где это</h3>
-                    <p className="mb-[12px] text-[19px] leading-[1.45]">
-                        {CEREMONY_CITY}, {CEREMONY_VENUE}.
+                    <p className="mb-[8px] text-[19px] leading-[1.45]">
+                        {CEREMONY_CITY}, {CEREMONY_ADDRESS} — {CEREMONY_VENUE}.
                     </p>
-                    <CeremonyPlaceholder item="place" />
+                    <p className="text-[16px] leading-[1.4] text-black/70 dark:text-white/70">
+                        {CEREMONY_ROUTE}
+                    </p>
                 </div>
             </CeremonySection>
 
@@ -189,8 +195,8 @@ export default function CeremonyPage() {
                         <p className="text-[19px] leading-[1.45]">
                             Вы один раз чувствуете, каким вкус должен быть — и дальше
                             свой чай дома заваривается уже иначе. Плюс появляется место
-                            в Петербурге, куда можно прийти вечером, и несколько
-                            человек, с которыми вы познакомились за столом.
+                            в Петербурге, куда можно вернуться, и несколько человек, с
+                            которыми вы познакомились за столом.
                         </p>
                     </div>
                 </div>
@@ -207,8 +213,7 @@ export default function CeremonyPage() {
                 <p className="mb-[16px] text-[24px] leading-[1.2]">{CEREMONY_PRICE}</p>
                 <p className="max-w-[52ch] text-[19px] leading-[1.45]">
                     Это всё: чай входит в стоимость, доплачивать на месте ничего не
-                    нужно. Чай на стол выбирает {CEREMONY_HOST_NAME} — в том числе
-                    такой, который вы вряд ли купили бы себе на пробу.
+                    нужно. Чай на стол выбирает {CEREMONY_HOST_NAME}.
                 </p>
             </CeremonySection>
 
