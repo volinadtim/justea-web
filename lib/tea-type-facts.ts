@@ -95,6 +95,7 @@ const DEFAULT_CATEGORY: Record<TeaType, StandardTeaCategory> = {
     black: "black",
     oolong: "oolong",
     "pu-erh": "dark",
+    dark: "dark",
     white: "white",
     yellow: "yellow",
 };

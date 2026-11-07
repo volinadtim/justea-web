@@ -25,7 +25,15 @@ const dataPath = join(root, "data", "teas.json");
 const typesPath = join(root, "data", "tea-types.json");
 
 /** `TeaType` — ключи маршрутов `/tea/<type>`. */
-const TEA_TYPES = ["green", "black", "oolong", "pu-erh", "white", "yellow"];
+const TEA_TYPES = [
+    "green",
+    "black",
+    "oolong",
+    "pu-erh",
+    "dark",
+    "white",
+    "yellow",
+];
 
 /** `StandardTeaCategory` — категория по ISO 20715 и GB/T. */
 const STANDARD_CATEGORIES = [
@@ -47,9 +55,24 @@ const EXPECTED_STANDARD_CATEGORY = {
     black: "black",
     oolong: "oolong",
     "pu-erh": "dark",
+    dark: "dark",
     white: "white",
     yellow: "yellow",
 };
+
+/** `BrewMethodType`. */
+const BREW_METHOD_TYPES = [
+    "gongfu",
+    "western",
+    "grandpa",
+    "cold-brew",
+    "iced",
+    "boiled",
+    "whisked",
+];
+
+const WHISK_STYLES = ["usucha", "koicha"];
+const WHISK_MOTIONS = ["whisk", "knead"];
 
 /** `PuerhKind`. */
 const PUERH_KINDS = ["shu", "sheng"];
@@ -340,18 +363,100 @@ for (const tea of teas) {
         }
         methodIds.add(method.id);
 
-        // Разметка HowTo собирается из `infusions` (app/components/seo/schema.ts).
-        // Способ без проливов выродится в HowTo без шагов, а разметка без шагов
-        // хуже её отсутствия: она заявляет инструкцию и не даёт инструкции.
-        // Сюда упадёт матча, если «взбивание» приедет с пустым `infusions`
-        // вместо своей структуры шагов.
-        if (!Array.isArray(method.infusions) || method.infusions.length === 0) {
+        if (!BREW_METHOD_TYPES.includes(method.type)) {
             fail(
                 slug,
-                `способ "${method.id}" без проливов: HowTo в разметке соберётся без шагов. ` +
-                    "Если это не проливной способ (взбивание матчи), ему нужна своя " +
-                    "структура шагов и своя ветка в teaPageSchema",
+                `способ "${method.id}": тип "${method.type}" неизвестен. Известные: ` +
+                    BREW_METHOD_TYPES.join(", "),
             );
+        }
+
+        const hasInfusions =
+            Array.isArray(method.infusions) && method.infusions.length > 0;
+
+        if (method.type === "whisked") {
+            // Взбивание и проливы взаимоисключимы: если заданы оба, разметка
+            // соберётся из шагов взбивания, а таблица на странице покажет
+            // проливы — то есть разметка разойдётся с видимым контентом.
+            if (hasInfusions) {
+                fail(
+                    slug,
+                    `способ "${method.id}" типа "whisked" имеет и infusions, и whisked. ` +
+                        "Это взаимоисключимо: у взбивания проливов нет ни одного",
+                );
+            }
+
+            if (!Array.isArray(method.whisked) || method.whisked.length === 0) {
+                fail(
+                    slug,
+                    `способ "${method.id}" типа "whisked" без параметров взбивания. ` +
+                        "HowTo соберётся без шагов, а это хуже отсутствия разметки",
+                );
+            }
+
+            for (const preparation of method.whisked ?? []) {
+                if (!WHISK_STYLES.includes(preparation.style)) {
+                    fail(
+                        slug,
+                        `whisked: style "${preparation.style}" неизвестен. Известные: ` +
+                            WHISK_STYLES.join(", "),
+                    );
+                }
+
+                // Усучу взбивают (点てる), коичу вымешивают (練る) — это разные
+                // глаголы и разный результат: пена против густой массы без
+                // пены. Перепутать их значит дать неработающую инструкцию.
+                if (!WHISK_MOTIONS.includes(preparation.motion)) {
+                    fail(
+                        slug,
+                        `whisked: motion "${preparation.motion}" неизвестен. Известные: ` +
+                            WHISK_MOTIONS.join(", "),
+                    );
+                }
+
+                if (
+                    preparation.style === "usucha" &&
+                    preparation.motion === "knead"
+                ) {
+                    fail(
+                        slug,
+                        "whisked: усучу взбивают (点てる), а не вымешивают — проверьте motion",
+                    );
+                }
+
+                if (
+                    preparation.style === "koicha" &&
+                    preparation.motion === "whisk"
+                ) {
+                    fail(
+                        slug,
+                        "whisked: коичу вымешивают (練る) до массы без пены, а не взбивают — " +
+                            "проверьте motion",
+                    );
+                }
+            }
+        } else if (!hasInfusions) {
+            // Разметка HowTo собирается из `infusions`. Способ без проливов
+            // выродится в HowTo без шагов, а это хуже отсутствия разметки:
+            // она заявляет инструкцию и не даёт инструкции.
+            fail(
+                slug,
+                `способ "${method.id}" без проливов: HowTo в разметке соберётся без шагов`,
+            );
+        } else if (method.type === "boiled" && method.infusions.length !== 1) {
+            // Варка — один непрерывный процесс. Несколько «проливов» у неё
+            // означали бы, что чай варят несколько раз подряд.
+            fail(
+                slug,
+                `способ "${method.id}" типа "boiled" имеет ${method.infusions.length} проливов. ` +
+                    "Варка оформляется ОДНИМ «проливом» длиной во всю варку",
+            );
+        }
+
+        if (method.type === "whisked") {
+            // У взбивания свои диапазоны: коича это 13,3 г/100 мл, что для
+            // проливного способа было бы опиской, а здесь норма.
+            continue;
         }
 
         const [ratioMin, ratioMax] = RATIO_RANGE;
@@ -389,7 +494,7 @@ for (const tea of teas) {
 
         // Пролив описывает и видимую таблицу, и шаг HowTo. Номер с нуля или
         // с дырой разведёт нумерацию на странице с нумерацией в разметке.
-        method.infusions?.forEach((infusion, index) => {
+        (method.infusions ?? []).forEach((infusion, index) => {
             if (infusion.number !== index + 1) {
                 fail(
                     slug,

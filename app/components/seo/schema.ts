@@ -1,7 +1,7 @@
 import { publicImageSize } from "@/lib/image-size";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { TEA_TYPE_LABELS } from "@/lib/teas";
-import type { BrewMethod, Tea } from "@/types/tea";
+import type { BrewMethod, Range, Tea } from "@/types/tea";
 
 /**
  * Общие узлы графа schema.org. Ссылаемся на них по `@id`, чтобы Organization и
@@ -130,30 +130,105 @@ function isoDuration(seconds: number): string {
     return `PT${minutes ? `${minutes}M` : ""}${rest || !minutes ? `${rest}S` : ""}`;
 }
 
+/** Данные приходят строчными, а в тексте шага встают после точки. */
+function capitalize(text?: string): string | undefined {
+    return text ? `${text[0].toUpperCase()}${text.slice(1)}` : undefined;
+}
+
+/** «1,7–2 г» или «4 г», смотря задан диапазон или одно число. */
+function formatAmount(value: number | Range, unit: string): string {
+    return typeof value === "number"
+        ? `${value} ${unit}`
+        : `${value.from}–${value.to} ${unit}`;
+}
+
+/**
+ * Шаги взбивания вместо проливов — для матчи.
+ *
+ * Отдельная ветка нужна потому, что `HowTo` здесь собирается из
+ * `infusions`, а у взбивания проливов нет ни одного. Без неё разметка
+ * выродилась бы в `HowTo` без шагов — инструкция, которая не инструктирует,
+ * то есть хуже отсутствия разметки.
+ *
+ * Усуча и коича дают **разные шаги**, а не разную крепость: одну взбивают до
+ * пены, другую вымешивают без пены. Поэтому стиль попадает в название шага.
+ */
+function whiskedSteps(method: BrewMethod, pageUrl: string) {
+    return (method.whisked ?? []).flatMap((preparation, index) => {
+        const position = index + 1;
+        const isWhisk = preparation.motion === "whisk";
+        const style = preparation.style === "usucha" ? "усуча" : "коича";
+        const motion = isWhisk ? "Взбивать венчиком" : "Вымешивать";
+        // Цель — словами источника, когда она есть. Когда нет, её роль
+        // берёт на себя описание движения, иначе шаг не говорит, к чему
+        // приводить: «взбивать» без «до чего» — не инструкция.
+        const fallbackTarget = isWhisk
+            ? "до мелкой пены"
+            : "до однородной массы без пены";
+        const duration = preparation.duration
+            ? `, ${formatAmount(preparation.duration, "с")}`
+            : "";
+
+        return [
+            {
+                "@type": "HowToStep",
+                "@id": `${pageUrl}#howto-${method.id}-step-${position}`,
+                position,
+                name: `${style}: ${formatAmount(preparation.powder, "г")} порошка`,
+                text: sentences([
+                    preparation.sift ? "Просеять порошок" : undefined,
+                    `Залить ${formatAmount(preparation.water, "мл")} воды ${formatTemperature(preparation.temperature)}`,
+                    preparation.target
+                        ? `${motion}${duration}`
+                        : `${motion} ${fallbackTarget}${duration}`,
+                    // Цель приходит из данных строчной и встаёт после точки.
+                    capitalize(preparation.target),
+                ]),
+            },
+        ];
+    });
+}
+
 function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
-    const totalSeconds = method.infusions.reduce(
+    const infusions = method.infusions ?? [];
+    const totalSeconds = infusions.reduce(
         (sum, infusion) => sum + infusion.time,
         0,
     );
 
     const temperature = formatTemperature(method.temperature);
+    const isBoiled = method.type === "boiled";
+    const isWhisked = method.type === "whisked";
 
     return {
         "@type": "HowTo",
+        // «Как заваривать» для варки и взбивания — неправда: чай варят и
+        // взбивают, а не заваривают. Разметка не должна называть действие
+        // не своим именем.
         "@id": `${pageUrl}#howto-${method.id}`,
-        name: `${tea.name}: как заваривать (${method.name})`,
+        name: `${tea.name}: ${
+            isBoiled ? "как варить" : isWhisked ? "как взбивать" : "как заваривать"
+        } (${method.name})`,
         // Заметки по приготовлению складываем в description. Раньше они шли
         // в `tool`, но «не заливайте кипятком» — это совет, а не инвентарь:
         // HowToTool описывает посуду и инструменты.
         description: sentences([method.description, ...(method.notes ?? [])]),
         inLanguage: siteConfig.defaultLocale.code,
-        totalTime: isoDuration(totalSeconds),
-        yield: `${method.infusions.length} ${plural(
-            method.infusions.length,
-            "пролив",
-            "пролива",
-            "проливов",
-        )}`,
+        ...(totalSeconds ? { totalTime: isoDuration(totalSeconds) } : {}),
+        // `yield` выводим только для проливных способов. У варки проливов нет
+        // — «1 пролив» было бы неправдой, — а у взбивания нет и количества,
+        // которое имело бы смысл назвать. Лучше не заявлять ничего, чем
+        // заявить неверное.
+        ...(isBoiled || isWhisked
+            ? {}
+            : {
+                  yield: `${infusions.length} ${plural(
+                      infusions.length,
+                      "пролив",
+                      "пролива",
+                      "проливов",
+                  )}`,
+              }),
         supply: [
             {
                 "@type": "HowToSupply",
@@ -164,18 +239,22 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
                 name: `Вода ${temperature}`,
             },
         ],
-        step: method.infusions.map((infusion) => ({
-            "@type": "HowToStep",
-            position: infusion.number,
-            name: `Пролив ${infusion.number}`,
-            text: sentences([
-                `Залить водой ${temperature} и настаивать ${infusion.time} с.`,
-                infusion.notes,
-            ]),
-            ...(infusion.time
-                ? { performTime: isoDuration(infusion.time) }
-                : {}),
-        })),
+        step: isWhisked
+            ? whiskedSteps(method, pageUrl)
+            : infusions.map((infusion) => ({
+                  "@type": "HowToStep",
+                  position: infusion.number,
+                  name: isBoiled ? "Варка" : `Пролив ${infusion.number}`,
+                  text: sentences([
+                      isBoiled
+                          ? `Довести воду до кипения и варить ${infusion.time} с.`
+                          : `Залить водой ${temperature} и настаивать ${infusion.time} с.`,
+                      infusion.notes,
+                  ]),
+                  ...(infusion.time
+                      ? { performTime: isoDuration(infusion.time) }
+                      : {}),
+              })),
     };
 }
 
