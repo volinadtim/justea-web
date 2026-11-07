@@ -59,5 +59,6 @@
 | `www.tfri.gov.tw` | нет файла (404) | `/News_Content.aspx` — Институт лесных исследований Минсельхоза Тайваня |
 | `eutils.ncbi.nlm.nih.gov` | «no robots!» — служебный back-end | `/entrez/eutils/esummary.fcgi` — публичный API, контактный e-mail указывался |
 | `pmc.ncbi.nlm.nih.gov` | — | **не выгружался:** страница проверки «человек ли вы». Обход не применялся; метаданные взяты через API E-utilities |
+| `www.ebi.ac.uk` (Europe PMC) | — | `/europepmc/webservices/rest/**` — публичный API: поиск и `fullTextXML` для статей открытого доступа. Через него получены полные тексты Cao 2022 и Jin 2019, недоступные через PMC |
 
 Обход антибот-защиты не применялся ни на одном хосте.

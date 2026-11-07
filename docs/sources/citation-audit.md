@@ -224,10 +224,19 @@ Matcha, Sencha, and Gyokuro», *Molecules* 31:2934, DOI 10.3390/molecules3116293
     of the Main Flavanols in Green Tea. In: *Tea in Health and Disease Prevention*,
     pp. 335–341. https://doi.org/10.1016/B978-0-12-384937-3.00028-8 — *добавлено:
     прямо по теме температуры и времени, проверяемая ссылка*
-16. Hajiaghaalipour F, et al. (2015). Temperature and Time of Steeping Affect the
-    Antioxidant Properties of White, Green, and Black Tea Infusions. *Journal of Food
-    Science* 81. https://doi.org/10.1111/1750-3841.13149 — *добавлено: охватывает
-    белый чай, которого в исходном списке почти не было*
+16. Hajiaghaalipour F, Sanusi J, Kanthimathi MS (**2016**). Temperature and Time of
+    Steeping Affect the Antioxidant Properties of White, Green, and Black Tea
+    Infusions. *Journal of Food Science* 81(1).
+    https://doi.org/10.1111/1750-3841.13149 — *добавлено: охватывает белый чай,
+    которого в исходном списке почти не было*
+
+    ⚠ **Поправка 2026-11-07, моя собственная ошибка.** В первой редакции этого
+    списка работа стояла как «(2015) … *Journal of Food Science* 81»: я смешал год
+    онлайн-первой публикации (2015-11-27) с номером печатного тома (2016, январь).
+    Том 81 — это выпуск 2016 года. Правильно — **2016**, с указанием онлайн-даты,
+    если она нужна. Работа идентифицируется однозначно, но список правил я сам, так
+    что ошибку фиксирую здесь же. **Та же правка нужна в PR #16** —
+    `docs/tea-brewing-science.md` и `-ru.md`, пункт 16 списка литературы.
 17. Oracz J, et al. (2025). Optimizing brewing conditions for low-temperature green tea
     infusions: Insights into functional and nutritional properties. *Food Chemistry*
     474:143241. https://doi.org/10.1016/j.foodchem.2025.143241 — *добавлено:
