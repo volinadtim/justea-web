@@ -1,15 +1,31 @@
 import typeFactsData from "@/data/tea-types.json";
-import type { BrewMistake, Misconception, Tea, TeaType } from "@/types/tea";
+import type {
+    BrewMistake,
+    Misconception,
+    StandardTeaCategory,
+    Tea,
+    TeaType,
+} from "@/types/tea";
 import { getPrimaryBrewMethod } from "./teas";
 
 /**
  * Факты уровня типа чая — ошибки заваривания и расхожие заблуждения — и их
  * сборка со свойственными конкретному сорту.
  *
- * Почему уровень типа. Наблюдение justea-voice от 07.11.2026: последствия
+ * Почему не уровень сорта. Наблюдение justea-voice от 07.11.2026: последствия
  * ошибок почти целиком определяются типом, а не сортом. «Зелёный + кипяток →
  * горечь» верно для всех зелёных, и держать это по восьми сортам отдельно
  * значит заполнить поле одинаковым текстом — читатель это заметит.
+ * justea-sources это подтвердили измерением: у белого, зелёного и чёрного
+ * оптимумы противоположные, а сортовых исключений пять на шестнадцать чаёв.
+ *
+ * Почему ключ — категория по стандарту, а не наш `TeaType`. Поведение при
+ * перегреве задаётся категорией, а не ключом маршрута: пуэр, любао и фу
+ * чжуань ведут себя одинаково («долго и горячо» для тёмных — норма, а не
+ * ошибка), хотя маршруты у них разные и будут разными дальше. Поэтому пуэр
+ * ищет факты по своей `standardCategory` — `"dark"`, — и если появится
+ * отдельный тип `dark` под любао, факты для него уже на месте.
+ * `brewing-errors.json` у sources размечен ровно так же.
  *
  * Почему при этом есть подстановки. Блок существует ровно затем, чтобы
  * страница сорта отвечала на запрос «<сорт> эффект»; одинаковый текст на
@@ -67,8 +83,28 @@ function fillMistake(mistake: BrewMistake, tea: Tea): BrewMistake {
     };
 }
 
-function factsForType(type: TeaType): TypeFacts {
-    return typeFacts[type] ?? {};
+/**
+ * Категория по стандарту для типа маршрута, когда она не задана в данных явно.
+ *
+ * Поле `standardCategory` заполняют только там, где оно расходится с
+ * ожидаемым (Аньцзи байча по названию «белый чай», по стандарту зелёный),
+ * поэтому у большинства записей его нет — и тогда берём отсюда.
+ */
+const DEFAULT_CATEGORY: Record<TeaType, StandardTeaCategory> = {
+    green: "green",
+    black: "black",
+    oolong: "oolong",
+    "pu-erh": "dark",
+    white: "white",
+    yellow: "yellow",
+};
+
+export function standardCategoryOf(tea: Tea): StandardTeaCategory {
+    return tea.standardCategory ?? DEFAULT_CATEGORY[tea.type];
+}
+
+function factsForTea(tea: Tea): TypeFacts {
+    return typeFacts[standardCategoryOf(tea)] ?? {};
 }
 
 /**
@@ -78,7 +114,7 @@ function factsForType(type: TeaType): TypeFacts {
  */
 export function brewMistakesFor(tea: Tea): BrewMistake[] {
     return [
-        ...(factsForType(tea.type).brewMistakes ?? []),
+        ...(factsForTea(tea).brewMistakes ?? []),
         ...(tea.brewMistakes ?? []),
     ].map((mistake) => fillMistake(mistake, tea));
 }
@@ -86,7 +122,7 @@ export function brewMistakesFor(tea: Tea): BrewMistake[] {
 /** Заблуждения для страницы сорта: общие для типа плюс сортовые. */
 export function misconceptionsFor(tea: Tea): Misconception[] {
     return [
-        ...(factsForType(tea.type).misconceptions ?? []),
+        ...(factsForTea(tea).misconceptions ?? []),
         ...(tea.misconceptions ?? []),
     ];
 }
