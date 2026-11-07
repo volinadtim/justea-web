@@ -440,7 +440,12 @@ export function teaPageSchema(tea: Tea, crumbs: Crumb[]) {
                 // а не отзывы пользователей. Разметка отзывов без реальных
                 // отзывов — повод для ручных санкций.
             },
-            ...tea.brewMethods.map((method) => brewMethodHowTo(tea, method, pageUrl)),
+            // Способов может не быть вовсе — тогда и инструкций нет. Это
+            // честнее, чем `HowTo` с выдуманными параметрами: разметка без
+            // рецепта лучше рецепта без источника.
+            ...(tea.brewMethods ?? []).map((method) =>
+                brewMethodHowTo(tea, method, pageUrl),
+            ),
         ],
     };
 }

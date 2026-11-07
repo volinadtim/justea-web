@@ -522,8 +522,28 @@ for (const tea of teas) {
         }
     }
 
+    /*
+     * Отсутствие способов заваривания — **не ошибка**, и требование «хотя бы
+     * один» отсюда убрано 07.11.2026.
+     *
+     * Оно выглядело безобидным, а работало так: когда источника на параметры
+     * нет, поле всё равно надо заполнить, и человек кладёт туда самое
+     * правдоподобное из доступного. У семи чаёв этим оказался метод
+     * ISO 3103 — шесть минут кипятком, то есть процедура дегустационной
+     * экспертизы, выданная за рецепт. Нашёл justea-catalog, проверив опытом.
+     *
+     * **Валидатор, требующий полноты там, где данных нет, не защищает
+     * данные, а производит догадки.**
+     */
     if (!Array.isArray(tea.brewMethods) || tea.brewMethods.length === 0) {
-        fail(slug, "нет ни одного brewMethod");
+        if (tea.primaryBrewMethod !== undefined) {
+            fail(
+                slug,
+                `primaryBrewMethod "${tea.primaryBrewMethod}" задан, а способов нет. ` +
+                    "Выбирать не из чего — либо убрать поле, либо добавить способ",
+            );
+        }
+
         continue;
     }
 
@@ -792,7 +812,10 @@ for (const tea of teas) {
         });
     }
 
-    if (!tea.brewMethods.some((method) => method.type === tea.primaryBrewMethod)) {
+    if (
+        tea.primaryBrewMethod !== undefined &&
+        !tea.brewMethods.some((method) => method.type === tea.primaryBrewMethod)
+    ) {
         fail(
             slug,
             `primaryBrewMethod "${tea.primaryBrewMethod}" не найден среди brewMethods`,
