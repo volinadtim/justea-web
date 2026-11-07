@@ -24,12 +24,12 @@
   --color-foreground: var(--foreground);
   --color-main: var(--color-main); /* Add to theme */
 
-  /* Fonts */
+  /* Шрифты. Geist Sans и Geist Mono убраны: ни одного использования
+     font-geist / font-mono в проекте нет, а грузились и предзагружались они
+     на каждой странице. Загрузчики в layout.tsx снимает justea-seo. */
   --font-sans: var(--font-bainsley), sans-serif;
   --font-bainsley: var(--font-bainsley), sans-serif;
   --font-comfortaa: var(--font-comfortaa-sans), sans-serif;
-  --font-geist: var(--font-geist-sans), sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
 }
 
 /* You can define custom utility classes */
