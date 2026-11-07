@@ -80,6 +80,26 @@ def counts(text):
     return out
 
 
+# Признаки служебного текста: интерфейс читалки, CSS, скрипты, навигация.
+# Такой текст выглядит как текст и молча разбавляет выборку: панель настроек
+# royallib составляла четверть файла, и все частоты оказались занижены на
+# четверть. Поэтому доля служебного считается при каждом замере.
+SERVICE = re.compile(
+    r"\d+px|\d+%|z-index|font-size|position:\s*fixed|\{[^}]*;[^}]*\}"
+    r"|Оцените книгу|Поделиться книгой|Ширина текста|Конец книги"
+    r"|Добавить в|Настройки|Оглавление",
+    re.I)
+
+
+def service_share(text):
+    """Доля строк, похожих на интерфейс, а не на текст произведения."""
+    lines = [l for l in text.split("\n") if l.strip()]
+    if not lines:
+        return 0.0
+    bad = sum(1 for l in lines if SERVICE.search(l))
+    return round(bad / len(lines) * 100, 1)
+
+
 def load(corpus_dir):
     """Группирует файлы корпуса по автору и изданию через manifest.json."""
     manifest_path = os.path.join(corpus_dir, "manifest.json")
@@ -93,6 +113,10 @@ def load(corpus_dir):
             continue
         with open(path) as f:
             text = f.read()
+        share = service_share(text)
+        if share >= 2.0:
+            print(f"# ВНИМАНИЕ: в {entry['file']} похоже на интерфейс {share}% строк — "
+                  f"проверьте извлечение, иначе частоты будут занижены", file=sys.stderr)
         key = (entry["author"], entry["edition"])
         groups.setdefault(key, {"texts": [], "works": []})
         groups[key]["texts"].append(text)
