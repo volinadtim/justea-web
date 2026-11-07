@@ -16,6 +16,7 @@ import {
     TEA_TYPE_LABELS,
 } from "@/lib/teas";
 import { teaTypePath } from "@/lib/tea-type-pages";
+import { brewMistakesFor, misconceptionsFor } from "@/lib/tea-type-facts";
 import { createPageMetadata } from "@/lib/metadata";
 import type { Tea } from "@/types/tea";
 
@@ -96,6 +97,9 @@ export default async function TeaPage({ params }: PageProps) {
         notFound();
     }
 
+    const brewMistakes = brewMistakesFor(tea);
+    const misconceptions = misconceptionsFor(tea);
+
     const crumbs = [
         { label: "Главная", href: "/" },
         { label: TEA_TYPE_LABELS[tea.type], href: teaTypePath(tea.type) },
@@ -139,6 +143,60 @@ export default async function TeaPage({ params }: PageProps) {
                     brewMethods={tea.brewMethods}
                     defaultMethodId={primaryBrewMethod.id}
                 />
+
+                {/*
+                    Типичные ошибки и частые заблуждения.
+
+                    Два отдельных блока, а не один, и это разделение намеренное.
+                    «Типичные ошибки» отвечают на то, что читатель сделал
+                    («залил кипятком — вышла горечь»); «частые заблуждения» —
+                    на то, во что он верит («бывает рассыпной шэн-пуэр»). Под
+                    одним заголовком рядом оказались бы «остудите воду до
+                    80 °C» и «Бин Дао из Линьцана, а не из Сишуанбаньны».
+
+                    Оба собираются из `data/tea-types.json` (общее для типа) и
+                    из полей сорта. Сегодня контейнер пуст, поэтому блоки не
+                    выводятся вовсе — это нормальное состояние, а не ошибка:
+                    фактуру даёт justea-sources.
+
+                    Свой `<h2>` у «ошибок» — требование justea-voice: блок
+                    должен находиться поиском отдельно. Классы те же, что у
+                    заголовка способа в `TeaBrewSection` и у списка заметок;
+                    своих стилей агент не вводит.
+
+                    В разметку не выводится. У `HowTo` нет узла «чего не
+                    делать», а натягивать ошибки на шаги инструкции значило бы
+                    заявить краулеру, что залить кипятком — это шаг рецепта.
+                */}
+                {brewMistakes.length > 0 && (
+                    <section className="mt-[40px]">
+                        <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
+                            Типичные ошибки
+                        </h2>
+                        <ul className="list-disc space-y-[8px] pl-[20px] text-[16px]">
+                            {brewMistakes.map((item) => (
+                                <li key={item.mistake}>
+                                    {item.result} — {item.mistake}. {item.fix}
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+
+                {misconceptions.length > 0 && (
+                    <section className="mt-[40px]">
+                        <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
+                            Частые заблуждения
+                        </h2>
+                        <ul className="list-disc space-y-[8px] pl-[20px] text-[16px]">
+                            {misconceptions.map((item) => (
+                                <li key={item.claim}>
+                                    «{item.claim}» — {item.correction}
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
 
                 {/*
                     Сноска-предосторожность. Решение пользователя 06.11.2026:

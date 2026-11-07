@@ -22,6 +22,7 @@ import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = join(root, "data", "teas.json");
+const typesPath = join(root, "data", "tea-types.json");
 
 /** `TeaType` — ключи маршрутов `/tea/<type>`. */
 const TEA_TYPES = ["green", "black", "oolong", "pu-erh", "white", "yellow"];
@@ -77,10 +78,87 @@ const PROCESSINGS = ["gaba"];
 const RATIO_RANGE = [0.5, 25];
 const TEMPERATURE_RANGE = [40, 100];
 
+/** `Misconception.kind`. */
+const MISCONCEPTION_KINDS = [
+    "classification",
+    "origin",
+    "processing",
+    "composition",
+    "brewing",
+];
+
+/** Подстановки, которые разворачивает lib/tea-type-facts.ts. */
+const PLACEHOLDERS = ["temperature", "ratio"];
+
 const errors = [];
 
 function fail(slug, message) {
     errors.push(`${slug}: ${message}`);
+}
+
+/**
+ * Ошибки заваривания и заблуждения проверяются одинаково и на уровне типа, и
+ * на уровне сорта — поэтому вынесено в функцию, а не продублировано.
+ */
+function checkFacts(where, facts) {
+    for (const mistake of facts.brewMistakes ?? []) {
+        for (const field of ["mistake", "result", "fix"]) {
+            if (typeof mistake[field] !== "string" || !mistake[field].trim()) {
+                fail(where, `brewMistakes: поле "${field}" пустое или не строка`);
+            }
+        }
+
+        // На странице три поля склеиваются в «{result} — {mistake}. {fix}»,
+        // то есть `fix` начинает новое предложение. Со строчной буквы оно
+        // выглядит как опечатка — а это крупнейшие страницы сайта.
+        if (/^[a-zа-яё]/.test(String(mistake.fix ?? ""))) {
+            fail(
+                where,
+                `brewMistakes: "${String(mistake.fix).slice(0, 30)}…" начинается со строчной буквы. ` +
+                    "На странице это отдельное предложение после точки",
+            );
+        }
+
+        // Неизвестная подстановка не развернётся и уедет на страницу как
+        // «{whatever}» посреди предложения.
+        for (const text of [mistake.result, mistake.fix]) {
+            for (const [, name] of String(text ?? "").matchAll(/\{(\w+)\}/g)) {
+                if (!PLACEHOLDERS.includes(name)) {
+                    fail(
+                        where,
+                        `brewMistakes: подстановка "{${name}}" неизвестна. Известные: ` +
+                            PLACEHOLDERS.map((p) => `{${p}}`).join(", "),
+                    );
+                }
+            }
+        }
+    }
+
+    for (const item of facts.misconceptions ?? []) {
+        for (const field of ["claim", "correction"]) {
+            if (typeof item[field] !== "string" || !item[field].trim()) {
+                fail(where, `misconceptions: поле "${field}" пустое или не строка`);
+            }
+        }
+
+        // «Это миф» без ссылки — такое же неподтверждённое утверждение, как и
+        // сам миф, только с обратным знаком (условие justea-sources).
+        if (!Array.isArray(item.sources) || item.sources.length === 0) {
+            fail(
+                where,
+                `misconceptions: «${String(item.claim).slice(0, 40)}…» без источников. ` +
+                    "Опровержение без ссылки не публикуем",
+            );
+        }
+
+        if (!MISCONCEPTION_KINDS.includes(item.kind)) {
+            fail(
+                where,
+                `misconceptions: kind "${item.kind}" неизвестен. Известные: ` +
+                    MISCONCEPTION_KINDS.join(", "),
+            );
+        }
+    }
 }
 
 const teas = JSON.parse(readFileSync(dataPath, "utf8"));
@@ -209,6 +287,8 @@ for (const tea of teas) {
         }
     }
 
+    checkFacts(slug, tea);
+
     if (Array.isArray(tea.synonyms)) {
         for (const synonym of tea.synonyms) {
             if (typeof synonym !== "string" || !synonym.trim()) {
@@ -299,6 +379,28 @@ for (const tea of teas) {
     }
 }
 
+// Факты уровня типа: те же проверки плюс полнота ключей.
+const typeFacts = JSON.parse(readFileSync(typesPath, "utf8"));
+
+for (const type of TEA_TYPES) {
+    if (!typeFacts[type]) {
+        fail(
+            `data/tea-types.json`,
+            `нет ключа "${type}". Файл должен покрывать все типы из TEA_TYPES, ` +
+                "иначе новый тип молча останется без фактов",
+        );
+        continue;
+    }
+
+    checkFacts(`data/tea-types.json → ${type}`, typeFacts[type]);
+}
+
+for (const key of Object.keys(typeFacts)) {
+    if (key !== "$comment" && !TEA_TYPES.includes(key)) {
+        fail("data/tea-types.json", `лишний ключ "${key}" — такого типа нет`);
+    }
+}
+
 if (errors.length) {
     console.error(`data/teas.json — ошибок: ${errors.length}\n`);
     for (const error of errors) {
@@ -307,4 +409,7 @@ if (errors.length) {
     process.exit(1);
 }
 
-console.log(`data/teas.json — ${teas.length} записей, инварианты в порядке`);
+console.log(
+    `data/teas.json — ${teas.length} записей, data/tea-types.json — ${TEA_TYPES.length} типов, ` +
+        "инварианты в порядке",
+);
