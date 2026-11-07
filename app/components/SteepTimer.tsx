@@ -6,9 +6,26 @@ import { useEffect } from "react";
 import { formatSteepTime } from "@/lib/format-steep-time";
 import { steepTimerMachine } from "@/lib/machines/steep-timer";
 
+/**
+ * Подписи таймера. По умолчанию — проливы; взбивание матчи подставляет свои,
+ * потому что «Пролив 1 из 1» у коичи неверно по сути, а не по оформлению.
+ */
+type TimerLabels = {
+    idle: string;
+    done: string;
+    step: (index: number, total: number) => string;
+};
+
+const DEFAULT_LABELS: TimerLabels = {
+    idle: "Таймер проливов",
+    done: "Все проливы завершены",
+    step: (index, total) => `Пролив ${index + 1} из ${total}`,
+};
+
 type Props = {
     steeps: number[];
     onActiveIndexChange?: (index: number | null) => void;
+    labels?: Partial<TimerLabels>;
 };
 
 function TimerIconButton({
@@ -33,7 +50,8 @@ function TimerIconButton({
     );
 }
 
-export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
+export default function SteepTimer({ steeps, onActiveIndexChange, labels }: Props) {
+    const text = { ...DEFAULT_LABELS, ...labels };
     const [snapshot, send] = useMachine(steepTimerMachine, {
         input: { steeps },
     });
@@ -86,10 +104,10 @@ export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
         <div className="mt-[20px] rounded-md border-2 border-black/10 p-[16px] dark:border-white/10">
             <div className="mb-[12px] text-[14px] text-black/60 dark:text-white/60">
                 {isFinished
-                    ? "Все проливы завершены"
+                    ? text.done
                     : isActive
-                      ? `Пролив ${currentIndex + 1} из ${totalSteeps}`
-                      : "Таймер проливов"}
+                      ? text.step(currentIndex, totalSteeps)
+                      : text.idle}
             </div>
 
             <div className="mb-3 font-comfortaa text-[40px] font-bold leading-none sm:mb-4 sm:text-[48px]">

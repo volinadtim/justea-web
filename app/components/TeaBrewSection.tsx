@@ -5,6 +5,7 @@ import BrewMethodSwitcher from "./BrewMethodSwitcher";
 import BrewInfo from "./BrewInfo";
 import SteepsTable from "./SteepsTable";
 import SteepTimer from "./SteepTimer";
+import WhiskedTable from "./WhiskedTable";
 import { BrewMethod } from "@/types/tea";
 
 type Props = {
@@ -85,16 +86,11 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                     ratio={activeMethod.ratio}
                 />
                 {/*
-                    Таблица проливов и таймер — только когда проливы есть.
-                    У взбивания (матча) их нет ни одного, и пустая таблица с
-                    таймером на ноль шагов была бы дефектом, а не решением.
-
-                    Это защита, а не оформление: как показывать взбивание —
-                    вопрос к justea-design, он описан в outbox justea-seo #12.
-                    Своего облика агент не придумывает (решение пользователя
-                    07.11.2026).
+                    Справа — таблица проливов либо панель взбивания: у матчи
+                    проливов нет ни одного, и это место раньше оставалось
+                    пустым. Форма та же, содержание другое.
                 */}
-                {steeps.length > 0 && (
+                {steeps.length > 0 ? (
                     <div className="flex flex-1 flex-col">
                         <SteepsTable steeps={steeps} activeIndex={activeSteepIndex} />
                         <SteepTimer
@@ -102,7 +98,9 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                             onActiveIndexChange={setActiveSteepIndex}
                         />
                     </div>
-                )}
+                ) : activeMethod.whisked && activeMethod.whisked.length > 0 ? (
+                    <WhiskedTable whisked={activeMethod.whisked} />
+                ) : null}
             </div>
 
             {/*
