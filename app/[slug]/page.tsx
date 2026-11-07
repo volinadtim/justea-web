@@ -50,13 +50,14 @@ function teaMetaDescription(tea: Tea): string {
      * числа вовсе, чем назвать одно из двух. К тому же с правки justea-design
      * (PR #27) навеска у взбивания не показывается и на самой странице.
      */
-    const facts = !method
-        ? `${tea.name}.`
-        : infusions.length
-          ? `${tea.name}: ${formatRatio(method.ratio)}, вода ${temperature} °C, ${
-                infusions.length
-            } ${pluralInfusions(infusions.length)}.`
-          : `${tea.name}: вода ${temperature} °C.`;
+    const facts =
+        !method || method.ratio === undefined || !infusions.length
+            ? method
+                ? `${tea.name}: вода ${temperature} °C.`
+                : `${tea.name}.`
+            : `${tea.name}: ${formatRatio(method.ratio)}, вода ${temperature} °C, ${
+                  infusions.length
+              } ${pluralInfusions(infusions.length)}.`;
     const full = [facts, tea.description].filter(Boolean).join(" ");
 
     if (full.length <= 160) {

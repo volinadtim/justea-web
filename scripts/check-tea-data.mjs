@@ -101,6 +101,27 @@ const PROCESSINGS = ["gaba"];
 const RATIO_RANGE = [0.5, 25];
 const TEMPERATURE_RANGE = [40, 100];
 
+/**
+ * Поля, которые код действительно читает.
+ *
+ * Проверка на лишние поля нужна не от опечаток, а от **молчаливого
+ * несоответствия**. Сегодня я убрал поле `onlyFor`, и данные в соседней ветке
+ * ещё несли его: мой код просто перестал бы его замечать, записи перестали бы
+ * сужаться, и никто бы не узнал. То же будет, если justea-sources заведут
+ * поле и скажут об этом не мне, а в своём файле: тихое игнорирование хуже
+ * ошибки, потому что обе стороны уверены, что всё работает.
+ */
+const BREW_OUTCOME_FIELDS = [
+    "id",
+    "change",
+    "consequence",
+    "sources",
+    "confidence",
+    "replaces",
+];
+
+const MISCONCEPTION_FIELDS = ["claim", "correction", "sources", "kind"];
+
 /** `Misconception.kind`. */
 const MISCONCEPTION_KINDS = [
     "classification",
@@ -114,9 +135,87 @@ const MISCONCEPTION_KINDS = [
 const PLACEHOLDERS = ["temperature", "ratio"];
 
 const errors = [];
+const warnings = [];
 
 function fail(slug, message) {
     errors.push(`${slug}: ${message}`);
+}
+
+/**
+ * Предупреждение: сборку не валит.
+ *
+ * Отличается от `fail` не строгостью, а природой. `fail` — это нарушение
+ * инварианта: его видно по форме данных, ложных срабатываний не бывает.
+ * `warn` — догадка по тексту: она может ошибиться, и жёсткое падение на
+ * догадке заставило бы обходить проверку, а не чинить данные.
+ *
+ * Молчать о таком тоже нельзя: догадка ниже нашла настоящий дефект на проде.
+ */
+function warn(slug, message) {
+    warnings.push(`${slug}: ${message}`);
+}
+
+/** Промывку в тексте выдают эти слова. */
+const RINSE_WORDS = /промыв|ополосн|ополаск|醒茶|пробужд/i;
+
+/**
+ * Регистр «сколько в чае полезного», которого на сайте нет по решению
+ * пользователя от 06.11.2026.
+ *
+ * Проверяется в видимых текстах — `description` чая и способа, `notes`. Поле
+ * `caution` пропускается: оно для того и заведено, там кофеин и пороги EFSA
+ * стоят законно и с источниками.
+ *
+ * **Проверок две, и различие между ними — главное здесь.**
+ *
+ * `HEALTH_CLAIMS` — слова, которые сами по себе о пользе: «польза», «вред»,
+ * «бодрит». Их на сайте нет ни в каком виде.
+ *
+ * `SUBSTANCE_WORDS` ловятся **только вместе с** `MORE_IS_BETTER`, и вот
+ * почему. Сначала я ловил «полифенолы» в любом контексте и получил четыре
+ * срабатывания на нормативных порогах состава: «по GB/T 22111 прессованный
+ * шэн — это чай с полифенолами не ниже 28 %», «ISO 11287 снижает для гёкуро
+ * пороги полифенолов». Это **определение продукта**, а не обещание пользы, и
+ * запрещать его значило бы запретить объяснять, чем шэн отличается от шу.
+ *
+ * Запретна не сама молекула, а рамка «чем больше, тем лучше»: «максимум
+ * общих полифенолов даёт 90 °C и пролив на 5 минут» — это уже указание
+ * заваривать ради вещества.
+ *
+ * Поиск только с начала слова: без этого «польз» находилось внутри
+ * «Используйте». `\b` не годится — в JavaScript он опирается на латиницу и
+ * кириллицу не видит. Предупреждение, которое врёт в половине случаев,
+ * перестают читать целиком, вместе с верными.
+ */
+const WORD_START = "(?<![а-яёa-z])";
+
+const HEALTH_CLAIMS = new RegExp(
+    WORD_START +
+        "(?:польз|вред|бодрит|тонизир|успокаива|иммунит|похуд|оздоров)",
+    "i",
+);
+
+const SUBSTANCE_WORDS = new RegExp(
+    WORD_START + "(?:полифенол|антиоксидант|флавоноид)",
+    "i",
+);
+
+const MORE_IS_BETTER = new RegExp(
+    WORD_START + "(?:максимум|максимальн|больше всего|выше всего|оптимум|ориентир)",
+    "i",
+);
+
+/** Что именно не так с текстом, или `null`, если всё в порядке. */
+function healthRegisterHit(text) {
+    const claim = HEALTH_CLAIMS.exec(text ?? "");
+
+    if (claim) {
+        return claim[0];
+    }
+
+    const substance = SUBSTANCE_WORDS.exec(text ?? "");
+
+    return substance && MORE_IS_BETTER.test(text ?? "") ? substance[0] : null;
 }
 
 /**
@@ -127,6 +226,16 @@ function checkFacts(where, facts) {
     const seenIds = new Set();
 
     for (const outcome of facts.brewOutcomes ?? []) {
+        for (const field of Object.keys(outcome)) {
+            if (!BREW_OUTCOME_FIELDS.includes(field)) {
+                fail(
+                    where,
+                    `brewOutcomes: поле "${field}" код не читает. Либо опечатка, либо ` +
+                        "поле завели, не сказав мне — молчаливое игнорирование хуже ошибки",
+                );
+            }
+        }
+
         if (outcome.id !== undefined) {
             if (seenIds.has(outcome.id)) {
                 fail(where, `brewOutcomes: id "${outcome.id}" повторяется — на него не сослаться`);
@@ -196,6 +305,16 @@ function checkFacts(where, facts) {
     }
 
     for (const item of facts.misconceptions ?? []) {
+        for (const field of Object.keys(item)) {
+            if (!MISCONCEPTION_FIELDS.includes(field)) {
+                fail(
+                    where,
+                    `misconceptions: поле "${field}" код не читает. Либо опечатка, либо ` +
+                        "поле завели, не сказав мне",
+                );
+            }
+        }
+
         for (const field of ["claim", "correction"]) {
             if (typeof item[field] !== "string" || !item[field].trim()) {
                 fail(where, `misconceptions: поле "${field}" пустое или не строка`);
@@ -358,6 +477,15 @@ for (const tea of teas) {
         }
     }
 
+    const descriptionHit = healthRegisterHit(tea.description);
+
+    if (descriptionHit) {
+        warn(
+            slug,
+            `«${descriptionHit}» в описании сорта. О пользе и вреде мы не пишем`,
+        );
+    }
+
     checkFacts(slug, tea);
 
     for (const outcome of tea.brewOutcomes ?? []) {
@@ -500,8 +628,20 @@ for (const tea of teas) {
         // повторить ту же ошибку обобщения.
 
         if (method.type === "whisked") {
-            // У взбивания свои диапазоны: коича это 13,3 г/100 мл, что для
-            // проливного способа было бы опиской, а здесь норма.
+            // У взбивания нет ни одной верной навески: 2,4 г/100 мл у усучи
+            // против 13,3 у коичи. Обязательное поле без правильного
+            // значения — приглашение положить туда хоть что-нибудь, и ровно
+            // это произошло: 2,4 протекло в сниппет выдачи, где было неверно
+            // для коичи. Количества задаются в whisked[].
+            if (method.ratio !== undefined) {
+                fail(
+                    slug,
+                    `способ "${method.id}" типа "whisked" имеет ratio ${method.ratio}. ` +
+                        "У взбивания нет одной верной навески: 2,4 г/100 мл у усучи против " +
+                        "13,3 у коичи. Количества задаются в whisked[].powder и water",
+                );
+            }
+
             continue;
         }
 
@@ -554,6 +694,52 @@ for (const tea of teas) {
                         slug,
                         `способ "${method.id}": промывка задана полем rinse и упомянута в notes ` +
                             `(«${note.slice(0, 40)}…»). На странице она выведется дважды`,
+                    );
+                }
+            }
+        }
+
+        for (const text of [method.description, ...(method.notes ?? [])]) {
+            const hit = healthRegisterHit(text);
+
+            if (hit) {
+                warn(
+                    slug,
+                    `способ "${method.id}": «${hit}» в видимом тексте ` +
+                        `(«${String(text).slice(0, 45)}…»). О пользе и вреде мы не пишем; ` +
+                        "если это про вкус и экстракцию — переформулировать, если про " +
+                        "содержание вещества — убрать",
+                );
+            }
+        }
+
+        // Промывка, спрятанная в проливах, завышает их число. Это не
+        // косметика: `yield` в разметке говорит «6 проливов», таблица
+        // показывает шесть, а пьют пять — шестой сливают. Ровно ради этого
+        // заведено поле `rinse`, которое стоит вне счёта.
+        //
+        // Проверка по словам, то есть догадка: поэтому предупреждение, а не
+        // ошибка. Найдено justea-sources на данных прода 07.11.2026.
+        if (!method.rinse) {
+            const first = (method.infusions ?? [])[0];
+
+            if (first && RINSE_WORDS.test(first.notes ?? "")) {
+                warn(
+                    slug,
+                    `способ "${method.id}": первый пролив похож на промывку ` +
+                        `(«${(first.notes ?? "").slice(0, 45)}…»). Тогда проливов не ` +
+                        `${(method.infusions ?? []).length}, а на один меньше — ` +
+                        "перенести в поле rinse, оно вне счёта",
+                );
+            }
+
+            for (const note of method.notes ?? []) {
+                if (RINSE_WORDS.test(note)) {
+                    warn(
+                        slug,
+                        `способ "${method.id}": промывка описана в notes ` +
+                            `(«${note.slice(0, 45)}…»). Если она входит в число проливов — ` +
+                            "их на один меньше; место промывки в поле rinse",
                     );
                 }
             }
@@ -636,6 +822,14 @@ for (const key of Object.keys(typeFacts)) {
                 "StandardTeaCategory, а не TeaType: «pu-erh» здесь не ключ, его факты лежат под «dark»",
         );
     }
+}
+
+if (warnings.length) {
+    console.warn(`\nПредупреждения (сборку не валят): ${warnings.length}\n`);
+    for (const warning of warnings) {
+        console.warn(`  ~ ${warning}`);
+    }
+    console.warn("");
 }
 
 if (errors.length) {
