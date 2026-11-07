@@ -14,7 +14,7 @@ export default function TeaDescriptionBlock({ title, descriptors }: Props) {
 
   return (
     <div className="flex-1">
-      <h3 className="mb-1.5 text-[22px] sm:text-[26px] lg:text-[28px]">{title}</h3>
+      <h2 className="mb-1.5 text-[22px] sm:text-[26px] lg:text-[28px]">{title}</h2>
       <p className="text-[17px] sm:text-[19px]">{inlineDescriptors}</p>
     </div>
   );

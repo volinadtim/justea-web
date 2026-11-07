@@ -5,7 +5,9 @@ import BrewMethodSwitcher from "./BrewMethodSwitcher";
 import BrewInfo from "./BrewInfo";
 import SteepsTable from "./SteepsTable";
 import SteepTimer from "./SteepTimer";
+import WhiskedTable from "./WhiskedTable";
 import { BrewMethod } from "@/types/tea";
+import { hasApparatus, plainOnly } from "@/lib/plain-text";
 
 type Props = {
     brewMethods: BrewMethod[];
@@ -37,7 +39,7 @@ function formatRinse(method: BrewMethod): string | null {
 
     return [
         `Перед первым проливом ополоснуть лист горячей водой ${times} раза и сразу слить`,
-        rinse.note,
+        hasApparatus(rinse.note) ? null : rinse.note,
     ]
         .filter(Boolean)
         .join(". ")
@@ -57,6 +59,11 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
     const [activeSteepIndex, setActiveSteepIndex] = useState<number | null>(null);
     const steeps = getSteepsFromMethod(activeMethod);
     const rinseNote = formatRinse(activeMethod);
+    // Заметки с номерами стандартов, иероглифами и фамилиями к читателю не
+    // выходят: см. `lib/plain-text.ts`. В данных они остаются как основание.
+    const notes = plainOnly(activeMethod.notes);
+    const whisked = activeMethod.whisked ?? [];
+    const isWhisked = steeps.length === 0 && whisked.length > 0;
 
     useEffect(() => {
         setActiveSteepIndex(null);
@@ -77,24 +84,29 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
             <h2 className="mb-3 text-[28px] leading-none sm:text-[34px] lg:text-[37px]">
                 {activeMethod.name}
             </h2>
-            <p className="mb-6 text-[17px] sm:mb-8 sm:text-[19px]">{activeMethod.description}</p>
+            {hasApparatus(activeMethod.description) ? null : (
+                <p className="mb-6 text-[17px] sm:mb-8 sm:text-[19px]">
+                    {activeMethod.description}
+                </p>
+            )}
 
             <div className="flex min-w-0 flex-col gap-4 md:flex-row md:gap-[14px]">
+                {/*
+                    Навеску слева показываем только у способов с проливами.
+                    У взбивания их две — 2,4 г/100 мл у усучи против 13,3
+                    у коичи, — и одно число рядом с панелью читалось бы как
+                    противоречие. Обе навески целиком есть в самой панели.
+                */}
                 <BrewInfo
                     temperature={getTemperature(activeMethod)}
-                    ratio={activeMethod.ratio}
+                    ratio={isWhisked ? undefined : activeMethod.ratio}
                 />
                 {/*
-                    Таблица проливов и таймер — только когда проливы есть.
-                    У взбивания (матча) их нет ни одного, и пустая таблица с
-                    таймером на ноль шагов была бы дефектом, а не решением.
-
-                    Это защита, а не оформление: как показывать взбивание —
-                    вопрос к justea-design, он описан в outbox justea-seo #12.
-                    Своего облика агент не придумывает (решение пользователя
-                    07.11.2026).
+                    Справа — таблица проливов либо панель взбивания: у матчи
+                    проливов нет ни одного, и это место раньше оставалось
+                    пустым. Форма та же, содержание другое.
                 */}
-                {steeps.length > 0 && (
+                {steeps.length > 0 ? (
                     <div className="flex flex-1 flex-col">
                         <SteepsTable steeps={steeps} activeIndex={activeSteepIndex} />
                         <SteepTimer
@@ -102,7 +114,9 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                             onActiveIndexChange={setActiveSteepIndex}
                         />
                     </div>
-                )}
+                ) : isWhisked ? (
+                    <WhiskedTable whisked={whisked} />
+                ) : null}
             </div>
 
             {/*
@@ -114,10 +128,10 @@ export default function TeaBrewSection({ brewMethods, defaultMethodId }: Props) 
                 `HowTo`, а разметка не должна заявлять то, чего читатель не
                 видит. Список, классы и место те же — вида это не меняет.
             */}
-            {(rinseNote || (activeMethod.notes && activeMethod.notes.length > 0)) && (
+            {(rinseNote || notes.length > 0) && (
                 <ul className="mt-[32px] list-disc space-y-[8px] pl-[20px] text-[16px]">
                     {rinseNote && <li>{rinseNote}</li>}
-                    {activeMethod.notes?.map((note) => (
+                    {notes.map((note) => (
                         <li key={note}>{note}</li>
                     ))}
                 </ul>

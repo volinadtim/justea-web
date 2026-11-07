@@ -11,11 +11,15 @@ type Props = {
 export default function TeaDescription({ className, aroma, taste, aftertaste }: Props) {
   return (
     <div className={"flex min-w-0 flex-col gap-4 sm:flex-row sm:gap-5 " + (className ?? "")}>
-      {aroma && <TeaDescriptionBlock title="Аромат" descriptors={aroma} />}
-      {taste && <TeaDescriptionBlock title="Вкус" descriptors={taste} />}
-      {aftertaste && (
+      {aroma?.length ? (
+        <TeaDescriptionBlock title="Аромат" descriptors={aroma} />
+      ) : null}
+      {taste?.length ? (
+        <TeaDescriptionBlock title="Вкус" descriptors={taste} />
+      ) : null}
+      {aftertaste?.length ? (
         <TeaDescriptionBlock title="Послевкусие" descriptors={aftertaste} />
-      )}
+      ) : null}
     </div>
   );
 }

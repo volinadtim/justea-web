@@ -9,6 +9,8 @@ interface VolumeInputProps {
   minWidth?: number;
   onFocus?: () => void;
   onBlur?: () => void;
+  ariaExpanded?: boolean;
+  ariaControls?: string;
 }
 
 export default function VolumeInput({
@@ -18,8 +20,9 @@ export default function VolumeInput({
   minWidth = 10,
   onFocus,
   onBlur,
+  ariaExpanded,
+  ariaControls,
 }: VolumeInputProps) {
-  console.log(value);
   const [displayValue, setDisplayValue] = useState(value.toString());
   const spanRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -106,6 +109,11 @@ export default function VolumeInput({
         onBlur={handleBlur}
         maxLength={5}
         placeholder={placeholder}
+        aria-label="Объём воды, мл"
+        role="combobox"
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
+        aria-autocomplete="list"
         className="min-w-0 font-comfortaa font-bold text-center border-b text-[19px] transition-all duration-400"
         style={{ minWidth: `${minWidth}px` }}
         onFocus={() => onFocus && onFocus()}
