@@ -20,7 +20,7 @@ import { brewOutcomesFor } from "@/lib/tea-type-facts";
 import { formatRatio } from "@/lib/format-number";
 import { createPageMetadata } from "@/lib/metadata";
 import type { Tea } from "@/types/tea";
-import { hasApparatus, plainCultivar } from "@/lib/plain-text";
+import { hasApparatus } from "@/lib/plain-text";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -127,7 +127,6 @@ export default async function TeaPage({ params }: PageProps) {
     const brewOutcomes = brewOutcomesFor(tea).filter(
         (item) => !hasApparatus(item.change) && !hasApparatus(item.consequence),
     );
-    const cultivar = plainCultivar(tea.cultivar);
 
     const crumbs = [
         { label: "Главная", href: "/" },
@@ -152,20 +151,18 @@ export default async function TeaPage({ params }: PageProps) {
                 </h1>
 
                 {/*
-                    Регион и сорт куста — одной строкой, теми же классами.
-                    Сорт куста вынут из `description`, где он лежал текстом, и
-                    выведен отдельно, потому что на него ссылается разметка:
-                    заявлять в JSON-LD то, чего читатель не видит, нельзя.
+                    Регион — одной строкой.
 
-                    «Сорт» по-русски значит и сорт чая, и сорт куста, поэтому
-                    подпись явная — иначе строка «Цзинь Сюань» под заголовком
-                    «Молочный улун» выглядит как второе имя того же.
+                    Сорта куста здесь больше нет. Решение пользователя
+                    07.11.2026: «сорт куста не очень понятно зачем, как будто
+                    он вообще не нужен тут нигде ни для какого чая». Поле
+                    остаётся в `data/teas.json`, на страницу не выводится — и
+                    из разметки убрано вместе со строкой, потому что заявлять
+                    в JSON-LD то, чего читатель не видит, нельзя.
                 */}
-                {(tea.meta.origin || cultivar) && (
+                {tea.meta.origin && (
                     <p className="mb-[20px] text-[19px] text-black/70 dark:text-white/70">
                         {tea.meta.origin}
-                        {tea.meta.origin && cultivar ? " · " : ""}
-                        {cultivar ? `сорт куста ${cultivar}` : ""}
                     </p>
                 )}
 

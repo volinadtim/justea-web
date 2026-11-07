@@ -49,24 +49,3 @@ export function hasApparatus(text: string | null | undefined): boolean {
 export function plainOnly(texts: readonly string[] | undefined): string[] {
     return (texts ?? []).filter((text) => !hasApparatus(text));
 }
-
-/**
- * Сорт куста без иероглифов: «青心烏龍 (Цин Синь Улун)» → «Цин Синь Улун».
- *
- * Если русского чтения в скобках нет, поля на странице не будет вовсе:
- * иероглиф читателю ничего не говорит, а выдумывать чтение мы не станем.
- */
-export function plainCultivar(cultivar: string | undefined): string | null {
-    if (!cultivar) {
-        return null;
-    }
-
-    if (!hasApparatus(cultivar)) {
-        return cultivar;
-    }
-
-    const inParens = cultivar.match(/\(([^)]+)\)/);
-    const reading = inParens?.[1]?.trim();
-
-    return reading && !hasApparatus(reading) ? reading : null;
-}
