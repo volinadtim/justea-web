@@ -114,10 +114,28 @@ const MISCONCEPTION_KINDS = [
 const PLACEHOLDERS = ["temperature", "ratio"];
 
 const errors = [];
+const warnings = [];
 
 function fail(slug, message) {
     errors.push(`${slug}: ${message}`);
 }
+
+/**
+ * Предупреждение: сборку не валит.
+ *
+ * Отличается от `fail` не строгостью, а природой. `fail` — это нарушение
+ * инварианта: его видно по форме данных, ложных срабатываний не бывает.
+ * `warn` — догадка по тексту: она может ошибиться, и жёсткое падение на
+ * догадке заставило бы обходить проверку, а не чинить данные.
+ *
+ * Молчать о таком тоже нельзя: догадка ниже нашла настоящий дефект на проде.
+ */
+function warn(slug, message) {
+    warnings.push(`${slug}: ${message}`);
+}
+
+/** Промывку в тексте выдают эти слова. */
+const RINSE_WORDS = /промыв|ополосн|ополаск|醒茶|пробужд/i;
 
 /**
  * Ошибки заваривания и заблуждения проверяются одинаково и на уровне типа, и
@@ -623,6 +641,38 @@ for (const tea of teas) {
             }
         }
 
+        // Промывка, спрятанная в проливах, завышает их число. Это не
+        // косметика: `yield` в разметке говорит «6 проливов», таблица
+        // показывает шесть, а пьют пять — шестой сливают. Ровно ради этого
+        // заведено поле `rinse`, которое стоит вне счёта.
+        //
+        // Проверка по словам, то есть догадка: поэтому предупреждение, а не
+        // ошибка. Найдено justea-sources на данных прода 07.11.2026.
+        if (!method.rinse) {
+            const first = (method.infusions ?? [])[0];
+
+            if (first && RINSE_WORDS.test(first.notes ?? "")) {
+                warn(
+                    slug,
+                    `способ "${method.id}": первый пролив похож на промывку ` +
+                        `(«${(first.notes ?? "").slice(0, 45)}…»). Тогда проливов не ` +
+                        `${(method.infusions ?? []).length}, а на один меньше — ` +
+                        "перенести в поле rinse, оно вне счёта",
+                );
+            }
+
+            for (const note of method.notes ?? []) {
+                if (RINSE_WORDS.test(note)) {
+                    warn(
+                        slug,
+                        `способ "${method.id}": промывка описана в notes ` +
+                            `(«${note.slice(0, 45)}…»). Если она входит в число проливов — ` +
+                            "их на один меньше; место промывки в поле rinse",
+                    );
+                }
+            }
+        }
+
         const [ratioMin, ratioMax] = RATIO_RANGE;
 
         if (
@@ -722,6 +772,14 @@ for (const key of Object.keys(typeFacts)) {
                 "StandardTeaCategory, а не TeaType: «pu-erh» здесь не ключ, его факты лежат под «dark»",
         );
     }
+}
+
+if (warnings.length) {
+    console.warn(`\nПредупреждения (сборку не валят): ${warnings.length}\n`);
+    for (const warning of warnings) {
+        console.warn(`  ~ ${warning}`);
+    }
+    console.warn("");
 }
 
 if (errors.length) {
