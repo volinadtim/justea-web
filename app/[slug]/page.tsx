@@ -95,6 +95,7 @@ export default async function TeaPage({ params }: PageProps) {
                 />
 
                 <TeaBrewSection
+                    slug={tea.slug}
                     brewMethods={tea.brewMethods}
                     defaultMethodId={primaryBrewMethod.id}
                 />
