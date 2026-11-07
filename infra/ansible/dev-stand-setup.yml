@@ -1,0 +1,62 @@
+---
+# Первичная настройка dev-стенда dev.justea.ru на том же VPS, что и прод.
+# Прод не трогает: свой каталог, свой compose-проект, свой порт, свой vhost,
+# свой сертификат. Прод-плеи setup.yml / deploy-fast.yml остаются как есть.
+#
+# Запуск (пароль basic auth обязателен):
+#   ansible-playbook -i infra/ansible/inventory.ini \
+#     infra/ansible/dev-stand-setup.yml \
+#     -e dev_basic_auth_password="$JUSTEA_DEV_PASSWORD"
+#
+# Требует уже настроенного сервера (nginx + certbot + docker поставил setup.yml).
+
+- name: Настроить dev-стенд Justea
+  hosts: vps
+  vars_files:
+    - dev-stand.vars.yml
+
+  tasks:
+    - name: Проверить, что nginx и certbot на сервере есть
+      command: "which {{ item }}"
+      loop:
+        - nginx
+        - certbot
+        - docker
+      changed_when: false
+      register: dev_tooling
+      failed_when: dev_tooling.rc != 0
+
+    - name: Проверить, что порт стенда не занят кем-то ещё
+      shell: |
+        set -o pipefail
+        ss -ltnp | awk '{print $4}' | grep -E "(^|:)127\.0\.0\.1:{{ dev_port }}$" || true
+      args:
+        executable: /bin/bash
+      register: dev_port_busy
+      changed_when: false
+
+    - name: Показать, кто держит порт стенда
+      debug:
+        msg: >-
+          На 127.0.0.1:{{ dev_port }} уже кто-то слушает. Если это не контейнер
+          {{ dev_compose_project }}, поменяй dev_port в dev-stand.vars.yml и порт
+          в infra/docker/docker-compose.dev-stand.yml и infra/nginx/host-justea-dev*.conf.
+      when: dev_port_busy.stdout | length > 0
+
+    - name: Создать каталог стенда
+      file:
+        path: "{{ dev_app_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Сгенерировать файл паролей basic auth
+      import_tasks: tasks/dev-stand-htpasswd.yml
+
+    - name: Поставить bootstrap-vhost (HTTP) до выпуска сертификата
+      import_tasks: tasks/dev-stand-nginx.yml
+
+    - name: Выпустить сертификат для dev-домена
+      import_tasks: tasks/dev-stand-ssl.yml
+
+    - name: Переставить vhost на SSL-вариант
+      import_tasks: tasks/dev-stand-nginx.yml

@@ -1,0 +1,30 @@
+---
+# Переменные dev-стенда. Отдельный файл, чтобы не трогать прод-переменные
+# в group_vars/vps.yml.
+
+dev_domain: dev.justea.ru
+dev_site_url: https://dev.justea.ru
+
+# Каталог и compose-проект стенда. Прод: /opt/justea-web, проект justea-web.
+dev_app_dir: /opt/justea-web-dev
+dev_compose_project: justea-web-dev
+dev_compose_file: docker-compose.dev-stand.yml
+
+# Порт апстрима. Прод занимает 3001, videohub — 9080.
+dev_port: 3002
+
+dev_ssl_email: admin@justea.ru
+
+# Basic auth. Пароль в репозитории не лежит: передаётся при запуске плея,
+# см. docs/infra/dev-stand.md.
+dev_basic_auth_user: dev
+dev_basic_auth_password: ""
+dev_htpasswd_path: /etc/nginx/.htpasswd-justea-dev
+
+dev_nginx_conf_name: host-justea-dev.conf
+
+# Ветка (или тег, или SHA), которую выкатываем. Переопределяется:
+#   ansible-playbook ... -e dev_ref=feature/my-branch
+dev_ref: master
+# Перед выкаткой подтянуть origin в локальной копии репозитория.
+dev_fetch: true

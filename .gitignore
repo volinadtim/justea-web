@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# dev-стенд: секреты и настоящий файл паролей (примеры — в репозитории)
+/infra/ansible/dev-stand.secrets.yml
+/infra/nginx/.htpasswd-justea-dev

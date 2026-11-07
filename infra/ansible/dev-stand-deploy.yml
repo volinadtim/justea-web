@@ -1,0 +1,125 @@
+---
+# Выкатка произвольной ветки на dev-стенд dev.justea.ru.
+#
+#   ansible-playbook -i infra/ansible/inventory.ini \
+#     infra/ansible/dev-stand-deploy.yml -e dev_ref=agent/design
+#
+# dev_ref — ветка, тег или SHA. Код берётся из локальной копии репозитория
+# (git archive), поэтому на сервере не нужен доступ к GitHub, а выкатить можно
+# и ветку, которой нет в master. Прод-каталог /opt/justea-web не затрагивается.
+
+- name: Выкатить ветку на dev-стенд Justea
+  hosts: vps
+  vars_files:
+    - dev-stand.vars.yml
+  vars:
+    repo_root: "{{ playbook_dir }}/../.."
+
+  tasks:
+    - name: Подтянуть origin в локальной копии репозитория
+      delegate_to: localhost
+      command: "git -C {{ repo_root }} fetch origin --prune"
+      changed_when: false
+      run_once: true
+      when: dev_fetch | bool
+
+    - name: Определить коммит для выкатки
+      delegate_to: localhost
+      shell: |
+        set -e
+        git -C "{{ repo_root }}" rev-parse --verify --quiet "{{ dev_ref }}^{commit}" \
+          || git -C "{{ repo_root }}" rev-parse --verify --quiet "origin/{{ dev_ref }}^{commit}"
+      args:
+        executable: /bin/bash
+      register: dev_commit
+      changed_when: false
+      run_once: true
+      failed_when: dev_commit.rc != 0 or dev_commit.stdout | length == 0
+
+    - name: Показать, что выкатываем
+      debug:
+        msg: "{{ dev_ref }} -> {{ dev_commit.stdout }} на https://{{ dev_domain }}"
+      run_once: true
+
+    - name: Подготовить временный файл для архива
+      delegate_to: localhost
+      tempfile:
+        state: file
+        suffix: .tar
+      register: dev_archive
+      changed_when: false
+      run_once: true
+
+    - name: Собрать архив коммита
+      delegate_to: localhost
+      command: >
+        git -C {{ repo_root }} archive --format=tar
+        -o {{ dev_archive.path }} {{ dev_commit.stdout }}
+      changed_when: false
+      run_once: true
+
+    - name: Очистить каталог стенда
+      file:
+        path: "{{ dev_app_dir }}"
+        state: absent
+
+    - name: Создать каталог стенда
+      file:
+        path: "{{ dev_app_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Распаковать код на сервер
+      unarchive:
+        src: "{{ dev_archive.path }}"
+        dest: "{{ dev_app_dir }}"
+
+    - name: Записать env-файл стенда рядом с compose-файлом
+      # Именно здесь его читает docker compose, если запускать его руками
+      # на сервере: compose берёт .env из каталога проекта, а не из корня репозитория.
+      copy:
+        dest: "{{ dev_app_dir }}/infra/docker/.env"
+        content: |
+          NEXT_PUBLIC_SITE_URL={{ dev_site_url }}
+        mode: "0600"
+
+    - name: Записать метку выкатки
+      copy:
+        dest: "{{ dev_app_dir }}/DEPLOYED_REF"
+        content: |
+          ref={{ dev_ref }}
+          commit={{ dev_commit.stdout }}
+          deployed_at={{ ansible_date_time.iso8601 | default('unknown') }}
+        mode: "0644"
+
+    - name: Собрать и поднять контейнер стенда
+      community.docker.docker_compose_v2:
+        project_src: "{{ dev_app_dir }}/infra/docker"
+        files:
+          - "{{ dev_compose_file }}"
+        project_name: "{{ dev_compose_project }}"
+        build: always
+        state: present
+      environment:
+        DOCKER_BUILDKIT: "1"
+        NEXT_PUBLIC_SITE_URL: "{{ dev_site_url }}"
+
+    - name: Удалить временный архив
+      delegate_to: localhost
+      file:
+        path: "{{ dev_archive.path }}"
+        state: absent
+      changed_when: false
+      run_once: true
+
+    - name: Дождаться ответа приложения на порту стенда
+      uri:
+        url: "http://127.0.0.1:{{ dev_port }}/"
+        status_code: 200
+      register: dev_smoke
+      retries: 20
+      delay: 3
+      until: dev_smoke.status == 200
+
+    - name: Убедиться, что vhost стенда на месте
+      import_tasks: tasks/dev-stand-nginx.yml
