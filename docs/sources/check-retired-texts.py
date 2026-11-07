@@ -47,6 +47,38 @@ ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "docs" / "sources" / "retired-texts.json"
 SCAN = [ROOT / "data" / "teas.json", ROOT / "data" / "tea-types.json"]
 
+# Поля, которые до читателя не доходят ПО УСТРОЙСТВУ: `reviewNote` снимается в
+# `plainBrewMethods`, `basis` в разметку не идёт. Выведенный из оборота текст в
+# них — не регрессия, а правильное место для него.
+#
+# Первый же прогон этой проверки по master поймал ровно такой случай: пометку у
+# Дун Дина перенесли в `reviewNote` вместе с её полным внутренним
+# происхождением, и это верно — там оно и должно лежать. Проверка посчитала это
+# возвратом, потому что сравнивала строку, не глядя на поле.
+#
+# Третий случай за двое суток, когда один и тот же набор букв в одном поле
+# неверен, а в другом верен: `synonyms` (слитные написания), `cultivar`
+# (иероглифы), теперь `reviewNote`. Правильность определяется назначением
+# места, и проверка обязана знать поле.
+INTERNAL_FIELDS = ("reviewNote", "basis", "derivation", "caveat")
+
+
+def values(node, parent=None):
+    """Все пары (родительский ключ, ключ, значение) внутри структуры.
+
+    Строковый реестр не ловит округления: три из четырёх, которые просил внести
+    justea-catalog, — структурные значения, а не текст. `count: 1` вместо
+    `{from: 1, to: 2}` и `temperature: {from: 75, to: 85}` вместо `80` в тексте
+    не выражены никак, а неверны ровно так же.
+    """
+    if isinstance(node, dict):
+        for key, value in node.items():
+            yield parent, key, value
+            yield from values(value, key)
+    elif isinstance(node, list):
+        for value in node:
+            yield from values(value, parent)
+
 
 def strings(node):
     """Все строки внутри структуры, с путями."""
@@ -92,8 +124,11 @@ def main():
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     retired = {r["text"]: r for r in registry["retired"]}
 
+    retired_values = registry.get("retired_values", {}).get("entries", [])
     found = []
+    found_values = []
     checked = 0
+    checked_values = 0
     for path in SCAN:
         rel = str(path.relative_to(ROOT))
         if ref in ("HEAD", "working", "."):
@@ -107,25 +142,47 @@ def main():
                 continue
         data = json.loads(raw)
         for where, text in strings(data):
+            if any(field in where for field in INTERNAL_FIELDS):
+                continue
             checked += 1
             if text in retired:
                 found.append((path.name, where, retired[text]))
+
+        for parent, key, value in values(data):
+            checked_values += 1
+            for entry in retired_values:
+                if key != entry["key"]:
+                    continue
+                if entry.get("within") and parent != entry["within"]:
+                    continue
+                if value == entry["forbidden"]:
+                    found_values.append((path.name, parent, key, entry))
 
     # Знаменатель печатается всегда: «ноль» без него — описание охвата,
     # а не результат. Правило оркестратора 2026-11-08.
     print("ref: %s" % ref)
     print("проверено строк: %d, выведенных из оборота текстов: %d" % (checked, len(retired)))
+    print("проверено значений: %d, выведенных из оборота значений: %d"
+          % (checked_values, len(retired_values)))
+    print("не проверялись поля, не доходящие до читателя: %s" % ", ".join(INTERNAL_FIELDS))
 
-    if not found:
-        print("✅ ни один выведенный из оборота текст не вернулся")
+    if not found and not found_values:
+        print("✅ ни один выведенный из оборота текст или значение не вернулись")
         return 0
 
-    print("\n⚠ РЕГРЕССИЯ: вернулся текст, удалённый по причине", file=sys.stderr)
+    print("\n⚠ РЕГРЕССИЯ: вернулось то, что было удалено по причине", file=sys.stderr)
     for name, where, record in found:
         print("\n  %s :: %s" % (name, where), file=sys.stderr)
         print("    вид: %s" % record["kind"], file=sys.stderr)
         print("    причина удаления: %s" % record["reason"], file=sys.stderr)
         print("    текст: %s" % record["text"][:110], file=sys.stderr)
+    for name, parent, key, entry in found_values:
+        print("\n  %s :: %s.%s = %s" % (name, parent, key,
+                                        json.dumps(entry["forbidden"], ensure_ascii=False)),
+              file=sys.stderr)
+        print("    класс: %s" % entry["class"], file=sys.stderr)
+        print("    причина: %s" % entry["reason"], file=sys.stderr)
+
     print("\n  Это не новая работа, а откат. Проверьте мерж, а не текст.", file=sys.stderr)
     return 1
 
