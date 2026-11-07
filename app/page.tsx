@@ -4,6 +4,7 @@ import TeaTypeFilter from "./components/TeaTypeFilter";
 import RecentTeasSection from "./components/RecentTeasSection";
 import FavoriteTeasSection from "./components/FavoriteTeasSection";
 import BrewAgainSection from "./components/features/BrewAgainSection";
+import JournalSection from "./components/features/JournalSection";
 import { filterTeasByType, isTeaType } from "@/lib/teas";
 import { TeaType } from "@/types/tea";
 
@@ -21,6 +22,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <main>
             <Hero />
             <BrewAgainSection />
+            <JournalSection />
             <RecentTeasSection />
             <FavoriteTeasSection />
             <TeaTypeFilter activeType={activeType} />
