@@ -45,7 +45,7 @@ PAGES = [
     ("/tea/pu-erh", "тип: пуэр", 298, ["type-puerh"],
      ["пуэр", "как заваривать пуэр"]),
     ("/tea/matcha", "тип: матча", 253, ["variety-matcha"],
-     ["матча польза"]),
+     ["матча чай"]),
     ("/guides/infusions", "проливы", 251, ["brewing-infusions"],
      ["пролив пуэра", "сколько раз заваривать чай", "как заваривать чай проливом",
       "что такое пролив чая"]),
@@ -66,7 +66,9 @@ PAGES = [
     ("/guides/green-vs-black", "зелёный vs чёрный", 41, [],
      ["черный или зеленый чай", "чем отличается черный чай от зеленого"]),
     ("/guides/oolong-vs-puerh", "улун vs пуэр", 26, [],
-     ["чем отличается пуэр от шу пуэр"]),
+     ["улун или пуэр"]),
+    ("/guides/shu-vs-sheng", "шу vs шэн (предлагаю)", 0, [],
+     ["шу или шен", "чем отличается пуэр от шу пуэр"]),
     ("/guides/assam-vs-darjeeling", "ассам vs дарджилинг", 6, [],
      ["ассам или дарджилинг"]),
     ("/ceremony", "церемония СПб", 461, ["ceremony-spb-core", "ceremony-club"],
@@ -88,8 +90,10 @@ def load_freq():
     if BATCHES.is_dir():
         for b in sorted(BATCHES.glob("*.csv")):
             for r in csv.DictReader(b.open(encoding="utf-8-sig"), delimiter=";"):
-                if r["запрос"] not in f and r["показов_в_месяц"].strip():
-                    f[r["запрос"]] = ("", "", r["показов_в_месяц"])
+                spb = (r.get("показов_спб") or "").strip()
+                rf = (r.get("показов_рф") or r.get("показов_в_месяц") or "").strip()
+                if r["запрос"] not in f and (spb or rf):
+                    f[r["запрос"]] = (spb, "", rf)
     return f
 
 

@@ -79,17 +79,22 @@ if dropped[0]:
 # по России («все регионы»). Эти цифры не затирают мой прогон: они ставятся
 # только там, где у фразы замера нет. Период у них свой, на месяц позже,
 # поэтому в источнике он помечен отдельно (сверка — report.md §9.6).
+# У пачек две формы: ранние — одна колонка «показов_в_месяц» (Россия),
+# поздние — «показов_спб» и «показов_рф». Основное гео проекта —
+# Санкт-Петербург (решение пользователя 2026-11-07), поэтому если в пачке
+# есть СПб, он и идёт в frequency, а Россия остаётся фоном.
 manual: dict[str, dict] = {}
 if BATCHES.is_dir():
-    for f in sorted(BATCHES.glob("*.csv")):
+    files = sorted(BATCHES.glob("*.csv"))
+    for f in files:
         for r in csv.DictReader(f.open(encoding="utf-8-sig"), delimiter=";"):
-            v = r["показов_в_месяц"].strip()
-            if not v:
+            spb = (r.get("показов_спб") or "").strip()
+            rf = (r.get("показов_рф") or r.get("показов_в_месяц") or "").strip()
+            if not spb and not rf:
                 continue
-            manual[r["запрос"]] = {"shows": int(v), "date": r["дата_съёма"],
-                                  "period": r["период"]}
-    print(f"Доборов оркестратора: {len(manual)} фраз из "
-          f"{len(list(BATCHES.glob('*.csv')))} пачек")
+            manual[r["запрос"]] = {"спб": spb, "рф": rf,
+                                   "date": r["дата_съёма"], "period": r["период"]}
+    print(f"Доборов оркестратора: {len(manual)} фраз из {len(files)} пачек")
 
 # индекс по множеству слов: только там, где ключ однозначен
 by_words: dict[str, list[str]] = collections.defaultdict(list)
@@ -120,9 +125,11 @@ for r in rows:
             m = manual[mc[0]] if len(mc) == 1 else None
         if not m:
             continue
-        r["wordstat_рф"] = str(m["shows"])
-        r["frequency"] = str(m["shows"])
-        r["frequency_source"] = "yandex-wordstat (рф, добор оркестратора)"
+        r["wordstat_спб"] = m["спб"]
+        r["wordstat_рф"] = m["рф"]
+        geo = "спб" if m["спб"] else "рф"
+        r["frequency"] = m["спб"] or m["рф"]
+        r["frequency_source"] = f"yandex-wordstat ({geo}, добор оркестратора)"
         r["frequency_date"] = m["date"]
         manual_hit += 1
         hit += 1
