@@ -34,7 +34,11 @@ devDependencies, и опираться на `npx`, который тянет п�
   для читателя это значит «полезно» — тема, которой у нас нет;
 * `confidence` из {high, medium, derived}, и при `high` обязательны источники:
   high без источника — это derived, назвавшийся измеренным;
-* каждый идентификатор источника существует в catalog.json.
+* каждый идентификатор источника существует в catalog.json;
+* публикуемые поля не нарушают #RULE2 — ни номеров стандартов, ни иероглифов,
+  ни процентов, ни фамилий с годом, ни «по стандарту»: на странице аппарата нет.
+  В непубликуемых полях (`sources`, `derivation`, `caveat`) он, наоборот,
+  обязателен — проверка их не трогает намеренно.
 
 Ошибка любой проверки — выход с кодом 1 и без записи файла.
 """
@@ -55,6 +59,26 @@ CONFIDENCE = {"high", "medium", "derived"}
 
 NORM = re.compile(r"(чем нужно|слишком|неверн|перегре|правильн|ошибк|норма|нормативн)", re.I)
 HEALTH = re.compile(r"(антиоксидант|польз|здоров|antioxid)", re.I)
+
+# #RULE2 (решение пользователя, передано justea-catalog 2026-11-07): на странице
+# не должно быть номеров стандартов, иероглифов, процентов, фамилий исследователей
+# и оборотов «по стандарту», «нормативно», «экспертная оценка».
+#
+# Правило работает В ОБЕ СТОРОНЫ, и это важнее самого запрета. Аппарат обязателен
+# там, где факт ПРОВЕРЯЮТ (sources, derivation, caveat, $comment, мои файлы в
+# docs/sources), и запрещён там, где его ЧИТАЮТ (change, consequence, claim,
+# correction). Поэтому проверка намеренно применяется только к публикуемым полям:
+# вычистить аппарат заодно из derivation значило бы потерять основание факта,
+# а это ровно та ошибка, от которой правило защищает, только зеркальная.
+RULE2 = re.compile(
+    r"(GB/T|\bGB\b|\bISO\b|DB\d+|\bГОСТ\b"          # номера стандартов
+    r"|[\u3040-\u30ff\u4e00-\u9fff]"                  # иероглифы и кана
+    r"|\d+\s?%"                                        # проценты
+    r"|\bп\.\s*\d"                                     # ссылки на пункты
+    r"|по стандарту|согласно стандарту|нормативн|экспертная оценка"
+    r"|[A-ZА-Я][\wа-яё]+\s+(19|20)\d\d)"                # «Фамилия 2022»
+)
+PUBLISHED = ("change", "consequence", "claim", "correction")
 
 COMMENT = (
     "СОБРАН СКРИПТОМ, РУКАМИ НЕ ПРАВИТЬ. Источник — docs/sources/brew-mistakes.json и "
@@ -174,6 +198,10 @@ def main():
                 problems.append("%s: %s содержит норму — %r" % (rid, field, NORM.search(text).group(0)))
             if HEALTH.search(text):
                 problems.append("%s: %s содержит тему здоровья — %r" % (rid, field, HEALTH.search(text).group(0)))
+            if RULE2.search(text):
+                problems.append("%s: %s нарушает #RULE2 — %r. Аппарат убирают из "
+                                "публикуемого текста, но ОСТАВЛЯЮТ в sources и "
+                                "derivation" % (rid, field, RULE2.search(text).group(0)))
         conf = r.get("confidence")
         if conf not in CONFIDENCE:
             problems.append("%s: confidence %r не из %s" % (rid, conf, sorted(CONFIDENCE)))
@@ -199,6 +227,11 @@ def main():
             problems.append("заблуждение %r: тип %r не из %s" % (m["claim"][:30], m["applies_to_type"], CATEGORIES))
         if not m.get("sources"):
             problems.append("заблуждение %r: нет источников (обязательны)" % m["claim"][:30])
+        for field in ("claim", "correction"):
+            hit = RULE2.search(m.get(field) or "")
+            if hit:
+                problems.append("заблуждение %r: %s нарушает #RULE2 — %r"
+                                % (m["claim"][:30], field, hit.group(0)))
         for s in m.get("sources", []):
             if s not in catalog:
                 problems.append("заблуждение %r: источника %r нет в catalog.json" % (m["claim"][:30], s))
