@@ -2,12 +2,14 @@
 
 import { useMachine } from "@xstate/react";
 import { PauseIcon, PlayIcon, RotateCcwIcon, SkipForwardIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { formatSteepTime } from "@/lib/format-steep-time";
 import { steepTimerMachine } from "@/lib/machines/steep-timer";
 
 type Props = {
     steeps: number[];
+    /** Изменение значения запускает таймер с первого пролива. */
+    startSignal?: number;
     onActiveIndexChange?: (index: number | null) => void;
 };
 
@@ -33,7 +35,11 @@ function TimerIconButton({
     );
 }
 
-export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
+export default function SteepTimer({
+    steeps,
+    startSignal = 0,
+    onActiveIndexChange,
+}: Props) {
     const [snapshot, send] = useMachine(steepTimerMachine, {
         input: { steeps },
     });
@@ -48,6 +54,20 @@ export default function SteepTimer({ steeps, onActiveIndexChange }: Props) {
     useEffect(() => {
         send({ type: "SET_STEEPS", steeps });
     }, [steeps, send]);
+
+    // Запуск снаружи: кнопка «Заварить» над схемой и ссылка ?start=1.
+    // Эффект стоит после SET_STEEPS, чтобы машина уже знала актуальные проливы.
+    const handledStartSignal = useRef(0);
+
+    useEffect(() => {
+        if (startSignal === handledStartSignal.current) {
+            return;
+        }
+
+        handledStartSignal.current = startSignal;
+        send({ type: "RESET" });
+        send({ type: "START" });
+    }, [startSignal, send]);
 
     useEffect(() => {
         if (!isRunning) {
