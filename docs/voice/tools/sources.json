@@ -1,0 +1,239 @@
+{
+ "note": "Измеренный корпус для docs/voice/punctuation.md. profile=true — тексты, по которым считается профиль автора (исправная типографика, сопоставимый объём); остальные нужны для сверки изданий и показывают, что в тексте авторское, а что редакторское. Одно произведение в нескольких изданиях — намеренно, это не дубли. ilibrary.ru ограничивает частоту по IP и может надолго перестать отдавать страницы: часть произведений Бунина из-за этого в корпус не вошла, а измерения по изданию БВЛ 1973 в документе приведены по выгрузке от 2026-11-07.",
+ "sources": [
+  {
+   "author": "Бунин",
+   "edition": "ПСС 1915 (ДО)",
+   "work": "Антоновские яблоки",
+   "file": "Бунин__ПСС_1915_(ДО)__Антоновские_яблоки.txt",
+   "url": "https://ru.wikisource.org/w/index.php?action=render&title=%D0%90%D0%BD%D1%82%D0%BE%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B5_%D1%8F%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8_%28%D0%91%D1%83%D0%BD%D0%B8%D0%BD%29/%D0%9F%D0%A1%D0%A1_1915_%28%D0%94%D0%9E%29",
+   "extract": "wikisource",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "ПСС 1915 (ВТ)",
+   "work": "Антоновские яблоки",
+   "file": "Бунин__ПСС_1915_(ВТ)__Антоновские_яблоки.txt",
+   "url": "https://ru.wikisource.org/w/index.php?action=render&title=%D0%90%D0%BD%D1%82%D0%BE%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B5_%D1%8F%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8_%28%D0%91%D1%83%D0%BD%D0%B8%D0%BD%29/%D0%9F%D0%A1%D0%A1_1915_%28%D0%92%D0%A2%29",
+   "extract": "wikisource",
+   "profile": true
+  },
+  {
+   "author": "Бунин",
+   "edition": "ПСС 1915 (ВТ-Ё)",
+   "work": "Антоновские яблоки",
+   "file": "Бунин__ПСС_1915_(ВТ-Ё)__Антоновские_яблоки.txt",
+   "url": "https://ru.wikisource.org/w/index.php?action=render&title=%D0%90%D0%BD%D1%82%D0%BE%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B5_%D1%8F%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8_%28%D0%91%D1%83%D0%BD%D0%B8%D0%BD%29/%D0%9F%D0%A1%D0%A1_1915_%28%D0%92%D0%A2%3A%D0%81%29",
+   "extract": "wikisource",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "Викитека",
+   "work": "Господин из Сан-Франциско",
+   "file": "Бунин__Викитека__Господин_из_Сан-Франциско.txt",
+   "url": "https://ru.wikisource.org/w/index.php?action=render&title=%D0%93%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B8%D0%BD_%D0%B8%D0%B7_%D0%A1%D0%B0%D0%BD-%D0%A4%D1%80%D0%B0%D0%BD%D1%86%D0%B8%D1%81%D0%BA%D0%BE_%28%D0%91%D1%83%D0%BD%D0%B8%D0%BD%29",
+   "extract": "wikisource",
+   "profile": true
+  },
+  {
+   "author": "Чехов",
+   "edition": "Викитека",
+   "work": "Крыжовник",
+   "file": "Чехов__Викитека__Крыжовник.txt",
+   "url": "https://ru.wikisource.org/w/index.php?action=render&title=%D0%9A%D1%80%D1%8B%D0%B6%D0%BE%D0%B2%D0%BD%D0%B8%D0%BA_%28%D0%A7%D0%B5%D1%85%D0%BE%D0%B2%29",
+   "extract": "wikisource",
+   "profile": false
+  },
+  {
+   "author": "Чехов",
+   "edition": "Викитека",
+   "work": "Человек в футляре",
+   "file": "Чехов__Викитека__Человек_в_футляре.txt",
+   "url": "https://ru.wikisource.org/w/index.php?action=render&title=%D0%A7%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA_%D0%B2_%D1%84%D1%83%D1%82%D0%BB%D1%8F%D1%80%D0%B5_%28%D0%A7%D0%B5%D1%85%D0%BE%D0%B2%29",
+   "extract": "wikisource",
+   "profile": false
+  },
+  {
+   "author": "Чехов",
+   "edition": "Викитека",
+   "work": "Дама с собачкой",
+   "file": "Чехов__Викитека__Дама_с_собачкой.txt",
+   "url": "https://ru.wikisource.org/w/index.php?action=render&title=%D0%94%D0%B0%D0%BC%D0%B0_%D1%81_%D1%81%D0%BE%D0%B1%D0%B0%D1%87%D0%BA%D0%BE%D0%B9_%28%D0%A7%D0%B5%D1%85%D0%BE%D0%B2%29",
+   "extract": "wikisource",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "az.lib.ru",
+   "work": "Антоновские яблоки",
+   "file": "Бунин__az.lib.ru__Антоновские_яблоки.txt",
+   "url": "http://az.lib.ru/b/bunin_i_a/text_1150.shtml",
+   "extract": "azlib",
+   "profile": false
+  },
+  {
+   "author": "Пришвин",
+   "edition": "az.lib.ru",
+   "work": "Фацелия",
+   "file": "Пришвин__az.lib.ru__Фацелия.txt",
+   "url": "http://az.lib.ru/p/prishwin_m_m/text_1940_fatzelia.shtml",
+   "extract": "azlib",
+   "profile": false
+  },
+  {
+   "author": "Пришвин",
+   "edition": "az.lib.ru",
+   "work": "Лесная капель",
+   "file": "Пришвин__az.lib.ru__Лесная_капель.txt",
+   "url": "http://az.lib.ru/p/prishwin_m_m/text_1940_lesnaya_kapel.shtml",
+   "extract": "azlib",
+   "profile": false
+  },
+  {
+   "author": "Пришвин",
+   "edition": "основное",
+   "work": "Фацелия",
+   "file": "Пришвин__основное__royallib_Фацелия.txt",
+   "url": "https://royallib.com/read/prishvin_mihail/fatseliya.html",
+   "extract": "royallib",
+   "profile": true
+  },
+  {
+   "author": "Окакура",
+   "edition": "основное",
+   "work": "The Book of Tea",
+   "file": "Окакура__основное__BookOfTea.txt",
+   "url": "https://www.gutenberg.org/cache/epub/769/pg769-images.html",
+   "extract": "gutenberg_html",
+   "profile": true
+  },
+  {
+   "author": "Окакура",
+   "edition": "Gutenberg txt",
+   "work": "The Book of Tea",
+   "file": "Окакура__Gutenberg_txt__BookOfTea.txt",
+   "url": "https://www.gutenberg.org/cache/epub/769/pg769.txt",
+   "extract": "gutenberg_txt",
+   "profile": false
+  },
+  {
+   "author": "Пришвин",
+   "edition": "основное",
+   "work": "Кладовая солнца",
+   "file": "Пришвин__основное__royallib_Кладовая_солнца.txt",
+   "url": "https://royallib.com/read/prishvin_mihail/kladovaya_solntsa.html",
+   "extract": "royallib",
+   "profile": true
+  },
+  {
+   "author": "Чехов",
+   "edition": "основное",
+   "work": "Крыжовник",
+   "file": "Чехов__основное__460.txt",
+   "url": "https://ilibrary.ru/text/460/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": true
+  },
+  {
+   "author": "Чехов",
+   "edition": "основное",
+   "work": "Человек в футляре",
+   "file": "Чехов__основное__438.txt",
+   "url": "https://ilibrary.ru/text/438/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": true
+  },
+  {
+   "author": "Чехов",
+   "edition": "основное",
+   "work": "Дама с собачкой",
+   "file": "Чехов__основное__976.txt",
+   "url": "https://ilibrary.ru/text/976/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": true
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Антоновские яблоки",
+   "file": "Бунин__основное__95.txt",
+   "url": "https://ilibrary.ru/text/95/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Господин из Сан-Франциско",
+   "file": "Бунин__основное__1016.txt",
+   "url": "https://ilibrary.ru/text/1016/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Чистый понедельник",
+   "file": "Бунин__основное__1019.txt",
+   "url": "https://ilibrary.ru/text/1019/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Лёгкое дыхание",
+   "file": "Бунин__основное__1052.txt",
+   "url": "https://ilibrary.ru/text/1052/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Солнечный удар",
+   "file": "Бунин__основное__1020.txt",
+   "url": "https://ilibrary.ru/text/1020/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Холодная осень",
+   "file": "Бунин__основное__1055.txt",
+   "url": "https://ilibrary.ru/text/1055/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Грамматика любви",
+   "file": "Бунин__основное__1054.txt",
+   "url": "https://ilibrary.ru/text/1054/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Кавказ",
+   "file": "Бунин__основное__1811.txt",
+   "url": "https://ilibrary.ru/text/1811/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  },
+  {
+   "author": "Бунин",
+   "edition": "основное",
+   "work": "Лапти",
+   "file": "Бунин__основное__1172.txt",
+   "url": "https://ilibrary.ru/text/1172/p.{page}/index.html",
+   "extract": "ilibrary",
+   "profile": false
+  }
+ ]
+}
