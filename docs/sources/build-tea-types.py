@@ -10,6 +10,13 @@
 
     контейнер не редактируют — его перегенерируют.
 
+На выходе файл форматируется по `.prettierrc` проекта **самим сборщиком** (просьба
+justea-catalog: иначе `prettier --check` ругается, а править формат руками нельзя —
+потеряется при следующей сборке). Prettier для этого не нужен: его нет в
+devDependencies, и опираться на `npx`, который тянет пакет из сети, значило бы
+сделать сборку зависимой от сети. Где prettier всё же доступен, сборщик прогоняет
+`--check`, чтобы узнать о расхождении сразу, а не из чужой ветки.
+
 Запуск из корня репозитория:
 
     python3 docs/sources/build-tea-types.py          # записать data/tea-types.json
@@ -34,6 +41,8 @@
 
 import json
 import re
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -60,6 +69,51 @@ COMMENT = (
     "рекомендованная навеска различается в 1,7 раза между новичком и ежедневно пьющим, и обе "
     "названы рекомендуемыми."
 )
+
+
+PRINT_WIDTH = 80  # .prettierrc проекта
+INDENT = 2        # tabWidth
+
+
+def _fmt(value, indent, prefix=0):
+    """JSON в формате prettier: массив в одну строку, если влезает в printWidth.
+
+    Почему свой принтер, а не вызов prettier: его нет в devDependencies проекта, и
+    опираться на `npx`, который тянет пакет из сети, значит сделать сборку зависимой
+    от сети. Формат JSON у prettier детерминирован и прост — два пробела отступа и
+    схлопывание в одну строку, если результат влезает в printWidth, — поэтому его
+    дешевле воспроизвести, чем тащить зависимость.
+
+    Объекты оставляю развёрнутыми: с prettier 3.5 `objectWrap` по умолчанию
+    `preserve`, то есть развёрнутый объект он принимает как есть. У массивов такой
+    опции нет — короткие он схлопывает всегда, и именно на них ругался
+    `prettier --check` (короткие `sources` разворачивались по строкам).
+    """
+    pad = " " * indent
+    inner = " " * (indent + INDENT)
+
+    if isinstance(value, dict):
+        if not value:
+            return "{}"
+        parts = []
+        for k, v in value.items():
+            key = json.dumps(k, ensure_ascii=False)
+            # prefix — то, что уже занято в строке ключом и двоеточием: prettier
+            # считает длину ВСЕЙ строки, а не только значения
+            parts.append("%s%s: %s" % (inner, key, _fmt(v, indent + INDENT, len(key) + 2)))
+        return "{\n" + ",\n".join(parts) + "\n" + pad + "}"
+
+    if isinstance(value, list):
+        if not value:
+            return "[]"
+        items = [_fmt(v, indent + INDENT) for v in value]
+        oneline = "[" + ", ".join(items) + "]"
+        # +1 на запятую после значения: она тоже на этой строке
+        if "\n" not in oneline and indent + prefix + len(oneline) + 1 <= PRINT_WIDTH:
+            return oneline
+        return "[\n" + ",\n".join(inner + it for it in items) + "\n" + pad + "]"
+
+    return json.dumps(value, ensure_ascii=False)
 
 
 def fail(problems):
@@ -158,9 +212,44 @@ def main():
         print("проверки пройдены; было бы записано (brewOutcomes/misconceptions): " + counts)
         return
 
-    OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(_fmt(out, 0) + "\n", encoding="utf-8")
     print("записан %s" % OUT.relative_to(ROOT))
     print("brewOutcomes/misconceptions по категориям: " + counts)
+    run_prettier()
+
+
+def run_prettier():
+    """Проверяет, что наш формат совпадает с prettier — там, где prettier доступен.
+
+    Форматирует файл уже сам сборщик (`_fmt`), поэтому здесь не `--write`, а
+    `--check`: если наш принтер где-то разойдётся с prettier, мы узнаем об этом
+    сразу, а не из чужой ветки. Отсутствие prettier — не ошибка: формат и так
+    применён, проверить его просто нечем.
+    """
+    if not shutil.which("npx"):
+        print("prettier недоступен (нет npx) — формат применён сборщиком, сверить нечем")
+        return
+    try:
+        res = subprocess.run(
+            ["npx", "--no-install", "prettier", "--check", str(OUT)],
+            cwd=str(ROOT), capture_output=True, text=True, timeout=120,
+        )
+    except subprocess.TimeoutExpired:
+        print("prettier не ответил за 120 с — формат применён сборщиком, сверить нечем")
+        return
+    if res.returncode == 0:
+        print("prettier --check пройден")
+    else:
+        out = (res.stdout + res.stderr)
+        missing = ("could not determine executable", "missing packages",
+                   "not found", "could not resolve")
+        if any(t in out.lower() for t in missing):
+            print("prettier не установлен — формат применён сборщиком, сверить нечем")
+        else:
+            print("⚠ prettier --check НЕ пройден: наш принтер разошёлся с prettier.")
+            print("  Это надо починить в _fmt, а не правкой файла руками.")
+            for line in out.strip().splitlines()[:3]:
+                print("  " + line)
 
 
 if __name__ == "__main__":
