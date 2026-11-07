@@ -5,7 +5,7 @@ export default function Hero() {
                 Justea
             </h1>
             <p className="text-[18px] leading-[1.35] sm:text-[22px] lg:text-[24px]">
-                Справочник по завариванию чая — проливы, температура, пропорции
+                Справочник по завариванию чая: проливы, температура, пропорции
             </p>
         </section>
     );
