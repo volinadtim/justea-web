@@ -549,6 +549,44 @@ for (const tea of teas) {
         }
     }
 
+    for (const [field, value] of [
+        ["characteristicsText", tea.characteristicsText],
+        ["noBrewParamsNote", tea.noBrewParamsNote],
+    ]) {
+        if (value !== undefined && (typeof value !== "string" || !value.trim())) {
+            fail(slug, `${field} пустой или не строка`);
+        }
+    }
+
+    if (tea.noBrewParamsNote !== undefined && (tea.brewMethods ?? []).length) {
+        warn(
+            slug,
+            "noBrewParamsNote задан, но способы заваривания есть — фраза не покажется",
+        );
+    }
+
+    const altitude = tea.meta?.altitude;
+
+    if (altitude !== undefined) {
+        const bounds =
+            typeof altitude === "number"
+                ? [altitude, altitude]
+                : [altitude?.from, altitude?.to];
+
+        if (bounds.some((value) => typeof value !== "number")) {
+            fail(slug, `meta.altitude ${JSON.stringify(altitude)} — не число и не диапазон`);
+        } else if (bounds[0] > bounds[1]) {
+            fail(slug, `meta.altitude: границы переставлены (${bounds[0]} > ${bounds[1]})`);
+        } else if (bounds[0] < 0 || bounds[1] > 3000) {
+            // Чайные сады выше трёх километров неизвестны; ноль — уровень
+            // моря, ниже не бывает.
+            fail(
+                slug,
+                `meta.altitude ${bounds[0]}–${bounds[1]} м вне правдоподобного 0–3000`,
+            );
+        }
+    }
+
     checkFacts(slug, tea);
 
     for (const outcome of tea.brewOutcomes ?? []) {

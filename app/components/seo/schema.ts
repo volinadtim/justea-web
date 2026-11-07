@@ -1,4 +1,5 @@
 import { formatRatio } from "@/lib/format-number";
+import { hasApparatus } from "@/lib/plain-text";
 import { publicImageSize } from "@/lib/image-size";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { TEA_TYPE_LABELS } from "@/lib/teas";
@@ -131,6 +132,23 @@ function isoDuration(seconds: number): string {
     return `PT${minutes ? `${minutes}M` : ""}${rest || !minutes ? `${rest}S` : ""}`;
 }
 
+/**
+ * Строка, если в ней нет справочного аппарата, иначе `undefined`.
+ *
+ * Страница прогоняет через `hasApparatus` описания способов, заметки и
+ * примечание к промывке, а разметка собирается отдельно и этого не делала —
+ * на семи страницах в `HowTo` уходили номера стандартов и «по стандарту»,
+ * которых читатель не видит. Это то же правило, по которому промывку
+ * пришлось сделать видимой: **разметка не должна заявлять больше, чем
+ * видно.**
+ *
+ * Вырезаем целиком, а не чистим: строка с основанием и без основания — это
+ * разные утверждения, и обрезанное «Стандарт задаёт…» было бы хуже молчания.
+ */
+function plain(text: string | undefined): string | undefined {
+    return text && !hasApparatus(text) ? text : undefined;
+}
+
 /** Данные приходят строчными, а в тексте шага встают после точки. */
 function capitalize(text?: string): string | undefined {
     return text ? `${text[0].toUpperCase()}${text.slice(1)}` : undefined;
@@ -183,7 +201,7 @@ function whiskedSteps(method: BrewMethod, pageUrl: string) {
                         ? `${motion}${duration}`
                         : `${motion} ${fallbackTarget}${duration}`,
                     // Цель приходит из данных строчной и встаёт после точки.
-                    capitalize(preparation.target),
+                    capitalize(plain(preparation.target)),
                 ]),
             },
         ];
@@ -218,7 +236,7 @@ function rinseStep(method: BrewMethod, pageUrl: string) {
             text: sentences([
                 `Ополоснуть лист горячей водой ${times} и сразу слить`,
                 rinse.time ? `Держать около ${rinse.time} с` : undefined,
-                rinse.note,
+                plain(rinse.note),
             ]),
             ...(rinse.time ? { performTime: isoDuration(rinse.time) } : {}),
         },
@@ -290,7 +308,11 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
          * одностороннее — разметка не должна заявлять **больше**, чем видно,
          * а меньше может.
          */
-        description: sentences([method.description]),
+        // Поля нет вовсе, когда описание не прошло фильтр: пустая строка в
+        // разметке — это заявленное и несказанное одновременно.
+        ...(plain(method.description)
+            ? { description: sentences([method.description]) }
+            : {}),
         inLanguage: siteConfig.defaultLocale.code,
         ...(totalSeconds ? { totalTime: isoDuration(totalSeconds) } : {}),
         // У взбивания количества, которое имело бы смысл назвать, нет вовсе.
@@ -343,7 +365,7 @@ function brewMethodHowTo(tea: Tea, method: BrewMethod, pageUrl: string) {
                       isBoiled
                           ? `Довести до кипения и варить ${infusion.time} с.`
                           : `Залить водой ${temperature} и настаивать ${infusion.time} с.`,
-                      infusion.notes,
+                      plain(infusion.notes),
                   ]),
                       // `position` — порядок в инструкции, и промывка его
                       // сдвигает. Номер для человека остаётся в `name`:
