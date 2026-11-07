@@ -282,12 +282,22 @@ def main():
             if s not in catalog:
                 problems.append("%s: источника %r нет в catalog.json" % (rid, s))
         from_eval = sorted(set(r.get("sources", [])) & eval_sources)
-        has_number = any(ch.isdigit() for ch in r["change"] + r["consequence"])
-        if from_eval and has_number and not r.get("evaluation_protocol_ack"):
+        # Параметр бывает и без цифры. Прошлая версия этой проверки искала только
+        # цифры — и пропустила «его заваривают кипятком и держат минутами»,
+        # то есть ровно тот случай, ради которого её заводили: четвёртое попадание
+        # в капкан, уже выкаченное. «Ноль нарушений» было правдой про множество
+        # записей С ЦИФРАМИ, а звучало как про все.
+        PARAM = re.compile(r"кипятк|кипяток|кипятком|градус|°|минут|секунд|грамм"
+                           r"|\bг на\b|\bмл\b", re.I)
+        text_pub = r["change"] + " " + r["consequence"]
+        has_param = bool(PARAM.search(text_pub)) or any(ch.isdigit() for ch in text_pub)
+        if from_eval and has_param and not r.get("evaluation_protocol_ack"):
             problems.append(
-                "%s: публикует число со ссылкой на %s, где числа — параметры МЕТОДА "
-                "ОЦЕНКИ, а не рецепт. Нужно поле evaluation_protocol_ack: либо почему "
-                "число всё-таки применимо, либо откуда взят потребительский источник"
+                "%s: публикует ПАРАМЕТР (числом или словом: кипяток, минуты, граммы) "
+                "со ссылкой на %s, где параметры заданы для МЕТОДА ОЦЕНКИ, а не для "
+                "чашки. Нужно поле evaluation_protocol_ack: либо почему параметр всё "
+                "же применим, либо откуда взят потребительский источник. Направление "
+                "(«горячее и дольше») этот источник обосновывать вправе, параметр нет"
                 % (rid, ", ".join(from_eval)))
         if "onlyFor" in r and not r["onlyFor"]:
             problems.append("%s: onlyFor пустой — по правилу seo это «ни для кого». "
