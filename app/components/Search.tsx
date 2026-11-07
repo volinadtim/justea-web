@@ -180,6 +180,43 @@ export default function Search() {
         function handleKeyDown(event: KeyboardEvent) {
             if (event.key === "Escape") {
                 closeSearch();
+                return;
+            }
+
+            // Ловушка фокуса. Панель объявлена как aria-modal, но Tab уводил
+            // за её пределы — в страницу под ней, которая для пользователя
+            // клавиатуры в этот момент не существует.
+            if (event.key !== "Tab") {
+                return;
+            }
+
+            const panel = panelRef.current;
+
+            if (!panel) {
+                return;
+            }
+
+            const focusable = panel.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
+
+            if (focusable.length === 0) {
+                return;
+            }
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            const active = document.activeElement;
+
+            if (!event.shiftKey && (active === last || !panel.contains(active))) {
+                event.preventDefault();
+                first.focus();
+                return;
+            }
+
+            if (event.shiftKey && (active === first || !panel.contains(active))) {
+                event.preventDefault();
+                last.focus();
             }
         }
 
@@ -246,7 +283,7 @@ export default function Search() {
                         <SearchIcon className="size-5 shrink-0 sm:size-6" />
                         <input
                             ref={panelInputRef}
-                            className="min-w-0 flex-1 bg-transparent text-[16px] outline-none sm:text-[18px]"
+                            className="min-w-0 flex-1 bg-transparent text-[16px] sm:text-[18px]"
                             type="search"
                             name="q"
                             value={query}
@@ -384,7 +421,7 @@ export default function Search() {
                     <SearchIcon className="size-5 shrink-0 sm:size-6" />
                     <input
                         ref={inputRef}
-                        className="min-w-0 flex-1 bg-transparent text-[16px] outline-none sm:text-[18px]"
+                        className="min-w-0 flex-1 bg-transparent text-[16px] sm:text-[18px]"
                         type="search"
                         name="q"
                         value={query}
