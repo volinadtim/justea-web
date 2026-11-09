@@ -82,7 +82,7 @@ ansible-playbook -i infra/ansible/inventory.ini infra/ansible/deploy-fast.yml
 
 ```
 infra/docker/          — Dockerfile и docker-compose (порт 3001)
-infra/nginx/           — конфиг хостового nginx (justea.ru + videohub)
+infra/nginx/           — старые конфиги хостового nginx, на сервер не ставятся (живой: шаблон в atlas, apps/videohub/infra/ansible/templates/justea-nginx.conf.j2)
 infra/ansible/         — playbooks деплоя и SSL
 ```
 
