@@ -1,4 +1,6 @@
 ---
+# Host nginx for justea.ru is not installed from here: on the shared VPS it belongs to VideoHub's ansible
+# (atlas: apps/videohub/infra/ansible/templates/justea-nginx.conf.j2). A second default_server breaks every nginx reload.
 - name: Fast Deploy Justea
   hosts: vps
   vars:
@@ -40,30 +42,6 @@
       environment:
         DOCKER_BUILDKIT: "1"
         NEXT_PUBLIC_SITE_URL: "{{ site_url }}"
-
-    - name: Check if justea SSL certificate exists
-      stat:
-        path: "/etc/letsencrypt/live/{{ justea_domain }}/fullchain.pem"
-      register: justea_ssl_ready
-
-    - name: Check if videohub SSL certificate exists
-      stat:
-        path: "/etc/letsencrypt/live/{{ videohub_cert_primary }}/fullchain.pem"
-      register: videohub_ssl_ready
-
-    - name: Install nginx config
-      copy:
-        src: "{{ playbook_dir }}/../nginx/{{ 'host.conf' if (justea_ssl_ready.stat.exists and videohub_ssl_ready.stat.exists) else ('host-justea-ssl.conf' if justea_ssl_ready.stat.exists else 'host-http.conf') }}"
-        dest: /etc/nginx/sites-available/host-proxy.conf
-        mode: "0644"
-      notify: reload nginx
-
-    - name: Enable host nginx config
-      file:
-        src: /etc/nginx/sites-available/host-proxy.conf
-        dest: /etc/nginx/sites-enabled/host-proxy.conf
-        state: link
-      notify: reload nginx
 
     - name: Remove default nginx site
       file:

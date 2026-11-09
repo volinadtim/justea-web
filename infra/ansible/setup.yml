@@ -1,4 +1,6 @@
 ---
+# Host nginx for justea.ru is not installed from here: on the shared VPS it belongs to VideoHub's ansible
+# (atlas: apps/videohub/infra/ansible/templates/justea-nginx.conf.j2). A second default_server breaks every nginx reload.
 - name: Первичная настройка VPS для Justea + host nginx
   hosts: vps
   vars:
@@ -21,20 +23,6 @@
         state: directory
         mode: "0755"
 
-    - name: Install bootstrap nginx config (HTTP only)
-      copy:
-        src: "{{ playbook_dir }}/../nginx/host-http.conf"
-        dest: /etc/nginx/sites-available/host-proxy.conf
-        mode: "0644"
-      notify: reload nginx
-
-    - name: Enable host nginx config
-      file:
-        src: /etc/nginx/sites-available/host-proxy.conf
-        dest: /etc/nginx/sites-enabled/host-proxy.conf
-        state: link
-      notify: reload nginx
-
     - name: Remove default nginx site
       file:
         path: /etc/nginx/sites-enabled/default
@@ -54,24 +42,6 @@
 
     - name: Configure SSL certificates
       import_tasks: tasks/ssl.yml
-
-    - name: Check if justea SSL certificate exists
-      stat:
-        path: "/etc/letsencrypt/live/{{ justea_domain }}/fullchain.pem"
-      register: justea_ssl_ready
-
-    - name: Check if videohub SSL certificate exists
-      stat:
-        path: "/etc/letsencrypt/live/{{ videohub_cert_primary }}/fullchain.pem"
-      register: videohub_ssl_ready
-
-    - name: Install production nginx config with SSL
-      copy:
-        src: "{{ playbook_dir }}/../nginx/{{ 'host.conf' if videohub_ssl_ready.stat.exists else 'host-justea-ssl.conf' }}"
-        dest: /etc/nginx/sites-available/host-proxy.conf
-        mode: "0644"
-      when: justea_ssl_ready.stat.exists
-      notify: reload nginx
 
   handlers:
     - name: reload nginx
