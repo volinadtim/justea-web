@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Justea — три направления визуального стиля</title>
+<link rel="stylesheet" href="./assets/base.css" />
+<style>
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 24px;
+}
+
+.card {
+    border: 1px solid #343431;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #1f1f1d;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card:hover {
+    border-color: #6d7568;
+}
+
+.card__shot {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-bottom: 1px solid #343431;
+    background: #121210;
+}
+
+.card__shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    display: block;
+}
+
+.card__body {
+    padding: 18px 20px 22px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.card__letter {
+    font-family: Comfortaa, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8d9589;
+    margin: 0 0 6px;
+}
+
+.card__name {
+    font-size: 27px;
+    line-height: 1.05;
+    margin: 0 0 10px;
+}
+
+.card__text {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #c3c7bf;
+    margin: 0 0 16px;
+}
+
+.card__meta {
+    margin-top: auto;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.chip {
+    font-family: Comfortaa, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border: 1px solid #3c3c39;
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: #9aa395;
+}
+
+.chip--low {
+    color: #9ad279;
+    border-color: rgba(154, 210, 121, 0.4);
+}
+
+.chip--mid {
+    color: #e3c76a;
+    border-color: rgba(227, 199, 106, 0.4);
+}
+
+.chip--high {
+    color: #e2824f;
+    border-color: rgba(226, 130, 79, 0.4);
+}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<p style="border:1px solid #6b4a2a;background:#2a1d12;color:#e8c9a0;border-radius:10px;padding:14px 18px;margin:0 0 24px;font-size:15px;line-height:1.5">
+    <strong>Отклонено пользователем 6 ноября 2026.</strong> Визуальный интерфейс
+    меняется только точечно или по строгим референсам пользователя. Собственные
+    направления агентов не принимаются; дизайн-система по A/B/C не делается.
+    Страница оставлена как материал исследования.
+</p>
+<p class="doc__eyebrow">Justea · дизайн</p>
+<h1 class="doc__title">Три направления визуального стиля</h1>
+<p class="doc__lead">
+    Основание — <a href="../audit/README.md" style="color:#9ad279">UX/UI-аудит</a>.
+    Все три направления закрывают блокеры из него: фокус, контраст границ,
+    тёмную тему, сигнал таймера, фотографии чая, доступ к завариванию с первого
+    экрана на телефоне. <strong>Различаются они характером</strong> — насколько
+    далеко сайт уходит от нынешнего облика.
+</p>
+
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">01</span>
+        <h2 class="section__title">Направления</h2>
+        <span class="section__note">в каждом — мудборд и ключевой экран</span>
+    </div>
+
+    <div class="cards">
+        <a class="card" href="./a-gongfu/index.html">
+            <div class="card__shot"><img src="./previews/a-desktop-light.png" alt="Направление A — страница чая" /></div>
+            <div class="card__body">
+                <p class="card__letter">A</p>
+                <h3 class="card__name">Гунфу — прибор на зелёном поле</h3>
+                <p class="card__text">Фирменный зелёный остаётся фоном страницы, но текст и управление переезжают на тёплую бумагу. Акцент — терракота настоя. Эволюция, а не перезапуск.</p>
+                <div class="card__meta">
+                    <span class="chip">узнаваемость высокая</span>
+                    <span class="chip chip--low">риск низкий</span>
+                    <span class="chip chip--low">объём малый</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="./b-paper/index.html">
+            <div class="card__shot"><img src="./previews/b-desktop-light.png" alt="Направление B — страница чая" /></div>
+            <div class="card__body">
+                <p class="card__letter">B</p>
+                <h3 class="card__name">Чайная бумага — печатный определитель</h3>
+                <p class="card__text">Фон — бумага сюань, зелёный в акцент, а страницу красит настоящий цвет настоя этого чая. Каталог перестаёт быть однообразным.</p>
+                <div class="card__meta">
+                    <span class="chip">узнаваемость низкая</span>
+                    <span class="chip chip--mid">риск средний</span>
+                    <span class="chip chip--mid">объём средний</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="./c-scroll/index.html">
+            <div class="card__shot"><img src="./previews/c-desktop-dark.png" alt="Направление C — страница чая" /></div>
+            <div class="card__body">
+                <p class="card__letter">C</p>
+                <h3 class="card__name">Свиток — тёмный чайный стол</h3>
+                <p class="card__text">Тёмный фон, зелёный как свет. На телефоне страница чая — три панели вбок, таймер занимает экран целиком. Развитие эксперимента из sandbox.</p>
+                <div class="card__meta">
+                    <span class="chip">узнаваемость средняя</span>
+                    <span class="chip chip--high">риск высокий</span>
+                    <span class="chip chip--high">объём большой</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">02</span>
+        <h2 class="section__title">Сравнение</h2>
+    </div>
+    <table class="ratios">
+        <thead><tr><th></th><th>A · Гунфу</th><th>B · Чайная бумага</th><th>C · Свиток</th></tr></thead>
+        <tbody>
+            <tr><td>Фон светлой темы</td><td>зелёный #9AD279</td><td>бумага #EFE8D8</td><td>светло-зелёный #E6ECDD</td></tr>
+            <tr><td>Роль фирменного зелёного</td><td>поле страницы</td><td>акцент</td><td>свет и акцент</td></tr>
+            <tr><td>Основная тема</td><td>светлая</td><td>светлая</td><td>тёмная</td></tr>
+            <tr><td>Чем красится страница чая</td><td>одинаково у всех</td><td>цветом настоя</td><td>одинаково у всех</td></tr>
+            <tr><td>Форма</td><td>скругления 10–14 px</td><td>прямые углы</td><td>капсулы и круги</td></tr>
+            <tr><td>Проливы</td><td>ячейки в ряд</td><td>строки таблицы с заметками</td><td>строки + «чётки»</td></tr>
+            <tr><td>Таймер</td><td>панель в приборе</td><td>закладка внизу разворота</td><td>отдельный экран</td></tr>
+            <tr><td>Мобильная модель</td><td>лента + липкая панель</td><td>лента + липкая панель</td><td>свиток из трёх панелей</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="section">
+    <div class="section__head">
+        <span class="section__num">03</span>
+        <h2 class="section__title">Входит в систему при любом выборе</h2>
+        <span class="section__note">это не предмет выбора, а починка блокеров</span>
+    </div>
+    <ol class="note" style="line-height:1.7">
+        <li>Токен фокуса вместо <code>*:focus { outline: none !important }</code>.</li>
+        <li>Шкала границ с контрастом ≥ 3:1 в обеих темах — сейчас не проходит ни одна.</li>
+        <li>Тёмная тема как та же система с другой яркостью, а не чёрный шаблон.</li>
+        <li>Типографическая шкала вместо произвольных <code>text-[NNpx]</code>.</li>
+        <li>Цели касания от 44 px — сейчас 32–36 px у избранного и кнопок таймера.</li>
+        <li>Фотографии чая на карточке и странице; цвет настоя — дополнение, а не замена.</li>
+        <li>Сигнал в конце пролива и Screen Wake Lock на время работы таймера.</li>
+        <li>Исправный выбор объёма воды: степпер вместо поля, ломающего строку.</li>
+    </ol>
+    <p class="note" style="margin-top:18px">
+        Во всех макетах стоит одна и та же фотография из <code>public/teas/longjing.jpg</code>
+        как заглушка — реальная съёмка по сортам нужна отдельно, без неё ни одно
+        направление не раскроется.
+    </p>
+</section>
+
+</div>
+</body>
+</html>

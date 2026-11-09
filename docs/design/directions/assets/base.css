@@ -1,0 +1,438 @@
+/* ==========================================================================
+   Общая обвязка страниц-направлений: шрифты, «паспарту» вокруг макетов,
+   мудборд-примитивы (плашки палитры, образцы типографики), рамки устройств.
+   Сами экраны живут в <style> каждого направления — у них разная анатомия.
+   ========================================================================== */
+
+@font-face {
+    font-family: Bainsley;
+    src: url("./fonts/Bainsley_Roman.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: Bainsley;
+    src: url("./fonts/Bainsley_Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: Bainsley;
+    src: url("./fonts/Bainsley_Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: Comfortaa;
+    src: url("./fonts/Comfortaa_cyrillic.woff2") format("woff2");
+    font-weight: 300 700;
+    font-display: swap;
+    unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116;
+}
+@font-face {
+    font-family: Comfortaa;
+    src: url("./fonts/Comfortaa_latin.woff2") format("woff2");
+    font-weight: 300 700;
+    font-display: swap;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    background: #171717;
+    color: #e7e7e4;
+    font-family: Bainsley, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* --- паспарту ----------------------------------------------------------- */
+
+.doc {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+}
+
+.doc__eyebrow {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8d9589;
+    margin: 0 0 10px;
+}
+
+.doc__title {
+    font-size: clamp(34px, 5vw, 54px);
+    line-height: 1.05;
+    margin: 0 0 14px;
+}
+
+.doc__lead {
+    max-width: 62ch;
+    font-size: 19px;
+    line-height: 1.5;
+    color: #c3c7bf;
+    margin: 0 0 8px;
+}
+
+.doc__lead strong {
+    color: #e7e7e4;
+    font-weight: 700;
+}
+
+.section {
+    margin-top: 72px;
+}
+
+.section__head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 1px solid #343431;
+    padding-bottom: 10px;
+    margin-bottom: 28px;
+}
+
+.section__num {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: #7f8a79;
+}
+
+.section__title {
+    font-size: 26px;
+    margin: 0;
+}
+
+.section__note {
+    margin-left: auto;
+    font-size: 14px;
+    color: #8d9589;
+}
+
+.note {
+    max-width: 70ch;
+    font-size: 16px;
+    color: #c3c7bf;
+}
+
+.note code,
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.88em;
+    background: #262624;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+/* --- мудборд: плашки палитры -------------------------------------------- */
+
+.swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+    gap: 12px;
+}
+
+.swatch {
+    border: 1px solid #343431;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #1f1f1d;
+}
+
+.swatch__chip {
+    height: 74px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 8px;
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.swatch__body {
+    padding: 10px 12px 12px;
+}
+
+.swatch__name {
+    font-size: 15px;
+    margin: 0 0 2px;
+}
+
+.swatch__hex {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #9aa395;
+    letter-spacing: 0.04em;
+}
+
+.swatch__role {
+    font-size: 13px;
+    color: #9aa395;
+    margin-top: 6px;
+    line-height: 1.35;
+}
+
+/* --- таблица контраста --------------------------------------------------- */
+
+.ratios {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.ratios th,
+.ratios td {
+    text-align: left;
+    padding: 7px 12px 7px 0;
+    border-bottom: 1px solid #2c2c2a;
+}
+
+.ratios th {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8d9589;
+    font-weight: 400;
+}
+
+.ratios td.num {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pass {
+    color: #9ad279;
+}
+
+.tag-ok {
+    display: inline-block;
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ad279;
+    border: 1px solid rgba(154, 210, 121, 0.4);
+    border-radius: 999px;
+    padding: 1px 8px;
+}
+
+/* --- образцы типографики ------------------------------------------------- */
+
+.specimen {
+    border: 1px solid #343431;
+    border-radius: 12px;
+    padding: 26px 28px;
+}
+
+.specimen__row {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #2c2c2a;
+}
+
+.specimen__row:last-child {
+    border-bottom: 0;
+}
+
+.specimen__meta {
+    flex: 0 0 170px;
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #8d9589;
+    letter-spacing: 0.04em;
+}
+
+.specimen__sample {
+    min-width: 0;
+}
+
+/* --- раскладка макетов --------------------------------------------------- */
+
+.screens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.stage {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stage__label {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8d9589;
+}
+
+/* рамка телефона 390×844 */
+.phone {
+    width: 390px;
+    height: 844px;
+    border: 10px solid #2a2a28;
+    border-radius: 42px;
+    overflow: hidden;
+    position: relative;
+    flex: 0 0 auto;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* рамка десктопа: рисуем в 1280 и ужимаем, чтобы влезало в документ */
+.desk {
+    width: 1140px;
+    height: 920px;
+    border: 1px solid #343431;
+    border-radius: 12px;
+    overflow: hidden;
+    flex: 0 0 auto;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- витрина компонентов ------------------------------------------------- */
+
+.kit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.kit__cell {
+    border: 1px solid #343431;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.kit__title {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8d9589;
+    margin: 0 0 14px;
+}
+
+.kit__stage {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+}
+
+.verdict {
+    border-left: 3px solid #4a5a42;
+    padding: 2px 0 2px 18px;
+    margin: 18px 0 0;
+}
+
+.verdict dt {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8d9589;
+    margin-top: 14px;
+}
+
+.verdict dt:first-child {
+    margin-top: 0;
+}
+
+.verdict dd {
+    margin: 4px 0 0;
+    color: #d4d8cf;
+    max-width: 62ch;
+}
+
+.nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+}
+
+.nav a {
+    font-family: Comfortaa, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #cdd2c7;
+    text-decoration: none;
+    border: 1px solid #3c3c39;
+    border-radius: 999px;
+    padding: 6px 14px;
+}
+
+.nav a[aria-current] {
+    background: #e7e7e4;
+    color: #171717;
+    border-color: #e7e7e4;
+}
+
+.nav a:hover {
+    border-color: #6d7568;
+}
+
+/* --- иконки -------------------------------------------------------------- */
+
+.ic {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ic--sm {
+    width: 16px;
+    height: 16px;
+}
+
+.ic--lg {
+    width: 24px;
+    height: 24px;
+}
+
+.ic--fill {
+    fill: currentColor;
+    stroke: none;
+}
